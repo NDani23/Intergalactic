@@ -27,18 +27,6 @@
     <ClInclude Include="MyApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="T:\OGLPack\include\imgui\imconfig.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="T:\OGLPack\include\imgui\imgui.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="T:\OGLPack\include\imgui\imgui_impl_sdl_gl3.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="T:\OGLPack\include\imgui\imgui_internal.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
     <ClInclude Include="Includes\BufferObject.h">
       <Filter>GL utilities</Filter>
     </ClInclude>
@@ -72,24 +60,24 @@
     <ClInclude Include="Includes\GLDebugMessageCallback.h">
       <Filter>GL utilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_sdl_gl3.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui_internal.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imconfig.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="T:\OGLPack\include\imgui\imgui.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="T:\OGLPack\include\imgui\imgui_demo.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="T:\OGLPack\include\imgui\imgui_draw.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="T:\OGLPack\include\imgui\imgui_impl_sdl_gl3.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
     <ClCompile Include="Includes\GLconversions.cpp">
       <Filter>GL utilities</Filter>
     </ClCompile>
@@ -113,6 +101,18 @@
     </ClCompile>
     <ClCompile Include="Includes\GLDebugMessageCallback.cpp">
       <Filter>GL utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_demo.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_draw.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_sdl_gl3.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui.cpp">
+      <Filter>imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
