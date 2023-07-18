@@ -116,7 +116,6 @@ void CMyApp::InitShaders()
 
 bool CMyApp::Init()
 {
-	// törlési szín legyen kékes
 	glClearColor(0.125f, 0.25f, 0.5f, 1.0f);
 
 	glEnable(GL_CULL_FACE);
@@ -162,6 +161,12 @@ void CMyApp::Render()
 	m_program.SetUniform("world", suzanneWorld);
 	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(suzanneWorld)));
 	m_mesh->draw();
+
+	glm::vec3 eye_pos = m_camera.GetEye();
+	m_program.SetUniform("eye_pos", eye_pos);
+
+
+
 
 	// skybox
 	// mentsük el az előző Z-test eredményt, azaz azt a relációt, ami alapján update-eljük a pixelt.
