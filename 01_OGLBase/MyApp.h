@@ -50,9 +50,6 @@ protected:
 	ProgramObject		m_program;			// mesh shader
 	ProgramObject		m_programSkybox;	// skybox shader
 
-	VertexArrayObject	m_CubeVao;			// VAO
-	IndexBuffer			m_CubeIndices;		// index buffer
-	ArrayBuffer			m_CubeVertexBuffer;	// VBO
 	VertexArrayObject	m_SkyboxVao;
 	IndexBuffer			m_SkyboxIndices;	
 	ArrayBuffer			m_SkyboxPos;		

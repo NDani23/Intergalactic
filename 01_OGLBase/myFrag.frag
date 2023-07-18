@@ -28,5 +28,6 @@ void main()
 
 	vec3 diffuse = cosa*Ld;
 	
-	fs_out_col = vec4(ambient + diffuse, 1) * texture(texImage, vs_out_tex);
+	//fs_out_col = vec4(ambient + diffuse, 1) * texture(texImage, vs_out_tex);
+	fs_out_col = vec4(ambient + diffuse, 1) * vec4(0.25, 0.25, 0.25, 1);
 }

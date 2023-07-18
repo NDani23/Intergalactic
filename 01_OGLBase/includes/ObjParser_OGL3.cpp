@@ -1,6 +1,7 @@
 ﻿#include "ObjParser_OGL3.h"
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -43,7 +44,7 @@ bool ObjParser::processLine()
 	}
 	else if ("vn" == line_id) {	// normal data
 		ifs >> x >> y >> z;
-		if(!ifs.good()) {                     // in case it is -1#IND00
+		if (!ifs.good()) {                     // in case it is -1#IND00
 			x = y = z = 0.0;
 			ifs.clear();
 			skipLine();
