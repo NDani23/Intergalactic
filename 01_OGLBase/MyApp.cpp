@@ -145,7 +145,7 @@ void CMyApp::Update()
 	static Uint32 last_time = SDL_GetTicks();
 	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
 	
-	//m_player.Move(m_player.GetForwardVec() * (delta_time*50));
+	m_player.Move(m_player.GetForwardVec() * (delta_time*50));
 
 	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
 	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 5.f;
@@ -168,7 +168,7 @@ void CMyApp::Render()
 
 	float t = SDL_GetTicks() / 20;
 	
-	glm::mat4 suzanneWorld = glm::inverse(glm::lookAt(m_player.GetPos(), -m_player.GetForwardVec(), m_player.GetUpVec()));
+	glm::mat4 suzanneWorld = glm::inverse(glm::lookAt(m_player.GetPos(), m_player.GetPos()-m_player.GetForwardVec(), m_player.GetUpVec()));
 	m_program.Use();
 	m_program.SetTexture("texImage", 0, m_suzanneTexture);
 	m_program.SetUniform("MVP", viewProj * suzanneWorld);
@@ -180,7 +180,7 @@ void CMyApp::Render()
 	//std::cout << pitch_angle << std::endl;
 	//std::cout << yaw_angle << std::endl;
 	//std::cout << roll_angle << std::endl;
-	//std::cout << "(" << m_player.GetPos().x << ", " << m_player.GetPos().y <<", " << m_player.GetPos().z << ")" << std::endl;
+	std::cout << "(" << m_player.GetPos().x << ", " << m_player.GetPos().y <<", " << m_player.GetPos().z << ")" << std::endl;
 	//std::cout << "(" << m_player.GetUpVec().x << ", " << m_player.GetUpVec().y << ", " << m_player.GetUpVec().z << ")" << std::endl;
 	//std::cout << "(" << m_player.GetForwardVec().x << ", " << m_player.GetForwardVec().y << ", " << m_player.GetForwardVec().z << ")" << std::endl;
 	//std::cout << "(" << m_player.GetCrossVec().x << ", " << m_player.GetCrossVec().y << ", " << m_player.GetCrossVec().z << ")" << std::endl;
