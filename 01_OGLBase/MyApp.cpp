@@ -147,6 +147,19 @@ void CMyApp::Update()
 	
 	m_player.Move(m_player.GetForwardVec() * (delta_time*50));
 
+	if (roll_left)
+		m_player.Roll(-1);
+
+	if (roll_right)
+		m_player.Roll(1);
+
+	if (pitch_up)
+		m_player.Pitch(-1);
+
+	if (pitch_down)
+		m_player.Pitch(1);
+	
+
 	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
 	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 5.f;
 	glm::vec3 new_up =	m_player.GetUpVec();
@@ -180,7 +193,7 @@ void CMyApp::Render()
 	//std::cout << pitch_angle << std::endl;
 	//std::cout << yaw_angle << std::endl;
 	//std::cout << roll_angle << std::endl;
-	std::cout << "(" << m_player.GetPos().x << ", " << m_player.GetPos().y <<", " << m_player.GetPos().z << ")" << std::endl;
+	//std::cout << "(" << m_player.GetPos().x << ", " << m_player.GetPos().y <<", " << m_player.GetPos().z << ")" << std::endl;
 	//std::cout << "(" << m_player.GetUpVec().x << ", " << m_player.GetUpVec().y << ", " << m_player.GetUpVec().z << ")" << std::endl;
 	//std::cout << "(" << m_player.GetForwardVec().x << ", " << m_player.GetForwardVec().y << ", " << m_player.GetForwardVec().z << ")" << std::endl;
 	//std::cout << "(" << m_player.GetCrossVec().x << ", " << m_player.GetCrossVec().y << ", " << m_player.GetCrossVec().z << ")" << std::endl;
@@ -237,16 +250,20 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 	switch (key.keysym.sym)
 	{
 	case SDLK_w:
-		m_player.Pitch(1);
+		//m_player.Pitch(1);
+		pitch_down = true;
 		break;
 	case SDLK_s:
-		m_player.Pitch(-1);
+		//m_player.Pitch(-1);
+		pitch_up = true;
 		break;
 	case SDLK_a:
-		m_player.Roll(-1);
+		//m_player.Roll(-1);
+		roll_left = true;
 		break;
 	case SDLK_d:
-		m_player.Roll(1);
+		//m_player.Roll(1);
+		roll_right = true;
 		break;
 	}
 }
@@ -258,16 +275,16 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 	switch (key.keysym.sym)
 	{
 	case SDLK_w:
-
+		pitch_down = false;
 		break;
 	case SDLK_s:
-
+		pitch_up = false;
 		break;
 	case SDLK_a:
-
+		roll_left = false;
 		break;
 	case SDLK_d:
-
+		roll_right = false;
 		break;
 	}
 }

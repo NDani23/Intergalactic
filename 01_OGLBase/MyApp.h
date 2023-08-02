@@ -63,6 +63,11 @@ protected:
 	Texture2D			m_suzanneTexture;
 	TextureCubeMap		m_skyboxTexture;
 
+	bool roll_left = false;
+	bool roll_right = false;
+	bool pitch_up = false;
+	bool pitch_down = false;
+
 	Player m_player;
 
 	struct Vertex
