@@ -147,12 +147,11 @@ void CMyApp::Update()
 	
 	//m_player.Move(m_player.GetForwardVec() * (delta_time*50));
 
-	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec()*30.f + glm::vec3(0, 7, 0);
-	glm::vec3 new_at = m_player.GetPos() + glm::vec3(0,3,0);
-	glm::vec3 new_up = glm::vec3(0, 1, 0);
-	//glm::vec3 new_up =	m_player.GetUpVec();
+	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
+	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 5.f;
+	glm::vec3 new_up =	m_player.GetUpVec();
 
-	//m_camera.SetView(new_eye, new_at, new_up);
+	m_camera.SetView(new_eye, new_at, new_up);
 
 	m_camera.Update(delta_time);
 
@@ -191,7 +190,7 @@ void CMyApp::Render()
 	m_axesProgram.SetUniform("up", m_player.GetUpVec());
 	m_axesProgram.SetUniform("cross_vec", m_player.GetCrossVec());
 	m_axesProgram.SetUniform("forward", m_player.GetForwardVec());
-	glDrawArrays(GL_LINES, 0, 6);
+	//glDrawArrays(GL_LINES, 0, 6);
 
 	glm::vec3 eye_pos = m_camera.GetEye();
 	m_program.SetUniform("eye_pos", eye_pos);
