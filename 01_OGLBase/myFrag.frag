@@ -15,11 +15,11 @@ uniform vec3 Ld = vec3(0.8, 0.8, 0.8);
 uniform vec3 Ls = vec3(1, 1, 1);
 
 // anyagtulajdonságok: ambiens, diffúz, spekuláris
-uniform vec3 Ka = vec3(0.2, 0.2, 0.2);
-uniform vec3 Kd = vec3(0.4, 0.4, 0.4);
-uniform vec3 Ks = vec3(0.6, 0.6, 0.6);
+uniform vec3 Ka = vec3(0.2, 0.2, 0.3);
+uniform vec3 Kd = vec3(0.7, 0.7, 0.8);
+uniform vec3 Ks = vec3(0.8, 0.8, 0.9);
 
-uniform vec3 eye_pos = vec3(1,1,1);
+uniform vec3 eye_pos = vec3(0,7,-30);
 
 uniform sampler2D texImage;
 

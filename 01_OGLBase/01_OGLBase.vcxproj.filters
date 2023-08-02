@@ -22,6 +22,9 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{28dd15bc-57f1-4d1a-a7b0-1f36df3fc779}</UniqueIdentifier>
     </Filter>
+    <Filter Include="model">
+      <UniqueIdentifier>{8150ed97-658d-4cea-9b03-71fbaf75bfbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h">
@@ -114,6 +117,9 @@
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="myFrag.frag">
@@ -139,6 +145,12 @@
     </None>
     <None Include="Includes\VertexArrayObject.inl">
       <Filter>GL utilities</Filter>
+    </None>
+    <None Include="axes.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="axes.vert">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@
 
 CMyApp::CMyApp(void)
 {
-	m_camera.SetView(glm::vec3(0, 0, 20), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	m_camera.SetView(glm::vec3(0, 7, -30), glm::vec3(0, 3, 0), glm::vec3(0, 1, 0));
 	m_mesh = nullptr;
 }
 
@@ -23,12 +23,12 @@ void CMyApp::InitSkyBox()
 {
 	m_SkyboxPos.BufferData(
 		std::vector<glm::vec3>{
-		// hátsó lap
+
 		glm::vec3(-1, -1, -1),
 		glm::vec3(1, -1, -1),
 		glm::vec3(1, 1, -1),
 		glm::vec3(-1, 1, -1),
-		// elülső lap
+
 		glm::vec3(-1, -1, 1),
 		glm::vec3(1, -1, 1),
 		glm::vec3(1, 1, 1),
@@ -36,7 +36,7 @@ void CMyApp::InitSkyBox()
 	}
 	);
 
-	// és a primitíveket alkotó csúcspontok indexei (az előző tömbökből) - triangle list-el való kirajzolásra felkészülve
+
 	m_SkyboxIndices.BufferData(
 		std::vector<int>{
 			// hátsó lap
@@ -60,14 +60,12 @@ void CMyApp::InitSkyBox()
 	}
 	);
 
-	// geometria VAO-ban való regisztrálása
 	m_SkyboxVao.Init(
 		{
 			{ CreateAttribute<0, glm::vec3, 0, sizeof(glm::vec3)>, m_SkyboxPos },
 		}, m_SkyboxIndices
 	);
 
-	// skybox texture
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	m_skyboxTexture.AttachFromFile("assets/right.png", false, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
@@ -77,7 +75,6 @@ void CMyApp::InitSkyBox()
 	m_skyboxTexture.AttachFromFile("assets/front.png", false, GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
 	m_skyboxTexture.AttachFromFile("assets/back.png", true, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
 
-	// a GL_TEXTURE_MAG_FILTER-t és a GL_TEXTURE_MIN_FILTER-t beállítja az AttachFromFile
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
@@ -112,6 +109,11 @@ void CMyApp::InitShaders()
 			{ 0, "vs_in_pos" },				// VAO 0-as csatorna menjen a vs_in_pos-ba
 		}
 	);
+
+	m_axesProgram.Init({
+		{GL_VERTEX_SHADER, "axes.vert"},
+		{GL_FRAGMENT_SHADER, "axes.frag"}
+		});
 }
 
 bool CMyApp::Init()
@@ -120,6 +122,8 @@ bool CMyApp::Init()
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
+
+	glLineWidth(4.0f);
 
 	InitShaders();
 	InitSkyBox();
@@ -140,6 +144,15 @@ void CMyApp::Update()
 {
 	static Uint32 last_time = SDL_GetTicks();
 	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
+	
+	//m_player.Move(m_player.GetForwardVec() * (delta_time*50));
+
+	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec()*30.f + glm::vec3(0, 7, 0);
+	glm::vec3 new_at = m_player.GetPos() + glm::vec3(0,3,0);
+	glm::vec3 new_up = glm::vec3(0, 1, 0);
+	//glm::vec3 new_up =	m_player.GetUpVec();
+
+	//m_camera.SetView(new_eye, new_at, new_up);
 
 	m_camera.Update(delta_time);
 
@@ -151,16 +164,34 @@ void CMyApp::Render()
 	// töröljük a frampuffert (GL_COLOR_BUFFER_BIT) és a mélységi Z puffert (GL_DEPTH_BUFFER_BIT)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
 	glm::mat4 viewProj = m_camera.GetViewProj();
 
-	//Suzanne
-	glm::mat4 suzanneWorld = glm::mat4(1.0f);
+	float t = SDL_GetTicks() / 20;
+	
+	glm::mat4 suzanneWorld = glm::inverse(glm::lookAt(m_player.GetPos(), -m_player.GetForwardVec(), m_player.GetUpVec()));
 	m_program.Use();
-	//m_program.SetTexture("texImage", 0, m_suzanneTexture);
+	m_program.SetTexture("texImage", 0, m_suzanneTexture);
 	m_program.SetUniform("MVP", viewProj * suzanneWorld);
 	m_program.SetUniform("world", suzanneWorld);
 	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(suzanneWorld)));
 	m_mesh->draw();
+
+	//DEBUG
+	//std::cout << pitch_angle << std::endl;
+	//std::cout << yaw_angle << std::endl;
+	//std::cout << roll_angle << std::endl;
+	//std::cout << "(" << m_player.GetPos().x << ", " << m_player.GetPos().y <<", " << m_player.GetPos().z << ")" << std::endl;
+	//std::cout << "(" << m_player.GetUpVec().x << ", " << m_player.GetUpVec().y << ", " << m_player.GetUpVec().z << ")" << std::endl;
+	//std::cout << "(" << m_player.GetForwardVec().x << ", " << m_player.GetForwardVec().y << ", " << m_player.GetForwardVec().z << ")" << std::endl;
+	//std::cout << "(" << m_player.GetCrossVec().x << ", " << m_player.GetCrossVec().y << ", " << m_player.GetCrossVec().z << ")" << std::endl;
+
+	m_axesProgram.Use();
+	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj() * glm::translate(glm::vec3(0, 0.1f, 0)) * glm::scale(glm::vec3(5, 5, 5)));
+	m_axesProgram.SetUniform("up", m_player.GetUpVec());
+	m_axesProgram.SetUniform("cross_vec", m_player.GetCrossVec());
+	m_axesProgram.SetUniform("forward", m_player.GetForwardVec());
+	glDrawArrays(GL_LINES, 0, 6);
 
 	glm::vec3 eye_pos = m_camera.GetEye();
 	m_program.SetUniform("eye_pos", eye_pos);
@@ -202,12 +233,44 @@ void CMyApp::Render()
 
 void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 {
-	m_camera.KeyboardDown(key);
+	//m_camera.KeyboardDown(key);
+
+	switch (key.keysym.sym)
+	{
+	case SDLK_w:
+		m_player.Pitch(1);
+		break;
+	case SDLK_s:
+		m_player.Pitch(-1);
+		break;
+	case SDLK_a:
+		m_player.Roll(-1);
+		break;
+	case SDLK_d:
+		m_player.Roll(1);
+		break;
+	}
 }
 
 void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 {
-	m_camera.KeyboardUp(key);
+	//m_camera.KeyboardUp(key);
+
+	switch (key.keysym.sym)
+	{
+	case SDLK_w:
+
+		break;
+	case SDLK_s:
+
+		break;
+	case SDLK_a:
+
+		break;
+	case SDLK_d:
+
+		break;
+	}
 }
 
 void CMyApp::MouseMove(SDL_MouseMotionEvent& mouse)
