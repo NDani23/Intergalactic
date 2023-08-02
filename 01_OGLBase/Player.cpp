@@ -27,19 +27,19 @@ public:
 
 	void Roll(const int& dir)
 	{
-		glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * 0.1f, m_forward_vec) * glm::vec4(m_up_vec, 0));
+		glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * 0.02f, m_forward_vec) * glm::vec4(m_up_vec, 0));
 		m_up_vec = glm::normalize(glm::vec3(new_up_vec.x, new_up_vec.y, new_up_vec.z));
 
-		glm::vec4 new_cross_vec = glm::normalize(glm::rotate(dir * 0.1f, m_forward_vec) * glm::vec4(m_cross_vec, 0));
+		glm::vec4 new_cross_vec = glm::normalize(glm::rotate(dir * 0.02f, m_forward_vec) * glm::vec4(m_cross_vec, 0));
 		m_cross_vec = glm::normalize(glm::vec3(new_cross_vec.x, new_cross_vec.y, new_cross_vec.z));
 	}
 
 	void Pitch(const int& dir)
 	{
-		glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * 0.1f, m_cross_vec) * glm::vec4(m_up_vec, 0));
+		glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * 0.01f, m_cross_vec) * glm::vec4(m_up_vec, 0));
 		m_up_vec = glm::normalize(glm::vec3(new_up_vec.x, new_up_vec.y, new_up_vec.z));
 
-		glm::vec4 new_forward_vec = glm::normalize(glm::rotate(dir * 0.1f, m_cross_vec) * glm::vec4(m_forward_vec, 0));
+		glm::vec4 new_forward_vec = glm::normalize(glm::rotate(dir * 0.01f, m_cross_vec) * glm::vec4(m_forward_vec, 0));
 		m_forward_vec = glm::normalize(glm::vec3(new_forward_vec.x, new_forward_vec.y, new_forward_vec.z));
 	}
 
