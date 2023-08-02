@@ -124,6 +124,9 @@
     <ClCompile Include="Includes\VertexArrayObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyApp.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <None Include="axes.frag" />
+    <None Include="axes.vert" />
     <None Include="Includes\BufferObject.inl" />
     <None Include="Includes\ProgramObject.inl" />
     <None Include="Includes\TextureObject.inl" />

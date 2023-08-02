@@ -25,6 +25,8 @@
 // mesh
 #include "includes/ObjParser_OGL3.h"
 
+#include "PLayer.cpp"
+
 class CMyApp
 {
 public:
@@ -49,6 +51,7 @@ protected:
 	// shaderekhez szükséges változók
 	ProgramObject		m_program;			// mesh shader
 	ProgramObject		m_programSkybox;	// skybox shader
+	ProgramObject		m_axesProgram;
 
 	VertexArrayObject	m_SkyboxVao;
 	IndexBuffer			m_SkyboxIndices;	
@@ -59,6 +62,8 @@ protected:
 	Texture2D			m_woodTexture;
 	Texture2D			m_suzanneTexture;
 	TextureCubeMap		m_skyboxTexture;
+
+	Player m_player;
 
 	struct Vertex
 	{
