@@ -22,7 +22,7 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{28dd15bc-57f1-4d1a-a7b0-1f36df3fc779}</UniqueIdentifier>
     </Filter>
-    <Filter Include="model">
+    <Filter Include="Source Files\model">
       <UniqueIdentifier>{8150ed97-658d-4cea-9b03-71fbaf75bfbd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -75,6 +75,9 @@
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imconfig.h">
       <Filter>imgui</Filter>
     </ClInclude>
+    <ClInclude Include="Directions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyApp.cpp">
@@ -118,7 +121,7 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>model</Filter>
+      <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

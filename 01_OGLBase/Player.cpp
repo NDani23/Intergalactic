@@ -2,6 +2,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform2.hpp>
 
+#include "Directions.h"
+
 class Player
 {
 private:
@@ -9,6 +11,8 @@ private:
 	glm::vec3 m_forward_vec;
 	glm::vec3 m_up_vec;
 	glm::vec3 m_cross_vec;
+	horizontal::direction roll_dir = horizontal::none;
+	vertical::direction pitch_dir = vertical::none;
 
 public:
 
@@ -23,24 +27,38 @@ public:
 	void Move(const glm::vec3& dir)
 	{		
 		m_position += dir;
+
+		switch (roll_dir)
+		{
+		case horizontal::left:
+			Roll(-1);
+			break;
+
+		case horizontal::right:
+			Roll(1);
+			break;
+		}
+
+		switch (pitch_dir)
+		{
+		case vertical::up:
+			Pitch(-1);
+			break;
+
+		case vertical::down:
+			Pitch(1);
+			break;
+		}
 	}
 
-	void Roll(const int& dir)
+	void setRollDir(horizontal::direction dir)
 	{
-		glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * 0.02f, m_forward_vec) * glm::vec4(m_up_vec, 0));
-		m_up_vec = glm::normalize(glm::vec3(new_up_vec.x, new_up_vec.y, new_up_vec.z));
-
-		glm::vec4 new_cross_vec = glm::normalize(glm::rotate(dir * 0.02f, m_forward_vec) * glm::vec4(m_cross_vec, 0));
-		m_cross_vec = glm::normalize(glm::vec3(new_cross_vec.x, new_cross_vec.y, new_cross_vec.z));
+		roll_dir = dir;
 	}
 
-	void Pitch(const int& dir)
+	void setPitchDir(vertical::direction dir)
 	{
-		glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * 0.01f, m_cross_vec) * glm::vec4(m_up_vec, 0));
-		m_up_vec = glm::normalize(glm::vec3(new_up_vec.x, new_up_vec.y, new_up_vec.z));
-
-		glm::vec4 new_forward_vec = glm::normalize(glm::rotate(dir * 0.01f, m_cross_vec) * glm::vec4(m_forward_vec, 0));
-		m_forward_vec = glm::normalize(glm::vec3(new_forward_vec.x, new_forward_vec.y, new_forward_vec.z));
+		pitch_dir = dir;
 	}
 
 	glm::vec3 GetPos()
@@ -61,5 +79,25 @@ public:
 	glm::vec3 GetCrossVec()
 	{
 		return m_cross_vec;
+	}
+
+private:
+
+	void Roll(const int& dir)
+	{
+		glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * 0.02f, m_forward_vec) * glm::vec4(m_up_vec, 0));
+		m_up_vec = glm::normalize(glm::vec3(new_up_vec.x, new_up_vec.y, new_up_vec.z));
+
+		glm::vec4 new_cross_vec = glm::normalize(glm::rotate(dir * 0.02f, m_forward_vec) * glm::vec4(m_cross_vec, 0));
+		m_cross_vec = glm::normalize(glm::vec3(new_cross_vec.x, new_cross_vec.y, new_cross_vec.z));
+	}
+
+	void Pitch(const int& dir)
+	{
+		glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * 0.01f, m_cross_vec) * glm::vec4(m_up_vec, 0));
+		m_up_vec = glm::normalize(glm::vec3(new_up_vec.x, new_up_vec.y, new_up_vec.z));
+
+		glm::vec4 new_forward_vec = glm::normalize(glm::rotate(dir * 0.01f, m_cross_vec) * glm::vec4(m_forward_vec, 0));
+		m_forward_vec = glm::normalize(glm::vec3(new_forward_vec.x, new_forward_vec.y, new_forward_vec.z));
 	}
 };

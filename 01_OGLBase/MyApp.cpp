@@ -84,29 +84,26 @@ void CMyApp::InitSkyBox()
 
 void CMyApp::InitShaders()
 {
-	// a shadereket tároló program létrehozása az OpenGL-hez hasonló módon:
 	m_program.AttachShaders({
 		{ GL_VERTEX_SHADER, "myVert.vert"},
 		{ GL_FRAGMENT_SHADER, "myFrag.frag"}
 	});
 
-	// attributomok osszerendelese a VAO es shader kozt
 	m_program.BindAttribLocations({
-		{ 0, "vs_in_pos" },				// VAO 0-as csatorna menjen a vs_in_pos-ba
-		{ 1, "vs_in_norm" },			// VAO 1-es csatorna menjen a vs_in_norm-ba
-		{ 2, "vs_in_tex" },				// VAO 2-es csatorna menjen a vs_in_tex-be
+		{ 0, "vs_in_pos" },
+		{ 1, "vs_in_norm" },
+		{ 2, "vs_in_tex" },
 	});
 
 	m_program.LinkProgram();
 
-	// shader program rövid létrehozása, egyetlen függvényhívással a fenti három:
 	m_programSkybox.Init(
 		{
 			{ GL_VERTEX_SHADER, "skybox.vert" },
 			{ GL_FRAGMENT_SHADER, "skybox.frag" }
 		},
 		{
-			{ 0, "vs_in_pos" },				// VAO 0-as csatorna menjen a vs_in_pos-ba
+			{ 0, "vs_in_pos" },
 		}
 	);
 
@@ -147,19 +144,7 @@ void CMyApp::Update()
 	
 	m_player.Move(m_player.GetForwardVec() * (delta_time*50));
 
-	if (roll_left)
-		m_player.Roll(-1);
-
-	if (roll_right)
-		m_player.Roll(1);
-
-	if (pitch_up)
-		m_player.Pitch(-1);
-
-	if (pitch_down)
-		m_player.Pitch(1);
-	
-
+	//camera
 	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
 	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 5.f;
 	glm::vec3 new_up =	m_player.GetUpVec();
@@ -173,7 +158,6 @@ void CMyApp::Update()
 
 void CMyApp::Render()
 {
-	// töröljük a frampuffert (GL_COLOR_BUFFER_BIT) és a mélységi Z puffert (GL_DEPTH_BUFFER_BIT)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -198,46 +182,36 @@ void CMyApp::Render()
 	//std::cout << "(" << m_player.GetForwardVec().x << ", " << m_player.GetForwardVec().y << ", " << m_player.GetForwardVec().z << ")" << std::endl;
 	//std::cout << "(" << m_player.GetCrossVec().x << ", " << m_player.GetCrossVec().y << ", " << m_player.GetCrossVec().z << ")" << std::endl;
 
-	m_axesProgram.Use();
+	//ship axes for debug
+	/*m_axesProgram.Use();
 	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj() * glm::translate(glm::vec3(0, 0.1f, 0)) * glm::scale(glm::vec3(5, 5, 5)));
 	m_axesProgram.SetUniform("up", m_player.GetUpVec());
 	m_axesProgram.SetUniform("cross_vec", m_player.GetCrossVec());
 	m_axesProgram.SetUniform("forward", m_player.GetForwardVec());
-	//glDrawArrays(GL_LINES, 0, 6);
+	glDrawArrays(GL_LINES, 0, 6);*/
 
 	glm::vec3 eye_pos = m_camera.GetEye();
 	m_program.SetUniform("eye_pos", eye_pos);
 
 
-
-
 	// skybox
-	// mentsük el az előző Z-test eredményt, azaz azt a relációt, ami alapján update-eljük a pixelt.
 	GLint prevDepthFnc;
 	glGetIntegerv(GL_DEPTH_FUNC, &prevDepthFnc);
 
-	// most kisebb-egyenlőt használjunk, mert mindent kitolunk a távoli vágósíkokra
 	glDepthFunc(GL_LEQUAL);
 
 	m_SkyboxVao.Bind();
 	m_programSkybox.Use();
 	m_programSkybox.SetUniform("MVP", viewProj * glm::translate( m_camera.GetEye()) );
 	
-	// cube map textúra beállítása 0-ás mintavételezőre és annak a shaderre beállítása
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_skyboxTexture);
 	glUniform1i(m_programSkybox.GetLocation("skyboxTexture"), 0);
-	// az előző három sor <=> m_programSkybox.SetCubeTexture("skyboxTexture", 0, m_skyboxTexture);
 
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 	m_programSkybox.Unuse();
 
-	// végül állítsuk vissza
 	glDepthFunc(prevDepthFnc);
-
-
-	// 1. feladat: készíts egy vertex shader-fragment shader párt, ami tárolt geometria _nélkül_ kirajzol egy tetszőleges pozícióba egy XYZ tengely-hármast,
-	//			   ahol az X piros, az Y zöld a Z pedig kék!
 
 	//ImGui Testwindow
 	ImGui::ShowTestWindow();
@@ -245,46 +219,38 @@ void CMyApp::Render()
 
 void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 {
-	//m_camera.KeyboardDown(key);
-
 	switch (key.keysym.sym)
 	{
 	case SDLK_w:
-		//m_player.Pitch(1);
-		pitch_down = true;
+		m_player.setPitchDir(vertical::down);
 		break;
 	case SDLK_s:
-		//m_player.Pitch(-1);
-		pitch_up = true;
+		m_player.setPitchDir(vertical::up);
 		break;
 	case SDLK_a:
-		//m_player.Roll(-1);
-		roll_left = true;
+		m_player.setRollDir(horizontal::left);
 		break;
 	case SDLK_d:
-		//m_player.Roll(1);
-		roll_right = true;
+		m_player.setRollDir(horizontal::right);
 		break;
 	}
 }
 
 void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 {
-	//m_camera.KeyboardUp(key);
-
 	switch (key.keysym.sym)
 	{
 	case SDLK_w:
-		pitch_down = false;
+		m_player.setPitchDir(vertical::none);
 		break;
 	case SDLK_s:
-		pitch_up = false;
+		m_player.setPitchDir(vertical::none);
 		break;
 	case SDLK_a:
-		roll_left = false;
+		m_player.setRollDir(horizontal::none);
 		break;
 	case SDLK_d:
-		roll_right = false;
+		m_player.setRollDir(horizontal::none);
 		break;
 	}
 }
@@ -306,7 +272,6 @@ void CMyApp::MouseWheel(SDL_MouseWheelEvent& wheel)
 {
 }
 
-// a két paraméterben az új ablakméret szélessége (_w) és magassága (_h) található
 void CMyApp::Resize(int _w, int _h)
 {
 	glViewport(0, 0, _w, _h );

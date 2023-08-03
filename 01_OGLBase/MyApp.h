@@ -26,6 +26,7 @@
 #include "includes/ObjParser_OGL3.h"
 
 #include "PLayer.cpp"
+#include "Directions.h"
 
 class CMyApp
 {
