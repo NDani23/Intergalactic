@@ -73,12 +73,8 @@ protected:
 		glm::vec2 t;
 	};
 
-	// mesh adatok
-	std::unique_ptr<Mesh> m_mesh;
-
 	// a jobb olvashatóság kedvéért
 	void InitShaders();
-	void InitCube();
 	void InitSkyBox();
 };
 

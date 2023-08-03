@@ -12,7 +12,6 @@
 CMyApp::CMyApp(void)
 {
 	m_camera.SetView(glm::vec3(0, 7, -30), glm::vec3(0, 3, 0), glm::vec3(0, 1, 0));
-	m_mesh = nullptr;
 }
 
 CMyApp::~CMyApp(void)
@@ -125,9 +124,6 @@ bool CMyApp::Init()
 	InitShaders();
 	InitSkyBox();
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/blended.obj"));
-	m_mesh->initBuffers();
-	
 	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 0.01f, 1000.0f);
 
 	return true;
@@ -170,7 +166,7 @@ void CMyApp::Render()
 	m_program.SetUniform("MVP", viewProj * playerWorld);
 	m_program.SetUniform("world", playerWorld);
 	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(playerWorld)));
-	m_mesh->draw();
+	m_player.GetMesh()->draw();
 
 	//DEBUG
 	//std::cout << pitch_angle << std::endl;

@@ -1,13 +1,12 @@
-#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform2.hpp>
 
 #include "Directions.h"
+#include "Entity.h"
 
-class Player
+class Player : public Entity
 {
 private:
-	glm::vec3 m_position;
 	glm::vec3 m_forward_vec;
 	glm::vec3 m_up_vec;
 	glm::vec3 m_cross_vec;
@@ -23,6 +22,9 @@ public:
 		m_forward_vec = glm::vec3(0, 0, 1);
 		m_up_vec = glm::vec3(0, 1, 0);
 		m_cross_vec = glm::vec3(1,0,0);
+
+		m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/blended.obj"));
+		m_mesh->initBuffers();
 	}
 
 	void Move(const float& delta)
@@ -88,6 +90,12 @@ public:
 	{
 		return transforms;
 	}
+
+	std::unique_ptr<Mesh>& GetMesh()
+	{
+		return m_mesh;
+	}
+
 
 private:
 
