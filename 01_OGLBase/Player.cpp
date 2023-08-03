@@ -11,6 +11,7 @@ private:
 	glm::vec3 m_forward_vec;
 	glm::vec3 m_up_vec;
 	glm::vec3 m_cross_vec;
+	glm::mat4 transforms = glm::mat4();
 	horizontal::direction roll_dir = horizontal::none;
 	vertical::direction pitch_dir = vertical::none;
 
@@ -24,9 +25,9 @@ public:
 		m_cross_vec = glm::vec3(1,0,0);
 	}
 
-	void Move(const glm::vec3& dir)
+	void Move(const float& delta)
 	{		
-		m_position += dir;
+		m_position += GetForwardVec() * (delta * 50);
 
 		switch (roll_dir)
 		{
@@ -49,14 +50,16 @@ public:
 			Pitch(1);
 			break;
 		}
+
+		transforms = glm::inverse(glm::lookAt(GetPos(), GetPos()-GetForwardVec(), GetUpVec()));
 	}
 
-	void setRollDir(horizontal::direction dir)
+	void setRollDir(const horizontal::direction& dir)
 	{
 		roll_dir = dir;
 	}
 
-	void setPitchDir(vertical::direction dir)
+	void setPitchDir(const vertical::direction& dir)
 	{
 		pitch_dir = dir;
 	}
@@ -79,6 +82,11 @@ public:
 	glm::vec3 GetCrossVec()
 	{
 		return m_cross_vec;
+	}
+
+	glm::mat4 GetWorldTransform()
+	{
+		return transforms;
 	}
 
 private:

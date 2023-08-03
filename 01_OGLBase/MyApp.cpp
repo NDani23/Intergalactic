@@ -142,7 +142,7 @@ void CMyApp::Update()
 	static Uint32 last_time = SDL_GetTicks();
 	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
 	
-	m_player.Move(m_player.GetForwardVec() * (delta_time*50));
+	m_player.Move(delta_time);
 
 	//camera
 	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
@@ -160,17 +160,16 @@ void CMyApp::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
 	glm::mat4 viewProj = m_camera.GetViewProj();
 
 	float t = SDL_GetTicks() / 20;
-	
-	glm::mat4 suzanneWorld = glm::inverse(glm::lookAt(m_player.GetPos(), m_player.GetPos()-m_player.GetForwardVec(), m_player.GetUpVec()));
+
+	glm::mat4 playerWorld = m_player.GetWorldTransform();
 	m_program.Use();
 	m_program.SetTexture("texImage", 0, m_suzanneTexture);
-	m_program.SetUniform("MVP", viewProj * suzanneWorld);
-	m_program.SetUniform("world", suzanneWorld);
-	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(suzanneWorld)));
+	m_program.SetUniform("MVP", viewProj * playerWorld);
+	m_program.SetUniform("world", playerWorld);
+	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(playerWorld)));
 	m_mesh->draw();
 
 	//DEBUG
@@ -192,7 +191,6 @@ void CMyApp::Render()
 
 	glm::vec3 eye_pos = m_camera.GetEye();
 	m_program.SetUniform("eye_pos", eye_pos);
-
 
 	// skybox
 	GLint prevDepthFnc;
