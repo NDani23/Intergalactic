@@ -11,6 +11,9 @@ protected:
 	glm::vec3 m_position;
 
 public:
+	Entity() {};
+	~Entity() = default;
 
-
+	Entity(const Entity&);
+	Entity& operator=(const Entity&) = default;
 };

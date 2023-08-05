@@ -27,8 +27,8 @@ public:
 	TextureObject(const std::string&);
 	~TextureObject();
 
-	TextureObject(const TextureObject&) = delete;
-	TextureObject& operator=(const TextureObject&) = delete;
+	TextureObject(const TextureObject&) = default;
+	TextureObject& operator=(const TextureObject&) = default;
 	
 	TextureObject(TextureObject&& rhs);
 	TextureObject& operator=(TextureObject&& rhs);

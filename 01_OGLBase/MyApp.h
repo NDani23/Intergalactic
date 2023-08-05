@@ -27,6 +27,7 @@
 
 #include "PLayer.cpp"
 #include "Directions.h"
+#include "InitMap1.h"
 
 class CMyApp
 {
@@ -60,10 +61,10 @@ protected:
 
 	gCamera				m_camera;
 
-	Texture2D			m_woodTexture;
 	Texture2D			m_suzanneTexture;
 	TextureCubeMap		m_skyboxTexture;
 
+	Map m_map;
 	Player m_player;
 
 	struct Vertex

@@ -67,12 +67,7 @@ void CMyApp::InitSkyBox()
 
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
-	m_skyboxTexture.AttachFromFile("assets/right.png", false, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
-	m_skyboxTexture.AttachFromFile("assets/left.png", false, GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
-	m_skyboxTexture.AttachFromFile("assets/top.png", false, GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
-	m_skyboxTexture.AttachFromFile("assets/bottom.png", false, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
-	m_skyboxTexture.AttachFromFile("assets/front.png", false, GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
-	m_skyboxTexture.AttachFromFile("assets/back.png", true, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
+	m_skyboxTexture = m_map.GetSkyBox();
 
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -121,6 +116,7 @@ bool CMyApp::Init()
 
 	glLineWidth(4.0f);
 
+	Map1::InitMap(m_map);
 	InitShaders();
 	InitSkyBox();
 
@@ -160,6 +156,7 @@ void CMyApp::Render()
 
 	float t = SDL_GetTicks() / 20;
 
+	//player
 	glm::mat4 playerWorld = m_player.GetWorldTransform();
 	m_program.Use();
 	m_program.SetTexture("texImage", 0, m_suzanneTexture);
@@ -168,23 +165,7 @@ void CMyApp::Render()
 	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(playerWorld)));
 	m_player.GetMesh()->draw();
 
-	//DEBUG
-	//std::cout << pitch_angle << std::endl;
-	//std::cout << yaw_angle << std::endl;
-	//std::cout << roll_angle << std::endl;
-	//std::cout << "(" << m_player.GetPos().x << ", " << m_player.GetPos().y <<", " << m_player.GetPos().z << ")" << std::endl;
-	//std::cout << "(" << m_player.GetUpVec().x << ", " << m_player.GetUpVec().y << ", " << m_player.GetUpVec().z << ")" << std::endl;
-	//std::cout << "(" << m_player.GetForwardVec().x << ", " << m_player.GetForwardVec().y << ", " << m_player.GetForwardVec().z << ")" << std::endl;
-	//std::cout << "(" << m_player.GetCrossVec().x << ", " << m_player.GetCrossVec().y << ", " << m_player.GetCrossVec().z << ")" << std::endl;
-
-	//ship axes for debug
-	/*m_axesProgram.Use();
-	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj() * glm::translate(glm::vec3(0, 0.1f, 0)) * glm::scale(glm::vec3(5, 5, 5)));
-	m_axesProgram.SetUniform("up", m_player.GetUpVec());
-	m_axesProgram.SetUniform("cross_vec", m_player.GetCrossVec());
-	m_axesProgram.SetUniform("forward", m_player.GetForwardVec());
-	glDrawArrays(GL_LINES, 0, 6);*/
-
+	//eye_pos for illumination
 	glm::vec3 eye_pos = m_camera.GetEye();
 	m_program.SetUniform("eye_pos", eye_pos);
 

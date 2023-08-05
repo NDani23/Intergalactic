@@ -62,6 +62,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,6 +82,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,6 +111,7 @@
     <ClInclude Include="Includes\ShaderObject.h" />
     <ClInclude Include="Includes\TextureObject.h" />
     <ClInclude Include="Includes\VertexArrayObject.h" />
+    <ClInclude Include="InitMap1.h" />
     <ClInclude Include="MyApp.h" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +119,7 @@
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_sdl_gl3.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Includes\gCamera.cpp" />
     <ClCompile Include="Includes\GLconversions.cpp" />
     <ClCompile Include="Includes\GLDebugMessageCallback.cpp" />
@@ -124,7 +128,9 @@
     <ClCompile Include="Includes\ProgramObject.cpp" />
     <ClCompile Include="Includes\ShaderObject.cpp" />
     <ClCompile Include="Includes\VertexArrayObject.cpp" />
+    <ClCompile Include="InitMap1.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="MyApp.cpp" />
     <ClCompile Include="Player.cpp" />
     <None Include="axes.frag" />
