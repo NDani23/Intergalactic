@@ -120,6 +120,8 @@ bool CMyApp::Init()
 	InitShaders();
 	InitSkyBox();
 
+	m_shipTexture.FromFile("assets/rusted.jpg");
+
 	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 0.01f, 1000.0f);
 
 	return true;
@@ -159,7 +161,7 @@ void CMyApp::Render()
 	//player
 	glm::mat4 playerWorld = m_player.GetWorldTransform();
 	m_program.Use();
-	m_program.SetTexture("texImage", 0, m_suzanneTexture);
+	m_program.SetTexture("texImage", 0, m_shipTexture);
 	m_program.SetUniform("MVP", viewProj * playerWorld);
 	m_program.SetUniform("world", playerWorld);
 	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(playerWorld)));

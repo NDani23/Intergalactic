@@ -61,7 +61,7 @@ protected:
 
 	gCamera				m_camera;
 
-	Texture2D			m_suzanneTexture;
+	Texture2D			m_shipTexture;
 	TextureCubeMap		m_skyboxTexture;
 
 	Map m_map;
