@@ -164,6 +164,18 @@ void CMyApp::Render()
 	m_program.SetUniform("world", playerWorld);
 	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(playerWorld)));
 	m_player.GetMesh()->draw();
+	
+
+	//world objects
+	for (Entity entity : m_map.GetEntities())
+	{
+		glm::mat4 entityWorld = entity.GetWorldTransform();
+		m_program.SetTexture("texImage", 0, m_player.GetTexture());
+		m_program.SetUniform("MVP", viewProj * entityWorld);
+		m_program.SetUniform("world", entityWorld);
+		m_program.SetUniform("worldIT", glm::inverse(glm::transpose(entityWorld)));
+		entity.GetMesh()->draw();
+	}
 
 	//eye_pos for illumination
 	glm::vec3 eye_pos = m_camera.GetEye();
