@@ -10,8 +10,8 @@
 class Map
 {
 private:
-	std::vector<Entity> m_Entities;
 	TextureCubeMap	m_skyboxTexture;
+	std::vector<Entity> m_Entities;
 
 public:
 
@@ -25,9 +25,9 @@ public:
 		return m_skyboxTexture;
 	}
 
-	void AddEntity(const Entity& entity)
+	void AddEntity(Entity&& entity)
 	{
-		m_Entities.push_back(entity);	
+		m_Entities.emplace_back(std::move(entity));	
 	}
 
 	void SetSkyBox(std::string right,

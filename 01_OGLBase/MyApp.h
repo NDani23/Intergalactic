@@ -9,6 +9,7 @@
 // SDL
 #include <SDL.h>
 #include <SDL_opengl.h>
+#include <string>
 
 // GLM
 #include <glm/glm.hpp>
@@ -28,6 +29,8 @@
 #include "PLayer.cpp"
 #include "Directions.h"
 #include "InitMap1.h"
+#include "Entity.h"
+
 
 class CMyApp
 {
@@ -61,7 +64,6 @@ protected:
 
 	gCamera				m_camera;
 
-	Texture2D			m_shipTexture;
 	TextureCubeMap		m_skyboxTexture;
 
 	Map m_map;

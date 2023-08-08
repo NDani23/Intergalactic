@@ -116,6 +116,7 @@ bool CMyApp::Init()
 
 	glLineWidth(4.0f);
 
+	
 	Map1::InitMap(m_map);
 	InitShaders();
 	InitSkyBox();
@@ -156,26 +157,29 @@ void CMyApp::Render()
 
 	float t = SDL_GetTicks() / 20;
 
+	m_program.Use();
+
 	//player
 	glm::mat4 playerWorld = m_player.GetWorldTransform();
-	m_program.Use();
 	m_program.SetTexture("texImage", 0, m_player.GetTexture());
 	m_program.SetUniform("MVP", viewProj * playerWorld);
 	m_program.SetUniform("world", playerWorld);
 	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(playerWorld)));
 	m_player.GetMesh()->draw();
-	
 
 	//world objects
-	for (Entity entity : m_map.GetEntities())
+	for (Entity& entity : m_map.GetEntities())
 	{
 		glm::mat4 entityWorld = entity.GetWorldTransform();
-		m_program.SetTexture("texImage", 0, m_player.GetTexture());
+		m_program.SetTexture("texImage", 0, entity.GetTexture());
 		m_program.SetUniform("MVP", viewProj * entityWorld);
 		m_program.SetUniform("world", entityWorld);
 		m_program.SetUniform("worldIT", glm::inverse(glm::transpose(entityWorld)));
+
 		entity.GetMesh()->draw();
 	}
+
+	m_program.Unuse();
 
 	//eye_pos for illumination
 	glm::vec3 eye_pos = m_camera.GetEye();

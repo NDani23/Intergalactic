@@ -12,13 +12,19 @@ class Entity
 {
 protected:
 	std::unique_ptr<Mesh> m_mesh;
-	glm::vec3 m_position;
 	Texture2D m_texture;
 	glm::mat4 m_transforms;
+	glm::vec3 m_position;
 
 public:
-	Entity() {};
-	Entity(std::unique_ptr<Mesh>, glm::vec3, Texture2D);
+
+	Entity() = default;
+	Entity(const std::string&, glm::vec3, const std::string&);
+	Entity(const Entity&);
+	Entity(Entity&&) noexcept;
+
+	Entity& operator=(const Entity&) = default;
+	Entity& operator=(Entity&&) noexcept = default;
 	~Entity() = default;
 
 	std::unique_ptr<Mesh>& GetMesh();
@@ -26,6 +32,5 @@ public:
 	Texture2D& GetTexture();
 	glm::mat4& GetWorldTransform();
 
-	Entity(const Entity&);
-	Entity& operator=(const Entity&) = default;
+	void SetTransforms(const glm::mat4&);
 };

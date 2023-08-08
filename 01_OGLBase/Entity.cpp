@@ -4,13 +4,28 @@ Entity::Entity(const Entity& entity)
 {
 	m_position = entity.m_position;
 	m_mesh = std::make_unique<Mesh>(*entity.m_mesh);
+	m_texture = entity.m_texture;
+	m_position = entity.m_position;
 }
 
-Entity::Entity(std::unique_ptr<Mesh> mesh, glm::vec3 position, Texture2D texture)
+Entity::Entity(Entity&& other) noexcept
 {
-	m_mesh = move(mesh);
+	m_position = other.m_position;
+	m_mesh = std::move(other.m_mesh);
+	m_texture = std::move(other.m_texture);
+	m_transforms = other.m_transforms;
+
+	other.m_mesh = nullptr;
+	other.m_texture.Clean();
+}
+
+Entity::Entity(const std::string& model_path, glm::vec3 position, const std::string& texture_path)
+{
+
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse(model_path.data()));
+	m_mesh->initBuffers();
 	m_position = position;
-	m_texture = texture;
+	m_texture.FromFile(texture_path);
 
 	m_transforms = glm::translate(m_position);
 }
@@ -33,4 +48,9 @@ Texture2D& Entity::GetTexture()
 glm::mat4& Entity::GetWorldTransform()
 {
 	return m_transforms;
+}
+
+void Entity::SetTransforms(const glm::mat4& transforms)
+{
+	m_transforms = transforms;
 }
