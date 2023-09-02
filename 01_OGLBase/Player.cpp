@@ -21,8 +21,8 @@ public:
 
 		m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/blended.obj"));
 		m_mesh->initBuffers();
-
-		m_texture.FromFile("assets/rusted.jpg");
+		
+		m_texture.FromFile("assets/ship_tex.jpg");
 	}
 
 	void Move(const float& delta)

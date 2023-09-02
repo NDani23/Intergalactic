@@ -20,6 +20,7 @@ public:
 
 	Entity() = default;
 	Entity(const std::string&, glm::vec3, const std::string&);
+	Entity::Entity(const std::string&, glm::vec3, glm::mat4, const std::string&);
 	Entity(const Entity&);
 	Entity(Entity&&) noexcept;
 
@@ -32,5 +33,5 @@ public:
 	Texture2D& GetTexture();
 	glm::mat4& GetWorldTransform();
 
-	void SetTransforms(const glm::mat4&);
+	void SetTransforms(glm::mat4);
 };

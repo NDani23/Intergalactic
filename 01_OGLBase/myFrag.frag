@@ -10,8 +10,8 @@ uniform vec3 light_dir = vec3(1,0,0);
 
 
 // fénytulajdonságok: ambiens, diffúz, spekuláris
-uniform vec3 La = vec3(0.55, 0.55, 0.55);
-uniform vec3 Ld = vec3(0.8, 0.8, 0.8);
+uniform vec3 La = vec3(0.5, 0.5, 0.5);
+uniform vec3 Ld = vec3(0.75, 0.75, 0.75);
 uniform vec3 Ls = vec3(1, 1, 1);
 
 // anyagtulajdonságok: ambiens, diffúz, spekuláris
