@@ -185,6 +185,16 @@ void CMyApp::Render()
 	glm::vec3 eye_pos = m_camera.GetEye();
 	m_program.SetUniform("eye_pos", eye_pos);
 
+	//boxes for collision detection
+	std::vector<glm::vec3> Points{ {-10, 0, -10}, { 10,0,-10 }, { 10, 0, -10 }, { 10,0,10 } };
+
+	m_axesProgram.Use();
+	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj());
+	m_axesProgram.SetUniform("points", Points);
+	glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
+
+	m_axesProgram.Unuse();
+
 	// skybox
 	GLint prevDepthFnc;
 	glGetIntegerv(GL_DEPTH_FUNC, &prevDepthFnc);
