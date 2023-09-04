@@ -138,11 +138,26 @@ void CMyApp::Update()
 	m_player.Move(delta_time);
 
 	//camera
-	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
-	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 5.f;
-	glm::vec3 new_up =	m_player.GetUpVec();
+	//glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
+	//glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 5.f;
+	//glm::vec3 new_up =	m_player.GetUpVec();
 
-	m_camera.SetView(new_eye, new_at, new_up);
+	//camera teszt up
+	//glm::vec3 new_eye = m_player.GetPos() + m_player.GetUpVec() * 50.f;
+	//glm::vec3 new_at = m_player.GetPos();
+	//glm::vec3 new_up = m_player.GetForwardVec();
+
+	////camera teszt behind
+	/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f;
+	glm::vec3 new_at = m_player.GetPos();
+	glm::vec3 new_up = m_player.GetUpVec();*/
+
+	//camera teszt side
+	glm::vec3 new_eye = m_player.GetPos() - m_player.GetCrossVec() * 40.f;
+	glm::vec3 new_at = m_player.GetPos();
+	glm::vec3 new_up = m_player.GetUpVec();
+
+	//m_camera.SetView(new_eye, new_at, new_up);
 
 	m_camera.Update(delta_time);
 
@@ -186,7 +201,87 @@ void CMyApp::Render()
 	m_program.SetUniform("eye_pos", eye_pos);
 
 	//boxes for collision detection
-	std::vector<glm::vec3> Points{ {-10, 0, -10}, { 10,0,-10 }, { 10, 0, -10 }, { 10,0,10 } };
+	std::vector<glm::vec3> Points;
+	//std::cout << m_player.GetLength() << std::endl;
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------
+	glm::vec3 leftDB = m_player.GetPosition();
+	leftDB.x -= m_player.GetWidth() / 2;
+	leftDB.y -= m_player.GetHeight() / 2;
+	leftDB.z -= m_player.GetLength() / 2;
+
+	glm::vec3 rightDB = m_player.GetPosition();
+	rightDB.x += m_player.GetWidth() / 2;
+	rightDB.y -= m_player.GetHeight() / 2;
+	rightDB.z -= m_player.GetLength() / 2;
+
+	glm::vec3 rightUB = m_player.GetPosition();
+	rightUB.x += m_player.GetWidth() / 2;
+	rightUB.y += m_player.GetHeight() / 2;
+	rightUB.z -= m_player.GetLength() / 2;
+
+	glm::vec3 leftUB = m_player.GetPosition();
+	leftUB.x -= m_player.GetWidth() / 2;
+	leftUB.y += m_player.GetHeight() / 2;
+	leftUB.z -= m_player.GetLength() / 2;
+
+
+	glm::vec3 leftDF = m_player.GetPosition();
+	leftDF.x -= m_player.GetWidth() / 2;
+	leftDF.y -= m_player.GetHeight() / 2;
+	leftDF.z += m_player.GetLength() / 2;
+
+	glm::vec3 rightDF = m_player.GetPosition();
+	rightDF.x += m_player.GetWidth() / 2;
+	rightDF.y -= m_player.GetHeight() / 2;
+	rightDF.z += m_player.GetLength() / 2;
+
+	glm::vec3 rightUF = m_player.GetPosition();
+	rightUF.x += m_player.GetWidth() / 2;
+	rightUF.y += m_player.GetHeight() / 2;
+	rightUF.z += m_player.GetLength() / 2;
+
+	glm::vec3 leftUF = m_player.GetPosition();
+	leftUF.x -= m_player.GetWidth() / 2;
+	leftUF.y += m_player.GetHeight() / 2;
+	leftUF.z += m_player.GetLength() / 2;
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	Points.push_back(leftDB);
+	Points.push_back(rightDB);
+
+	Points.push_back(rightDB);
+	Points.push_back(rightUB);
+
+	Points.push_back(rightUB);
+	Points.push_back(leftUB);
+
+	Points.push_back(leftUB);
+	Points.push_back(leftDB);
+
+	Points.push_back(leftDB);
+	Points.push_back(leftDF);
+
+	Points.push_back(leftUB);
+	Points.push_back(leftUF);
+
+	Points.push_back(leftUF);
+	Points.push_back(leftDF);
+
+	Points.push_back(leftUF);
+	Points.push_back(rightUF);
+
+	Points.push_back(rightUF);
+	Points.push_back(rightDF);
+
+	Points.push_back(rightDF);
+	Points.push_back(leftDF);
+
+	Points.push_back(rightDF);
+	Points.push_back(rightDB);
+
+	Points.push_back(rightUF);
+	Points.push_back(rightUB);
+
 
 	m_axesProgram.Use();
 	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj());

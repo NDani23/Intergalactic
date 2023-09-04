@@ -98,6 +98,7 @@
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui.h" />
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_sdl_gl3.h" />
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui_internal.h" />
+    <ClInclude Include="Dimensions.h" />
     <ClInclude Include="Directions.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Includes\BufferObject.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="Includes\TextureObject.h" />
     <ClInclude Include="Includes\VertexArrayObject.h" />
     <ClInclude Include="InitMap1.h" />
+    <ClInclude Include="Math.h" />
     <ClInclude Include="MyApp.h" />
   </ItemGroup>
   <ItemGroup>

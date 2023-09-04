@@ -1,5 +1,8 @@
 #include "Directions.h"
 #include "Entity.h"
+#include "Dimensions.h"
+
+#include <algorithm>
 
 class Player : public Entity
 {
@@ -9,6 +12,8 @@ private:
 	glm::vec3 m_cross_vec;
 	horizontal::direction roll_dir = horizontal::none;
 	vertical::direction pitch_dir = vertical::none;
+	Dimensions m_dimensions;
+
 
 public:
 
@@ -18,6 +23,10 @@ public:
 		m_forward_vec = glm::vec3(0, 0, 1);
 		m_up_vec = glm::vec3(0, 1, 0);
 		m_cross_vec = glm::vec3(1,0,0);
+
+		m_dimensions.width = 12.7;
+		m_dimensions.height = 4.59;
+		m_dimensions.length = 15.5;
 
 		m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/blended.obj"));
 		m_mesh->initBuffers();
@@ -84,15 +93,32 @@ public:
 		return m_cross_vec;
 	}
 
+	float GetWidth()
+	{
+		return m_dimensions.width;
+	}
+
+	float GetHeight()
+	{
+		return m_dimensions.height;
+	}
+
+	float GetLength()
+	{
+		return m_dimensions.length;
+	}
+
 private:
 
 	void Roll(const int& dir)
 	{
 		glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * 0.02f, m_forward_vec) * glm::vec4(m_up_vec, 0));
 		m_up_vec = glm::normalize(glm::vec3(new_up_vec.x, new_up_vec.y, new_up_vec.z));
-
+		
 		glm::vec4 new_cross_vec = glm::normalize(glm::rotate(dir * 0.02f, m_forward_vec) * glm::vec4(m_cross_vec, 0));
 		m_cross_vec = glm::normalize(glm::vec3(new_cross_vec.x, new_cross_vec.y, new_cross_vec.z));
+
+		updateDimensions();
 	}
 
 	void Pitch(const int& dir)
@@ -102,5 +128,19 @@ private:
 
 		glm::vec4 new_forward_vec = glm::normalize(glm::rotate(dir * 0.01f, m_cross_vec) * glm::vec4(m_forward_vec, 0));
 		m_forward_vec = glm::normalize(glm::vec3(new_forward_vec.x, new_forward_vec.y, new_forward_vec.z));
+
+		updateDimensions();
+	}
+
+	void updateDimensions()
+	{
+		m_dimensions.height = 4.59 + ((abs(m_up_vec.y) - 1) * (12.7 - 4.59)) / -1;
+		m_dimensions.height = std::max(4.59 + ((abs(m_forward_vec.y) - 0) * (15.5 - 4.59)) / 1, (double)m_dimensions.height);
+
+		m_dimensions.width = 12.7 + ((abs(m_cross_vec.x) - 1) * (4.59 - 12.7)) / -1;
+		m_dimensions.width = std::max(4.59 + ((abs(m_forward_vec.x)) * (15.5 - 4.59)) / 1, (double)m_dimensions.width);
+
+		m_dimensions.length = 4.59 + ((abs(m_forward_vec.z)) * (15.5 - 4.59)) / 1;
+		m_dimensions.length = std::max(4.59 + ((abs(m_cross_vec.z)) * (12.7 - 4.59)) / 1, (double)m_dimensions.length);
 	}
 };
