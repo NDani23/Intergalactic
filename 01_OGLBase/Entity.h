@@ -5,6 +5,8 @@
 #include "includes/ObjParser_OGL3.h"
 #include "includes/ProgramObject.h"
 #include "includes/TextureObject.h"
+#include "Dimensions.h"
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform2.hpp>
 
@@ -15,10 +17,11 @@ protected:
 	Texture2D m_texture;
 	glm::mat4 m_transforms;
 	glm::vec3 m_position;
+	Dimensions m_dimensions;
 
 public:
 
-	Entity() = default;
+	Entity();
 	Entity(const std::string&, glm::vec3, const std::string&);
 	Entity::Entity(const std::string&, glm::vec3, glm::mat4, const std::string&);
 	Entity(const Entity&);
@@ -29,7 +32,7 @@ public:
 	~Entity() = default;
 
 	std::unique_ptr<Mesh>& GetMesh();
-	glm::vec3 GetPosition();
+	glm::vec3 GetPos();
 	Texture2D& GetTexture();
 	glm::mat4& GetWorldTransform();
 

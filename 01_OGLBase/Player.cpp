@@ -1,6 +1,5 @@
 #include "Directions.h"
 #include "Entity.h"
-#include "Dimensions.h"
 
 #include <algorithm>
 
@@ -12,8 +11,6 @@ private:
 	glm::vec3 m_cross_vec;
 	horizontal::direction roll_dir = horizontal::none;
 	vertical::direction pitch_dir = vertical::none;
-	Dimensions m_dimensions;
-
 
 public:
 
@@ -71,11 +68,6 @@ public:
 	void setPitchDir(const vertical::direction& dir)
 	{
 		pitch_dir = dir;
-	}
-
-	glm::vec3 GetPos()
-	{
-		return m_position;
 	}
 
 	glm::vec3 GetForwardVec()
