@@ -51,6 +51,7 @@ public:
 	void MouseUp(SDL_MouseButtonEvent&);
 	void MouseWheel(SDL_MouseWheelEvent&);
 	void Resize(int, int);
+	void DetectCollisions();
 
 protected:
 	// shaderekhez szükséges változók

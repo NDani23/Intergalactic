@@ -23,7 +23,9 @@ public:
 
 	Entity();
 	Entity(const std::string&, glm::vec3, const std::string&);
-	Entity::Entity(const std::string&, glm::vec3, glm::mat4, const std::string&);
+	Entity(const std::string&, glm::vec3, const std::string&, Dimensions);
+	Entity(const std::string&, glm::vec3, glm::mat4, const std::string&);
+	Entity(const std::string&, glm::vec3, glm::mat4, const std::string&, Dimensions);
 	Entity(const Entity&);
 	Entity(Entity&&) noexcept;
 
@@ -35,6 +37,7 @@ public:
 	glm::vec3 GetPos();
 	Texture2D& GetTexture();
 	glm::mat4& GetWorldTransform();
+	Dimensions GetDimensions();
 
 	void SetTransforms(glm::mat4);
 };

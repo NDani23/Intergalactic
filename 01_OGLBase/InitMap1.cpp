@@ -3,6 +3,8 @@
 void Map1::InitMap(Map& outMap)
 {
 	outMap.SetSkyBox("assets/right.png", "assets/left.png", "assets/top.png", "assets/bottom.png", "assets/front.png", "assets/back.png");
+
+	outMap.AddEntity({ "assets/MET01.obj", glm::vec3(0, 0, 500) ,"assets/MET01_tex.jpg", {37.5f, 57.9f, 42.0f}});
 	
 	//CreateMeteorField(outMap);
 }

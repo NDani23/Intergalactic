@@ -20,6 +20,16 @@ Entity::Entity(const std::string& model_path, glm::vec3 position, const std::str
 	m_dimensions = { 0.0f, 0.0f, 0.0f };
 }
 
+Entity::Entity(const std::string& model_path, glm::vec3 position, const std::string& texture_path, Dimensions dims)
+{
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse(model_path.data()));
+	m_mesh->initBuffers();
+	m_position = position;
+	m_texture.FromFile(texture_path);
+	m_transforms = glm::translate(m_position);
+	m_dimensions = dims;
+}
+
 Entity::Entity(const std::string& model_path, glm::vec3 position, glm::mat4 transform, const std::string& texture_path)
 {
 	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse(model_path.data()));
@@ -28,6 +38,16 @@ Entity::Entity(const std::string& model_path, glm::vec3 position, glm::mat4 tran
 	m_texture.FromFile(texture_path);
 	m_transforms = glm::translate(m_position) * transform;
 	m_dimensions = { 0.0f, 0.0f, 0.0f };
+}
+
+Entity::Entity(const std::string& model_path, glm::vec3 position, glm::mat4 transform, const std::string& texture_path, Dimensions dims)
+{
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse(model_path.data()));
+	m_mesh->initBuffers();
+	m_position = position;
+	m_texture.FromFile(texture_path);
+	m_transforms = glm::translate(m_position) * transform;
+	m_dimensions = dims;
 }
 
 Entity::Entity(const Entity& entity)
@@ -69,6 +89,11 @@ Texture2D& Entity::GetTexture()
 glm::mat4& Entity::GetWorldTransform()
 {
 	return m_transforms;
+}
+
+Dimensions Entity::GetDimensions() 
+{
+	return m_dimensions;
 }
 
 void Entity::SetTransforms(glm::mat4 transforms)

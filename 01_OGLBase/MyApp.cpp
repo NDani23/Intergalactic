@@ -161,6 +161,8 @@ void CMyApp::Update()
 
 	m_camera.Update(delta_time);
 
+	DetectCollisions();
+
 	last_time = SDL_GetTicks();
 }
 
@@ -373,4 +375,23 @@ void CMyApp::Resize(int _w, int _h)
 	glViewport(0, 0, _w, _h );
 
 	m_camera.Resize(_w, _h);
+}
+
+void CMyApp::DetectCollisions()
+{
+	glm::vec3 player_pos = m_player.GetPos();
+	Dimensions player_dims = m_player.GetDimensions();
+
+	for (Entity& entity : m_map.GetEntities())
+	{
+		glm::vec3 distance_vec = player_pos - entity.GetPos();
+
+		if (abs(distance_vec.x) < std::max(player_dims.width / 2, entity.GetDimensions().width / 2)
+			&& abs(distance_vec.y) < std::max(player_dims.height / 2, entity.GetDimensions().height / 2)
+			&& abs(distance_vec.z) < std::max(player_dims.length / 2, entity.GetDimensions().length / 2))
+		{
+			std::cout << "Collision detected!" << std::endl;
+		}
+		
+	}
 }
