@@ -288,7 +288,7 @@ void CMyApp::Render()
 	m_axesProgram.Use();
 	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj());
 	m_axesProgram.SetUniform("points", Points);
-	glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
+	//glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
 
 	m_axesProgram.Unuse();
 
@@ -387,9 +387,10 @@ void CMyApp::DetectCollisions()
 		glm::vec3 distance_vec = player_pos - entity.GetPos();
 
 		if (abs(distance_vec.x) < std::max(player_dims.width / 2, entity.GetDimensions().width / 2)
-			&& abs(distance_vec.y) < std::max(player_dims.height / 2, entity.GetDimensions().height / 2)
-			&& abs(distance_vec.z) < std::max(player_dims.length / 2, entity.GetDimensions().length / 2))
+		&& abs(distance_vec.y) < std::max(player_dims.height / 2, entity.GetDimensions().height / 2)
+		&& abs(distance_vec.z) < std::max(player_dims.length / 2, entity.GetDimensions().length / 2))
 		{
+			//Collision response
 			std::cout << "Collision detected!" << std::endl;
 		}
 		

@@ -21,9 +21,9 @@ public:
 		m_up_vec = glm::vec3(0, 1, 0);
 		m_cross_vec = glm::vec3(1,0,0);
 
-		m_dimensions.width = 12.7;
-		m_dimensions.height = 4.59;
-		m_dimensions.length = 15.5;
+		m_dimensions.width = 11.0;
+		m_dimensions.height = 4.0;
+		m_dimensions.length = 13.0;
 
 		m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/blended.obj"));
 		m_mesh->initBuffers();
