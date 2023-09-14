@@ -21,19 +21,19 @@ public:
 		m_up_vec = glm::vec3(0, 1, 0);
 		m_cross_vec = glm::vec3(1,0,0);
 
-		m_dimensions.width = 11.0;
-		m_dimensions.height = 4.0;
-		m_dimensions.length = 13.0;
+		m_dimensions.width = 8.0;
+		m_dimensions.height = 2.5;
+		m_dimensions.length = 10.0;
 
-		m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/blended.obj"));
+		m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/player_ship.obj"));
 		m_mesh->initBuffers();
 		
-		m_texture.FromFile("assets/ship_tex.jpg");
+		m_texture.FromFile("assets/player_tex.png");
 	}
 
 	void Move(const float& delta)
 	{		
-		m_position += GetForwardVec() * (delta * 50);
+		m_position += GetForwardVec() * (delta * 100);
 
 		switch (roll_dir)
 		{
@@ -126,13 +126,13 @@ private:
 
 	void updateDimensions()
 	{
-		m_dimensions.height = 4.59 + ((abs(m_up_vec.y) - 1) * (12.7 - 4.59)) / -1;
-		m_dimensions.height = std::max(4.59 + ((abs(m_forward_vec.y) - 0) * (15.5 - 4.59)) / 1, (double)m_dimensions.height);
+		m_dimensions.height = 2.5 + ((abs(m_up_vec.y) - 1) * (8.0 - 2.5)) / -1;
+		m_dimensions.height = std::max(2.5 + ((abs(m_forward_vec.y) - 0) * (10.0 - 2.5)) / 1, (double)m_dimensions.height);
 
-		m_dimensions.width = 12.7 + ((abs(m_cross_vec.x) - 1) * (4.59 - 12.7)) / -1;
-		m_dimensions.width = std::max(4.59 + ((abs(m_forward_vec.x)) * (15.5 - 4.59)) / 1, (double)m_dimensions.width);
+		m_dimensions.width = 8.0 + ((abs(m_cross_vec.x) - 1) * (2.5 - 8.0)) / -1;
+		m_dimensions.width = std::max(2.5 + ((abs(m_forward_vec.x)) * (10.0 - 2.5)) / 1, (double)m_dimensions.width);
 
-		m_dimensions.length = 4.59 + ((abs(m_forward_vec.z)) * (15.5 - 4.59)) / 1;
-		m_dimensions.length = std::max(4.59 + ((abs(m_cross_vec.z)) * (12.7 - 4.59)) / 1, (double)m_dimensions.length);
+		m_dimensions.length = 2.5 + ((abs(m_forward_vec.z)) * (10.0 - 2.5)) / 1;
+		m_dimensions.length = std::max(2.5 + ((abs(m_cross_vec.z)) * (8.0 - 2.5)) / 1, (double)m_dimensions.length);
 	}
 };
