@@ -298,16 +298,20 @@ void CMyApp::DetectCollisions()
 
 	for (Entity& entity : m_map.GetEntities())
 	{
-		glm::vec3 distance_vec = player_pos - entity.GetPos();
 
-		Dimensions entity_dims = entity.GetHitboxes()[0].dimensions;
-
-		if (abs(distance_vec.x) < std::max(player_dims.width / 2, entity_dims.width / 2)
-		&& abs(distance_vec.y) < std::max(player_dims.height / 2, entity_dims.height / 2)
-		&& abs(distance_vec.z) < std::max(player_dims.length / 2, entity_dims.length / 2))
+		for (HitBox& hitbox : entity.GetHitboxes())
 		{
-			//Collision response
-			std::cout << "Collision detected!" << std::endl;
+			glm::vec3 distance_vec = player_pos - hitbox.Position;
+
+			Dimensions hitbox_dims = hitbox.dimensions;
+
+			if (abs(distance_vec.x) < std::max(player_dims.width / 2, hitbox_dims.width / 2)
+				&& abs(distance_vec.y) < std::max(player_dims.height / 2, hitbox_dims.height / 2)
+				&& abs(distance_vec.z) < std::max(player_dims.length / 2, hitbox_dims.length / 2))
+			{
+				//Collision response
+				std::cout << "Collision detected!" << std::endl;
+			}
 		}
 		
 	}
@@ -315,178 +319,180 @@ void CMyApp::DetectCollisions()
 
 void CMyApp::DrawHitBoxes()
 {
-	//std::vector<glm::vec3> Points;
+	std::vector<glm::vec3> Points;
 
-	//for (Entity& entity : m_map.GetEntities())
-	//{
+	for (Entity& entity : m_map.GetEntities())
+	{
+		for (HitBox& hitbox : entity.GetHitboxes())
+		{
+			glm::vec3 leftDB = hitbox.Position;
+			leftDB.x -= hitbox.dimensions.width / 2;
+			leftDB.y -= hitbox.dimensions.height / 2;
+			leftDB.z -= hitbox.dimensions.length / 2;
 
-	//	glm::vec3 leftDB = entity.GetPos();
-	//	leftDB.x -= entity.GetWidth() / 2;
-	//	leftDB.y -= entity.GetHeight() / 2;
-	//	leftDB.z -= entity.GetLength() / 2;
+			glm::vec3 rightDB = hitbox.Position;
+			rightDB.x += hitbox.dimensions.width / 2;
+			rightDB.y -= hitbox.dimensions.height / 2;
+			rightDB.z -= hitbox.dimensions.length / 2;
 
-	//	glm::vec3 rightDB = entity.GetPos();
-	//	rightDB.x += entity.GetWidth() / 2;
-	//	rightDB.y -= entity.GetHeight() / 2;
-	//	rightDB.z -= entity.GetLength() / 2;
+			glm::vec3 rightUB = hitbox.Position;
+			rightUB.x += hitbox.dimensions.width / 2;
+			rightUB.y += hitbox.dimensions.height / 2;
+			rightUB.z -= hitbox.dimensions.length / 2;
 
-	//	glm::vec3 rightUB = entity.GetPos();
-	//	rightUB.x += entity.GetWidth() / 2;
-	//	rightUB.y += entity.GetHeight() / 2;
-	//	rightUB.z -= entity.GetLength() / 2;
-
-	//	glm::vec3 leftUB = entity.GetPos();
-	//	leftUB.x -= entity.GetWidth() / 2;
-	//	leftUB.y += entity.GetHeight() / 2;
-	//	leftUB.z -= entity.GetLength() / 2;
-
-
-	//	glm::vec3 leftDF = entity.GetPos();
-	//	leftDF.x -= entity.GetWidth() / 2;
-	//	leftDF.y -= entity.GetHeight() / 2;
-	//	leftDF.z += entity.GetLength() / 2;
-
-	//	glm::vec3 rightDF = entity.GetPos();
-	//	rightDF.x += entity.GetWidth() / 2;
-	//	rightDF.y -= entity.GetHeight() / 2;
-	//	rightDF.z += entity.GetLength() / 2;
-
-	//	glm::vec3 rightUF = entity.GetPos();
-	//	rightUF.x += entity.GetWidth() / 2;
-	//	rightUF.y += entity.GetHeight() / 2;
-	//	rightUF.z += entity.GetLength() / 2;
-
-	//	glm::vec3 leftUF = entity.GetPos();
-	//	leftUF.x -= entity.GetWidth() / 2;
-	//	leftUF.y += entity.GetHeight() / 2;
-	//	leftUF.z += entity.GetLength() / 2;
-	//	//---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-	//	Points.push_back(leftDB);
-	//	Points.push_back(rightDB);
-
-	//	Points.push_back(rightDB);
-	//	Points.push_back(rightUB);
-
-	//	Points.push_back(rightUB);
-	//	Points.push_back(leftUB);
-
-	//	Points.push_back(leftUB);
-	//	Points.push_back(leftDB);
-
-	//	Points.push_back(leftDB);
-	//	Points.push_back(leftDF);
-
-	//	Points.push_back(leftUB);
-	//	Points.push_back(leftUF);
-
-	//	Points.push_back(leftUF);
-	//	Points.push_back(leftDF);
-
-	//	Points.push_back(leftUF);
-	//	Points.push_back(rightUF);
-
-	//	Points.push_back(rightUF);
-	//	Points.push_back(rightDF);
-
-	//	Points.push_back(rightDF);
-	//	Points.push_back(leftDF);
-
-	//	Points.push_back(rightDF);
-	//	Points.push_back(rightDB);
-
-	//	Points.push_back(rightUF);
-	//	Points.push_back(rightUB);
-
-	//	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj());
-	//	m_axesProgram.SetUniform("points", Points);
-	//	glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
-
-	//	Points.clear();
-	//}
+			glm::vec3 leftUB = hitbox.Position;
+			leftUB.x -= hitbox.dimensions.width / 2;
+			leftUB.y += hitbox.dimensions.height / 2;
+			leftUB.z -= hitbox.dimensions.length / 2;
 
 
-	//glm::vec3 leftDB = m_player.GetPos();
-	//leftDB.x -= m_player.GetWidth() / 2;
-	//leftDB.y -= m_player.GetHeight() / 2;
-	//leftDB.z -= m_player.GetLength() / 2;
+			glm::vec3 leftDF = hitbox.Position;
+			leftDF.x -= hitbox.dimensions.width / 2;
+			leftDF.y -= hitbox.dimensions.height / 2;
+			leftDF.z += hitbox.dimensions.length / 2;
 
-	//glm::vec3 rightDB = m_player.GetPos();
-	//rightDB.x += m_player.GetWidth() / 2;
-	//rightDB.y -= m_player.GetHeight() / 2;
-	//rightDB.z -= m_player.GetLength() / 2;
+			glm::vec3 rightDF = hitbox.Position;
+			rightDF.x += hitbox.dimensions.width / 2;
+			rightDF.y -= hitbox.dimensions.height / 2;
+			rightDF.z += hitbox.dimensions.length / 2;
 
-	//glm::vec3 rightUB = m_player.GetPos();
-	//rightUB.x += m_player.GetWidth() / 2;
-	//rightUB.y += m_player.GetHeight() / 2;
-	//rightUB.z -= m_player.GetLength() / 2;
+			glm::vec3 rightUF = hitbox.Position;
+			rightUF.x += hitbox.dimensions.width / 2;
+			rightUF.y += hitbox.dimensions.height / 2;
+			rightUF.z += hitbox.dimensions.length / 2;
 
-	//glm::vec3 leftUB = m_player.GetPos();
-	//leftUB.x -= m_player.GetWidth() / 2;
-	//leftUB.y += m_player.GetHeight() / 2;
-	//leftUB.z -= m_player.GetLength() / 2;
+			glm::vec3 leftUF = hitbox.Position;
+			leftUF.x -= hitbox.dimensions.width / 2;
+			leftUF.y += hitbox.dimensions.height / 2;
+			leftUF.z += hitbox.dimensions.length / 2;
+			//---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+			Points.push_back(leftDB);
+			Points.push_back(rightDB);
+
+			Points.push_back(rightDB);
+			Points.push_back(rightUB);
+
+			Points.push_back(rightUB);
+			Points.push_back(leftUB);
+
+			Points.push_back(leftUB);
+			Points.push_back(leftDB);
+
+			Points.push_back(leftDB);
+			Points.push_back(leftDF);
+
+			Points.push_back(leftUB);
+			Points.push_back(leftUF);
+
+			Points.push_back(leftUF);
+			Points.push_back(leftDF);
+
+			Points.push_back(leftUF);
+			Points.push_back(rightUF);
+
+			Points.push_back(rightUF);
+			Points.push_back(rightDF);
+
+			Points.push_back(rightDF);
+			Points.push_back(leftDF);
+
+			Points.push_back(rightDF);
+			Points.push_back(rightDB);
+
+			Points.push_back(rightUF);
+			Points.push_back(rightUB);
+
+			m_axesProgram.SetUniform("mvp", m_camera.GetViewProj());
+			m_axesProgram.SetUniform("points", Points);
+			glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
+
+			Points.clear();
+		}
+	}
 
 
-	//glm::vec3 leftDF = m_player.GetPos();
-	//leftDF.x -= m_player.GetWidth() / 2;
-	//leftDF.y -= m_player.GetHeight() / 2;
-	//leftDF.z += m_player.GetLength() / 2;
+	glm::vec3 leftDB = m_player.GetHitboxes()[0].Position;
+	leftDB.x -= m_player.GetHitboxes()[0].dimensions.width / 2;
+	leftDB.y -= m_player.GetHitboxes()[0].dimensions.height / 2;
+	leftDB.z -= m_player.GetHitboxes()[0].dimensions.length / 2;
 
-	//glm::vec3 rightDF = m_player.GetPos();
-	//rightDF.x += m_player.GetWidth() / 2;
-	//rightDF.y -= m_player.GetHeight() / 2;
-	//rightDF.z += m_player.GetLength() / 2;
+	glm::vec3 rightDB = m_player.GetHitboxes()[0].Position;
+	rightDB.x += m_player.GetHitboxes()[0].dimensions.width / 2;
+	rightDB.y -= m_player.GetHitboxes()[0].dimensions.height / 2;
+	rightDB.z -= m_player.GetHitboxes()[0].dimensions.length / 2;
 
-	//glm::vec3 rightUF = m_player.GetPos();
-	//rightUF.x += m_player.GetWidth() / 2;
-	//rightUF.y += m_player.GetHeight() / 2;
-	//rightUF.z += m_player.GetLength() / 2;
+	glm::vec3 rightUB = m_player.GetHitboxes()[0].Position;
+	rightUB.x += m_player.GetHitboxes()[0].dimensions.width / 2;
+	rightUB.y += m_player.GetHitboxes()[0].dimensions.height / 2;
+	rightUB.z -= m_player.GetHitboxes()[0].dimensions.length / 2;
 
-	//glm::vec3 leftUF = m_player.GetPos();
-	//leftUF.x -= m_player.GetWidth() / 2;
-	//leftUF.y += m_player.GetHeight() / 2;
-	//leftUF.z += m_player.GetLength() / 2;
-	////---------------------------------------------------------------------------------------------------------------------------------------------------------------
+	glm::vec3 leftUB = m_player.GetHitboxes()[0].Position;
+	leftUB.x -= m_player.GetHitboxes()[0].dimensions.width / 2;
+	leftUB.y += m_player.GetHitboxes()[0].dimensions.height / 2;
+	leftUB.z -= m_player.GetHitboxes()[0].dimensions.length / 2;
 
-	//Points.push_back(leftDB);
-	//Points.push_back(rightDB);
 
-	//Points.push_back(rightDB);
-	//Points.push_back(rightUB);
+	glm::vec3 leftDF = m_player.GetHitboxes()[0].Position;
+	leftDF.x -= m_player.GetHitboxes()[0].dimensions.width / 2;
+	leftDF.y -= m_player.GetHitboxes()[0].dimensions.height / 2;
+	leftDF.z += m_player.GetHitboxes()[0].dimensions.length / 2;
 
-	//Points.push_back(rightUB);
-	//Points.push_back(leftUB);
+	glm::vec3 rightDF = m_player.GetHitboxes()[0].Position;
+	rightDF.x += m_player.GetHitboxes()[0].dimensions.width / 2;
+	rightDF.y -= m_player.GetHitboxes()[0].dimensions.height / 2;
+	rightDF.z += m_player.GetHitboxes()[0].dimensions.length / 2;
 
-	//Points.push_back(leftUB);
-	//Points.push_back(leftDB);
+	glm::vec3 rightUF = m_player.GetHitboxes()[0].Position;
+	rightUF.x += m_player.GetHitboxes()[0].dimensions.width / 2;
+	rightUF.y += m_player.GetHitboxes()[0].dimensions.height / 2;
+	rightUF.z += m_player.GetHitboxes()[0].dimensions.length / 2;
 
-	//Points.push_back(leftDB);
-	//Points.push_back(leftDF);
+	glm::vec3 leftUF = m_player.GetHitboxes()[0].Position;
+	leftUF.x -= m_player.GetHitboxes()[0].dimensions.width / 2;
+	leftUF.y += m_player.GetHitboxes()[0].dimensions.height / 2;
+	leftUF.z += m_player.GetHitboxes()[0].dimensions.length / 2;
+	//---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	//Points.push_back(leftUB);
-	//Points.push_back(leftUF);
+	Points.push_back(leftDB);
+	Points.push_back(rightDB);
 
-	//Points.push_back(leftUF);
-	//Points.push_back(leftDF);
+	Points.push_back(rightDB);
+	Points.push_back(rightUB);
 
-	//Points.push_back(leftUF);
-	//Points.push_back(rightUF);
+	Points.push_back(rightUB);
+	Points.push_back(leftUB);
 
-	//Points.push_back(rightUF);
-	//Points.push_back(rightDF);
+	Points.push_back(leftUB);
+	Points.push_back(leftDB);
 
-	//Points.push_back(rightDF);
-	//Points.push_back(leftDF);
+	Points.push_back(leftDB);
+	Points.push_back(leftDF);
 
-	//Points.push_back(rightDF);
-	//Points.push_back(rightDB);
+	Points.push_back(leftUB);
+	Points.push_back(leftUF);
 
-	//Points.push_back(rightUF);
-	//Points.push_back(rightUB);
+	Points.push_back(leftUF);
+	Points.push_back(leftDF);
 
-	//m_axesProgram.SetUniform("mvp", m_camera.GetViewProj());
-	//m_axesProgram.SetUniform("points", Points);
-	//glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
+	Points.push_back(leftUF);
+	Points.push_back(rightUF);
 
-	//Points.clear();
+	Points.push_back(rightUF);
+	Points.push_back(rightDF);
+
+	Points.push_back(rightDF);
+	Points.push_back(leftDF);
+
+	Points.push_back(rightDF);
+	Points.push_back(rightDB);
+
+	Points.push_back(rightUF);
+	Points.push_back(rightUB);
+
+	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj());
+	m_axesProgram.SetUniform("points", Points);
+	glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
+
+	Points.clear();
 }

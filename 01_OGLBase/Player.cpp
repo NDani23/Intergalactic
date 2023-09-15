@@ -33,7 +33,7 @@ public:
 
 	void Move(const float& delta)
 	{		
-		m_position += GetForwardVec() * (delta * 100);
+		m_position += GetForwardVec() * (delta * 50);
 
 		switch (roll_dir)
 		{
@@ -56,6 +56,8 @@ public:
 			Pitch(1);
 			break;
 		}
+
+		m_hitboxes[0].Position = m_position;
 
 		m_transforms = glm::inverse(glm::lookAt(GetPos(), GetPos()-GetForwardVec(), GetUpVec()));
 	}

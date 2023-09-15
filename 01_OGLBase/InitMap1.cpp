@@ -7,7 +7,13 @@ void Map1::InitMap(Map& outMap)
 	//outMap.AddEntity({ "assets/meteor.obj", glm::vec3(0, 0, 500) ,"assets/meteor_tex.jpg", {27.0f, 27.0f, 27.0f}});
 
 	outMap.AddEntity({ "assets/ufo2.obj", glm::vec3(100, -200, 350) ,"assets/ufo_tex.png", {50.0f, 17.0f, 50.0f} });
-	outMap.AddEntity({ "assets/mothership.obj", glm::vec3(0, 0, 2000) ,"assets/mothership_tex3.png", {50.0f, 17.0f, 50.0f} });
+
+	Entity mothership("assets/mothership.obj", glm::vec3(0, 0, 2000), "assets/mothership_tex3.png");
+	mothership.AddHitBox({ mothership.GetPos(), {70.0f, 28.0f, 20.0f}});
+	mothership.AddHitBox({ mothership.GetPos() + glm::vec3(-50, 7, 0), {30.0f, 10.0f, 15.0f} });
+	mothership.AddHitBox({ mothership.GetPos() + glm::vec3(-60, 7, -20), {30.0f, 10.0f, 10.0f} });
+	mothership.AddHitBox({ mothership.GetPos() + glm::vec3(-60, 7, 20), {30.0f, 10.0f, 10.0f} });
+	outMap.AddEntity(std::move(mothership));
 	
 	CreateMeteorField(outMap);
 }
