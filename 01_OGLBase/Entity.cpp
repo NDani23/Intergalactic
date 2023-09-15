@@ -7,7 +7,6 @@ Entity::Entity()
 	m_position = glm::vec3(0, 0, 0);
 	m_texture.Clean();
 	m_transforms = glm::mat4();
-	m_dimensions = {0.0f, 0.0f, 0.0f};
 }
 
 Entity::Entity(const std::string& model_path, glm::vec3 position, const std::string& texture_path)
@@ -17,7 +16,6 @@ Entity::Entity(const std::string& model_path, glm::vec3 position, const std::str
 	m_position = position;
 	m_texture.FromFile(texture_path);
 	m_transforms = glm::translate(m_position);
-	m_dimensions = { 0.0f, 0.0f, 0.0f };
 }
 
 Entity::Entity(const std::string& model_path, glm::vec3 position, const std::string& texture_path, Dimensions dims)
@@ -27,7 +25,9 @@ Entity::Entity(const std::string& model_path, glm::vec3 position, const std::str
 	m_position = position;
 	m_texture.FromFile(texture_path);
 	m_transforms = glm::translate(m_position);
-	m_dimensions = dims;
+
+	HitBox hitbox = { position, dims };
+	m_hitboxes.emplace_back(hitbox);
 }
 
 Entity::Entity(const std::string& model_path, glm::vec3 position, glm::mat4 transform, const std::string& texture_path)
@@ -37,7 +37,6 @@ Entity::Entity(const std::string& model_path, glm::vec3 position, glm::mat4 tran
 	m_position = position;
 	m_texture.FromFile(texture_path);
 	m_transforms = glm::translate(m_position) * transform;
-	m_dimensions = { 0.0f, 0.0f, 0.0f };
 }
 
 Entity::Entity(const std::string& model_path, glm::vec3 position, glm::mat4 transform, const std::string& texture_path, Dimensions dims)
@@ -47,7 +46,9 @@ Entity::Entity(const std::string& model_path, glm::vec3 position, glm::mat4 tran
 	m_position = position;
 	m_texture.FromFile(texture_path);
 	m_transforms = glm::translate(m_position) * transform;
-	m_dimensions = dims;
+
+	HitBox hitbox = { position, dims };
+	m_hitboxes.emplace_back(hitbox);
 }
 
 Entity::Entity(const Entity& entity)
@@ -56,7 +57,7 @@ Entity::Entity(const Entity& entity)
 	m_mesh = std::make_unique<Mesh>(*entity.m_mesh);
 	m_texture = entity.m_texture;
 	m_position = entity.m_position;
-	m_dimensions = entity.m_dimensions;
+	m_hitboxes = entity.m_hitboxes;
 }
 
 Entity::Entity(Entity&& other) noexcept
@@ -65,7 +66,7 @@ Entity::Entity(Entity&& other) noexcept
 	m_mesh = std::move(other.m_mesh);
 	m_texture = std::move(other.m_texture);
 	m_transforms = other.m_transforms;
-	m_dimensions = other.m_dimensions;
+	m_hitboxes = std::move(other.m_hitboxes);
 
 	other.m_mesh = nullptr;
 	other.m_texture.Clean();
@@ -91,12 +92,17 @@ glm::mat4& Entity::GetWorldTransform()
 	return m_transforms;
 }
 
-Dimensions Entity::GetDimensions() 
+std::vector<HitBox>& Entity::GetHitboxes() 
 {
-	return m_dimensions;
+	return m_hitboxes;
 }
 
 void Entity::SetTransforms(glm::mat4 transforms)
 {
 	m_transforms = transforms;
+}
+
+void Entity::AddHitBox(HitBox hitbox)
+{
+	m_hitboxes.emplace_back(hitbox);
 }

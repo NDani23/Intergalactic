@@ -79,7 +79,7 @@ void gCamera::SetSpeed(float _val)
 
 void gCamera::Resize(int _w, int _h)
 {
-	SetProj(glm::radians(60.0f), _w/(float)_h, 0.01f, 20000.0f);
+	SetProj(glm::radians(60.0f), _w/(float)_h, 0.01f, 10000.0f);
 }
 
 void gCamera::KeyboardDown(SDL_KeyboardEvent& key)

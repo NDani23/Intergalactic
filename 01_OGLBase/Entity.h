@@ -5,7 +5,7 @@
 #include "includes/ObjParser_OGL3.h"
 #include "includes/ProgramObject.h"
 #include "includes/TextureObject.h"
-#include "Dimensions.h"
+#include "HitBox.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform2.hpp>
@@ -17,7 +17,7 @@ protected:
 	Texture2D m_texture;
 	glm::mat4 m_transforms;
 	glm::vec3 m_position;
-	Dimensions m_dimensions;
+	std::vector<HitBox> m_hitboxes;
 
 public:
 
@@ -37,7 +37,8 @@ public:
 	glm::vec3 GetPos();
 	Texture2D& GetTexture();
 	glm::mat4& GetWorldTransform();
-	Dimensions GetDimensions();
+	std::vector<HitBox>& GetHitboxes();
 
 	void SetTransforms(glm::mat4);
+	void AddHitBox(HitBox);
 };

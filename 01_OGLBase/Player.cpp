@@ -21,9 +21,9 @@ public:
 		m_up_vec = glm::vec3(0, 1, 0);
 		m_cross_vec = glm::vec3(1,0,0);
 
-		m_dimensions.width = 8.0;
-		m_dimensions.height = 2.5;
-		m_dimensions.length = 10.0;
+		HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
+
+		m_hitboxes.emplace_back(hitbox);
 
 		m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/player_ship.obj"));
 		m_mesh->initBuffers();
@@ -85,21 +85,6 @@ public:
 		return m_cross_vec;
 	}
 
-	float GetWidth()
-	{
-		return m_dimensions.width;
-	}
-
-	float GetHeight()
-	{
-		return m_dimensions.height;
-	}
-
-	float GetLength()
-	{
-		return m_dimensions.length;
-	}
-
 private:
 
 	void Roll(const int& dir)
@@ -126,13 +111,13 @@ private:
 
 	void updateDimensions()
 	{
-		m_dimensions.height = 2.5 + ((abs(m_up_vec.y) - 1) * (8.0 - 2.5)) / -1;
-		m_dimensions.height = std::max(2.5 + ((abs(m_forward_vec.y) - 0) * (10.0 - 2.5)) / 1, (double)m_dimensions.height);
+		m_hitboxes[0].dimensions.height = 2.5 + ((abs(m_up_vec.y) - 1) * (8.0 - 2.5)) / -1;
+		m_hitboxes[0].dimensions.height = std::max(2.5 + ((abs(m_forward_vec.y) - 0) * (10.0 - 2.5)) / 1, (double)m_hitboxes[0].dimensions.height);
 
-		m_dimensions.width = 8.0 + ((abs(m_cross_vec.x) - 1) * (2.5 - 8.0)) / -1;
-		m_dimensions.width = std::max(2.5 + ((abs(m_forward_vec.x)) * (10.0 - 2.5)) / 1, (double)m_dimensions.width);
+		m_hitboxes[0].dimensions.width = 8.0 + ((abs(m_cross_vec.x) - 1) * (2.5 - 8.0)) / -1;
+		m_hitboxes[0].dimensions.width = std::max(2.5 + ((abs(m_forward_vec.x)) * (10.0 - 2.5)) / 1, (double)m_hitboxes[0].dimensions.width);
 
-		m_dimensions.length = 2.5 + ((abs(m_forward_vec.z)) * (10.0 - 2.5)) / 1;
-		m_dimensions.length = std::max(2.5 + ((abs(m_cross_vec.z)) * (8.0 - 2.5)) / 1, (double)m_dimensions.length);
+		m_hitboxes[0].dimensions.length = 2.5 + ((abs(m_forward_vec.z)) * (10.0 - 2.5)) / 1;
+		m_hitboxes[0].dimensions.length = std::max(2.5 + ((abs(m_cross_vec.z)) * (8.0 - 2.5)) / 1, (double)m_hitboxes[0].dimensions.length);
 	}
 };

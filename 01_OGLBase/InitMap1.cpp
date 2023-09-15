@@ -6,7 +6,8 @@ void Map1::InitMap(Map& outMap)
 
 	//outMap.AddEntity({ "assets/meteor.obj", glm::vec3(0, 0, 500) ,"assets/meteor_tex.jpg", {27.0f, 27.0f, 27.0f}});
 
-	outMap.AddEntity({ "assets/ufo2.obj", glm::vec3(100, -100, 350) ,"assets/ufo_tex.png", {50.0f, 17.0f, 50.0f} });
+	outMap.AddEntity({ "assets/ufo2.obj", glm::vec3(100, -200, 350) ,"assets/ufo_tex.png", {50.0f, 17.0f, 50.0f} });
+	outMap.AddEntity({ "assets/mothership.obj", glm::vec3(0, 0, 2000) ,"assets/mothership_tex3.png", {50.0f, 17.0f, 50.0f} });
 	
 	CreateMeteorField(outMap);
 }
