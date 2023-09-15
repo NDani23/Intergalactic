@@ -93,6 +93,9 @@
     <ClInclude Include="HitBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyApp.cpp">
@@ -145,6 +148,9 @@
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="InitMap1.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>

@@ -116,6 +116,7 @@
     <ClInclude Include="InitMap1.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="MyApp.h" />
+    <ClInclude Include="Projectile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui.cpp" />
@@ -136,6 +137,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MyApp.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Projectile.cpp" />
     <None Include="axes.frag" />
     <None Include="axes.vert" />
     <None Include="Includes\BufferObject.inl" />

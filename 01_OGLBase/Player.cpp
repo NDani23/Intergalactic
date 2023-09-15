@@ -33,7 +33,7 @@ public:
 
 	void Move(const float& delta)
 	{		
-		m_position += GetForwardVec() * (delta * 50);
+		m_position += GetForwardVec() * (delta * 100);
 
 		switch (roll_dir)
 		{
