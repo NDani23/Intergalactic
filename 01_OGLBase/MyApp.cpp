@@ -136,6 +136,8 @@ void CMyApp::Update()
 	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
 	
 	m_player.Move(delta_time);
+	m_player.UpdateProjectiles(delta_time);
+	DetectHit(m_player.GetProjectiles());
 
 	//camera
 	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
@@ -203,6 +205,7 @@ void CMyApp::Render()
 	m_program.SetUniform("eye_pos", eye_pos);
 
 	m_axesProgram.Use();
+	DrawProjectiles(m_player.GetProjectiles());
 	//DrawHitBoxes();
 	m_axesProgram.Unuse();
 
@@ -264,6 +267,9 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 	case SDLK_d:
 		m_player.setRollDir(horizontal::none);
 		break;
+	case SDLK_SPACE:
+		m_player.Shoot();
+		break;
 	}
 }
 
@@ -315,6 +321,44 @@ void CMyApp::DetectCollisions()
 		}
 		
 	}
+}
+
+void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
+{
+	for (Projectile& proj : projectiles)
+	{
+		glm::vec3 endPoint = proj.GetPos() + (proj.GetDirection() * 2.0f);
+		for (Entity& entity : m_map.GetEntities())
+		{
+			glm::vec3 distance_vec = entity.GetPos() - endPoint;
+			Dimensions hitbox_dims = entity.GetHitboxes()[0].dimensions;
+
+			if (abs(distance_vec.x) < hitbox_dims.width / 2
+				&& abs(distance_vec.y) < hitbox_dims.height / 2
+				&& abs(distance_vec.z) < hitbox_dims.length / 2)
+			{
+				// hit response
+				m_player.RemoveProjectile(proj);
+				std::cout << "Hit detected!" << std::endl;
+				break;
+			}
+		}
+	}
+}
+
+void CMyApp::DrawProjectiles(const std::vector<Projectile>& projectiles)
+{
+	std::vector<glm::vec3> Points;
+
+	for (Projectile projectile : projectiles)
+	{
+		Points.push_back(projectile.GetPos() + (projectile.GetDirection() * 2.0f));
+		Points.push_back(projectile.GetPos() - (projectile.GetDirection() * 2.0f));
+	}
+
+	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj());
+	m_axesProgram.SetUniform("points", Points);
+	glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
 }
 
 void CMyApp::DrawHitBoxes()

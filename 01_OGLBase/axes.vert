@@ -1,7 +1,7 @@
 #version 130
 
 uniform mat4 mvp;
-uniform vec3 points[30];
+uniform vec3 points[500];
 
 /*uniform vec3 forward;
 uniform vec3 up;

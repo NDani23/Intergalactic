@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 
-class Projectile : Entity
+class Projectile : public Entity
 {
 protected:
 	float m_speed;
@@ -13,4 +13,7 @@ public:
 	float GetSpeed();
 	glm::vec3 GetDirection();
 	int GetDamage();
+	void SetPosition(const glm::vec3&);
+
+	bool operator==(const Projectile&) const;
 };

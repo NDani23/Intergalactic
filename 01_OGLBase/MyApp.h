@@ -52,7 +52,9 @@ public:
 	void MouseWheel(SDL_MouseWheelEvent&);
 	void Resize(int, int);
 	void DetectCollisions();
+	void DetectHit(std::vector<Projectile>&);
 	void DrawHitBoxes();
+	void DrawProjectiles(const std::vector<Projectile>&);
 
 protected:
 	// shaderekhez szükséges változók
