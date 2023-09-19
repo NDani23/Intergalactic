@@ -1,6 +1,7 @@
 #include "Directions.h"
 #include "Entity.h"
 #include "Laser.h"
+#include "LaserGun.h"
 
 #include <algorithm>
 
@@ -13,9 +14,8 @@ private:
 	horizontal::direction roll_dir = horizontal::none;
 	vertical::direction pitch_dir = vertical::none;
 	std::vector<Projectile> m_projectiles;
-
-	glm::vec3 m_GunPos1;
-	glm::vec3 m_GunPos2;
+	LaserGun gun1;
+	LaserGun gun2;
 
 public:
 
@@ -28,8 +28,11 @@ public:
 
 		HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
-		m_GunPos1 = (m_position + m_cross_vec);
-		m_GunPos2 = (m_position - m_cross_vec);
+		gun1.SetShootDir(m_forward_vec);
+		gun1.SetPosition(m_position - m_cross_vec);
+
+		gun2.SetShootDir(m_forward_vec);
+		gun2.SetPosition(m_position + m_cross_vec);
 
 		m_hitboxes.emplace_back(hitbox);
 
@@ -67,8 +70,16 @@ public:
 
 		updateDimensions();
 
-		m_GunPos1 = (m_position + m_cross_vec);
-		m_GunPos2 = (m_position - m_cross_vec);
+
+		gun1.SetPosition(m_position - m_cross_vec);
+		gun1.SetShootDir(m_forward_vec);
+		gun1.SetTransforms(glm::inverse(glm::lookAt(gun1.GetPos(), gun1.GetPos() - GetForwardVec(), GetUpVec())));
+
+
+		gun2.SetPosition(m_position + m_cross_vec);
+		gun2.SetShootDir(m_forward_vec);
+		gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));
+
 
 		m_hitboxes[0].Position = m_position;
 
@@ -78,11 +89,14 @@ public:
 
 	void Shoot()
 	{
-		Laser laser_proj1(m_GunPos1, m_forward_vec);
+		/*Laser laser_proj1(m_GunPos1, m_forward_vec);
 		m_projectiles.emplace_back(std::move(laser_proj1));
 
 		Laser laser_proj2(m_GunPos2, m_forward_vec);
-		m_projectiles.emplace_back(std::move(laser_proj2));
+		m_projectiles.emplace_back(std::move(laser_proj2));*/
+
+		gun1.Shoot(m_projectiles);
+		gun2.Shoot(m_projectiles);
 	}
 
 	void RemoveProjectile(Projectile& proj)
@@ -138,6 +152,16 @@ public:
 	std::vector<Projectile>& GetProjectiles()
 	{
 		return m_projectiles;
+	}
+
+	Weapon& GetActiveWeapon1() 
+	{
+		return gun1;
+	}
+
+	Weapon& GetActiveWeapon2()
+	{
+		return gun2;
 	}
 
 private:

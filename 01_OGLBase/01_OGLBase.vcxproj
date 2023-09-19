@@ -115,9 +115,12 @@
     <ClInclude Include="Includes\VertexArrayObject.h" />
     <ClInclude Include="InitMap1.h" />
     <ClInclude Include="Laser.h" />
+    <ClInclude Include="LaserGun.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="MyApp.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="ProjectileType.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui.cpp" />
@@ -135,11 +138,13 @@
     <ClCompile Include="Includes\VertexArrayObject.cpp" />
     <ClCompile Include="InitMap1.cpp" />
     <ClCompile Include="Laser.cpp" />
+    <ClCompile Include="LaserGun.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MyApp.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <None Include="axes.frag" />
     <None Include="axes.vert" />
     <None Include="Includes\BufferObject.inl" />
