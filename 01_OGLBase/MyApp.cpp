@@ -142,9 +142,9 @@ void CMyApp::Update()
 	if (m_shooting) m_player.Shoot();
 
 	//camera
-	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
+	/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
 	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 5.f;
-	glm::vec3 new_up =	m_player.GetUpVec();
+	glm::vec3 new_up =	m_player.GetUpVec();*/
 
 	//camera teszt up
 	/*glm::vec3 new_eye = m_player.GetPos() + m_player.GetUpVec() * 50.f;
@@ -157,9 +157,9 @@ void CMyApp::Update()
 	glm::vec3 new_up = m_player.GetUpVec();*/
 
 	//camera teszt side
-	/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetCrossVec() * 40.f;
+	glm::vec3 new_eye = m_player.GetPos() - m_player.GetCrossVec() * 40.f;
 	glm::vec3 new_at = m_player.GetPos();
-	glm::vec3 new_up = m_player.GetUpVec();*/
+	glm::vec3 new_up = m_player.GetUpVec();
 
 	m_camera.SetView(new_eye, new_at, new_up);
 
@@ -181,38 +181,17 @@ void CMyApp::Render()
 	m_program.Use();
 
 	//player
-	glm::mat4 playerWorld = m_player.GetWorldTransform();
-	m_program.SetTexture("texImage", 0, m_player.GetTexture());
-	m_program.SetUniform("MVP", viewProj * playerWorld);
-	m_program.SetUniform("world", playerWorld);
-	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(playerWorld)));
-	m_player.GetMesh()->draw();
+	m_player.DrawMesh(m_program, viewProj);
 
 	//player guns
-	glm::mat4 gunWorld = m_player.GetActiveWeapon1().GetWorldTransform();
-	m_program.SetTexture("texImage", 0, m_player.GetActiveWeapon1().GetTexture());
-	m_program.SetUniform("MVP", viewProj * gunWorld);
-	m_program.SetUniform("world", gunWorld);
-	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(gunWorld)));
-	m_player.GetActiveWeapon1().GetMesh()->draw();
+	m_player.GetActiveWeapon1().DrawMesh(m_program, viewProj);
 
-	gunWorld = m_player.GetActiveWeapon2().GetWorldTransform();
-	m_program.SetTexture("texImage", 0, m_player.GetActiveWeapon2().GetTexture());
-	m_program.SetUniform("MVP", viewProj * gunWorld);
-	m_program.SetUniform("world", gunWorld);
-	m_program.SetUniform("worldIT", glm::inverse(glm::transpose(gunWorld)));
-	m_player.GetActiveWeapon2().GetMesh()->draw();
+	m_player.GetActiveWeapon2().DrawMesh(m_program, viewProj);
 
 	//world objects
 	for (Entity& entity : m_map.GetEntities())
 	{
-		glm::mat4 entityWorld = entity.GetWorldTransform();
-		m_program.SetTexture("texImage", 0, entity.GetTexture());
-		m_program.SetUniform("MVP", viewProj * entityWorld);
-		m_program.SetUniform("world", entityWorld);
-		m_program.SetUniform("worldIT", glm::inverse(glm::transpose(entityWorld)));
-
-		entity.GetMesh()->draw();
+		entity.DrawMesh(m_program, viewProj);
 	}
 
 	m_program.Unuse();

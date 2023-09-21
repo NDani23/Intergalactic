@@ -41,4 +41,6 @@ public:
 
 	void SetTransforms(glm::mat4);
 	void AddHitBox(HitBox);
+
+	void DrawMesh(ProgramObject&, glm::mat4&);
 };

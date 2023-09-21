@@ -110,3 +110,13 @@ void Entity::AddHitBox(HitBox hitbox)
 {
 	m_hitboxes.emplace_back(hitbox);
 }
+
+void Entity::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
+{
+	program.SetTexture("texImage", 0, m_texture);
+	program.SetUniform("MVP", viewProj * m_transforms);
+	program.SetUniform("world", m_transforms);
+	program.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
+
+	m_mesh->draw();
+}
