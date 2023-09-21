@@ -135,6 +135,8 @@ void CMyApp::Update()
 	static Uint32 last_time = SDL_GetTicks();
 	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
 	
+	//std::cout << delta_time << std::endl;
+	
 	m_player.Move(delta_time);
 	m_player.UpdateProjectiles(delta_time);
 	DetectHit(m_player.GetProjectiles());
@@ -142,9 +144,15 @@ void CMyApp::Update()
 	if (m_shooting) m_player.Shoot();
 
 	//camera
-	/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
+	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
 	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 5.f;
-	glm::vec3 new_up =	m_player.GetUpVec();*/
+	glm::vec3 new_up = m_player.GetUpVec();
+
+	if (m_backward_camera)
+	{
+		new_eye = m_player.GetPos() + m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
+		new_at = m_player.GetPos() - m_player.GetForwardVec() * 5.f;
+	}
 
 	//camera teszt up
 	/*glm::vec3 new_eye = m_player.GetPos() + m_player.GetUpVec() * 50.f;
@@ -152,14 +160,14 @@ void CMyApp::Update()
 	glm::vec3 new_up = m_player.GetForwardVec();*/
 
 	////camera teszt behind
-	/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f;
-	glm::vec3 new_at = m_player.GetPos();
-	glm::vec3 new_up = m_player.GetUpVec();*/
+	//glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f;
+	//glm::vec3 new_at = m_player.GetPos();
+	//glm::vec3 new_up = m_player.GetUpVec();
 
 	//camera teszt side
-	glm::vec3 new_eye = m_player.GetPos() - m_player.GetCrossVec() * 40.f;
+	/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetCrossVec() * 40.f;
 	glm::vec3 new_at = m_player.GetPos();
-	glm::vec3 new_up = m_player.GetUpVec();
+	glm::vec3 new_up = m_player.GetUpVec();*/
 
 	m_camera.SetView(new_eye, new_at, new_up);
 
@@ -247,6 +255,9 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 	case SDLK_SPACE:
 		m_shooting = true;
 		break;
+	case SDLK_v:
+		m_backward_camera = true;
+		break;
 	}
 }
 
@@ -268,6 +279,9 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 		break;
 	case SDLK_SPACE:
 		m_shooting = false;
+		break;
+	case SDLK_v:
+		m_backward_camera = false;
 		break;
 	}
 }

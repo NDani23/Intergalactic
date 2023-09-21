@@ -105,9 +105,6 @@
     <ClInclude Include="LaserGun.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProjectileType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyApp.cpp">

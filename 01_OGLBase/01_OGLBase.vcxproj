@@ -119,7 +119,6 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="MyApp.h" />
     <ClInclude Include="Projectile.h" />
-    <ClInclude Include="ProjectileType.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>

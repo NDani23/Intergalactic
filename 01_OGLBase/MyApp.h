@@ -74,6 +74,7 @@ protected:
 	Player m_player;
 
 	bool m_shooting = false;
+	bool m_backward_camera = false;
 
 	struct Vertex
 	{

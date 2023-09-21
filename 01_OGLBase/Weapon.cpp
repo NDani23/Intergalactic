@@ -5,11 +5,6 @@ glm::vec3 Weapon::GetShootDir() const
 	return m_shootDir;
 }
 
-ProjectileType::type Weapon::GetProjectileType()
-{
-	return m_projectileType;
-}
-
 float Weapon::GetCoolDownTime()
 {
 	return m_coolDownTime;

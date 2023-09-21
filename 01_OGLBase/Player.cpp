@@ -80,21 +80,13 @@ public:
 		gun2.SetShootDir(m_forward_vec);
 		gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));
 
-
 		m_hitboxes[0].Position = m_position;
-
 
 		m_transforms = glm::inverse(glm::lookAt(GetPos(), GetPos()-GetForwardVec(), GetUpVec()));
 	}
 
 	void Shoot()
 	{
-		/*Laser laser_proj1(m_GunPos1, m_forward_vec);
-		m_projectiles.emplace_back(std::move(laser_proj1));
-
-		Laser laser_proj2(m_GunPos2, m_forward_vec);
-		m_projectiles.emplace_back(std::move(laser_proj2));*/
-
 		gun1.Shoot(m_projectiles);
 		gun2.Shoot(m_projectiles);
 	}
@@ -122,7 +114,6 @@ public:
 			}
 		}
 	}
-
 
 	void setRollDir(const horizontal::direction& dir)
 	{

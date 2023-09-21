@@ -5,7 +5,6 @@ LaserGun::LaserGun()
 	m_position = glm::vec3(0,0,0);
 	m_shootDir = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
-	m_projectileType = ProjectileType::laser;
 	m_coolDownTime = 0.25f;
 	m_lastShootTime = std::chrono::system_clock::now();
 
@@ -23,7 +22,6 @@ LaserGun::LaserGun(glm::vec3 pos, glm::vec3 shootdir)
 	m_position = pos;
 	m_shootDir = shootdir;
 	m_transforms = glm::translate(pos);
-	m_projectileType = ProjectileType::laser;
 	m_coolDownTime = 0.25f;
 	m_lastShootTime = std::chrono::system_clock::now();
 
