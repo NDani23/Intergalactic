@@ -73,6 +73,8 @@ protected:
 	Map m_map;
 	Player m_player;
 
+	bool m_shooting = false;
+
 	struct Vertex
 	{
 		glm::vec3 p;

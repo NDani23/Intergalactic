@@ -6,8 +6,8 @@ LaserGun::LaserGun()
 	m_shootDir = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
 	m_projectileType = ProjectileType::laser;
-	m_coolDownTime = 0.5f;
-	m_coolDownCounter = 0.0f;
+	m_coolDownTime = 0.25f;
+	m_lastShootTime = std::chrono::system_clock::now();
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -24,8 +24,8 @@ LaserGun::LaserGun(glm::vec3 pos, glm::vec3 shootdir)
 	m_shootDir = shootdir;
 	m_transforms = glm::translate(pos);
 	m_projectileType = ProjectileType::laser;
-	m_coolDownTime = 0.5f;
-	m_coolDownCounter = 0.0f;
+	m_coolDownTime = 0.25f;
+	m_lastShootTime = std::chrono::system_clock::now();
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -38,19 +38,14 @@ LaserGun::LaserGun(glm::vec3 pos, glm::vec3 shootdir)
 
 void LaserGun::Shoot(std::vector<Projectile>& projectiles)
 {
-	/*if (m_coolDownCounter <= 0.0f)
+	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
+
+	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
 		Laser laser_proj(m_position, m_shootDir);
 		projectiles.emplace_back(std::move(laser_proj));
 
-		m_coolDownCounter = m_coolDownTime;
+		m_lastShootTime = std::chrono::system_clock::now();
 	}
-	else
-	{
-		m_coolDownCounter -= 0.1f;
-	}*/
 	
-
-	Laser laser_proj(m_position, m_shootDir);
-	projectiles.emplace_back(std::move(laser_proj));
 }

@@ -139,6 +139,8 @@ void CMyApp::Update()
 	m_player.UpdateProjectiles(delta_time);
 	DetectHit(m_player.GetProjectiles());
 
+	if (m_shooting) m_player.Shoot();
+
 	//camera
 	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
 	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 5.f;
@@ -155,9 +157,9 @@ void CMyApp::Update()
 	glm::vec3 new_up = m_player.GetUpVec();*/
 
 	//camera teszt side
-	//glm::vec3 new_eye = m_player.GetPos() - m_player.GetCrossVec() * 40.f;
-	//glm::vec3 new_at = m_player.GetPos();
-	//glm::vec3 new_up = m_player.GetUpVec();
+	/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetCrossVec() * 40.f;
+	glm::vec3 new_at = m_player.GetPos();
+	glm::vec3 new_up = m_player.GetUpVec();*/
 
 	m_camera.SetView(new_eye, new_at, new_up);
 
@@ -263,6 +265,9 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 	case SDLK_d:
 		m_player.setRollDir(horizontal::right);
 		break;
+	case SDLK_SPACE:
+		m_shooting = true;
+		break;
 	}
 }
 
@@ -283,7 +288,7 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 		m_player.setRollDir(horizontal::none);
 		break;
 	case SDLK_SPACE:
-		m_player.Shoot();
+		m_shooting = false;
 		break;
 	}
 }

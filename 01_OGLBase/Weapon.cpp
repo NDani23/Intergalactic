@@ -15,11 +15,6 @@ float Weapon::GetCoolDownTime()
 	return m_coolDownTime;
 }
 
-float Weapon::GetCoolDownCounter()
-{
-	return m_coolDownCounter;
-}
-
 void Weapon::SetPosition(const glm::vec3 pos)
 {
 	m_position = pos;
