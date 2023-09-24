@@ -70,8 +70,8 @@ protected:
 
 	TextureCubeMap		m_skyboxTexture;
 
-	Map m_map;
 	Player m_player;
+	Map m_map;
 
 	bool m_shooting = false;
 	bool m_backward_camera = false;

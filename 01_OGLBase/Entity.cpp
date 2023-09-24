@@ -5,7 +5,6 @@ Entity::Entity()
 {
 	m_mesh = nullptr;
 	m_position = glm::vec3(0, 0, 0);
-	m_texture.Clean();
 	m_transforms = glm::mat4();
 }
 

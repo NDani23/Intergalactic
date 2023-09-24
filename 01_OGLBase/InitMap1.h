@@ -1,6 +1,7 @@
 #pragma once
 
 #include "map.cpp"
+#include "LaserGun.h"
 #include <random>
 
 namespace Map1 {
