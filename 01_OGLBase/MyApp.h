@@ -26,10 +26,10 @@
 // mesh
 #include "includes/ObjParser_OGL3.h"
 
-#include "PLayer.cpp"
 #include "Directions.h"
 #include "InitMap1.h"
-#include "Entity.h"
+#include "Projectile.h"
+#include "Player.h"
 
 
 class CMyApp
@@ -75,6 +75,7 @@ protected:
 
 	bool m_shooting = false;
 	bool m_backward_camera = false;
+	std::vector<Projectile> m_projectiles;
 
 	struct Vertex
 	{

@@ -117,7 +117,7 @@ bool CMyApp::Init()
 	glLineWidth(4.0f);
 
 	
-	Map1::InitMap(m_map);
+	Map1::InitMap(m_map, m_projectiles, &m_player);
 	InitShaders();
 	InitSkyBox();
 

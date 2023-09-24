@@ -118,7 +118,10 @@
     <ClInclude Include="LaserGun.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="MyApp.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Turret.h" />
+    <ClInclude Include="Updatable.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +146,7 @@
     <ClCompile Include="MyApp.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="Turret.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <None Include="axes.frag" />
     <None Include="axes.vert" />

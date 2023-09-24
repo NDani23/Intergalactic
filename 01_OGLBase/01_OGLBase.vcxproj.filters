@@ -105,6 +105,15 @@
     <ClInclude Include="LaserGun.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Updatable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Turret.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyApp.cpp">
@@ -169,6 +178,9 @@
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="LaserGun.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="Turret.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>
