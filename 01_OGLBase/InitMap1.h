@@ -3,10 +3,13 @@
 #include "map.cpp"
 #include "LaserGun.h"
 #include <random>
+#include "Projectile.h"
+#include "Player.h"
+#include "Turret.h"
 
 namespace Map1 {
 
-	void InitMap(Map&);
+	void InitMap(Map&, std::vector<Projectile>&, Player*);
 
 	static void CreateMeteorField(Map&);
 }

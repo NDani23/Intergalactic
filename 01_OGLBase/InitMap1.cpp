@@ -1,17 +1,13 @@
 #include "InitMap1.h"
 
-void Map1::InitMap(Map& outMap)
+void Map1::InitMap(Map& outMap, std::vector<Projectile>& projectiles, Player* player)
 {
 	outMap.SetSkyBox("assets/right.png", "assets/left.png", "assets/top.png", "assets/bottom.png", "assets/front.png", "assets/back.png");
 
 	outMap.AddEntity({ "assets/ufo2.obj", glm::vec3(100, -200, 350) ,"assets/ufo_tex.png", {50.0f, 17.0f, 50.0f} });
 
-	outMap.AddEntity({ "assets/turret.obj", glm::vec3(0, 50, 2000) ,"assets/turret_tex.png", {10.0f, 10.0f, 10.0f} });
-	outMap.AddEntity({ "assets/turret.obj", glm::vec3(50, -50, 1800) ,"assets/turret_tex.png", {10.0f, 10.0f, 10.0f} });
-	outMap.AddEntity({ "assets/turret.obj", glm::vec3(-100, 0, 1900) ,"assets/turret_tex.png", {10.0f, 10.0f, 10.0f} });
-	outMap.AddEntity({ "assets/turret.obj", glm::vec3(50, 20, 2100) ,"assets/turret_tex.png", {10.0f, 10.0f, 10.0f} });
-	outMap.AddEntity({ "assets/turret.obj", glm::vec3(100, 0, 1900) ,"assets/turret_tex.png", {10.0f, 10.0f, 10.0f} });
-	outMap.AddEntity({ "assets/turret.obj", glm::vec3(-50, -50, 1950) ,"assets/turret_tex.png", {10.0f, 10.0f, 10.0f} });
+	Turret turret(glm::vec3(0, 0, 200), player, &projectiles);
+	outMap.AddEntity(std::move(turret));
 
 	Entity mothership("assets/mothership.obj", glm::vec3(0, 0, 2000), "assets/mothership_tex3.png");
 	mothership.AddHitBox({ mothership.GetPos(), {70.0f, 28.0f, 20.0f}});

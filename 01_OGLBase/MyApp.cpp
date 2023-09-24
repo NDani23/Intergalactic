@@ -117,7 +117,7 @@ bool CMyApp::Init()
 	glLineWidth(4.0f);
 
 	
-	Map1::InitMap(m_map);
+	Map1::InitMap(m_map, m_projectiles, &m_player);
 	InitShaders();
 	InitSkyBox();
 
@@ -210,7 +210,7 @@ void CMyApp::Render()
 
 	m_axesProgram.Use();
 	DrawProjectiles(m_player.GetProjectiles());
-	//DrawHitBoxes();
+	DrawHitBoxes();
 	m_axesProgram.Unuse();
 
 	// skybox
