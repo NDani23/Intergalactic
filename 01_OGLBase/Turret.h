@@ -4,7 +4,7 @@
 #include "Updatable.h"
 #include "Laser.h"
 
-class Turret : public Weapon, public Updatable
+class Turret : public Weapon
 {
 private:
 	Entity* m_reference;
@@ -12,7 +12,7 @@ private:
 public:
 	Turret();
 	Turret(glm::vec3, Entity*, std::vector<Projectile>*);
-	void Update();
+	void Update() override;
 	void Shoot();
 	void SetReference(Entity*);
 };

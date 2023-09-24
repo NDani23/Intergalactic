@@ -11,11 +11,11 @@ class Map
 {
 private:
 	TextureCubeMap	m_skyboxTexture;
-	std::vector<Entity> m_Entities;
+	std::vector<std::shared_ptr<Entity>> m_Entities;
 
 public:
 
-	std::vector<Entity>& GetEntities()
+	std::vector<std::shared_ptr<Entity>>& GetEntities()
 	{
 		return m_Entities;
 	}
@@ -25,9 +25,14 @@ public:
 		return m_skyboxTexture;
 	}
 
-	void AddEntity(Entity&& entity)
+	/*void AddEntity(Entity&& entity)
 	{
 		m_Entities.emplace_back(std::move(entity));	
+	}*/
+
+	void AddEntity(std::shared_ptr<Entity> entity)
+	{
+		m_Entities.emplace_back(entity);
 	}
 
 	void SetSkyBox(std::string right,

@@ -47,15 +47,16 @@ Turret::Turret(glm::vec3 Pos, Entity* ref, std::vector<Projectile>* proj)
 
 void Turret::Update()
 {
+
 	glm::vec3 diff_vec = m_reference->GetPos() - m_position;
 	m_shootDir = glm::normalize(diff_vec);
 
-	m_transforms = glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f));
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (glm::length(diff_vec) < 200.0f)
+	/*if (glm::length(diff_vec) < 200.0f)
 	{
 		Shoot();
-	}
+	}*/
 }
 
 void Turret::Shoot()

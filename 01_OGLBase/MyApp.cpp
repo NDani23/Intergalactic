@@ -116,7 +116,6 @@ bool CMyApp::Init()
 
 	glLineWidth(4.0f);
 
-	
 	Map1::InitMap(m_map, m_projectiles, &m_player);
 	InitShaders();
 	InitSkyBox();
@@ -140,6 +139,8 @@ void CMyApp::Update()
 	m_player.Move(delta_time);
 	m_player.UpdateProjectiles(delta_time);
 	DetectHit(m_player.GetProjectiles());
+
+	UpdateEntities();
 
 	if (m_shooting) m_player.Shoot();
 
@@ -197,9 +198,9 @@ void CMyApp::Render()
 	m_player.GetActiveWeapon2().DrawMesh(m_program, viewProj);
 
 	//world objects
-	for (Entity& entity : m_map.GetEntities())
+	for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
 	{
-		entity.DrawMesh(m_program, viewProj);
+		entity->DrawMesh(m_program, viewProj);
 	}
 
 	m_program.Unuse();
@@ -210,7 +211,7 @@ void CMyApp::Render()
 
 	m_axesProgram.Use();
 	DrawProjectiles(m_player.GetProjectiles());
-	DrawHitBoxes();
+	//DrawHitBoxes();
 	m_axesProgram.Unuse();
 
 	// skybox
@@ -315,10 +316,10 @@ void CMyApp::DetectCollisions()
 	glm::vec3 player_pos = m_player.GetPos();
 	Dimensions player_dims = m_player.GetHitboxes()[0].dimensions;
 
-	for (Entity& entity : m_map.GetEntities())
+	for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
 	{
 
-		for (HitBox& hitbox : entity.GetHitboxes())
+		for (HitBox& hitbox : entity->GetHitboxes())
 		{
 			glm::vec3 distance_vec = player_pos - hitbox.Position;
 
@@ -341,10 +342,10 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 	for (Projectile& proj : projectiles)
 	{
 		glm::vec3 endPoint = proj.GetPos() + (proj.GetDirection() * 2.0f);
-		for (Entity& entity : m_map.GetEntities())
+		for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
 		{
-			glm::vec3 distance_vec = entity.GetPos() - endPoint;
-			Dimensions hitbox_dims = entity.GetHitboxes()[0].dimensions;
+			glm::vec3 distance_vec = entity->GetPos() - endPoint;
+			Dimensions hitbox_dims = entity->GetHitboxes()[0].dimensions;
 
 			if (abs(distance_vec.x) < hitbox_dims.width / 2
 				&& abs(distance_vec.y) < hitbox_dims.height / 2
@@ -374,13 +375,21 @@ void CMyApp::DrawProjectiles(const std::vector<Projectile>& projectiles)
 	glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
 }
 
+void CMyApp::UpdateEntities()
+{
+	for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
+	{
+		entity->Update();
+	}
+}
+
 void CMyApp::DrawHitBoxes()
 {
 	std::vector<glm::vec3> Points;
 
-	for (Entity& entity : m_map.GetEntities())
+	for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
 	{
-		for (HitBox& hitbox : entity.GetHitboxes())
+		for (HitBox& hitbox : entity->GetHitboxes())
 		{
 			glm::vec3 leftDB = hitbox.Position;
 			leftDB.x -= hitbox.dimensions.width / 2;

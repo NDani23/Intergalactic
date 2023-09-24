@@ -15,6 +15,9 @@ Entity::Entity(const std::string& model_path, glm::vec3 position, const std::str
 	m_position = position;
 	m_texture.FromFile(texture_path);
 	m_transforms = glm::translate(m_position);
+
+	HitBox hitbox = { position, {0.0f, 0.0f, 0.0f} };
+	m_hitboxes.emplace_back(hitbox);
 }
 
 Entity::Entity(const std::string& model_path, glm::vec3 position, const std::string& texture_path, Dimensions dims)
@@ -118,4 +121,9 @@ void Entity::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 	program.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
 
 	m_mesh->draw();
+}
+
+void Entity::Update()
+{
+
 }

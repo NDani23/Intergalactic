@@ -30,6 +30,7 @@
 #include "InitMap1.h"
 #include "Projectile.h"
 #include "Player.h"
+#include "Turret.h"
 
 
 class CMyApp
@@ -55,6 +56,7 @@ public:
 	void DetectHit(std::vector<Projectile>&);
 	void DrawHitBoxes();
 	void DrawProjectiles(const std::vector<Projectile>&);
+	void UpdateEntities();
 
 protected:
 	// shaderekhez szükséges változók
