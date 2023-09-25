@@ -40,7 +40,7 @@ Turret::Turret(glm::vec3 Pos, Entity* ref, std::vector<Projectile>* proj)
 
 	m_lastShootTime = std::chrono::system_clock::now();
 
-	m_coolDownTime = 0.25f;
+	m_coolDownTime = 0.5f;
 
 	m_projectiles = proj;
 }
@@ -53,10 +53,10 @@ void Turret::Update()
 
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	/*if (glm::length(diff_vec) < 200.0f)
+	if (glm::length(diff_vec) < 200.0f)
 	{
 		Shoot();
-	}*/
+	}
 }
 
 void Turret::Shoot()

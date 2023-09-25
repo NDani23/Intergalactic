@@ -138,6 +138,7 @@ void CMyApp::Update()
 	
 	m_player.Move(delta_time);
 	m_player.UpdateProjectiles(delta_time);
+	UpdateProjectiles(delta_time);
 	DetectHit(m_player.GetProjectiles());
 
 	UpdateEntities();
@@ -358,6 +359,26 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 			}
 		}
 	}
+
+	for (Projectile& proj : m_projectiles)
+	{
+		glm::vec3 endPoint = proj.GetPos() + (proj.GetDirection() * 2.0f);
+
+		glm::vec3 distance_vec = m_player.GetPos() - endPoint;
+		Dimensions hitbox_dims = m_player.GetHitboxes()[0].dimensions;
+
+		if (abs(distance_vec.x) < hitbox_dims.width / 2
+			&& abs(distance_vec.y) < hitbox_dims.height / 2
+			&& abs(distance_vec.z) < hitbox_dims.length / 2)
+		{
+			// hit response
+			auto position = std::find(m_projectiles.begin(), m_projectiles.end(), proj);
+			if (position != m_projectiles.end())
+				m_projectiles.erase(position);
+
+			std::cout << "Damage!" << std::endl;
+		}
+	}
 }
 
 void CMyApp::DrawProjectiles(const std::vector<Projectile>& projectiles)
@@ -365,6 +386,12 @@ void CMyApp::DrawProjectiles(const std::vector<Projectile>& projectiles)
 	std::vector<glm::vec3> Points;
 
 	for (Projectile projectile : projectiles)
+	{
+		Points.push_back(projectile.GetPos() + (projectile.GetDirection() * 2.0f));
+		Points.push_back(projectile.GetPos() - (projectile.GetDirection() * 2.0f));
+	}
+
+	for (Projectile projectile : m_projectiles)
 	{
 		Points.push_back(projectile.GetPos() + (projectile.GetDirection() * 2.0f));
 		Points.push_back(projectile.GetPos() - (projectile.GetDirection() * 2.0f));
@@ -380,6 +407,23 @@ void CMyApp::UpdateEntities()
 	for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
 	{
 		entity->Update();
+	}
+}
+
+void CMyApp::UpdateProjectiles(const float& delta)
+{
+	for (Projectile& proj : m_projectiles)
+	{
+		glm::vec3 newPos = proj.GetPos() + proj.GetDirection() * (delta * proj.GetSpeed());
+		proj.SetPosition(newPos);
+
+		glm::vec3 dist_vec = proj.GetPos() - m_player.GetPos();
+		if (glm::length(dist_vec) > 2000.0f)
+		{
+			auto position = std::find(m_projectiles.begin(), m_projectiles.end(), proj);
+			if (position != m_projectiles.end())
+				m_projectiles.erase(position);
+		}
 	}
 }
 

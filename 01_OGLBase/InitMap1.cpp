@@ -4,7 +4,7 @@ void Map1::InitMap(Map& outMap, std::vector<Projectile>& projectiles, Player* pl
 {
 	outMap.SetSkyBox("assets/right.png", "assets/left.png", "assets/top.png", "assets/bottom.png", "assets/front.png", "assets/back.png");
 
-	outMap.AddEntity(std::make_shared<Entity>("assets/ufo2.obj", glm::vec3(100, -200, 350), "assets/ufo_tex.png", Dimensions{ 50.0f, 17.0f, 50.0f }));
+	outMap.AddEntity(std::make_shared<Entity>("assets/ufo.obj", glm::vec3(300, -200, 1000), "assets/ufo_tex.png", Dimensions{ 50.0f, 17.0f, 50.0f }));
 
 	outMap.AddEntity(std::make_shared<Turret>(Turret(glm::vec3(0, 50, 2000), player, &projectiles)));
 	outMap.AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-100, 0, 1950), player, &projectiles)));
