@@ -56,8 +56,8 @@ public:
 	void DetectHit(std::vector<Projectile>&);
 	void DrawHitBoxes();
 	void DrawProjectiles(const std::vector<Projectile>&);
-	void UpdateEntities();
-	void UpdateProjectiles(const float& delta);
+	void UpdateEntities(const float&);
+	void UpdateProjectiles(const float&);
 
 protected:
 	// shaderekhez szükséges változók

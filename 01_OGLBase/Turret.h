@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Weapon.h"
-#include "Updatable.h"
 #include "Laser.h"
 
 class Turret : public Weapon
@@ -12,7 +11,7 @@ private:
 public:
 	Turret();
 	Turret(glm::vec3, Entity*, std::vector<Projectile>*);
-	void Update() override;
+	void Update(const float& delta) override;
 	void Shoot();
 	void SetReference(Entity*);
 };

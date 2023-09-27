@@ -6,6 +6,7 @@
 #include "Projectile.h"
 #include "Player.h"
 #include "Turret.h"
+#include "Enemy.h"
 
 namespace Map1 {
 

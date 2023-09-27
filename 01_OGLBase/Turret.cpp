@@ -4,7 +4,7 @@ Turret::Turret()
 {
 	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_shootDir = glm::vec3(1.0f, 0.0f, 0.0f);
-	m_transforms = glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f));
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
 
 	HitBox hitbox = { m_position, {10.0f, 10.0f, 10.0f} };
 	m_hitboxes.emplace_back(hitbox);
@@ -45,7 +45,7 @@ Turret::Turret(glm::vec3 Pos, Entity* ref, std::vector<Projectile>* proj)
 	m_projectiles = proj;
 }
 
-void Turret::Update()
+void Turret::Update(const float& delta)
 {
 
 	glm::vec3 diff_vec = m_reference->GetPos() - m_position;

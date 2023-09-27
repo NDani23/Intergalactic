@@ -123,7 +123,7 @@ void Entity::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 	m_mesh->draw();
 }
 
-void Entity::Update()
+void Entity::Update(const float& delta)
 {
 
 }

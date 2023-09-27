@@ -141,7 +141,7 @@ void CMyApp::Update()
 	UpdateProjectiles(delta_time);
 	DetectHit(m_player.GetProjectiles());
 
-	UpdateEntities();
+	UpdateEntities(delta_time);
 
 	if (m_shooting) m_player.Shoot();
 
@@ -402,11 +402,11 @@ void CMyApp::DrawProjectiles(const std::vector<Projectile>& projectiles)
 	glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
 }
 
-void CMyApp::UpdateEntities()
+void CMyApp::UpdateEntities(const float& delta)
 {
 	for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
 	{
-		entity->Update();
+		entity->Update(delta);
 	}
 }
 
