@@ -80,6 +80,9 @@ protected:
 	bool m_backward_camera = false;
 	std::vector<Projectile> m_projectiles;
 
+	float fps = 0.0f;
+	float last_fps_time = 0.0f;
+
 	struct Vertex
 	{
 		glm::vec3 p;

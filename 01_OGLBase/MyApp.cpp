@@ -135,6 +135,15 @@ void CMyApp::Update()
 	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
 	
 	//std::cout << delta_time << std::endl;
+	float currentTime = SDL_GetTicks() * 0.001f;
+	fps++;
+
+	if (currentTime - last_fps_time >= 1.0f)
+	{
+		last_fps_time = currentTime;
+		std::cout << fps << std::endl;
+		fps = 0;
+	}
 	
 	m_player.Move(delta_time);
 	m_player.UpdateProjectiles(delta_time);

@@ -5,6 +5,7 @@ Enemy::Enemy()
 {
 	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_shootDir = glm::vec3(1.0f, 0.0f, 0.0f);
+	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
 
@@ -33,6 +34,7 @@ Enemy::Enemy(glm::vec3 pos, Entity* target, std::vector<Projectile>* projectiles
 	m_projectiles = projectiles;
 
 	m_shootDir = glm::normalize(m_target->GetPos() - m_position);
+	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
 
@@ -40,7 +42,7 @@ Enemy::Enemy(glm::vec3 pos, Entity* target, std::vector<Projectile>* projectiles
 	m_hitboxes.emplace_back(hitbox);
 
 	m_health = 100;
-	m_speed = 90;
+	m_speed = 100;
 
 	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/enemy_ship.obj"));
 	m_mesh->initBuffers();
@@ -65,16 +67,35 @@ void Enemy::Update(const float& delta)
 	{
 		//std::cout << "lapos " << std::endl;
 		m_shootDir = temp_dir;
+		m_up_vec = glm::normalize(m_up_vec + cross_vec);
 	}
 	else
 	{	
 		//std::cout << "hegyes " << std::endl;
-		m_shootDir = glm::normalize(m_shootDir + cross_vec * 0.01f);	
+		m_shootDir = glm::normalize(m_shootDir + cross_vec * 0.01f);
+		m_up_vec = glm::normalize(m_up_vec + cross_vec * 0.05f);
 	}
 
 
-	HitBox hitbox = { m_position, {10.0f, 3.0f, 11.0f} };
-	m_hitboxes[0] = hitbox;
+	m_hitboxes[0] = UpdateDimensions();
 
-	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, m_up_vec));
+}
+
+
+HitBox Enemy::UpdateDimensions()
+{
+	HitBox newHitBox = { m_position, {10.0f, 3.0f, 11.0f} };
+	glm::vec3 cross_vec = glm::normalize(glm::cross(m_shootDir, m_up_vec));
+
+	newHitBox.dimensions.height = 3.0f + ((abs(m_up_vec.y) - 1) * (10.0f - 3.0f)) / -1;
+	newHitBox.dimensions.height = std::max(2.5 + ((abs(m_shootDir.y) - 0) * (11.0f - 3.0f)) / 1, (double)newHitBox.dimensions.height);
+
+	newHitBox.dimensions.width = 10.0f + ((abs(cross_vec.x) - 1) * (3.0f - 10.0f)) / -1;
+	newHitBox.dimensions.width = std::max(2.5 + ((abs(m_shootDir.x)) * (11.0f - 3.0f)) / 1, (double)newHitBox.dimensions.width);
+
+	newHitBox.dimensions.length = 3.0f + ((abs(m_shootDir.z)) * (11.0f - 3.0f)) / 1;
+	newHitBox.dimensions.length = std::max(3.0f + ((abs(cross_vec.z)) * (10.0f - 3.0)) / 1, (double)newHitBox.dimensions.length);
+
+	return newHitBox;
 }
