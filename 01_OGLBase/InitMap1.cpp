@@ -14,6 +14,10 @@ void Map1::InitMap(Map& outMap, std::vector<Projectile>& projectiles, Player* pl
 	outMap.AddEntity(std::make_shared<Turret>(Turret(glm::vec3(100, 20, 1850), player, &projectiles)));
 
 	outMap.AddEntity(std::make_shared<Enemy>(Enemy(glm::vec3(0, 0, 1000), player, &projectiles)));
+	/*outMap.AddEntity(std::make_shared<Enemy>(Enemy(glm::vec3(0, 1000, 1000), player, &projectiles)));
+	outMap.AddEntity(std::make_shared<Enemy>(Enemy(glm::vec3(1000, 0, 1000), player, &projectiles)));
+	outMap.AddEntity(std::make_shared<Enemy>(Enemy(glm::vec3(1000, 1000, 1000), player, &projectiles)));
+	outMap.AddEntity(std::make_shared<Enemy>(Enemy(glm::vec3(1000, 0, 0), player, &projectiles)));*/
 
 	//outMap.AddEntity(std::make_shared<Entity>("assets/enemy_ship.obj", glm::vec3(0, 0, 500), "assets/enemy_tex.png", Dimensions{ 50.0f, 17.0f, 50.0f }));
 	
