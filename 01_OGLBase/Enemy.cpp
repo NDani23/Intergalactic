@@ -55,7 +55,28 @@ void Enemy::Update(const float& delta)
 {
 	m_position += m_shootDir * (delta * m_speed);
 
-	m_shootDir = glm::normalize(m_target->GetPos() - m_position);
+	glm::vec3 temp_dir = glm::normalize(m_target->GetPos() - m_position);
+
+	float angle = glm::acos(glm::dot(m_shootDir, temp_dir));
+
+	//m_shootDir = temp_dir;
+
+	if (angle < 0.01f)
+	{
+		m_shootDir = temp_dir;
+	}
+	else
+	{	
+		glm::vec3 cross_vec = temp_dir - m_shootDir;
+
+		//std::cout << " bemegy" << std::endl;
+		m_shootDir = glm::normalize(m_shootDir + cross_vec * 0.01f);
+		//m_shootDir = glm::normalize(m_shootDir + cross_vec);
+		
+	}
+	//std::cout << m_shootDir.x << " " << m_shootDir.y << " " << m_shootDir.z << std::endl;
+	//std::cout << angle << std::endl;
+
 
 	HitBox hitbox = { m_position, {10.0f, 3.0f, 11.0f} };
 	m_hitboxes[0] = hitbox;
