@@ -65,12 +65,12 @@ bool Enemy::Update(const float& delta)
 
 	if (glm::length(cross_vec) < 0.01f)
 	{
-		m_shootDir = temp_dir;
+		//m_shootDir = temp_dir;
 		m_up_vec = glm::normalize(m_up_vec + cross_vec);
 	}
 	else
 	{	
-		m_shootDir = glm::normalize(m_shootDir + cross_vec * 0.01f);
+		temp_dir = glm::normalize(m_shootDir + cross_vec * 0.01f);
 		m_up_vec = glm::normalize(m_up_vec + cross_vec * 0.05f);
 	}
 
@@ -100,19 +100,20 @@ bool Enemy::Update(const float& delta)
 			}
 
 			distance_vec = glm::normalize(distance_vec);
-			cross_vec = glm::normalize(distance_vec - m_shootDir);
+			cross_vec = glm::normalize(distance_vec - temp_dir);
 
-			float angle = glm::acos(glm::dot(distance_vec, m_shootDir));
-
+			float angle = glm::acos(glm::dot(distance_vec, temp_dir));
 
 			//if enemy moving in the direction of the object
-			if (glm::acos(glm::dot(distance_vec,m_shootDir)) < 1.5f)
+			if (angle < 1.5f)
 			{
-				m_shootDir += m_shootDir - (cross_vec * (1.0f/(distance*0.5f)));
-				m_shootDir = glm::normalize(m_shootDir);
+				temp_dir += temp_dir - (cross_vec /** (1.0f/(distance*0.3f))*/ * (1.0f/(angle * 500)));
+				temp_dir = glm::normalize(temp_dir);
 			}
 
 		}
+
+		m_shootDir = temp_dir;
 	}
 
 
