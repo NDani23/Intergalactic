@@ -161,3 +161,9 @@ void Enemy::Shoot()
 		m_lastShootTime = std::chrono::system_clock::now();
 	}
 }
+
+bool Enemy::Hit(int damage)
+{
+	m_health -= damage;
+	return m_health <= 0;
+}

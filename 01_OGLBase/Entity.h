@@ -44,4 +44,5 @@ public:
 
 	void DrawMesh(ProgramObject&, glm::mat4&);
 	virtual bool Update(const float& delta);
+	virtual bool Hit(int);
 };

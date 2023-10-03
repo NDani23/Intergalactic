@@ -21,6 +21,7 @@ public:
 	Enemy(glm::vec3, Entity*, std::vector<Projectile>*, std::vector<std::shared_ptr<Entity>>*);
 	bool Update(const float& delta) override;
 	void Shoot();
+	bool Hit(int) override;
 
 private:
 	HitBox UpdateDimensions();

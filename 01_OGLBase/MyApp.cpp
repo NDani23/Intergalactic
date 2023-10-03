@@ -369,6 +369,13 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 				&& abs(distance_vec.z) < hitbox_dims.length / 2)
 			{
 				// hit response
+				if (entity->Hit(proj.GetDamage()))
+				{
+					auto position = std::find(m_map.GetEntities().begin(), m_map.GetEntities().end(), entity);
+					if (position != m_map.GetEntities().end())
+						m_map.GetEntities().erase(position);
+				}
+
 				m_player.RemoveProjectile(proj);
 				std::cout << "Hit detected!" << std::endl;
 				break;

@@ -127,3 +127,8 @@ bool Entity::Update(const float& delta)
 {
 	return false;
 }
+
+bool Entity::Hit(int damage)
+{
+	return false;
+}
