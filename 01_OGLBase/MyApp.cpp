@@ -144,8 +144,8 @@ void CMyApp::Update()
 		std::cout << fps << std::endl;
 		fps = 0;
 	}
-	
-	m_player.Move(delta_time);
+
+	m_player.Move(delta_time, m_cursor_diff_vec);
 	m_player.UpdateProjectiles(delta_time);
 	UpdateProjectiles(delta_time);
 	DetectHit(m_player.GetProjectiles());
@@ -300,6 +300,10 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 void CMyApp::MouseMove(SDL_MouseMotionEvent& mouse)
 {
 	m_camera.MouseMove(mouse);
+
+	//m_mouseX = mouse.x / (float)(m_screenWidth / 2) - 1;
+	//m_mouseY = mouse.y / (float)(m_screenHeight / 2) - 1;
+
 }
 
 void CMyApp::MouseDown(SDL_MouseButtonEvent& mouse)
@@ -316,6 +320,9 @@ void CMyApp::MouseWheel(SDL_MouseWheelEvent& wheel)
 
 void CMyApp::Resize(int _w, int _h)
 {
+	m_screenWidth = _w;
+	m_screenHeight = _h;
+
 	glViewport(0, 0, _w, _h );
 
 	m_camera.Resize(_w, _h);

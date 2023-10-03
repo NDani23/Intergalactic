@@ -23,29 +23,30 @@ Player::Player()
 	m_texture.FromFile("assets/player_tex.png");
 }
 
-void Player::Move(const float& delta)
+void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 {		
+
 	m_position += GetForwardVec() * (delta * 100);
 
 	switch (roll_dir)
 	{
 	case horizontal::left:
-		Roll(-1);
+		Roll(-1, delta);
 		break;
 
 	case horizontal::right:
-		Roll(1);
+		Roll(1, delta);
 		break;
 	}
 
 	switch (pitch_dir)
 	{
 	case vertical::up:
-		Pitch(-1);
+		Pitch(-1, delta);
 		break;
 
 	case vertical::down:
-		Pitch(1);
+		Pitch(1, delta);
 		break;
 	}
 
@@ -136,22 +137,22 @@ Weapon& Player::GetActiveWeapon2()
 	return gun2;
 }
 
-void Player::Roll(const int& dir)
+void Player::Roll(const int& dir, const float& delta)
 {
-	glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * 0.02f, m_forward_vec) * glm::vec4(m_up_vec, 0));
+	glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * (3 * delta), m_forward_vec) * glm::vec4(m_up_vec, 0));
 	m_up_vec = glm::normalize(glm::vec3(new_up_vec.x, new_up_vec.y, new_up_vec.z));
 	
-	glm::vec4 new_cross_vec = glm::normalize(glm::rotate(dir * 0.02f, m_forward_vec) * glm::vec4(m_cross_vec, 0));
+	glm::vec4 new_cross_vec = glm::normalize(glm::rotate(dir * (3 * delta), m_forward_vec) * glm::vec4(m_cross_vec, 0));
 	m_cross_vec = glm::normalize(glm::vec3(new_cross_vec.x, new_cross_vec.y, new_cross_vec.z));
 
 }
 
-void Player::Pitch(const int& dir)
+void Player::Pitch(const int& dir, const float& delta)
 {
-	glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * 0.01f, m_cross_vec) * glm::vec4(m_up_vec, 0));
+	glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * (1.5f * delta), m_cross_vec) * glm::vec4(m_up_vec, 0));
 	m_up_vec = glm::normalize(glm::vec3(new_up_vec.x, new_up_vec.y, new_up_vec.z));
 
-	glm::vec4 new_forward_vec = glm::normalize(glm::rotate(dir * 0.01f, m_cross_vec) * glm::vec4(m_forward_vec, 0));
+	glm::vec4 new_forward_vec = glm::normalize(glm::rotate(dir * (1.5f * delta), m_cross_vec) * glm::vec4(m_forward_vec, 0));
 	m_forward_vec = glm::normalize(glm::vec3(new_forward_vec.x, new_forward_vec.y, new_forward_vec.z));
 }
 

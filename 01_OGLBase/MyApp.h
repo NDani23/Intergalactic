@@ -79,6 +79,13 @@ protected:
 	bool m_shooting = false;
 	bool m_backward_camera = false;
 	std::vector<Projectile> m_projectiles;
+	glm::vec3 m_cursor_diff_vec = { 0.0f, 0.0f, 0.0f };
+
+	float m_mouseX = 320.0f;
+	float m_mouseY = 240.0f;
+
+	int m_screenWidth = 640;
+	int m_screenHeight = 480;
 
 	float fps = 0.0f;
 	float last_fps_time = 0.0f;

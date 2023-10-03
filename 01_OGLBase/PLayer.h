@@ -21,7 +21,7 @@ private:
 
 public:
 	Player();
-	void Move(const float&);
+	void Move(const float&, const glm::vec3&);
 	void Shoot();
 	void RemoveProjectile(Projectile&);
 	void UpdateProjectiles(const float&);
@@ -37,7 +37,7 @@ public:
 	Weapon& GetActiveWeapon2();
 
 private:
-	void Roll(const int&);
-	void Pitch(const int&);
+	void Roll(const int&, const float&);
+	void Pitch(const int&, const float&);
 	void updateDimensions();
 };
