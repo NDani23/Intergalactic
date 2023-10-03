@@ -13,14 +13,7 @@ void Map1::InitMap(Map& outMap, std::vector<Projectile>& projectiles, Player* pl
 	outMap.AddEntity(std::make_shared<Turret>(Turret(glm::vec3(25, -50, 2000), player, &projectiles)));
 	outMap.AddEntity(std::make_shared<Turret>(Turret(glm::vec3(100, 20, 1850), player, &projectiles)));
 
-	outMap.AddEntity(std::make_shared<Enemy>(Enemy(glm::vec3(0, 0, 1000), player, &projectiles, outMap.GetEntitiesPtr())));
-
-	std::shared_ptr<Entity> mothership = std::make_shared<Entity>("assets/mothership.obj", glm::vec3(0, 0, 2000), "assets/mothership_tex3.png");
-	mothership->AddHitBox({ mothership->GetPos(), {70.0f, 28.0f, 20.0f}});
-	mothership->AddHitBox({ mothership->GetPos() + glm::vec3(-50, 7, 0), {30.0f, 10.0f, 15.0f} });
-	mothership->AddHitBox({ mothership->GetPos() + glm::vec3(-60, 7, -20), {30.0f, 10.0f, 10.0f} });
-	mothership->AddHitBox({ mothership->GetPos() + glm::vec3(-60, 7, 20), {30.0f, 10.0f, 10.0f} });
-	outMap.AddEntity(mothership);
+	outMap.AddEntity(std::make_shared<Mothership>(Mothership(glm::vec3(0, 0, 2000), player, &projectiles, outMap.GetEntitiesPtr())));
 
 	std::shared_ptr<Entity> gate = std::make_shared<Entity>("assets/gate.obj", glm::vec3(0, -500, 1000), "assets/gate_tex.png");
 	gate->GetHitboxes().clear();

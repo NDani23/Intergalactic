@@ -22,6 +22,7 @@ public:
 	bool Update(const float& delta) override;
 	void Shoot();
 	bool Hit(int) override;
+	void SetTexture();
 
 private:
 	HitBox UpdateDimensions();

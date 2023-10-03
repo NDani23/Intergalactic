@@ -55,7 +55,7 @@ public:
 	void DetectCollisions();
 	void DetectHit(std::vector<Projectile>&);
 	void DrawHitBoxes();
-	void DrawProjectiles(const std::vector<Projectile>&);
+	void DrawProjectiles(std::vector<Projectile>&);
 	void UpdateEntities(const float&);
 	void UpdateProjectiles(const float&);
 
@@ -86,6 +86,9 @@ protected:
 
 	int m_screenWidth = 640;
 	int m_screenHeight = 480;
+
+	float m_spawnTimeWindow = 5.f;
+	std::chrono::time_point<std::chrono::system_clock> m_lastSpawnTime = std::chrono::system_clock::now();
 
 	float fps = 0.0f;
 	float last_fps_time = 0.0f;

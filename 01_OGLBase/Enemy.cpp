@@ -121,7 +121,7 @@ bool Enemy::Update(const float& delta)
 
 	if (glm::length(to_target) < 200.0f && angle < 0.1f)
 	{
-		Shoot();
+		//Shoot();
 	}
 
 	m_hitboxes[0] = UpdateDimensions();
@@ -166,4 +166,9 @@ bool Enemy::Hit(int damage)
 {
 	m_health -= damage;
 	return m_health <= 0;
+}
+
+void Enemy::SetTexture()
+{
+	m_texture.FromFile("assets/enemy_tex.png");
 }

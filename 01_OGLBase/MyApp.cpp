@@ -154,6 +154,19 @@ void CMyApp::Update()
 
 	if (m_shooting) m_player.Shoot();
 
+	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastSpawnTime;
+
+	if (elapsed_seconds.count() >= m_spawnTimeWindow)
+	{
+		Enemy enemy(glm::vec3(0.0f, 0.0f, 1000.f), &m_player, &m_projectiles, m_map.GetEntitiesPtr());
+		//enemy.SetTexture();
+		m_map.AddEntity(std::make_shared<Enemy>(std::move(enemy)));
+
+		m_lastSpawnTime = std::chrono::system_clock::now();
+
+		if(m_spawnTimeWindow > 5) m_spawnTimeWindow--;
+	}
+
 	//camera
 	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
 	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 5.f;
@@ -404,17 +417,17 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 	}
 }
 
-void CMyApp::DrawProjectiles(const std::vector<Projectile>& projectiles)
+void CMyApp::DrawProjectiles(std::vector<Projectile>& projectiles)
 {
 	std::vector<glm::vec3> Points;
 
-	for (Projectile projectile : projectiles)
+	for (Projectile& projectile : projectiles)
 	{
 		Points.push_back(projectile.GetPos() + (projectile.GetDirection() * 2.0f));
 		Points.push_back(projectile.GetPos() - (projectile.GetDirection() * 2.0f));
 	}
 
-	for (Projectile projectile : m_projectiles)
+	for (Projectile& projectile : m_projectiles)
 	{
 		Points.push_back(projectile.GetPos() + (projectile.GetDirection() * 2.0f));
 		Points.push_back(projectile.GetPos() - (projectile.GetDirection() * 2.0f));

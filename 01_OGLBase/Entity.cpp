@@ -75,7 +75,6 @@ Entity::Entity(Entity&& other) noexcept
 	m_hitboxes = std::move(other.m_hitboxes);
 
 	other.m_mesh = nullptr;
-	other.m_texture.Clean();
 }
 
 std::unique_ptr<Mesh>& Entity::GetMesh()
