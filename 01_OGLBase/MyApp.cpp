@@ -440,7 +440,7 @@ void CMyApp::UpdateProjectiles(const float& delta)
 		proj.SetPosition(newPos);
 
 		glm::vec3 dist_vec = proj.GetPos() - m_player.GetPos();
-		if (glm::length(dist_vec) > 2000.0f)
+		if (glm::length(dist_vec) > 500.0f)
 		{
 			auto position = std::find(m_projectiles.begin(), m_projectiles.end(), proj);
 			if (position != m_projectiles.end())

@@ -63,15 +63,15 @@ bool Enemy::Update(const float& delta)
 
 	glm::vec3 cross_vec = temp_dir - m_shootDir;
 
-	if (glm::length(cross_vec) < 0.01f)
+	if (glm::length(cross_vec) < 0.008f)
 	{
 		//m_shootDir = temp_dir;
 		m_up_vec = glm::normalize(m_up_vec + cross_vec);
 	}
 	else
 	{	
-		temp_dir = glm::normalize(m_shootDir + cross_vec * 0.01f);
-		m_up_vec = glm::normalize(m_up_vec + cross_vec * 0.05f);
+		temp_dir = glm::normalize(m_shootDir + cross_vec * 0.008f);
+		m_up_vec = glm::normalize(m_up_vec + cross_vec * 0.03f);
 	}
 
 	Dimensions enemy_dims = m_hitboxes[0].dimensions;
@@ -107,7 +107,7 @@ bool Enemy::Update(const float& delta)
 			//if enemy moving in the direction of the object
 			if (angle < 1.5f)
 			{
-				temp_dir += temp_dir - (cross_vec /** (1.0f/(distance*0.3f))*/ * (1.0f/(angle * 500)));
+				temp_dir += temp_dir - (cross_vec * (1.0f/(angle * 500)));
 				temp_dir = glm::normalize(temp_dir);
 			}
 
@@ -116,6 +116,13 @@ bool Enemy::Update(const float& delta)
 		m_shootDir = temp_dir;
 	}
 
+	glm::vec3 to_target = m_target->GetPos() - m_position;
+	float angle = glm::length(glm::normalize(to_target) - m_shootDir);
+
+	if (glm::length(to_target) < 200.0f && angle < 0.1f)
+	{
+		Shoot();
+	}
 
 	m_hitboxes[0] = UpdateDimensions();
 
@@ -140,4 +147,17 @@ HitBox Enemy::UpdateDimensions()
 	newHitBox.dimensions.length = std::max(3.0f + ((abs(cross_vec.z)) * (10.0f - 3.0)) / 1, (double)newHitBox.dimensions.length);
 
 	return newHitBox;
+}
+
+void Enemy::Shoot()
+{
+	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
+
+	if (elapsed_seconds.count() >= m_coolDownTime)
+	{
+		Laser laser_proj(m_position, m_shootDir);
+		m_projectiles->emplace_back(std::move(laser_proj));
+
+		m_lastShootTime = std::chrono::system_clock::now();
+	}
 }
