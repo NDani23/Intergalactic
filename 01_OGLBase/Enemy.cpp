@@ -86,7 +86,9 @@ bool Enemy::Update(const float& delta)
 		for (HitBox& hitbox : obj->GetHitboxes())
 		{
 			glm::vec3 distance_vec = hitbox.Position - m_position;
-			if (glm::length(distance_vec) > 200.0f) break;
+
+			float distance = glm::length(distance_vec);
+			if (distance > 200.0f) break;
 
 			Dimensions hitbox_dims = hitbox.dimensions;
 
@@ -96,6 +98,20 @@ bool Enemy::Update(const float& delta)
 			{
 				return true;
 			}
+
+			distance_vec = glm::normalize(distance_vec);
+			cross_vec = glm::normalize(distance_vec - m_shootDir);
+
+			float angle = glm::acos(glm::dot(distance_vec, m_shootDir));
+
+
+			//if enemy moving in the direction of the object
+			if (glm::acos(glm::dot(distance_vec,m_shootDir)) < 1.5f)
+			{
+				m_shootDir += m_shootDir - (cross_vec * (1.0f/(distance*0.5f)));
+				m_shootDir = glm::normalize(m_shootDir);
+			}
+
 		}
 	}
 
