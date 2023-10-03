@@ -43,5 +43,5 @@ public:
 	void AddHitBox(HitBox);
 
 	void DrawMesh(ProgramObject&, glm::mat4&);
-	virtual void Update(const float& delta);
+	virtual bool Update(const float& delta);
 };

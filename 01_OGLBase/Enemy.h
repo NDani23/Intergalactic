@@ -14,11 +14,12 @@ private:
 
 	Entity* m_target;
 	std::vector<Projectile>* m_projectiles;
+	std::vector<std::shared_ptr<Entity>>* world_objects;
 
 public:
 	Enemy();
-	Enemy(glm::vec3, Entity*, std::vector<Projectile>*);
-	void Update(const float& delta) override;
+	Enemy(glm::vec3, Entity*, std::vector<Projectile>*, std::vector<std::shared_ptr<Entity>>*);
+	bool Update(const float& delta) override;
 
 private:
 	HitBox UpdateDimensions();

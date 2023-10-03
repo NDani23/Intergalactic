@@ -105,9 +105,6 @@
     <ClInclude Include="LaserGun.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Updatable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Turret.h">
       <Filter>Header Files</Filter>
     </ClInclude>

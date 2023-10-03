@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Projectile.h"
-#include "Updatable.h"
 
 class Laser : public Projectile
 {

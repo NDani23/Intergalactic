@@ -122,7 +122,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Turret.h" />
-    <ClInclude Include="Updatable.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>

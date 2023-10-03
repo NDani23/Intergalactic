@@ -20,6 +20,11 @@ public:
 		return m_Entities;
 	}
 
+	std::vector<std::shared_ptr<Entity>>* GetEntitiesPtr()
+	{
+		return &m_Entities;
+	}
+
 	TextureCubeMap& GetSkyBox() 
 	{
 		return m_skyboxTexture;

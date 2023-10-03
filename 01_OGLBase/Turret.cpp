@@ -45,7 +45,7 @@ Turret::Turret(glm::vec3 Pos, Entity* ref, std::vector<Projectile>* proj)
 	m_projectiles = proj;
 }
 
-void Turret::Update(const float& delta)
+bool Turret::Update(const float& delta)
 {
 
 	glm::vec3 diff_vec = m_reference->GetPos() - m_position;
@@ -57,6 +57,8 @@ void Turret::Update(const float& delta)
 	{
 		Shoot();
 	}
+
+	return false;
 }
 
 void Turret::Shoot()

@@ -17,6 +17,7 @@ Enemy::Enemy()
 	
 	m_target = nullptr;
 	m_projectiles = nullptr;
+	world_objects = nullptr;
 
 	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/enemy_ship.obj"));
 	m_mesh->initBuffers();
@@ -27,11 +28,12 @@ Enemy::Enemy()
 	m_lastShootTime = std::chrono::system_clock::now();
 }
 
-Enemy::Enemy(glm::vec3 pos, Entity* target, std::vector<Projectile>* projectiles)
+Enemy::Enemy(glm::vec3 pos, Entity* target, std::vector<Projectile>* projectiles, std::vector<std::shared_ptr<Entity>>* objects)
 {
 	m_position = pos;
 	m_target = target;
 	m_projectiles = projectiles;
+	world_objects = objects;
 
 	m_shootDir = glm::normalize(m_target->GetPos() - m_position);
 	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -53,7 +55,7 @@ Enemy::Enemy(glm::vec3 pos, Entity* target, std::vector<Projectile>* projectiles
 	m_lastShootTime = std::chrono::system_clock::now();
 }
 
-void Enemy::Update(const float& delta)
+bool Enemy::Update(const float& delta)
 {
 	m_position += m_shootDir * (delta * m_speed);
 
@@ -61,25 +63,48 @@ void Enemy::Update(const float& delta)
 
 	glm::vec3 cross_vec = temp_dir - m_shootDir;
 
-	//m_shootDir = temp_dir;
-
 	if (glm::length(cross_vec) < 0.01f)
 	{
-		//std::cout << "lapos " << std::endl;
 		m_shootDir = temp_dir;
 		m_up_vec = glm::normalize(m_up_vec + cross_vec);
 	}
 	else
 	{	
-		//std::cout << "hegyes " << std::endl;
 		m_shootDir = glm::normalize(m_shootDir + cross_vec * 0.01f);
 		m_up_vec = glm::normalize(m_up_vec + cross_vec * 0.05f);
+	}
+
+	Dimensions enemy_dims = m_hitboxes[0].dimensions;
+
+	for (std::shared_ptr<Entity>& obj : *world_objects)
+	{
+		if (obj.get() == this)
+		{
+			continue;
+		}
+
+		for (HitBox& hitbox : obj->GetHitboxes())
+		{
+			glm::vec3 distance_vec = hitbox.Position - m_position;
+			if (glm::length(distance_vec) > 200.0f) break;
+
+			Dimensions hitbox_dims = hitbox.dimensions;
+
+			if (abs(distance_vec.x) < std::max(enemy_dims.width / 2, hitbox_dims.width / 2)
+				&& abs(distance_vec.y) < std::max(enemy_dims.height / 2, hitbox_dims.height / 2)
+				&& abs(distance_vec.z) < std::max(enemy_dims.length / 2, hitbox_dims.length / 2))
+			{
+				return true;
+			}
+		}
 	}
 
 
 	m_hitboxes[0] = UpdateDimensions();
 
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, m_up_vec));
+
+	return false;
 }
 
 

@@ -420,10 +420,16 @@ void CMyApp::DrawProjectiles(const std::vector<Projectile>& projectiles)
 
 void CMyApp::UpdateEntities(const float& delta)
 {
-	for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
+	for (int i = m_map.GetEntities().size() - 1; i >= 0; i--)
 	{
-		entity->Update(delta);
+		if (m_map.GetEntities()[i]->Update(delta))
+		{
+			auto position = std::find(m_map.GetEntities().begin(), m_map.GetEntities().end(), m_map.GetEntities()[i]);
+			if (position != m_map.GetEntities().end())
+				m_map.GetEntities().erase(position);
+		}
 	}
+
 }
 
 void CMyApp::UpdateProjectiles(const float& delta)

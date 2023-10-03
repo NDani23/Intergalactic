@@ -11,7 +11,7 @@ private:
 public:
 	Turret();
 	Turret(glm::vec3, Entity*, std::vector<Projectile>*);
-	void Update(const float& delta) override;
+	virtual bool Update(const float& delta) override;
 	void Shoot();
 	void SetReference(Entity*);
 };
