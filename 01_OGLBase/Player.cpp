@@ -6,6 +6,8 @@ Player::Player()
 	m_forward_vec = glm::vec3(0, 0, 1);
 	m_up_vec = glm::vec3(0, 1, 0);
 	m_cross_vec = glm::vec3(1,0,0);
+	m_speed = 100;
+	m_slowing = false;
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
@@ -26,7 +28,10 @@ Player::Player()
 void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 {		
 
-	m_position += GetForwardVec() * (delta * 100);
+	if (m_slowing && m_speed > 80.0f) m_speed = m_speed - 0.5f;
+	else if (!m_slowing && m_speed != 100.0f) m_speed = m_speed + 0.5f;
+
+	m_position += GetForwardVec() * (delta * m_speed);
 
 	switch (roll_dir)
 	{
@@ -137,6 +142,12 @@ Weapon& Player::GetActiveWeapon2()
 	return gun2;
 }
 
+void Player::Decelerate(bool activated)
+{
+
+	activated ? m_slowing = true : m_slowing = false;
+}
+
 void Player::Roll(const int& dir, const float& delta)
 {
 	glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * (3 * delta), m_forward_vec) * glm::vec4(m_up_vec, 0));
@@ -149,10 +160,10 @@ void Player::Roll(const int& dir, const float& delta)
 
 void Player::Pitch(const int& dir, const float& delta)
 {
-	glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * (1.5f * delta), m_cross_vec) * glm::vec4(m_up_vec, 0));
+	glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * (1.5f * delta / (m_speed * 0.01f)), m_cross_vec) * glm::vec4(m_up_vec, 0));
 	m_up_vec = glm::normalize(glm::vec3(new_up_vec.x, new_up_vec.y, new_up_vec.z));
 
-	glm::vec4 new_forward_vec = glm::normalize(glm::rotate(dir * (1.5f * delta), m_cross_vec) * glm::vec4(m_forward_vec, 0));
+	glm::vec4 new_forward_vec = glm::normalize(glm::rotate(dir * (1.5f * delta / (m_speed * 0.01f)), m_cross_vec) * glm::vec4(m_forward_vec, 0));
 	m_forward_vec = glm::normalize(glm::vec3(new_forward_vec.x, new_forward_vec.y, new_forward_vec.z));
 }
 

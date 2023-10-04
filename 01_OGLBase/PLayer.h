@@ -13,6 +13,8 @@ private:
 	glm::vec3 m_forward_vec;
 	glm::vec3 m_up_vec;
 	glm::vec3 m_cross_vec;
+	float m_speed;
+	bool m_slowing;
 	horizontal::direction roll_dir = horizontal::none;
 	vertical::direction pitch_dir = vertical::none;
 	std::vector<Projectile> m_projectiles;
@@ -28,6 +30,8 @@ public:
 
 	void setRollDir(const horizontal::direction&);
 	void setPitchDir(const vertical::direction&);
+
+	void Decelerate(bool);
 
 	glm::vec3 GetForwardVec();
 	glm::vec3 GetUpVec();

@@ -266,6 +266,9 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 	case SDLK_SPACE:
 		m_shooting = true;
 		break;
+	case SDLK_LCTRL:
+		m_player.Decelerate(true);
+		break;
 	case SDLK_v:
 		m_backward_camera = true;
 		break;
@@ -290,6 +293,9 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 		break;
 	case SDLK_SPACE:
 		m_shooting = false;
+		break;
+	case SDLK_LCTRL:
+		m_player.Decelerate(false);
 		break;
 	case SDLK_v:
 		m_backward_camera = false;
