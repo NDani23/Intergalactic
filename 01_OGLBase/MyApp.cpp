@@ -213,11 +213,10 @@ void CMyApp::Render()
 		entity->DrawMesh(m_program, viewProj);
 	}
 
-	m_program.Unuse();
-
-	//eye_pos for illumination
 	glm::vec3 eye_pos = m_camera.GetEye();
 	m_program.SetUniform("eye_pos", eye_pos);
+
+	m_program.Unuse();
 
 	m_axesProgram.Use();
 	DrawProjectiles(m_player.GetProjectiles());
