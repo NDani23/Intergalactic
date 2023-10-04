@@ -87,9 +87,6 @@ protected:
 	int m_screenWidth = 640;
 	int m_screenHeight = 480;
 
-	float m_spawnTimeWindow = 5.f;
-	std::chrono::time_point<std::chrono::system_clock> m_lastSpawnTime = std::chrono::system_clock::now();
-
 	float fps = 0.0f;
 	float last_fps_time = 0.0f;
 

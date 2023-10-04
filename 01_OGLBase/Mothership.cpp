@@ -53,21 +53,20 @@ Mothership::Mothership(const glm::vec3& pos, Entity* target, std::vector<Project
 	m_projectiles = projectiles;
 
 	world_objects->emplace_back(std::make_shared<Enemy>(Enemy(pos + glm::vec3(0, -10, -20), m_target, projectiles, world_objects)));
-	//outMap.AddEntity(std::make_shared<Enemy>(Enemy(glm::vec3(0, 0, 1000), player, &projectiles, outMap.GetEntitiesPtr())));
 }
 
 bool Mothership::Update(const float& delta)
 {
 	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastSpawnTime;
 
-	/*if (elapsed_seconds.count() >= m_spawnTimeWindow)
+	if (elapsed_seconds.count() >= m_spawnTimeWindow)
 	{
 		world_objects->emplace_back(std::make_shared<Enemy>(Enemy(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, world_objects)));
 
 		m_lastSpawnTime = std::chrono::system_clock::now();
 
 		if(m_spawnTimeWindow > 5) m_spawnTimeWindow--;
-	}*/
+	}
 
 	return false;
 }

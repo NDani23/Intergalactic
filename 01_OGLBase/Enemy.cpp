@@ -121,7 +121,7 @@ bool Enemy::Update(const float& delta)
 
 	if (glm::length(to_target) < 200.0f && angle < 0.1f)
 	{
-		//Shoot();
+		Shoot();
 	}
 
 	m_hitboxes[0] = UpdateDimensions();
