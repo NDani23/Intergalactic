@@ -145,6 +145,8 @@ void CMyApp::Update()
 		fps = 0;
 	}
 
+	m_cursor_diff_vec = glm::normalize((m_player.GetUpVec() * -1.0f*m_mouseY) + (m_player.GetCrossVec() * -1.0f*m_mouseX) + m_player.GetForwardVec());
+
 	m_player.Move(delta_time, m_cursor_diff_vec);
 	m_player.UpdateProjectiles(delta_time);
 	UpdateProjectiles(delta_time);
@@ -156,13 +158,13 @@ void CMyApp::Update()
 
 	//camera
 	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
-	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 5.f;
+	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 30.f;
 	glm::vec3 new_up = m_player.GetUpVec();
 
 	if (m_backward_camera)
 	{
 		new_eye = m_player.GetPos() + m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
-		new_at = m_player.GetPos() - m_player.GetForwardVec() * 5.f;
+		new_at = m_player.GetPos() - m_player.GetForwardVec() * 30.f;
 	}
 
 	//camera teszt up
@@ -171,9 +173,9 @@ void CMyApp::Update()
 	glm::vec3 new_up = m_player.GetForwardVec();*/
 
 	////camera teszt behind
-	//glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f;
-	//glm::vec3 new_at = m_player.GetPos();
-	//glm::vec3 new_up = m_player.GetUpVec();
+	/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f;
+	glm::vec3 new_at = m_player.GetPos();
+	glm::vec3 new_up = m_player.GetUpVec();*/
 
 	//camera teszt side
 	/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetCrossVec() * 40.f;
@@ -306,17 +308,24 @@ void CMyApp::MouseMove(SDL_MouseMotionEvent& mouse)
 {
 	m_camera.MouseMove(mouse);
 
-	//m_mouseX = mouse.x / (float)(m_screenWidth / 2) - 1;
-	//m_mouseY = mouse.y / (float)(m_screenHeight / 2) - 1;
-
+	m_mouseX = mouse.x / (float)(m_screenWidth / 2) - 1;
+	m_mouseY = mouse.y / (float)(m_screenHeight / 2) - 1;
 }
 
 void CMyApp::MouseDown(SDL_MouseButtonEvent& mouse)
 {
+	if (mouse.button == SDL_BUTTON_LEFT)
+	{
+		m_shooting = true;
+	}
 }
 
 void CMyApp::MouseUp(SDL_MouseButtonEvent& mouse)
 {
+	if (mouse.button == SDL_BUTTON_LEFT)
+	{
+		m_shooting = false;
+	}
 }
 
 void CMyApp::MouseWheel(SDL_MouseWheelEvent& wheel)
@@ -352,7 +361,7 @@ void CMyApp::DetectCollisions()
 				&& abs(distance_vec.z) < std::max(player_dims.length / 2, hitbox_dims.length / 2))
 			{
 				//Collision response
-				std::cout << "Collision detected!" << std::endl;
+				//std::cout << "Collision detected!" << std::endl;
 			}
 		}
 		
@@ -382,7 +391,7 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 				}
 
 				m_player.RemoveProjectile(proj);
-				std::cout << "Hit detected!" << std::endl;
+				//std::cout << "Hit detected!" << std::endl;
 				break;
 			}
 		}
@@ -404,7 +413,7 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 			if (position != m_projectiles.end())
 				m_projectiles.erase(position);
 
-			std::cout << "Damage!" << std::endl;
+			//std::cout << "Damage!" << std::endl;
 		}
 	}
 }

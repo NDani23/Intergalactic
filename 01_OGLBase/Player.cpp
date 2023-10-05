@@ -33,6 +33,14 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 
 	m_position += GetForwardVec() * (delta * m_speed);
 
+
+	glm::vec3 dot_cross = m_cross_vec * glm::dot(m_cross_vec, cursor_diff_vec);
+	glm::vec3 dot_up = m_up_vec * glm::dot(m_up_vec, cursor_diff_vec);
+
+	m_forward_vec = glm::normalize(m_forward_vec + dot_up * 0.02f + dot_cross * 0.01f);	
+	m_up_vec = glm::normalize(glm::cross(m_forward_vec, m_cross_vec) + dot_cross * 0.05f);
+	m_cross_vec = glm::normalize(glm::cross(m_up_vec, m_forward_vec));
+
 	switch (roll_dir)
 	{
 	case horizontal::left:
