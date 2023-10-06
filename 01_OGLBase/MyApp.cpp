@@ -158,7 +158,7 @@ void CMyApp::Update()
 
 	//camera
 	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
-	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 30.f;
+	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 1000.f;
 	glm::vec3 new_up = m_player.GetUpVec();
 
 	if (m_backward_camera)
