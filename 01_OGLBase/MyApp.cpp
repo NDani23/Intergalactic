@@ -244,8 +244,11 @@ void CMyApp::Render()
 
 	glDepthFunc(prevDepthFnc);
 
-	//ImGui Testwindow
-	ImGui::ShowTestWindow();
+	//ImGui
+	/*ImGui::Begin("Another Window");
+	ImGui::Text("Hello from another window!");
+	ImGui::Button("Close Me");		
+	ImGui::End();*/
 }
 
 void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
