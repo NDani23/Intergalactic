@@ -7,6 +7,7 @@
 #include <list>
 #include <tuple>
 #include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 #include "includes/GLUtils.hpp"
 
 CMyApp::CMyApp(void)
@@ -135,15 +136,6 @@ void CMyApp::Update()
 	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
 	
 	//std::cout << delta_time << std::endl;
-	float currentTime = SDL_GetTicks() * 0.001f;
-	fps++;
-
-	if (currentTime - last_fps_time >= 1.0f)
-	{
-		last_fps_time = currentTime;
-		std::cout << fps << std::endl;
-		fps = 0;
-	}
 
 	m_cursor_diff_vec = glm::normalize((m_player.GetUpVec() * -1.0f*m_mouseY) + (m_player.GetCrossVec() * -1.0f*m_mouseX) + m_player.GetForwardVec());
 
@@ -258,7 +250,7 @@ void CMyApp::RenderUI()
 
 	// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
 	// because it would be confusing to have two docking targets within each others.
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
 	if (opt_fullscreen)
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -280,11 +272,7 @@ void CMyApp::RenderUI()
 	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
 		window_flags |= ImGuiWindowFlags_NoBackground;
 
-	// Important: note that we proceed even if Begin() returns false (aka window is collapsed).
-	// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive,
-	// all active windows docked into it will lose their parent and become undocked.
-	// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
-	// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
+
 	if (!opt_padding)
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin("DockSpace Demo", nullptr, window_flags);
@@ -302,33 +290,15 @@ void CMyApp::RenderUI()
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 	}
 
-	if (ImGui::BeginMenuBar())
-	{
-		if (ImGui::BeginMenu("Options"))
-		{
-			// Disabling fullscreen would allow the window to be moved to the front of other windows,
-			// which we can't undo at the moment without finer window depth/z control.
-			ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
-			ImGui::MenuItem("Padding", NULL, &opt_padding);
-			ImGui::Separator();
+	dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode ^ ImGuiDockNodeFlags_NoTabBar ^ ImGuiDockNodeFlags_NoResize ^ ImGuiDockNodeFlags_NoUndocking;
 
-			if (ImGui::MenuItem("Flag: NoDockingOverCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_NoDockingOverCentralNode) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoDockingOverCentralNode; }
-			if (ImGui::MenuItem("Flag: NoDockingSplit", "", (dockspace_flags & ImGuiDockNodeFlags_NoDockingSplit) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoDockingSplit; }
-			if (ImGui::MenuItem("Flag: NoUndocking", "", (dockspace_flags & ImGuiDockNodeFlags_NoUndocking) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoUndocking; }
-			if (ImGui::MenuItem("Flag: NoResize", "", (dockspace_flags & ImGuiDockNodeFlags_NoResize) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoResize; }
-			if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (dockspace_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_AutoHideTabBar; }
-			if (ImGui::MenuItem("Flag: PassthruCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode) != 0, opt_fullscreen)) { dockspace_flags ^= ImGuiDockNodeFlags_PassthruCentralNode; }
-			ImGui::Separator();
+	//ImGui::ShowDemoWindow();
 
-			ImGui::EndMenu();
-		}
-
-		ImGui::EndMenuBar();
-	}
 
 	ImGui::Begin("Viewport");
-	ImGui::End();
-
+	ImGui::Indent(m_screenWidth / 3.f);
+	ImGui::PushStyleColor(ImGuiCol_PlotHistogram, (ImVec4)ImColor::HSV(0, 255, 235, 255));
+	ImGui::ProgressBar(m_player.GetHealth() * 0.01f, ImVec2(m_screenWidth / 3.f, 15.0f));
 	ImGui::End();
 }
 
@@ -497,6 +467,7 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 			if (position != m_projectiles.end())
 				m_projectiles.erase(position);
 
+			m_player.Hit(proj.GetDamage());
 			//std::cout << "Damage!" << std::endl;
 		}
 	}

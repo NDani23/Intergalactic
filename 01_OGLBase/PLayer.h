@@ -10,6 +10,8 @@
 class Player : public Entity
 {
 private:
+
+	int m_health;
 	glm::vec3 m_forward_vec;
 	glm::vec3 m_up_vec;
 	glm::vec3 m_cross_vec;
@@ -32,7 +34,9 @@ public:
 	void setPitchDir(const vertical::direction&);
 
 	void Decelerate(bool);
+	bool Hit(int) override;
 
+	int GetHealth();
 	glm::vec3 GetForwardVec();
 	glm::vec3 GetUpVec();
 	glm::vec3 GetCrossVec();

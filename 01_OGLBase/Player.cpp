@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+	m_health = 100;
 	m_position = glm::vec3(0, 0, 0);
 	m_forward_vec = glm::vec3(0, 0, 1);
 	m_up_vec = glm::vec3(0, 1, 0);
@@ -120,6 +121,11 @@ void Player::setPitchDir(const vertical::direction& dir)
 	pitch_dir = dir;
 }
 
+int Player::GetHealth()
+{
+	return m_health;
+}
+
 glm::vec3 Player::GetForwardVec()
 {
 	return m_forward_vec;
@@ -154,6 +160,12 @@ void Player::Decelerate(bool activated)
 {
 
 	activated ? m_slowing = true : m_slowing = false;
+}
+
+bool Player::Hit(int damage)
+{
+	m_health -= damage;
+	return false;
 }
 
 void Player::Roll(const int& dir, const float& delta)

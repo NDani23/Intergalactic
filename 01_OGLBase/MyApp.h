@@ -88,9 +88,6 @@ protected:
 	int m_screenWidth = 640;
 	int m_screenHeight = 480;
 
-	float fps = 0.0f;
-	float last_fps_time = 0.0f;
-
 	struct Vertex
 	{
 		glm::vec3 p;
