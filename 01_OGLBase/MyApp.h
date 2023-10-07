@@ -44,6 +44,7 @@ public:
 
 	void Update();
 	void Render();
+	void RenderUI();
 
 	void KeyboardDown(SDL_KeyboardEvent&);
 	void KeyboardUp(SDL_KeyboardEvent&);

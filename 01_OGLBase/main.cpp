@@ -151,6 +151,8 @@ int main( int argc, char* args[] )
 		SDL_GetWindowSize(win, &w, &h);
 		app.Resize(w, h);
 
+		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
 		while (!quit)
 		{
 			while (SDL_PollEvent(&ev))
@@ -204,6 +206,7 @@ int main( int argc, char* args[] )
 
 			app.Update();
 			app.Render();
+
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
