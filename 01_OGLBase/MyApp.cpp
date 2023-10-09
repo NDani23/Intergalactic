@@ -108,8 +108,10 @@ void CMyApp::InitShaders()
 		});
 }
 
-bool CMyApp::Init()
+bool CMyApp::Init(bool* quit)
 {
+	m_quit = quit;
+
 	glClearColor(0.125f, 0.25f, 0.5f, 1.0f);
 
 	glEnable(GL_CULL_FACE);
@@ -303,7 +305,8 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 		m_backward_camera = true;
 		break;
 	case SDLK_ESCAPE:
-		m_GameState.pause = true;
+		if(m_GameState.play)
+			m_GameState.pause = true;
 		break;
 	}
 }
@@ -422,6 +425,8 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 					auto position = std::find(m_map.GetEntities().begin(), m_map.GetEntities().end(), entity);
 					if (position != m_map.GetEntities().end())
 						m_map.GetEntities().erase(position);
+
+					m_player.setPoints(m_player.GetPoints() + 10);
 				}
 
 				m_player.RemoveProjectile(proj);
@@ -759,12 +764,16 @@ void CMyApp::RenderUI()
 
 void CMyApp::RenderPlayWindow()
 {
+
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.f, 10.f));
 	if (ImGui::BeginMainMenuBar()) 
 	{
 		std::stringstream ss;
 		ss << std::setw(2) << std::setfill('0') << (int)m_PlayTime/60 << ":" << std::setw(2) << std::setfill('0') << (int)m_PlayTime % 60;
 		ImGui::Text(ss.str().c_str());
+		
+		ImGui::Indent(m_screenWidth - 70.f);
+		ImGui::Text("Score: %i", m_player.GetPoints());
 
 		ImGui::EndMainMenuBar();
 	}
@@ -801,6 +810,11 @@ void CMyApp::RenderMenu()
 
 		Reset();
 	}
+
+	if (ImGui::Button("EXIT", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	{
+		*m_quit = true;
+	}
 	ImGui::End();
 }
 
@@ -819,6 +833,8 @@ void CMyApp::RenderGameOverWindow()
 
 
 	ImGui::Indent(windowSize.x / 8.f);
+
+	ImGui::Text("Final score: %i", m_player.GetPoints());
 
 	if (ImGui::Button("BACK TO MENU", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
 	{

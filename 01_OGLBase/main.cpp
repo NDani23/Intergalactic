@@ -140,7 +140,7 @@ int main( int argc, char* args[] )
 		SDL_Event ev;
 
 		CMyApp app;
-		if (!app.Init())
+		if (!app.Init(&quit))
 		{
 			SDL_GL_DeleteContext(context);
 			SDL_DestroyWindow(win);

@@ -10,6 +10,8 @@ Player::Player()
 	m_speed = 100;
 	m_slowing = false;
 
+	m_points = 0;
+
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
 	gun1.SetShootDir(m_forward_vec);
@@ -39,6 +41,8 @@ void Player::Reset()
 	m_cross_vec = glm::vec3(1, 0, 0);
 	m_speed = 100;
 	m_slowing = false;
+
+	m_points = 0;
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
@@ -150,6 +154,16 @@ void Player::setPitchDir(const vertical::direction& dir)
 void Player::setHealth(int health)
 {
 	m_health = health;
+}
+
+void Player::setPoints(int point)
+{
+	m_points = point;
+}
+
+int Player::GetPoints()
+{
+	return m_points;
 }
 
 int Player::GetHealth()

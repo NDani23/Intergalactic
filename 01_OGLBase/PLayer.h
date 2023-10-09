@@ -23,6 +23,8 @@ private:
 	LaserGun gun1;
 	LaserGun gun2;
 
+	int m_points;
+
 public:
 	Player();
 	void Reset();
@@ -35,11 +37,13 @@ public:
 	void setRollDir(const horizontal::direction&);
 	void setPitchDir(const vertical::direction&);
 	void setHealth(int);
+	void setPoints(int);
 
 	void Decelerate(bool);
 	bool Hit(int) override;
 
 	int GetHealth();
+	int GetPoints();
 	glm::vec3 GetForwardVec();
 	glm::vec3 GetUpVec();
 	glm::vec3 GetCrossVec();

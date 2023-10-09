@@ -50,7 +50,7 @@ public:
 	CMyApp();
 	~CMyApp();
 
-	bool Init();
+	bool Init(bool*);
 	void Clean();
 
 	void Reset();
@@ -116,6 +116,8 @@ protected:
 		glm::vec3 n;
 		glm::vec2 t;
 	};
+
+	bool* m_quit;
 
 	// a jobb olvashatóság kedvéért
 	void InitShaders();
