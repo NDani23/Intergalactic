@@ -30,6 +30,11 @@ public:
 		return m_skyboxTexture;
 	}
 
+	void ClearMap()
+	{
+		m_Entities.clear();
+	}
+
 	/*void AddEntity(Entity&& entity)
 	{
 		m_Entities.emplace_back(std::move(entity));	

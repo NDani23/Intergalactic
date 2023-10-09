@@ -26,6 +26,32 @@ Player::Player()
 	m_texture.FromFile("assets/player_tex.png");
 }
 
+void Player::Reset()
+{
+
+	m_hitboxes.clear();
+	m_projectiles.clear();
+
+	m_health = 100;
+	m_position = glm::vec3(0, 0, 0);
+	m_forward_vec = glm::vec3(0, 0, 1);
+	m_up_vec = glm::vec3(0, 1, 0);
+	m_cross_vec = glm::vec3(1, 0, 0);
+	m_speed = 100;
+	m_slowing = false;
+
+	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
+
+	gun1.SetShootDir(m_forward_vec);
+	gun1.SetPosition(m_position - m_cross_vec);
+
+	gun2.SetShootDir(m_forward_vec);
+	gun2.SetPosition(m_position + m_cross_vec);
+
+	m_hitboxes.emplace_back(hitbox);
+
+}
+
 void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 {		
 
@@ -165,7 +191,7 @@ void Player::Decelerate(bool activated)
 bool Player::Hit(int damage)
 {
 	m_health -= damage;
-	return false;
+	return m_health <= 0;
 }
 
 void Player::Roll(const int& dir, const float& delta)

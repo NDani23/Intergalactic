@@ -50,6 +50,8 @@ public:
 	bool Init();
 	void Clean();
 
+	void Reset();
+
 	void Update();
 	void Render();
 

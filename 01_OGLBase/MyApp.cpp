@@ -12,7 +12,7 @@
 
 CMyApp::CMyApp(void)
 {
-	m_camera.SetView(glm::vec3(0, 7, -30), glm::vec3(0, 3, 0), glm::vec3(0, 1, 0));
+	m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0));
 }
 
 CMyApp::~CMyApp(void)
@@ -130,6 +130,13 @@ void CMyApp::Clean()
 {
 }
 
+void CMyApp::Reset()
+{
+	m_projectiles.clear();
+	m_player.Reset();
+	Map1::ResetMap(m_map, m_projectiles, &m_player);
+}
+
 void CMyApp::Update()
 {
 	
@@ -138,6 +145,9 @@ void CMyApp::Update()
 
 	if (!m_GameState.play)
 	{
+		glm::vec4 cam_at = glm::vec4(m_camera.GetAt(),1);
+		cam_at = glm::rotate(delta_time*0.2f, glm::vec3(0.f, 1.f, 0.f)) * cam_at;
+		m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(cam_at.x, cam_at.y, cam_at.z), glm::vec3(0, 1, 0));
 		m_camera.Update(delta_time);
 		last_time = SDL_GetTicks();
 		return;
@@ -194,34 +204,37 @@ void CMyApp::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glm::mat4 viewProj = m_camera.GetViewProj();
 
-
 	float t = SDL_GetTicks() / 20;
 
-	m_program.Use();
 
-	//player
-	m_player.DrawMesh(m_program, viewProj);
-
-	//player guns
-	m_player.GetActiveWeapon1().DrawMesh(m_program, viewProj);
-
-	m_player.GetActiveWeapon2().DrawMesh(m_program, viewProj);
-
-	//world objects
-	for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
+	if (m_GameState.play)
 	{
-		entity->DrawMesh(m_program, viewProj);
+		m_program.Use();
+
+		//player
+		m_player.DrawMesh(m_program, viewProj);
+
+		//player guns
+		m_player.GetActiveWeapon1().DrawMesh(m_program, viewProj);
+
+		m_player.GetActiveWeapon2().DrawMesh(m_program, viewProj);
+
+		//world objects
+		for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
+		{
+			entity->DrawMesh(m_program, viewProj);
+		}
+
+		glm::vec3 eye_pos = m_camera.GetEye();
+		m_program.SetUniform("eye_pos", eye_pos);
+
+		m_program.Unuse();
+
+		m_axesProgram.Use();
+		DrawProjectiles(m_player.GetProjectiles());
+		//DrawHitBoxes();
+		m_axesProgram.Unuse();
 	}
-
-	glm::vec3 eye_pos = m_camera.GetEye();
-	m_program.SetUniform("eye_pos", eye_pos);
-
-	m_program.Unuse();
-
-	m_axesProgram.Use();
-	DrawProjectiles(m_player.GetProjectiles());
-	//DrawHitBoxes();
-	m_axesProgram.Unuse();
 	
 
 	// skybox
@@ -361,6 +374,8 @@ void CMyApp::DetectCollisions()
 			{
 				//Collision response
 				//std::cout << "Collision detected!" << std::endl;
+				m_GameState.menu = true;
+				m_GameState.play = false;
 			}
 		}
 		
@@ -412,7 +427,11 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 			if (position != m_projectiles.end())
 				m_projectiles.erase(position);
 
-			m_player.Hit(proj.GetDamage());
+			if (m_player.Hit(proj.GetDamage())) 
+			{
+				m_GameState.menu = true;
+				m_GameState.play = false;
+			}
 			//std::cout << "Damage!" << std::endl;
 		}
 	}
@@ -742,6 +761,8 @@ void CMyApp::RenderMenu()
 	{
 		m_GameState.play = true;
 		m_GameState.menu = false;
+
+		Reset();
 	}
 	ImGui::End();
 }

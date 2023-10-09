@@ -25,6 +25,8 @@ private:
 
 public:
 	Player();
+	void Reset();
+
 	void Move(const float&, const glm::vec3&);
 	void Shoot();
 	void RemoveProjectile(Projectile&);

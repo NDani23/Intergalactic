@@ -26,6 +26,33 @@ void Map1::InitMap(Map& outMap, std::vector<Projectile>& projectiles, Player* pl
 	CreateMeteorField(outMap);
 }
 
+void Map1::ResetMap(Map& outMap, std::vector<Projectile>& projectiles, Player* player)
+{
+	outMap.ClearMap();
+
+	outMap.AddEntity(std::make_shared<Entity>("assets/ufo.obj", glm::vec3(500, 200, 1000), "assets/ufo_tex.png", Dimensions{ 50.0f, 17.0f, 50.0f }));
+
+	outMap.AddEntity(std::make_shared<Turret>(Turret(glm::vec3(0, 50, 2000), player, &projectiles)));
+	outMap.AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-100, 0, 1950), player, &projectiles)));
+	outMap.AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-50, -10, 1900), player, &projectiles)));
+	outMap.AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 10, 1950), player, &projectiles)));
+	outMap.AddEntity(std::make_shared<Turret>(Turret(glm::vec3(25, -50, 2000), player, &projectiles)));
+	outMap.AddEntity(std::make_shared<Turret>(Turret(glm::vec3(100, 20, 1850), player, &projectiles)));
+
+	outMap.AddEntity(std::make_shared<Mothership>(Mothership(glm::vec3(0, 0, 2000), player, &projectiles, outMap.GetEntitiesPtr())));
+
+	std::shared_ptr<Entity> gate = std::make_shared<Entity>("assets/gate.obj", glm::vec3(0, -500, 1000), "assets/gate_tex.png");
+	gate->GetHitboxes().clear();
+	gate->AddHitBox({ gate->GetPos() + glm::vec3(20, 0, 0), {10.0f, 50.0f, 10.0f} });
+	gate->AddHitBox({ gate->GetPos() + glm::vec3(-20, 0, 0), {10.0f, 50.0f, 10.0f} });
+	gate->AddHitBox({ gate->GetPos() + glm::vec3(0, 20, 0), {50.0f, 10.0f, 10.0f} });
+	gate->AddHitBox({ gate->GetPos() + glm::vec3(0, -20, 0), {50.0f, 10.0f, 10.0f} });
+	outMap.AddEntity(gate);
+
+	CreateMeteorField(outMap);
+}
+
+
 static void Map1::CreateMeteorField(Map& outMap)
 {
 	outMap.AddEntity(std::make_shared<Entity>("assets/meteor.obj", glm::vec3(-800, 300, 1000), "assets/meteor_tex.jpg", Dimensions{ 27.0f, 27.0f, 27.0f }));
