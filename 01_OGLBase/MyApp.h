@@ -32,6 +32,14 @@
 #include "Player.h"
 #include "Turret.h"
 
+struct GameState
+{
+	bool menu;
+	bool play;
+	bool hangar;
+	bool pause;
+};
+
 
 class CMyApp
 {
@@ -44,7 +52,10 @@ public:
 
 	void Update();
 	void Render();
+
 	void RenderUI();
+	void RenderPlayWindow();
+	void RenderMenu();
 
 	void KeyboardDown(SDL_KeyboardEvent&);
 	void KeyboardUp(SDL_KeyboardEvent&);
@@ -73,6 +84,8 @@ protected:
 	gCamera				m_camera;
 
 	TextureCubeMap		m_skyboxTexture;
+
+	GameState m_GameState = {true, false, false, false};
 
 	Player m_player;
 	Map m_map;

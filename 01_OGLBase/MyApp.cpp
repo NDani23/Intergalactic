@@ -132,12 +132,18 @@ void CMyApp::Clean()
 
 void CMyApp::Update()
 {
+	
 	static Uint32 last_time = SDL_GetTicks();
 	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
-	
-	//std::cout << delta_time << std::endl;
 
-	m_cursor_diff_vec = glm::normalize((m_player.GetUpVec() * -1.0f*m_mouseY) + (m_player.GetCrossVec() * -1.0f*m_mouseX) + m_player.GetForwardVec());
+	if (!m_GameState.play)
+	{
+		m_camera.Update(delta_time);
+		last_time = SDL_GetTicks();
+		return;
+	}
+
+	m_cursor_diff_vec = glm::normalize((m_player.GetUpVec() * -1.0f * m_mouseY) + (m_player.GetCrossVec() * -1.0f * m_mouseX) + m_player.GetForwardVec());
 
 	m_player.Move(delta_time, m_cursor_diff_vec);
 	m_player.UpdateProjectiles(delta_time);
@@ -175,19 +181,19 @@ void CMyApp::Update()
 	glm::vec3 new_up = m_player.GetUpVec();*/
 
 	m_camera.SetView(new_eye, new_at, new_up);
-
 	m_camera.Update(delta_time);
 
 	DetectCollisions();
 
 	last_time = SDL_GetTicks();
+	
 }
 
 void CMyApp::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	glm::mat4 viewProj = m_camera.GetViewProj();
+
 
 	float t = SDL_GetTicks() / 20;
 
@@ -216,6 +222,7 @@ void CMyApp::Render()
 	DrawProjectiles(m_player.GetProjectiles());
 	//DrawHitBoxes();
 	m_axesProgram.Unuse();
+	
 
 	// skybox
 	GLint prevDepthFnc;
@@ -238,68 +245,6 @@ void CMyApp::Render()
 
 	//ImGui
 	RenderUI();
-}
-
-void CMyApp::RenderUI()
-{
-	//ImGui::ShowDemoWindow();
-
-	static bool opt_fullscreen = true;
-	static bool opt_padding = false;
-	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
-
-	// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
-	// because it would be confusing to have two docking targets within each others.
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
-	if (opt_fullscreen)
-	{
-		const ImGuiViewport* viewport = ImGui::GetMainViewport();
-		ImGui::SetNextWindowPos(viewport->WorkPos);
-		ImGui::SetNextWindowSize(viewport->WorkSize);
-		ImGui::SetNextWindowViewport(viewport->ID);
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-		window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-	}
-	else
-	{
-		dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
-	}
-
-	// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background
-	// and handle the pass-thru hole, so we ask Begin() to not render a background.
-	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
-		window_flags |= ImGuiWindowFlags_NoBackground;
-
-
-	if (!opt_padding)
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	ImGui::Begin("DockSpace Demo", nullptr, window_flags);
-	if (!opt_padding)
-		ImGui::PopStyleVar();
-
-	if (opt_fullscreen)
-		ImGui::PopStyleVar(2);
-
-	// Submit the DockSpace
-	ImGuiIO& io = ImGui::GetIO();
-	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-	{
-		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-	}
-
-	dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode ^ ImGuiDockNodeFlags_NoTabBar ^ ImGuiDockNodeFlags_NoResize ^ ImGuiDockNodeFlags_NoUndocking;
-
-	//ImGui::ShowDemoWindow();
-
-
-	ImGui::Begin("Viewport");
-	ImGui::Indent(m_screenWidth / 3.f);
-	ImGui::PushStyleColor(ImGuiCol_PlotHistogram, (ImVec4)ImColor::HSV(0, 255, 235, 255));
-	ImGui::ProgressBar(m_player.GetHealth() * 0.01f, ImVec2(m_screenWidth / 3.f, 15.0f));
-	ImGui::End();
 }
 
 void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
@@ -360,7 +305,7 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 
 void CMyApp::MouseMove(SDL_MouseMotionEvent& mouse)
 {
-	m_camera.MouseMove(mouse);
+	//m_camera.MouseMove(mouse);
 
 	m_mouseX = mouse.x / (float)(m_screenWidth / 2) - 1;
 	m_mouseY = mouse.y / (float)(m_screenHeight / 2) - 1;
@@ -703,4 +648,100 @@ void CMyApp::DrawHitBoxes()
 	glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
 
 	Points.clear();
+}
+
+
+void CMyApp::RenderUI()
+{
+	//ImGui::ShowDemoWindow();
+
+	static bool opt_fullscreen = true;
+	static bool opt_padding = false;
+	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+
+	// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
+	// because it would be confusing to have two docking targets within each others.
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
+	if (opt_fullscreen)
+	{
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->WorkPos);
+		ImGui::SetNextWindowSize(viewport->WorkSize);
+		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+	}
+	else
+	{
+		dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
+	}
+
+	// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background
+	// and handle the pass-thru hole, so we ask Begin() to not render a background.
+	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+		window_flags |= ImGuiWindowFlags_NoBackground;
+
+
+	if (!opt_padding)
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("DockSpace Demo", nullptr, window_flags);
+	if (!opt_padding)
+		ImGui::PopStyleVar();
+
+	if (opt_fullscreen)
+		ImGui::PopStyleVar(2);
+
+	// Submit the DockSpace
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+	{
+		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+	}
+
+	dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode ^ ImGuiDockNodeFlags_NoTabBar ^ ImGuiDockNodeFlags_NoResize ^ ImGuiDockNodeFlags_NoUndocking;
+
+	//ImGui::ShowDemoWindow();
+
+	if (m_GameState.menu)
+		RenderMenu();
+
+	if (m_GameState.play)
+		RenderPlayWindow();
+
+}
+
+void CMyApp::RenderPlayWindow()
+{
+	ImGui::Begin("Viewport");
+	ImGui::Indent(m_screenWidth / 3.f);
+	ImGui::PushStyleColor(ImGuiCol_PlotHistogram, (ImVec4)ImColor::HSV(0, 255, 235, 255));
+	ImGui::ProgressBar(m_player.GetHealth() * 0.01f, ImVec2(m_screenWidth / 3.f, 15.0f));
+	ImGui::End();
+}
+
+void CMyApp::RenderMenu()
+{
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
+
+	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + m_screenWidth / 3, main_viewport->WorkPos.y + m_screenHeight / 4));
+	ImGui::SetNextWindowSize(ImVec2(m_screenWidth / 3, m_screenHeight / 2));
+
+	ImGui::Begin("Menu", nullptr, window_flags);
+
+	ImVec2 windowSize = ImGui::GetWindowSize();
+	ImVec2 windowPos = ImGui::GetWindowPos();
+
+
+	ImGui::Indent(windowSize.x/8.f);
+
+	if (ImGui::Button("PLAY", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	{
+		m_GameState.play = true;
+		m_GameState.menu = false;
+	}
+	ImGui::End();
 }

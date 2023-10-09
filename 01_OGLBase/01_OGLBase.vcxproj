@@ -103,10 +103,12 @@
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_truetype.h" />
+    <ClInclude Include="AppUI.h" />
     <ClInclude Include="Dimensions.h" />
     <ClInclude Include="Directions.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="Includes\BufferObject.h" />
     <ClInclude Include="Includes\gCamera.h" />
@@ -138,6 +140,7 @@
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_sdl2.cpp" />
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="AppUI.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Includes\gCamera.cpp" />
