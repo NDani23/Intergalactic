@@ -34,6 +34,7 @@ public:
 
 	void setRollDir(const horizontal::direction&);
 	void setPitchDir(const vertical::direction&);
+	void setHealth(int);
 
 	void Decelerate(bool);
 	bool Hit(int) override;

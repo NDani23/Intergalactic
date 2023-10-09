@@ -166,8 +166,6 @@ int main( int argc, char* args[] )
 					quit = true;
 					break;
 				case SDL_KEYDOWN:
-					if (ev.key.keysym.sym == SDLK_ESCAPE)
-						quit = true;
 					if (!is_keyboard_captured)
 						app.KeyboardDown(ev.key);
 					break;

@@ -132,6 +132,7 @@ void CMyApp::Clean()
 
 void CMyApp::Reset()
 {
+	m_PlayTime = 0.f;
 	m_projectiles.clear();
 	m_player.Reset();
 	Map1::ResetMap(m_map, m_projectiles, &m_player);
@@ -153,10 +154,22 @@ void CMyApp::Update()
 		return;
 	}
 
+	if (m_GameState.pause)
+	{
+		m_camera.Update(delta_time);
+		last_time = SDL_GetTicks();
+		return;
+	}
+
 	m_cursor_diff_vec = glm::normalize((m_player.GetUpVec() * -1.0f * m_mouseY) + (m_player.GetCrossVec() * -1.0f * m_mouseX) + m_player.GetForwardVec());
 
-	m_player.Move(delta_time, m_cursor_diff_vec);
-	m_player.UpdateProjectiles(delta_time);
+	if (!m_GameState.gameover)
+	{
+		m_PlayTime += delta_time;
+
+		m_player.Move(delta_time, m_cursor_diff_vec);
+		m_player.UpdateProjectiles(delta_time);
+	}
 	UpdateProjectiles(delta_time);
 	DetectHit(m_player.GetProjectiles());
 
@@ -211,13 +224,17 @@ void CMyApp::Render()
 	{
 		m_program.Use();
 
-		//player
-		m_player.DrawMesh(m_program, viewProj);
 
-		//player guns
-		m_player.GetActiveWeapon1().DrawMesh(m_program, viewProj);
+		if (!m_GameState.gameover)
+		{
+			//player
+			m_player.DrawMesh(m_program, viewProj);
 
-		m_player.GetActiveWeapon2().DrawMesh(m_program, viewProj);
+			//player guns
+			m_player.GetActiveWeapon1().DrawMesh(m_program, viewProj);
+
+			m_player.GetActiveWeapon2().DrawMesh(m_program, viewProj);
+		}
 
 		//world objects
 		for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
@@ -284,6 +301,9 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 		break;
 	case SDLK_v:
 		m_backward_camera = true;
+		break;
+	case SDLK_ESCAPE:
+		m_GameState.pause = true;
 		break;
 	}
 }
@@ -374,8 +394,8 @@ void CMyApp::DetectCollisions()
 			{
 				//Collision response
 				//std::cout << "Collision detected!" << std::endl;
-				m_GameState.menu = true;
-				m_GameState.play = false;
+				m_player.setHealth(0);
+				m_GameState.gameover = true;
 			}
 		}
 		
@@ -429,8 +449,7 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 
 			if (m_player.Hit(proj.GetDamage())) 
 			{
-				m_GameState.menu = true;
-				m_GameState.play = false;
+				m_GameState.gameover = true;
 			}
 			//std::cout << "Damage!" << std::endl;
 		}
@@ -730,15 +749,33 @@ void CMyApp::RenderUI()
 	if (m_GameState.play)
 		RenderPlayWindow();
 
+	if (m_GameState.gameover)
+		RenderGameOverWindow();
+
+	if (m_GameState.pause)
+		RenderPauseWindow();
+
 }
 
 void CMyApp::RenderPlayWindow()
 {
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.f, 10.f));
+	if (ImGui::BeginMainMenuBar()) 
+	{
+		std::stringstream ss;
+		ss << std::setw(2) << std::setfill('0') << (int)m_PlayTime/60 << ":" << std::setw(2) << std::setfill('0') << (int)m_PlayTime % 60;
+		ImGui::Text(ss.str().c_str());
+
+		ImGui::EndMainMenuBar();
+	}
+	ImGui::PopStyleVar();
+
 	ImGui::Begin("Viewport");
 	ImGui::Indent(m_screenWidth / 3.f);
 	ImGui::PushStyleColor(ImGuiCol_PlotHistogram, (ImVec4)ImColor::HSV(0, 255, 235, 255));
 	ImGui::ProgressBar(m_player.GetHealth() * 0.01f, ImVec2(m_screenWidth / 3.f, 15.0f));
 	ImGui::End();
+
 }
 
 void CMyApp::RenderMenu()
@@ -764,5 +801,62 @@ void CMyApp::RenderMenu()
 
 		Reset();
 	}
+	ImGui::End();
+}
+
+void CMyApp::RenderGameOverWindow()
+{
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
+
+	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + m_screenWidth / 3, main_viewport->WorkPos.y + m_screenHeight / 5 * 2));
+	ImGui::SetNextWindowSize(ImVec2(m_screenWidth / 3, m_screenHeight / 5));
+
+	ImGui::Begin("Game Over", nullptr, window_flags);
+
+	ImVec2 windowSize = ImGui::GetWindowSize();
+	ImVec2 windowPos = ImGui::GetWindowPos();
+
+
+	ImGui::Indent(windowSize.x / 8.f);
+
+	if (ImGui::Button("BACK TO MENU", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	{
+		m_GameState.gameover = false;
+		m_GameState.play = false;
+		m_GameState.menu = true;
+	}
+
+	ImGui::End();
+}
+
+void CMyApp::RenderPauseWindow()
+{
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
+
+	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + m_screenWidth / 3, main_viewport->WorkPos.y + m_screenHeight / 5 * 2));
+	ImGui::SetNextWindowSize(ImVec2(m_screenWidth / 3, m_screenHeight / 5));
+
+	ImGui::Begin("Paused", nullptr, window_flags);
+
+	ImVec2 windowSize = ImGui::GetWindowSize();
+	ImVec2 windowPos = ImGui::GetWindowPos();
+
+
+	ImGui::Indent(windowSize.x / 8.f);
+
+	if (ImGui::Button("Continue", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	{
+		m_GameState.pause = false;
+	}
+
+	if (ImGui::Button("BACK TO MENU", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	{
+		m_GameState.play = false;
+		m_GameState.pause = false;
+		m_GameState.menu = true;
+	}
+
 	ImGui::End();
 }

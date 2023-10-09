@@ -10,6 +10,8 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <string>
+#include <sstream>
+#include <iomanip>
 
 // GLM
 #include <glm/glm.hpp>
@@ -38,6 +40,7 @@ struct GameState
 	bool play;
 	bool hangar;
 	bool pause;
+	bool gameover;
 };
 
 
@@ -58,6 +61,8 @@ public:
 	void RenderUI();
 	void RenderPlayWindow();
 	void RenderMenu();
+	void RenderGameOverWindow();
+	void RenderPauseWindow();
 
 	void KeyboardDown(SDL_KeyboardEvent&);
 	void KeyboardUp(SDL_KeyboardEvent&);
@@ -91,6 +96,8 @@ protected:
 
 	Player m_player;
 	Map m_map;
+
+	float m_PlayTime = 0;
 
 	bool m_shooting = false;
 	bool m_backward_camera = false;

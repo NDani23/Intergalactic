@@ -147,6 +147,11 @@ void Player::setPitchDir(const vertical::direction& dir)
 	pitch_dir = dir;
 }
 
+void Player::setHealth(int health)
+{
+	m_health = health;
+}
+
 int Player::GetHealth()
 {
 	return m_health;
