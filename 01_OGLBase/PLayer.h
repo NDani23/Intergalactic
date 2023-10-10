@@ -44,6 +44,7 @@ public:
 
 	int GetHealth();
 	int GetPoints();
+	int GetSpeed();
 	glm::vec3 GetForwardVec();
 	glm::vec3 GetUpVec();
 	glm::vec3 GetCrossVec();

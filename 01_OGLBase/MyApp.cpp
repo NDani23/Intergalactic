@@ -13,6 +13,7 @@
 CMyApp::CMyApp(void)
 {
 	m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0));
+	m_quit = nullptr;
 }
 
 CMyApp::~CMyApp(void)
@@ -146,11 +147,32 @@ void CMyApp::Update()
 	static Uint32 last_time = SDL_GetTicks();
 	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
 
-	if (!m_GameState.play)
+	if (m_GameState.menu)
 	{
-		glm::vec4 cam_at = glm::vec4(m_camera.GetAt(),1);
-		cam_at = glm::rotate(delta_time*0.2f, glm::vec3(0.f, 1.f, 0.f)) * cam_at;
-		m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(cam_at.x, cam_at.y, cam_at.z), glm::vec3(0, 1, 0));
+
+		if (m_camera.GetEye() != glm::vec3(0, 0, 0))
+		{
+			m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0));
+		}
+		else
+		{
+			glm::vec4 cam_at = glm::vec4(m_camera.GetAt(), 1);
+			cam_at = glm::rotate(delta_time * 0.2f, glm::vec3(0.f, 1.f, 0.f)) * cam_at;
+			m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(cam_at.x, cam_at.y, cam_at.z), glm::vec3(0, 1, 0));
+		}
+		m_camera.Update(delta_time);
+		last_time = SDL_GetTicks();
+		return;
+	}
+
+	if (m_GameState.hangar)
+	{
+		if (m_player.GetPos() != glm::vec3(0.0f, 0.0f, 0.0f)) m_player.Reset();
+		glm::vec3 cam_at = glm::vec4(m_player.GetPos(), 1);
+		glm::vec3 cam_eye = cam_at + m_player.GetCrossVec() * 20.f + m_player.GetUpVec() * 10.f + m_player.GetForwardVec() * 10.f;
+		glm::vec3 cam_up = m_player.GetUpVec();
+
+		m_camera.SetView(cam_eye, cam_at, cam_up);
 		m_camera.Update(delta_time);
 		last_time = SDL_GetTicks();
 		return;
@@ -220,12 +242,9 @@ void CMyApp::Render()
 	glm::mat4 viewProj = m_camera.GetViewProj();
 
 	float t = SDL_GetTicks() / 20;
-
-
-	if (m_GameState.play)
+	if (m_GameState.play || m_GameState.hangar)
 	{
 		m_program.Use();
-
 
 		if (!m_GameState.gameover)
 		{
@@ -237,6 +256,10 @@ void CMyApp::Render()
 
 			m_player.GetActiveWeapon2().DrawMesh(m_program, viewProj);
 		}
+	}
+
+	if (m_GameState.play)
+	{
 
 		//world objects
 		for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
@@ -760,6 +783,9 @@ void CMyApp::RenderUI()
 	if (m_GameState.pause)
 		RenderPauseWindow();
 
+	if (m_GameState.hangar)
+		RenderHangar();
+
 }
 
 void CMyApp::RenderPlayWindow()
@@ -772,7 +798,7 @@ void CMyApp::RenderPlayWindow()
 		ss << std::setw(2) << std::setfill('0') << (int)m_PlayTime/60 << ":" << std::setw(2) << std::setfill('0') << (int)m_PlayTime % 60;
 		ImGui::Text(ss.str().c_str());
 		
-		ImGui::Indent(m_screenWidth - 70.f);
+		ImGui::Indent(m_screenWidth - 80.f);
 		ImGui::Text("Score: %i", m_player.GetPoints());
 
 		ImGui::EndMainMenuBar();
@@ -783,6 +809,7 @@ void CMyApp::RenderPlayWindow()
 	ImGui::Indent(m_screenWidth / 3.f);
 	ImGui::PushStyleColor(ImGuiCol_PlotHistogram, (ImVec4)ImColor::HSV(0, 255, 235, 255));
 	ImGui::ProgressBar(m_player.GetHealth() * 0.01f, ImVec2(m_screenWidth / 3.f, 15.0f));
+
 	ImGui::End();
 
 }
@@ -811,10 +838,45 @@ void CMyApp::RenderMenu()
 		Reset();
 	}
 
+	if (ImGui::Button("HANGAR", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	{
+		m_GameState.hangar = true;
+		m_GameState.menu = false;
+	}
+
 	if (ImGui::Button("EXIT", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
 	{
 		*m_quit = true;
 	}
+	ImGui::End();
+}
+
+void CMyApp::RenderHangar()
+{
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.f, 10.f));
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::Button("BACK TO MENU"))
+		{
+			m_GameState.hangar = false;
+			m_GameState.menu = true;
+		}
+
+
+		ImGui::Indent(m_screenWidth - 80.f);
+		ImGui::Text("Credit: %i", m_player.GetPoints());
+
+		ImGui::EndMainMenuBar();
+	}
+	ImGui::PopStyleVar();
+
+	ImGui::Begin("HangarBottom");
+	ImGui::End();
+
+	ImGui::Begin("HangarLeft");
+	ImGui::End();
+
+	ImGui::Begin("HangarRight");
 	ImGui::End();
 }
 

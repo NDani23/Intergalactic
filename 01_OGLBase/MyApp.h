@@ -63,6 +63,7 @@ public:
 	void RenderMenu();
 	void RenderGameOverWindow();
 	void RenderPauseWindow();
+	void RenderHangar();
 
 	void KeyboardDown(SDL_KeyboardEvent&);
 	void KeyboardUp(SDL_KeyboardEvent&);

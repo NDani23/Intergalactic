@@ -16,9 +16,11 @@ Player::Player()
 
 	gun1.SetShootDir(m_forward_vec);
 	gun1.SetPosition(m_position - m_cross_vec);
+	gun1.SetTransforms(glm::inverse(glm::lookAt(gun1.GetPos(), gun1.GetPos() - GetForwardVec(), GetUpVec())));
 
 	gun2.SetShootDir(m_forward_vec);
 	gun2.SetPosition(m_position + m_cross_vec);
+	gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));
 
 	m_hitboxes.emplace_back(hitbox);
 
@@ -26,6 +28,8 @@ Player::Player()
 	m_mesh->initBuffers();
 	
 	m_texture.FromFile("assets/player_tex.png");
+
+	m_transforms = glm::inverse(glm::lookAt(GetPos(), GetPos() - GetForwardVec(), GetUpVec()));
 }
 
 void Player::Reset()
@@ -48,9 +52,13 @@ void Player::Reset()
 
 	gun1.SetShootDir(m_forward_vec);
 	gun1.SetPosition(m_position - m_cross_vec);
+	gun1.SetTransforms(glm::inverse(glm::lookAt(gun1.GetPos(), gun1.GetPos() - GetForwardVec(), GetUpVec())));
 
 	gun2.SetShootDir(m_forward_vec);
 	gun2.SetPosition(m_position + m_cross_vec);
+	gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));
+
+	m_transforms = glm::inverse(glm::lookAt(GetPos(), GetPos() - GetForwardVec(), GetUpVec()));
 
 	m_hitboxes.emplace_back(hitbox);
 
@@ -169,6 +177,11 @@ int Player::GetPoints()
 int Player::GetHealth()
 {
 	return m_health;
+}
+
+int Player::GetSpeed()
+{
+	return m_speed;
 }
 
 glm::vec3 Player::GetForwardVec()
