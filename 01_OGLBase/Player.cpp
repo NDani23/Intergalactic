@@ -11,6 +11,9 @@ Player::Player()
 	m_slowing = false;
 
 	m_points = 0;
+	m_upgradePoints = 20;
+
+	m_stats = {1, 1, 1, 1, 1};
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
@@ -47,6 +50,7 @@ void Player::Reset()
 	m_slowing = false;
 
 	m_points = 0;
+	m_upgradePoints = 20;
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
@@ -169,9 +173,24 @@ void Player::setPoints(int point)
 	m_points = point;
 }
 
+void Player::setUpgradePoints(int points)
+{
+	m_upgradePoints = points;
+}
+
+void Player::setStats(Stats stat)
+{
+	m_stats = stat;
+}
+
 int Player::GetPoints()
 {
 	return m_points;
+}
+
+int Player::GetUpgradePoints()
+{
+	return m_upgradePoints;
 }
 
 int Player::GetHealth()
@@ -182,6 +201,11 @@ int Player::GetHealth()
 int Player::GetSpeed()
 {
 	return m_speed;
+}
+
+Stats& Player::GetStats() 
+{
+	return m_stats;
 }
 
 glm::vec3 Player::GetForwardVec()

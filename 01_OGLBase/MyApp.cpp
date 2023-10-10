@@ -874,6 +874,113 @@ void CMyApp::RenderHangar()
 	ImGui::End();
 
 	ImGui::Begin("HangarLeft");
+
+
+	int player_upgrade_points = m_player.GetUpgradePoints();
+
+	ImGui::Text("Upgrade points: %d", player_upgrade_points);
+
+	//Example input for stat modifiers
+	int step = 1;
+	Stats player_stats = m_player.GetStats();
+
+	{
+		int speed = player_stats.speed;
+		if (ImGui::InputScalar("SPEED", ImGuiDataType_S8, &speed, &step, NULL, "%d"))
+		{
+			if (speed > player_stats.speed && player_upgrade_points != 0 && speed < 11)
+			{
+				player_upgrade_points--;
+				m_player.setUpgradePoints(player_upgrade_points);
+				player_stats.speed++;
+				m_player.setStats(player_stats);
+			}
+			else if (speed < player_stats.speed && speed > 0)
+			{
+				player_upgrade_points++;
+				m_player.setUpgradePoints(player_upgrade_points);
+				player_stats.speed--;
+				m_player.setStats(player_stats);
+			}
+		}
+
+		int mobility = player_stats.mobility;
+		if (ImGui::InputScalar("MOBILITY", ImGuiDataType_S8, &mobility, &step, NULL, "%d"))
+		{
+			if (mobility > player_stats.mobility && player_upgrade_points != 0 && mobility < 11)
+			{
+				player_upgrade_points--;
+				m_player.setUpgradePoints(player_upgrade_points);
+				player_stats.mobility++;
+				m_player.setStats(player_stats);
+			}
+			else if (mobility < player_stats.mobility && mobility > 0)
+			{
+				player_upgrade_points++;
+				m_player.setUpgradePoints(player_upgrade_points);
+				player_stats.mobility--;
+				m_player.setStats(player_stats);
+			}
+		}
+
+		int health = player_stats.health;
+		if (ImGui::InputScalar("HEALTH", ImGuiDataType_S8, &health, &step, NULL, "%d"))
+		{
+			if (health > player_stats.health && player_upgrade_points != 0 && health < 11)
+			{
+				player_upgrade_points--;
+				m_player.setUpgradePoints(player_upgrade_points);
+				player_stats.health++;
+				m_player.setStats(player_stats);
+			}
+			else if (health < player_stats.health && health > 0)
+			{
+				player_upgrade_points++;
+				m_player.setUpgradePoints(player_upgrade_points);
+				player_stats.health--;
+				m_player.setStats(player_stats);
+			}
+		}
+
+		int damage = player_stats.damage;
+		if (ImGui::InputScalar("DAMAGE", ImGuiDataType_S8, &damage, &step, NULL, "%d"))
+		{
+			if (damage > player_stats.damage && player_upgrade_points != 0 && damage < 11)
+			{
+				player_upgrade_points--;
+				m_player.setUpgradePoints(player_upgrade_points);
+				player_stats.damage++;
+				m_player.setStats(player_stats);
+			}
+			else if (damage < player_stats.damage && damage > 0)
+			{
+				player_upgrade_points++;
+				m_player.setUpgradePoints(player_upgrade_points);
+				player_stats.damage--;
+				m_player.setStats(player_stats);
+			}
+		}
+
+		int fire_rate = player_stats.fire_rate;
+		if (ImGui::InputScalar("FIRE RATE", ImGuiDataType_S8, &fire_rate, &step, NULL, "%d"))
+		{
+			if (fire_rate > player_stats.fire_rate && player_upgrade_points != 0 && fire_rate < 11)
+			{
+				player_upgrade_points--;
+				m_player.setUpgradePoints(player_upgrade_points);
+				player_stats.fire_rate++;
+				m_player.setStats(player_stats);
+			}
+			else if (fire_rate < player_stats.fire_rate && fire_rate > 0)
+			{
+				player_upgrade_points++;
+				m_player.setUpgradePoints(player_upgrade_points);
+				player_stats.fire_rate--;
+				m_player.setStats(player_stats);
+			}
+		}
+
+	}
 	ImGui::End();
 
 	ImGui::Begin("HangarRight");

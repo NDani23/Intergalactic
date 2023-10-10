@@ -7,6 +7,15 @@
 
 #include <algorithm>
 
+struct Stats
+{
+	int speed;
+	int mobility;
+	int health;
+	int fire_rate;
+	int damage;
+};
+
 class Player : public Entity
 {
 private:
@@ -24,6 +33,9 @@ private:
 	LaserGun gun2;
 
 	int m_points;
+	int m_upgradePoints;
+
+	Stats m_stats;
 
 public:
 	Player();
@@ -38,6 +50,8 @@ public:
 	void setPitchDir(const vertical::direction&);
 	void setHealth(int);
 	void setPoints(int);
+	void setUpgradePoints(int);
+	void setStats(Stats);
 
 	void Decelerate(bool);
 	bool Hit(int) override;
@@ -45,6 +59,9 @@ public:
 	int GetHealth();
 	int GetPoints();
 	int GetSpeed();
+	int GetUpgradePoints();
+	Stats& GetStats();
+
 	glm::vec3 GetForwardVec();
 	glm::vec3 GetUpVec();
 	glm::vec3 GetCrossVec();
