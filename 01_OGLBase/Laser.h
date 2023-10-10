@@ -6,4 +6,5 @@ class Laser : public Projectile
 {
 public:
 	Laser(glm::vec3, glm::vec3);
+	Laser(glm::vec3, glm::vec3, int);
 };

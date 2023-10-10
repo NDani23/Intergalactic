@@ -9,5 +9,7 @@ public:
 	LaserGun();
 	LaserGun(glm::vec3, glm::vec3);
 	void Shoot(std::vector<Projectile>&);
+	void Shoot(std::vector<Projectile>&, int);
+	void SetCooldown(float);
 
 };

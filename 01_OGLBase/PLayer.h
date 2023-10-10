@@ -21,11 +21,14 @@ class Player : public Entity
 private:
 
 	int m_health;
+	int m_max_health;
 	glm::vec3 m_forward_vec;
 	glm::vec3 m_up_vec;
 	glm::vec3 m_cross_vec;
 	float m_speed;
+	int m_max_speed;
 	bool m_slowing;
+	int m_damage;
 	horizontal::direction roll_dir = horizontal::none;
 	vertical::direction pitch_dir = vertical::none;
 	std::vector<Projectile> m_projectiles;
@@ -59,6 +62,8 @@ public:
 	int GetHealth();
 	int GetPoints();
 	int GetSpeed();
+	int GetMaxSpeed();
+	int GetMaxHealth();
 	int GetUpgradePoints();
 	Stats& GetStats();
 

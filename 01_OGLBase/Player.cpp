@@ -3,17 +3,20 @@
 Player::Player()
 {
 	m_health = 100;
+	m_max_health = 100;
 	m_position = glm::vec3(0, 0, 0);
 	m_forward_vec = glm::vec3(0, 0, 1);
 	m_up_vec = glm::vec3(0, 1, 0);
 	m_cross_vec = glm::vec3(1,0,0);
-	m_speed = 100;
+	m_speed = 90;
+	m_max_speed = 90;
 	m_slowing = false;
+	m_damage = 10;
 
 	m_points = 0;
 	m_upgradePoints = 20;
 
-	m_stats = {1, 1, 1, 1, 1};
+	m_stats = {0, 0, 0, 0, 0};
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
@@ -41,23 +44,28 @@ void Player::Reset()
 	m_hitboxes.clear();
 	m_projectiles.clear();
 
-	m_health = 100;
+	m_health = 100 + 20 * m_stats.health;
+	m_max_health = 100 + 10 * m_stats.health;
 	m_position = glm::vec3(0, 0, 0);
 	m_forward_vec = glm::vec3(0, 0, 1);
 	m_up_vec = glm::vec3(0, 1, 0);
 	m_cross_vec = glm::vec3(1, 0, 0);
-	m_speed = 100;
+	m_speed = 90 + 10*m_stats.speed;
+	m_max_speed = 90 + 10 * m_stats.speed;
 	m_slowing = false;
+	m_damage = 10 + 5*m_stats.damage;
 
 	m_points = 0;
 	m_upgradePoints = 20;
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
+	gun1.SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
 	gun1.SetShootDir(m_forward_vec);
 	gun1.SetPosition(m_position - m_cross_vec);
 	gun1.SetTransforms(glm::inverse(glm::lookAt(gun1.GetPos(), gun1.GetPos() - GetForwardVec(), GetUpVec())));
 
+	gun2.SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
 	gun2.SetShootDir(m_forward_vec);
 	gun2.SetPosition(m_position + m_cross_vec);
 	gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));
@@ -72,7 +80,7 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 {		
 
 	if (m_slowing && m_speed > 80.0f) m_speed = m_speed - 0.5f;
-	else if (!m_slowing && m_speed != 100.0f) m_speed = m_speed + 0.5f;
+	else if (!m_slowing && m_speed < m_max_speed) m_speed = m_speed + 0.5f;
 
 	m_position += GetForwardVec() * (delta * m_speed);
 
@@ -80,8 +88,14 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 	glm::vec3 dot_cross = m_cross_vec * glm::dot(m_cross_vec, cursor_diff_vec);
 	glm::vec3 dot_up = m_up_vec * glm::dot(m_up_vec, cursor_diff_vec);
 
-	m_forward_vec = glm::normalize(m_forward_vec + dot_up * 0.02f + dot_cross * 0.01f);	
+	//GO-TO feels good settings
+	/*m_forward_vec = glm::normalize(m_forward_vec + dot_up * 0.02f + dot_cross * 0.01f);	
 	m_up_vec = glm::normalize(glm::cross(m_forward_vec, m_cross_vec) + dot_cross * 0.05f);
+	m_cross_vec = glm::normalize(glm::cross(m_up_vec, m_forward_vec));*/
+
+	//slow settings for starter player
+	m_forward_vec = glm::normalize(m_forward_vec + (dot_up * (0.015f + 0.001f * m_stats.mobility)) + (dot_cross * (0.0075f + 0.0005f * m_stats.mobility)));
+	m_up_vec = glm::normalize(glm::cross(m_forward_vec, m_cross_vec) + dot_cross * (0.020f + 0.005f * m_stats.mobility));
 	m_cross_vec = glm::normalize(glm::cross(m_up_vec, m_forward_vec));
 
 	switch (roll_dir)
@@ -125,8 +139,8 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 
 void Player::Shoot()
 {
-	gun1.Shoot(m_projectiles);
-	gun2.Shoot(m_projectiles);
+	gun1.Shoot(m_projectiles, m_damage);
+	gun2.Shoot(m_projectiles, m_damage);
 }
 
 void Player::RemoveProjectile(Projectile& proj)
@@ -186,6 +200,16 @@ void Player::setStats(Stats stat)
 int Player::GetPoints()
 {
 	return m_points;
+}
+
+int Player::GetMaxSpeed()
+{
+	return m_max_speed;
+}
+
+int Player::GetMaxHealth()
+{
+	return m_max_health;
 }
 
 int Player::GetUpgradePoints()

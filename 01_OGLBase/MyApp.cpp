@@ -808,7 +808,7 @@ void CMyApp::RenderPlayWindow()
 	ImGui::Begin("Viewport");
 	ImGui::Indent(m_screenWidth / 3.f);
 	ImGui::PushStyleColor(ImGuiCol_PlotHistogram, (ImVec4)ImColor::HSV(0, 255, 235, 255));
-	ImGui::ProgressBar(m_player.GetHealth() * 0.01f, ImVec2(m_screenWidth / 3.f, 15.0f));
+	ImGui::ProgressBar(m_player.GetHealth() / (float)m_player.GetMaxHealth(), ImVec2(m_screenWidth / 3.f, 15.0f));
 
 	ImGui::End();
 
@@ -895,7 +895,7 @@ void CMyApp::RenderHangar()
 				player_stats.speed++;
 				m_player.setStats(player_stats);
 			}
-			else if (speed < player_stats.speed && speed > 0)
+			else if (speed < player_stats.speed && speed >= 0)
 			{
 				player_upgrade_points++;
 				m_player.setUpgradePoints(player_upgrade_points);
@@ -914,7 +914,7 @@ void CMyApp::RenderHangar()
 				player_stats.mobility++;
 				m_player.setStats(player_stats);
 			}
-			else if (mobility < player_stats.mobility && mobility > 0)
+			else if (mobility < player_stats.mobility && mobility >= 0)
 			{
 				player_upgrade_points++;
 				m_player.setUpgradePoints(player_upgrade_points);
@@ -933,7 +933,7 @@ void CMyApp::RenderHangar()
 				player_stats.health++;
 				m_player.setStats(player_stats);
 			}
-			else if (health < player_stats.health && health > 0)
+			else if (health < player_stats.health && health >= 0)
 			{
 				player_upgrade_points++;
 				m_player.setUpgradePoints(player_upgrade_points);
@@ -952,7 +952,7 @@ void CMyApp::RenderHangar()
 				player_stats.damage++;
 				m_player.setStats(player_stats);
 			}
-			else if (damage < player_stats.damage && damage > 0)
+			else if (damage < player_stats.damage && damage >= 0)
 			{
 				player_upgrade_points++;
 				m_player.setUpgradePoints(player_upgrade_points);
@@ -971,7 +971,7 @@ void CMyApp::RenderHangar()
 				player_stats.fire_rate++;
 				m_player.setStats(player_stats);
 			}
-			else if (fire_rate < player_stats.fire_rate && fire_rate > 0)
+			else if (fire_rate < player_stats.fire_rate && fire_rate >= 0)
 			{
 				player_upgrade_points++;
 				m_player.setUpgradePoints(player_upgrade_points);

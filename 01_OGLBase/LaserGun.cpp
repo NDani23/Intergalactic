@@ -47,3 +47,21 @@ void LaserGun::Shoot(std::vector<Projectile>& projectiles)
 	}
 	
 }
+
+void LaserGun::Shoot(std::vector<Projectile>& projectiles, int damage)
+{
+	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
+
+	if (elapsed_seconds.count() >= m_coolDownTime)
+	{
+		Laser laser_proj(m_position, m_shootDir, damage);
+		projectiles.emplace_back(std::move(laser_proj));
+
+		m_lastShootTime = std::chrono::system_clock::now();
+	}
+}
+
+void LaserGun::SetCooldown(float cooldown)
+{
+	m_coolDownTime = cooldown;
+}
