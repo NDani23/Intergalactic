@@ -1,10 +1,11 @@
 #pragma once
 
-enum GameState
+struct GameState
 {
-	Play,
-	Menu,
-	Pause,
-	GameOver,
+	bool menu;
+	bool play;
+	bool hangar;
+	bool pause;
+	bool gameover;
 };
 

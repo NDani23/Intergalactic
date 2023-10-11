@@ -33,16 +33,8 @@
 #include "Projectile.h"
 #include "Player.h"
 #include "Turret.h"
-
-struct GameState
-{
-	bool menu;
-	bool play;
-	bool hangar;
-	bool pause;
-	bool gameover;
-};
-
+#include "GameState.h"
+#include "AppUI.h"
 
 class CMyApp
 {
@@ -58,13 +50,6 @@ public:
 	void Update();
 	void Render();
 
-	void RenderUI();
-	void RenderPlayWindow();
-	void RenderMenu();
-	void RenderGameOverWindow();
-	void RenderPauseWindow();
-	void RenderHangar();
-
 	void KeyboardDown(SDL_KeyboardEvent&);
 	void KeyboardUp(SDL_KeyboardEvent&);
 	void MouseMove(SDL_MouseMotionEvent&);
@@ -78,6 +63,8 @@ public:
 	void DrawProjectiles(std::vector<Projectile>&);
 	void UpdateEntities(const float&);
 	void UpdateProjectiles(const float&);
+
+	friend class AppUI;
 
 protected:
 	// shaderekhez szükséges változók
@@ -94,7 +81,8 @@ protected:
 	TextureCubeMap		m_skyboxTexture;
 
 	GameState m_GameState = {true, false, false, false};
-
+	
+	AppUI UI;
 	Player m_player;
 	Map m_map;
 

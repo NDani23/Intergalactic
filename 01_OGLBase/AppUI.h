@@ -5,18 +5,23 @@
 
 #include "GameState.h"
 
+class CMyApp;
+
 class AppUI
 {
 private:
-	bool show_menu;
-	bool show_play_window;
-	bool show_hangar_window;
-	bool show_pause_window;
-	GameState* m_state;
+	CMyApp* m_app;
 
 public:
+	AppUI(CMyApp* app);
 	AppUI();
-	AppUI(GameState*);
 
-	void RenderUI();
+	void Render();
+
+private:
+	void RenderMenu();
+	void RenderPlayWindow();
+	void RenderGameOverWindow();
+	void RenderPauseWindow();
+	void RenderHangarWindow();
 };

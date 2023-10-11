@@ -9,8 +9,8 @@
 #include "Enemy.h"
 #include "Mothership.h"
 
-namespace Map1 {
-
+namespace Map1 
+{
 	void InitMap(Map&, std::vector<Projectile>&, Player*);
 	void ResetMap(Map&, std::vector<Projectile>&, Player*);
 
