@@ -10,8 +10,8 @@ class LaserGun : public Weapon
 private:
 public:
 	LaserGun();
-	LaserGun(glm::vec3, glm::vec3, Player*);
+	LaserGun(Player*);
 	void Shoot(std::vector<Projectile>&) override;
 	void Shoot(std::vector<Projectile>&, int) override;
-
+	void Update() override;
 };

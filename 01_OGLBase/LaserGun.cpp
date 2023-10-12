@@ -20,13 +20,13 @@ LaserGun::LaserGun()
 	m_projectileImage.FromFile("assets/laser.png");
 }
 
-LaserGun::LaserGun(glm::vec3 pos, glm::vec3 shootdir, Player* parent)
+LaserGun::LaserGun(Player* parent)
 {
 	m_parent = parent;
 
-	m_position = pos;
-	m_shootDir = shootdir;
-	m_transforms = glm::translate(pos);
+	m_position = m_parent->GetPos();
+	m_shootDir = m_parent->GetForwardVec();
+	m_transforms = glm::translate(m_position);
 	m_coolDownTime = 0.25f;
 	m_lastShootTime = std::chrono::system_clock::now();
 
@@ -71,4 +71,11 @@ void LaserGun::Shoot(std::vector<Projectile>& projectiles, int damage)
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}
+}
+
+void LaserGun::Update()
+{
+	m_shootDir = m_parent->GetForwardVec();
+	m_position = m_parent->GetPos();
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
 }

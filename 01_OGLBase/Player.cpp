@@ -15,16 +15,7 @@ Player::Player()
 	m_activeWeaponInd = 1;
 	m_target = nullptr;
 
-	m_mainGun.SetParent(this);
-	m_mainGun.SetShootDir(m_forward_vec);
-	m_mainGun.SetPosition(m_position);
-	m_mainGun.SetTransforms(glm::inverse(glm::lookAt(m_mainGun.GetPos(), m_mainGun.GetPos() - GetForwardVec(), GetUpVec())));
-
-	/*m_launcher.SetShootDir(m_forward_vec);
-	m_launcher.SetPosition(m_position);
-	m_launcher.SetTransforms(glm::inverse(glm::lookAt(m_mainGun.GetPos(), m_mainGun.GetPos() - GetForwardVec(), GetUpVec())));*/
-
-	m_guns[1] = &m_mainGun;
+	m_guns[1] = std::make_unique<LaserGun>(this);
 	m_guns[0] = nullptr;
 	m_guns[2] = nullptr;
 
@@ -66,17 +57,7 @@ void Player::Reset()
 
 	m_target = nullptr;
 
-	m_mainGun.SetParent(this);
-	m_mainGun.SetShootDir(m_forward_vec);
-	m_mainGun.SetPosition(m_position);
-	m_mainGun.SetTransforms(glm::inverse(glm::lookAt(m_mainGun.GetPos(), m_mainGun.GetPos() - GetForwardVec(), GetUpVec())));
-
-	/*m_launcher.SetParent(this);
-	m_launcher.SetShootDir(m_forward_vec);
-	m_launcher.SetPosition(m_position + m_cross_vec);
-	m_launcher.SetTransforms(glm::inverse(glm::lookAt(m_mainGun.GetPos(), m_mainGun.GetPos() - GetForwardVec(), GetUpVec())));*/
-
-	m_guns[1] = &m_mainGun;
+	m_guns[1] = std::make_unique<LaserGun>(this);
 	m_guns[0] = nullptr;
 	m_guns[2] = nullptr;
 
@@ -143,10 +124,7 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 	{
 		if (m_guns[i] != nullptr)
 		{
-			m_guns[i]->SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
-			m_guns[i]->SetShootDir(m_forward_vec);
-			m_guns[i]->SetPosition(m_position);
-			m_guns[i]->SetTransforms(glm::inverse(glm::lookAt(m_guns[i]->GetPos(), m_guns[i]->GetPos() - GetForwardVec(), GetUpVec())));
+			m_guns[i]->Update();
 		}
 	}
 	
@@ -265,7 +243,7 @@ int Player::GetActiveWeaponInd()
 	return m_activeWeaponInd;
 }
 
-Weapon** Player::GetWeapons()
+std::unique_ptr<Weapon>* Player::GetWeapons()
 {
 	return m_guns;
 }

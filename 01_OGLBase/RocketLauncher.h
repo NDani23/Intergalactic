@@ -9,5 +9,6 @@ private:
 
 public:
 	RocketLauncher();
+	RocketLauncher(Player*);
 	void Shoot(std::vector<Projectile>&) override;
 };

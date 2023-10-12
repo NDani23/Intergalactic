@@ -16,6 +16,7 @@ protected:
 	Texture2D m_projectileImage;
 
 public:
+	Weapon();
 	glm::vec3 GetShootDir() const;
 	float GetCoolDownTime();
 	void SetPosition(const glm::vec3);
@@ -26,4 +27,5 @@ public:
 	virtual void Shoot(std::vector<Projectile>&);
 	virtual void Shoot(std::vector<Projectile>&, int);
 	virtual Texture2D& GetProjectileImage();
+	virtual void Update();
 };

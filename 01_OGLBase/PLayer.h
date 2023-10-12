@@ -36,10 +36,7 @@ private:
 
 	Entity* m_target;
 
-	Weapon* m_guns[3];
-	LaserGun m_mainGun;
-	RocketLauncher m_launcher;
-	
+	std::unique_ptr<Weapon> m_guns[3];	
 
 	int m_points;
 	int m_upgradePoints;
@@ -83,7 +80,7 @@ public:
 	glm::vec3 GetUpVec();
 	glm::vec3 GetCrossVec();
 	std::vector<Projectile>& GetProjectiles();
-	Weapon** GetWeapons();
+	std::unique_ptr<Weapon>* GetWeapons();
 	Weapon& GetActiveWeapon1();
 
 private:
