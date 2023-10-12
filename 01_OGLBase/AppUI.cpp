@@ -144,6 +144,14 @@ void AppUI::RenderPlayWindow()
 	ImGui::ProgressBar(m_app->m_player.GetHealth() / (float)m_app->m_player.GetMaxHealth(), ImVec2(m_app->m_screenWidth / 3.f, 15.0f));
 	ImGui::PopStyleColor();
 
+	//Example of drawing a texture into ImGUI::image
+	ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+	ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+	ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+	//ImVec4 border_col = ImGui::GetStyleColorVec4(ImGuiCol_Border);
+	ImVec4 border_col = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+	ImGui::Image((ImTextureID)m_app->m_player.GetTexture().GetId(), ImVec2(50, 50), uv_min, uv_max, tint_col, border_col);
+
 	ImGui::End();
 }
 

@@ -38,6 +38,8 @@ public:
 	void AttachFromFile(const std::string&, bool generateMipMap = true, GLuint role = static_cast<GLuint>(type));
 	void FromFile(const std::string&);
 
+	int GetId() const;
+
 	operator unsigned int() const { return m_id; }
 
 	void Clean();

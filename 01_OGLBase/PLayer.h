@@ -32,8 +32,9 @@ private:
 	horizontal::direction roll_dir = horizontal::none;
 	vertical::direction pitch_dir = vertical::none;
 	std::vector<Projectile> m_projectiles;
+
+	Weapon* m_guns[3];
 	LaserGun gun1;
-	LaserGun gun2;
 
 	int m_points;
 	int m_upgradePoints;
@@ -71,8 +72,8 @@ public:
 	glm::vec3 GetUpVec();
 	glm::vec3 GetCrossVec();
 	std::vector<Projectile>& GetProjectiles();
+	//Weapon* GetWeapons();
 	Weapon& GetActiveWeapon1();
-	Weapon& GetActiveWeapon2();
 
 private:
 	void Roll(const int&, const float&);

@@ -254,8 +254,6 @@ void CMyApp::Render()
 
 			//player guns
 			m_player.GetActiveWeapon1().DrawMesh(m_program, viewProj);
-
-			m_player.GetActiveWeapon2().DrawMesh(m_program, viewProj);
 		}
 	}
 

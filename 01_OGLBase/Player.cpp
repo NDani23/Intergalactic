@@ -13,6 +13,11 @@ Player::Player()
 	m_slowing = false;
 	m_damage = 10;
 
+	for (int i = 0; i < 3; i++)
+	{
+		m_guns[i] = nullptr;
+	}
+
 	m_points = 0;
 	m_upgradePoints = 20;
 
@@ -20,13 +25,14 @@ Player::Player()
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
+	gun1.SetParent(this);
 	gun1.SetShootDir(m_forward_vec);
-	gun1.SetPosition(m_position - m_cross_vec);
+	gun1.SetPosition(m_position);
 	gun1.SetTransforms(glm::inverse(glm::lookAt(gun1.GetPos(), gun1.GetPos() - GetForwardVec(), GetUpVec())));
 
-	gun2.SetShootDir(m_forward_vec);
+	/*gun2.SetShootDir(m_forward_vec);
 	gun2.SetPosition(m_position + m_cross_vec);
-	gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));
+	gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));*/
 
 	m_hitboxes.emplace_back(hitbox);
 
@@ -62,13 +68,13 @@ void Player::Reset()
 
 	gun1.SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
 	gun1.SetShootDir(m_forward_vec);
-	gun1.SetPosition(m_position - m_cross_vec);
+	gun1.SetPosition(m_position);
 	gun1.SetTransforms(glm::inverse(glm::lookAt(gun1.GetPos(), gun1.GetPos() - GetForwardVec(), GetUpVec())));
 
-	gun2.SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
+	/*gun2.SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
 	gun2.SetShootDir(m_forward_vec);
 	gun2.SetPosition(m_position + m_cross_vec);
-	gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));
+	gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));*/
 
 	m_transforms = glm::inverse(glm::lookAt(GetPos(), GetPos() - GetForwardVec(), GetUpVec()));
 
@@ -123,14 +129,9 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 	updateDimensions();
 
 
-	gun1.SetPosition(m_position - m_cross_vec);
+	gun1.SetPosition(m_position);
 	gun1.SetShootDir(m_forward_vec);
 	gun1.SetTransforms(glm::inverse(glm::lookAt(gun1.GetPos(), gun1.GetPos() - GetForwardVec(), GetUpVec())));
-
-
-	gun2.SetPosition(m_position + m_cross_vec);
-	gun2.SetShootDir(m_forward_vec);
-	gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));
 
 	m_hitboxes[0].Position = m_position;
 
@@ -140,7 +141,6 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 void Player::Shoot()
 {
 	gun1.Shoot(m_projectiles, m_damage);
-	gun2.Shoot(m_projectiles, m_damage);
 }
 
 void Player::RemoveProjectile(Projectile& proj)
@@ -255,11 +255,6 @@ std::vector<Projectile>& Player::GetProjectiles()
 Weapon& Player::GetActiveWeapon1()
 {
 	return gun1;
-}
-
-Weapon& Player::GetActiveWeapon2()
-{
-	return gun2;
 }
 
 void Player::Decelerate(bool activated)

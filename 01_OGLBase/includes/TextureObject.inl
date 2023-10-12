@@ -12,6 +12,12 @@ inline TextureObject<type>::TextureObject()
 }
 
 template<TextureType type>
+int TextureObject<type>::GetId() const
+{
+	return m_id;
+}
+
+template<TextureType type>
 inline TextureObject<type>::TextureObject(const std::string &s)
 {
 	glGenTextures(1, &m_id);
