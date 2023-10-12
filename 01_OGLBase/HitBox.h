@@ -1,6 +1,5 @@
 #pragma once
 
-#include "includes/ObjParser_OGL3.h"
 #include "Dimensions.h"
 
 struct HitBox {

@@ -131,3 +131,8 @@ bool Entity::Hit(int damage)
 {
 	return false;
 }
+
+bool Entity::IsTargetable()
+{
+	return false;
+}

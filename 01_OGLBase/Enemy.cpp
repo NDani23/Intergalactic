@@ -172,3 +172,8 @@ void Enemy::SetTexture()
 {
 	m_texture.FromFile("assets/enemy_tex.png");
 }
+
+bool Enemy::IsTargetable()
+{
+	return true;
+}

@@ -23,6 +23,7 @@ public:
 	void Shoot();
 	bool Hit(int) override;
 	void SetTexture();
+	bool IsTargetable() override;
 
 private:
 	HitBox UpdateDimensions();

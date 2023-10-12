@@ -60,6 +60,7 @@ public:
 	void DetectCollisions();
 	void DetectHit(std::vector<Projectile>&);
 	void DrawHitBoxes();
+	void DrawHitBox(HitBox&);
 	void DrawProjectiles(std::vector<Projectile>&);
 	void UpdateEntities(const float&);
 	void UpdateProjectiles(const float&);

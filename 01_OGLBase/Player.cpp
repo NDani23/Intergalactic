@@ -13,11 +13,16 @@ Player::Player()
 	m_slowing = false;
 	m_damage = 10;
 	m_activeWeaponInd = 1;
+	m_target = nullptr;
 
 	m_mainGun.SetParent(this);
 	m_mainGun.SetShootDir(m_forward_vec);
 	m_mainGun.SetPosition(m_position);
 	m_mainGun.SetTransforms(glm::inverse(glm::lookAt(m_mainGun.GetPos(), m_mainGun.GetPos() - GetForwardVec(), GetUpVec())));
+
+	/*m_launcher.SetShootDir(m_forward_vec);
+	m_launcher.SetPosition(m_position);
+	m_launcher.SetTransforms(glm::inverse(glm::lookAt(m_mainGun.GetPos(), m_mainGun.GetPos() - GetForwardVec(), GetUpVec())));*/
 
 	m_guns[1] = &m_mainGun;
 	m_guns[0] = nullptr;
@@ -59,10 +64,17 @@ void Player::Reset()
 	m_damage = 10 + 5*m_stats.damage;
 	m_activeWeaponInd = 1;
 
+	m_target = nullptr;
+
 	m_mainGun.SetParent(this);
 	m_mainGun.SetShootDir(m_forward_vec);
 	m_mainGun.SetPosition(m_position);
 	m_mainGun.SetTransforms(glm::inverse(glm::lookAt(m_mainGun.GetPos(), m_mainGun.GetPos() - GetForwardVec(), GetUpVec())));
+
+	/*m_launcher.SetParent(this);
+	m_launcher.SetShootDir(m_forward_vec);
+	m_launcher.SetPosition(m_position + m_cross_vec);
+	m_launcher.SetTransforms(glm::inverse(glm::lookAt(m_mainGun.GetPos(), m_mainGun.GetPos() - GetForwardVec(), GetUpVec())));*/
 
 	m_guns[1] = &m_mainGun;
 	m_guns[0] = nullptr;
@@ -206,6 +218,16 @@ void Player::setStats(Stats stat)
 void Player::setActiveWeapon(int ind)
 {
 	m_activeWeaponInd = ind;
+}
+
+void Player::setTarget(Entity* target)
+{
+	m_target = target;
+}
+
+Entity* Player::GetTarget()
+{
+	return m_target;
 }
 
 int Player::GetPoints()

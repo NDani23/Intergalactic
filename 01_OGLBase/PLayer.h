@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Laser.h"
 #include "LaserGun.h"
+#include "RocketLauncher.h"
 
 #include <algorithm>
 
@@ -33,8 +34,12 @@ private:
 	vertical::direction pitch_dir = vertical::none;
 	std::vector<Projectile> m_projectiles;
 
+	Entity* m_target;
+
 	Weapon* m_guns[3];
 	LaserGun m_mainGun;
+	RocketLauncher m_launcher;
+	
 
 	int m_points;
 	int m_upgradePoints;
@@ -59,6 +64,7 @@ public:
 	void setUpgradePoints(int);
 	void setStats(Stats);
 	void setActiveWeapon(int);
+	void setTarget(Entity*);
 
 	void Decelerate(bool);
 	bool Hit(int) override;
@@ -71,6 +77,7 @@ public:
 	int GetUpgradePoints();
 	int GetActiveWeaponInd();
 	Stats& GetStats();
+	Entity* GetTarget();
 
 	glm::vec3 GetForwardVec();
 	glm::vec3 GetUpVec();
