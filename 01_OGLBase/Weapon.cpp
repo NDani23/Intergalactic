@@ -19,3 +19,22 @@ void Weapon::SetShootDir(const glm::vec3 dir)
 {
 	m_shootDir = dir;
 }
+
+
+void Weapon::SetCooldown(float cooldown)
+{
+	m_coolDownTime = cooldown;
+}
+
+void Weapon::SetParent(Player* parent)
+{
+	m_parent = parent;
+}
+
+void Weapon::Shoot(std::vector<Projectile>&)
+{
+}
+
+void Weapon::Shoot(std::vector<Projectile>&, int)
+{
+}

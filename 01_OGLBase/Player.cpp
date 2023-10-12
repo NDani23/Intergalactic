@@ -13,10 +13,15 @@ Player::Player()
 	m_slowing = false;
 	m_damage = 10;
 
-	for (int i = 0; i < 3; i++)
-	{
-		m_guns[i] = nullptr;
-	}
+	m_mainGun.SetParent(this);
+	m_mainGun.SetShootDir(m_forward_vec);
+	m_mainGun.SetPosition(m_position);
+	m_mainGun.SetTransforms(glm::inverse(glm::lookAt(m_mainGun.GetPos(), m_mainGun.GetPos() - GetForwardVec(), GetUpVec())));
+
+	m_guns[1] = &m_mainGun;
+	m_guns[0] = nullptr;
+	m_guns[2] = nullptr;
+
 
 	m_points = 0;
 	m_upgradePoints = 20;
@@ -24,15 +29,6 @@ Player::Player()
 	m_stats = {0, 0, 0, 0, 0};
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
-
-	gun1.SetParent(this);
-	gun1.SetShootDir(m_forward_vec);
-	gun1.SetPosition(m_position);
-	gun1.SetTransforms(glm::inverse(glm::lookAt(gun1.GetPos(), gun1.GetPos() - GetForwardVec(), GetUpVec())));
-
-	/*gun2.SetShootDir(m_forward_vec);
-	gun2.SetPosition(m_position + m_cross_vec);
-	gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));*/
 
 	m_hitboxes.emplace_back(hitbox);
 
@@ -61,20 +57,20 @@ void Player::Reset()
 	m_slowing = false;
 	m_damage = 10 + 5*m_stats.damage;
 
+	m_mainGun.SetParent(this);
+	m_mainGun.SetShootDir(m_forward_vec);
+	m_mainGun.SetPosition(m_position);
+	m_mainGun.SetTransforms(glm::inverse(glm::lookAt(m_mainGun.GetPos(), m_mainGun.GetPos() - GetForwardVec(), GetUpVec())));
+
+	m_guns[1] = &m_mainGun;
+	m_guns[0] = nullptr;
+	m_guns[2] = nullptr;
+
 	m_points = 0;
 	m_upgradePoints = 20;
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
-	gun1.SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
-	gun1.SetShootDir(m_forward_vec);
-	gun1.SetPosition(m_position);
-	gun1.SetTransforms(glm::inverse(glm::lookAt(gun1.GetPos(), gun1.GetPos() - GetForwardVec(), GetUpVec())));
-
-	/*gun2.SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
-	gun2.SetShootDir(m_forward_vec);
-	gun2.SetPosition(m_position + m_cross_vec);
-	gun2.SetTransforms(glm::inverse(glm::lookAt(gun2.GetPos(), gun2.GetPos() - GetForwardVec(), GetUpVec())));*/
 
 	m_transforms = glm::inverse(glm::lookAt(GetPos(), GetPos() - GetForwardVec(), GetUpVec()));
 
@@ -129,9 +125,17 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 	updateDimensions();
 
 
-	gun1.SetPosition(m_position);
-	gun1.SetShootDir(m_forward_vec);
-	gun1.SetTransforms(glm::inverse(glm::lookAt(gun1.GetPos(), gun1.GetPos() - GetForwardVec(), GetUpVec())));
+	for (int i = 0; i < 3; i++)
+	{
+		if (m_guns[i] != nullptr)
+		{
+			m_guns[i]->SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
+			m_guns[i]->SetShootDir(m_forward_vec);
+			m_guns[i]->SetPosition(m_position);
+			m_guns[i]->SetTransforms(glm::inverse(glm::lookAt(m_guns[i]->GetPos(), m_guns[i]->GetPos() - GetForwardVec(), GetUpVec())));
+		}
+	}
+	
 
 	m_hitboxes[0].Position = m_position;
 
@@ -140,7 +144,7 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 
 void Player::Shoot()
 {
-	gun1.Shoot(m_projectiles, m_damage);
+	m_guns[1]->Shoot(m_projectiles, m_damage);
 }
 
 void Player::RemoveProjectile(Projectile& proj)
@@ -254,7 +258,7 @@ std::vector<Projectile>& Player::GetProjectiles()
 
 Weapon& Player::GetActiveWeapon1()
 {
-	return gun1;
+	return m_mainGun;
 }
 
 void Player::Decelerate(bool activated)

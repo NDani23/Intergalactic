@@ -34,7 +34,7 @@ private:
 	std::vector<Projectile> m_projectiles;
 
 	Weapon* m_guns[3];
-	LaserGun gun1;
+	LaserGun m_mainGun;
 
 	int m_points;
 	int m_upgradePoints;

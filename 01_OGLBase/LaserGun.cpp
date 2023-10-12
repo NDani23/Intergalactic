@@ -70,13 +70,3 @@ void LaserGun::Shoot(std::vector<Projectile>& projectiles, int damage)
 		m_lastShootTime = std::chrono::system_clock::now();
 	}
 }
-
-void LaserGun::SetCooldown(float cooldown)
-{
-	m_coolDownTime = cooldown;
-}
-
-void LaserGun::SetParent(Player* parent)
-{
-	m_parent = parent;
-}

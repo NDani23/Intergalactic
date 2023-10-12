@@ -64,7 +64,7 @@ void AppUI::Render()
 
 	dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode ^ ImGuiDockNodeFlags_NoTabBar ^ ImGuiDockNodeFlags_NoResize ^ ImGuiDockNodeFlags_NoUndocking;
 
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 
 	if (m_app->m_GameState.menu)
 		RenderMenu();
