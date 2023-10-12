@@ -28,4 +28,5 @@ public:
 	virtual void Shoot(std::vector<Projectile>&, int);
 	virtual Texture2D& GetProjectileImage();
 	virtual void Update();
+	virtual bool requireTarget();
 };

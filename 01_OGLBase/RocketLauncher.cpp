@@ -1,4 +1,5 @@
 #include "RocketLauncher.h"
+#include "PLayer.h"
 
 RocketLauncher::RocketLauncher()
 {
@@ -16,15 +17,16 @@ RocketLauncher::RocketLauncher()
 	m_mesh->initBuffers();
 
 	m_texture.FromFile("assets/grey_tex.jpg");
-	m_projectileImage.FromFile("assets/laser.png");
+	m_projectileImage.FromFile("assets/rocket.png");
 }
 
 RocketLauncher::RocketLauncher(Player* target)
 {
 	m_parent = target;
-	m_position = glm::vec3(0, 0, 0);
-	m_shootDir = glm::vec3(0, 0, 0);
-	m_transforms = glm::translate(m_position);
+
+	m_shootDir = m_parent->GetForwardVec();
+	m_position = m_parent->GetPos() + (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
 	m_coolDownTime = 5.f;
 	m_lastShootTime = std::chrono::system_clock::now();
 
@@ -35,7 +37,7 @@ RocketLauncher::RocketLauncher(Player* target)
 	m_mesh->initBuffers();
 
 	m_texture.FromFile("assets/grey_tex.jpg");
-	m_projectileImage.FromFile("assets/laser.png");
+	m_projectileImage.FromFile("assets/rocket.png");
 }
 
 void RocketLauncher::Shoot(std::vector<Projectile>& projectiles)
@@ -50,4 +52,16 @@ void RocketLauncher::Shoot(std::vector<Projectile>& projectiles)
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}
+}
+
+void RocketLauncher::Update()
+{
+	m_shootDir = m_parent->GetForwardVec();
+	m_position = m_parent->GetPos() + (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
+}
+
+bool RocketLauncher::requireTarget()
+{
+	return true;
 }

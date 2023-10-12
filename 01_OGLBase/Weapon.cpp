@@ -65,3 +65,8 @@ void Weapon::Update()
 {
 
 }
+
+bool Weapon::requireTarget()
+{
+	return false;
+}

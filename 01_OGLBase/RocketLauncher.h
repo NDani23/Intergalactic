@@ -11,4 +11,6 @@ public:
 	RocketLauncher();
 	RocketLauncher(Player*);
 	void Shoot(std::vector<Projectile>&) override;
+	void Update() override;
+	bool requireTarget() override;
 };

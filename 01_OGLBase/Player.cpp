@@ -16,7 +16,7 @@ Player::Player()
 	m_target = nullptr;
 
 	m_guns[1] = std::make_unique<LaserGun>(this);
-	m_guns[0] = nullptr;
+	m_guns[0] = std::make_unique<RocketLauncher>(this);
 	m_guns[2] = nullptr;
 
 
@@ -57,8 +57,7 @@ void Player::Reset()
 
 	m_target = nullptr;
 
-	m_guns[1] = std::make_unique<LaserGun>(this);
-	m_guns[0] = nullptr;
+	m_guns[0] = std::make_unique<RocketLauncher>(this);
 	m_guns[2] = nullptr;
 
 	m_points = 0;
@@ -136,7 +135,14 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 
 void Player::Shoot()
 {
-	m_guns[m_activeWeaponInd]->Shoot(m_projectiles, m_damage);
+	if (m_activeWeaponInd == 1)
+	{
+		m_guns[m_activeWeaponInd]->Shoot(m_projectiles, m_damage);
+	}
+	else
+	{
+		m_guns[m_activeWeaponInd]->Shoot(m_projectiles);
+	}
 }
 
 void Player::RemoveProjectile(Projectile& proj)
@@ -191,11 +197,15 @@ void Player::setUpgradePoints(int points)
 void Player::setStats(Stats stat)
 {
 	m_stats = stat;
+	m_guns[1]->SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
 }
 
 void Player::setActiveWeapon(int ind)
 {
-	m_activeWeaponInd = ind;
+	if (ind < 3 && ind >= 0 && m_guns[ind] != nullptr)
+	{
+		m_activeWeaponInd = ind;
+	}
 }
 
 void Player::setTarget(Entity* target)

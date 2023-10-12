@@ -253,7 +253,11 @@ void CMyApp::Render()
 			m_player.DrawMesh(m_program, viewProj);
 
 			//player guns
-			m_player.GetActiveWeapon1().DrawMesh(m_program, viewProj);
+			for (int i = 0; i < 3; i++)
+			{
+				Weapon* weapon = m_player.GetWeapons()[i].get();
+				if(weapon != nullptr)  m_player.GetWeapons()[i]->DrawMesh(m_program, viewProj);
+			}
 		}
 	}
 
@@ -273,7 +277,7 @@ void CMyApp::Render()
 
 		m_axesProgram.Use();
 		DrawProjectiles(m_player.GetProjectiles());
-		if (m_player.GetTarget() != nullptr)
+		if (m_player.GetTarget() != nullptr && m_player.GetWeapons()[m_player.GetActiveWeaponInd()]->requireTarget())
 		{
 			DrawHitBox(m_player.GetTarget()->GetHitboxes()[0]);
 		}
@@ -320,6 +324,15 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 		break;
 	case SDLK_d:
 		m_player.setRollDir(horizontal::right);
+		break;
+	case SDLK_1:
+		m_player.setActiveWeapon(0);
+		break;
+	case SDLK_2:
+		m_player.setActiveWeapon(1);
+		break;
+	case SDLK_3:
+		m_player.setActiveWeapon(2);
 		break;
 	case SDLK_SPACE:
 		m_shooting = true;
