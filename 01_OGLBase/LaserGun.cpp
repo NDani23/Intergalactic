@@ -17,6 +17,7 @@ LaserGun::LaserGun()
 	m_mesh->initBuffers();
 
 	m_texture.FromFile("assets/grey_tex.jpg");
+	m_projectileImage.FromFile("assets/laser.png");
 }
 
 LaserGun::LaserGun(glm::vec3 pos, glm::vec3 shootdir, Player* parent)
@@ -36,6 +37,7 @@ LaserGun::LaserGun(glm::vec3 pos, glm::vec3 shootdir, Player* parent)
 	m_mesh->initBuffers();
 
 	m_texture.FromFile("assets/grey_tex.jpg");
+	m_projectileImage.FromFile("assets/laser.png");
 }
 
 void LaserGun::Shoot(std::vector<Projectile>& projectiles)

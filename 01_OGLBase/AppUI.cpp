@@ -64,7 +64,7 @@ void AppUI::Render()
 
 	dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode ^ ImGuiDockNodeFlags_NoTabBar ^ ImGuiDockNodeFlags_NoResize ^ ImGuiDockNodeFlags_NoUndocking;
 
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	if (m_app->m_GameState.menu)
 		RenderMenu();
@@ -144,13 +144,36 @@ void AppUI::RenderPlayWindow()
 	ImGui::ProgressBar(m_app->m_player.GetHealth() / (float)m_app->m_player.GetMaxHealth(), ImVec2(m_app->m_screenWidth / 3.f, 15.0f));
 	ImGui::PopStyleColor();
 
+
 	//Example of drawing a texture into ImGUI::image
 	ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
 	ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 	ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
 	//ImVec4 border_col = ImGui::GetStyleColorVec4(ImGuiCol_Border);
-	ImVec4 border_col = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
-	ImGui::Image((ImTextureID)m_app->m_player.GetTexture().GetId(), ImVec2(50, 50), uv_min, uv_max, tint_col, border_col);
+	ImVec4 border_col = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+	ImVec2 image_size = ImVec2(m_app->m_screenWidth / 30.f, m_app->m_screenWidth / 30.f);
+
+	ImGui::Indent(m_app->m_screenWidth / 10.f);
+	for (int i = 0; i < 3; i++)
+	{
+		int TexId = m_app->m_player.GetWeapons()[i] == nullptr ? 0 : m_app->m_player.GetWeapons()[i]->GetProjectileImage().GetId();
+		if (i == m_app->m_player.GetActiveWeaponInd())
+		{
+			border_col = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+			image_size = ImVec2(m_app->m_screenWidth / 25.f, m_app->m_screenWidth / 25.f);
+
+			ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
+			ImGui::SameLine();
+
+			border_col = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+			image_size = ImVec2(m_app->m_screenWidth / 30.f, m_app->m_screenWidth / 30.f);
+		}
+		else
+		{
+			ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
+			ImGui::SameLine();
+		}
+	}
 
 	ImGui::End();
 }

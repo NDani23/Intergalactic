@@ -39,6 +39,8 @@ private:
 	int m_points;
 	int m_upgradePoints;
 
+	int m_activeWeaponInd;
+
 	Stats m_stats;
 
 public:
@@ -56,6 +58,7 @@ public:
 	void setPoints(int);
 	void setUpgradePoints(int);
 	void setStats(Stats);
+	void setActiveWeapon(int);
 
 	void Decelerate(bool);
 	bool Hit(int) override;
@@ -66,13 +69,14 @@ public:
 	int GetMaxSpeed();
 	int GetMaxHealth();
 	int GetUpgradePoints();
+	int GetActiveWeaponInd();
 	Stats& GetStats();
 
 	glm::vec3 GetForwardVec();
 	glm::vec3 GetUpVec();
 	glm::vec3 GetCrossVec();
 	std::vector<Projectile>& GetProjectiles();
-	//Weapon* GetWeapons();
+	Weapon** GetWeapons();
 	Weapon& GetActiveWeapon1();
 
 private:

@@ -13,6 +13,7 @@ protected:
 	glm::vec3 m_shootDir;
 	float m_coolDownTime;
 	std::chrono::time_point<std::chrono::system_clock> m_lastShootTime;
+	Texture2D m_projectileImage;
 
 public:
 	glm::vec3 GetShootDir() const;
@@ -24,4 +25,5 @@ public:
 
 	virtual void Shoot(std::vector<Projectile>&);
 	virtual void Shoot(std::vector<Projectile>&, int);
+	virtual Texture2D& GetProjectileImage();
 };

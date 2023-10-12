@@ -12,6 +12,7 @@ Player::Player()
 	m_max_speed = 90;
 	m_slowing = false;
 	m_damage = 10;
+	m_activeWeaponInd = 1;
 
 	m_mainGun.SetParent(this);
 	m_mainGun.SetShootDir(m_forward_vec);
@@ -56,6 +57,7 @@ void Player::Reset()
 	m_max_speed = 90 + 10 * m_stats.speed;
 	m_slowing = false;
 	m_damage = 10 + 5*m_stats.damage;
+	m_activeWeaponInd = 1;
 
 	m_mainGun.SetParent(this);
 	m_mainGun.SetShootDir(m_forward_vec);
@@ -144,7 +146,7 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 
 void Player::Shoot()
 {
-	m_guns[1]->Shoot(m_projectiles, m_damage);
+	m_guns[m_activeWeaponInd]->Shoot(m_projectiles, m_damage);
 }
 
 void Player::RemoveProjectile(Projectile& proj)
@@ -201,6 +203,11 @@ void Player::setStats(Stats stat)
 	m_stats = stat;
 }
 
+void Player::setActiveWeapon(int ind)
+{
+	m_activeWeaponInd = ind;
+}
+
 int Player::GetPoints()
 {
 	return m_points;
@@ -231,6 +238,16 @@ int Player::GetSpeed()
 	return m_speed;
 }
 
+int Player::GetActiveWeaponInd()
+{
+	return m_activeWeaponInd;
+}
+
+Weapon** Player::GetWeapons()
+{
+	return m_guns;
+}
+
 Stats& Player::GetStats() 
 {
 	return m_stats;
@@ -258,7 +275,7 @@ std::vector<Projectile>& Player::GetProjectiles()
 
 Weapon& Player::GetActiveWeapon1()
 {
-	return m_mainGun;
+	return *m_guns[m_activeWeaponInd];
 }
 
 void Player::Decelerate(bool activated)

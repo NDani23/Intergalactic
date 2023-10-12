@@ -38,3 +38,8 @@ void Weapon::Shoot(std::vector<Projectile>&)
 void Weapon::Shoot(std::vector<Projectile>&, int)
 {
 }
+
+Texture2D& Weapon::GetProjectileImage()
+{
+	return m_projectileImage;
+}
