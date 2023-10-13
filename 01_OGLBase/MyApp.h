@@ -58,10 +58,10 @@ public:
 	void MouseWheel(SDL_MouseWheelEvent&);
 	void Resize(int, int);
 	void DetectCollisions();
-	void DetectHit(std::vector<Projectile>&);
+	void DetectHit(std::vector<std::unique_ptr<Projectile>>&);
 	void DrawHitBoxes();
 	void DrawHitBox(HitBox&);
-	void DrawProjectiles(std::vector<Projectile>&);
+	void DrawProjectiles(std::vector<std::unique_ptr<Projectile>>&);
 	void UpdateEntities(const float&);
 	void UpdateProjectiles(const float&);
 

@@ -43,7 +43,7 @@ public:
 	void AddHitBox(HitBox);
 
 	void DrawMesh(ProgramObject&, glm::mat4&);
-	virtual bool Update(const float& delta);
+	virtual bool Update(const float&);
 	virtual bool Hit(int);
 	virtual bool IsTargetable();
 };

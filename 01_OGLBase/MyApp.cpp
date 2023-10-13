@@ -444,11 +444,12 @@ void CMyApp::DetectCollisions()
 	}
 }
 
-void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
+void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
-	for (Projectile& proj : projectiles)
+	for (int i=0; i < projectiles.size(); i++)
 	{
-		glm::vec3 endPoint = proj.GetPos() + (proj.GetDirection() * 2.0f);
+		Projectile* proj = projectiles[i].get();
+		glm::vec3 endPoint = proj->GetPos() + (proj->GetDirection() * 2.0f);
 		for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
 		{
 			glm::vec3 distance_vec = entity->GetPos() - endPoint;
@@ -459,7 +460,7 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 				&& abs(distance_vec.z) < hitbox_dims.length / 2)
 			{
 				// hit response
-				if (entity->Hit(proj.GetDamage()))
+				if (entity->Hit(proj->GetDamage()))
 				{
 					auto position = std::find(m_map.GetEntities().begin(), m_map.GetEntities().end(), entity);
 					if (position != m_map.GetEntities().end())
@@ -468,7 +469,7 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 					m_player.setPoints(m_player.GetPoints() + 10);
 				}
 
-				m_player.RemoveProjectile(proj);
+				m_player.RemoveProjectile(projectiles[i]);
 				//std::cout << "Hit detected!" << std::endl;
 				break;
 			}
@@ -500,14 +501,14 @@ void CMyApp::DetectHit(std::vector<Projectile>& projectiles)
 	}
 }
 
-void CMyApp::DrawProjectiles(std::vector<Projectile>& projectiles)
+void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
 	std::vector<glm::vec3> Points;
 
-	for (Projectile& projectile : projectiles)
+	for (std::unique_ptr<Projectile>& projectile : projectiles)
 	{
-		Points.push_back(projectile.GetPos() + (projectile.GetDirection() * 2.0f));
-		Points.push_back(projectile.GetPos() - (projectile.GetDirection() * 2.0f));
+		Points.push_back(projectile->GetPos() + (projectile->GetDirection() * 2.0f));
+		Points.push_back(projectile->GetPos() - (projectile->GetDirection() * 2.0f));
 	}
 
 	for (Projectile& projectile : m_projectiles)
@@ -531,9 +532,7 @@ void CMyApp::UpdateEntities(const float& delta)
 		Entity* entity = m_map.GetEntities()[i].get();
 		if (entity->Update(delta))
 		{
-			auto position = std::find(m_map.GetEntities().begin(), m_map.GetEntities().end(), m_map.GetEntities()[i]);
-			if (position != m_map.GetEntities().end())
-				m_map.GetEntities().erase(position);
+			m_map.GetEntities().erase(m_map.GetEntities().begin() + i);
 
 			continue;
 		}

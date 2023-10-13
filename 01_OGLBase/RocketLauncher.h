@@ -10,7 +10,7 @@ private:
 public:
 	RocketLauncher();
 	RocketLauncher(Player*);
-	void Shoot(std::vector<Projectile>&) override;
+	void Shoot(std::vector<std::unique_ptr<Projectile>>&) override;
 	void Update() override;
 	bool requireTarget() override;
 };

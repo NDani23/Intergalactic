@@ -24,8 +24,8 @@ public:
 	void SetCooldown(float);
 	void SetParent(Player*);
 
-	virtual void Shoot(std::vector<Projectile>&);
-	virtual void Shoot(std::vector<Projectile>&, int);
+	virtual void Shoot(std::vector<std::unique_ptr<Projectile>>&);
+	virtual void Shoot(std::vector<std::unique_ptr<Projectile>>&, int);
 	virtual Texture2D& GetProjectileImage();
 	virtual void Update();
 	virtual bool requireTarget();

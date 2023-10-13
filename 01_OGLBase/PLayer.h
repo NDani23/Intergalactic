@@ -32,7 +32,7 @@ private:
 	int m_damage;
 	horizontal::direction roll_dir = horizontal::none;
 	vertical::direction pitch_dir = vertical::none;
-	std::vector<Projectile> m_projectiles;
+	std::vector<std::unique_ptr<Projectile>> m_projectiles;
 
 	Entity* m_target;
 
@@ -51,7 +51,7 @@ public:
 
 	void Move(const float&, const glm::vec3&);
 	void Shoot();
-	void RemoveProjectile(Projectile&);
+	void RemoveProjectile(std::unique_ptr<Projectile>&);
 	void UpdateProjectiles(const float&);
 
 	void setRollDir(const horizontal::direction&);
@@ -79,7 +79,7 @@ public:
 	glm::vec3 GetForwardVec();
 	glm::vec3 GetUpVec();
 	glm::vec3 GetCrossVec();
-	std::vector<Projectile>& GetProjectiles();
+	std::vector<std::unique_ptr<Projectile>>& GetProjectiles();
 	std::unique_ptr<Weapon>* GetWeapons();
 	Weapon& GetActiveWeapon1();
 

@@ -40,34 +40,32 @@ LaserGun::LaserGun(Player* parent)
 	m_projectileImage.FromFile("assets/laser.png");
 }
 
-void LaserGun::Shoot(std::vector<Projectile>& projectiles)
+void LaserGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
 	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
 
 	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
-		Laser laser_proj(m_position + m_parent->GetCrossVec(), m_shootDir);
-		projectiles.emplace_back(std::move(laser_proj));
+		//Laser laser_proj(m_position + m_parent->GetCrossVec(), m_shootDir);
+		projectiles.emplace_back(std::make_unique<Laser>(m_position + m_parent->GetCrossVec(), m_shootDir));
 
-		Laser laser_proj2(m_position - m_parent->GetCrossVec(), m_shootDir);
-		projectiles.emplace_back(std::move(laser_proj2));
+		//Laser laser_proj2(m_position - m_parent->GetCrossVec(), m_shootDir);
+		projectiles.emplace_back(std::make_unique<Laser>(m_position - m_parent->GetCrossVec(), m_shootDir));
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}
 	
 }
 
-void LaserGun::Shoot(std::vector<Projectile>& projectiles, int damage)
+void LaserGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles, int damage)
 {
 	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
 
 	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
-		Laser laser_proj(m_position + m_parent->GetCrossVec(), m_shootDir);
-		projectiles.emplace_back(std::move(laser_proj));
+		projectiles.emplace_back(std::make_unique<Laser>(m_position + m_parent->GetCrossVec(), m_shootDir));
 
-		Laser laser_proj2(m_position - m_parent->GetCrossVec(), m_shootDir);
-		projectiles.emplace_back(std::move(laser_proj2));
+		projectiles.emplace_back(std::make_unique<Laser>(m_position - m_parent->GetCrossVec(), m_shootDir));
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}

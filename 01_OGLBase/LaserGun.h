@@ -11,7 +11,7 @@ private:
 public:
 	LaserGun();
 	LaserGun(Player*);
-	void Shoot(std::vector<Projectile>&) override;
-	void Shoot(std::vector<Projectile>&, int) override;
+	void Shoot(std::vector<std::unique_ptr<Projectile>>&) override;
+	void Shoot(std::vector<std::unique_ptr<Projectile>>&, int) override;
 	void Update() override;
 };

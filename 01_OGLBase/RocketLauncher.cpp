@@ -40,15 +40,13 @@ RocketLauncher::RocketLauncher(Player* target)
 	m_projectileImage.FromFile("assets/rocket.png");
 }
 
-void RocketLauncher::Shoot(std::vector<Projectile>& projectiles)
+void RocketLauncher::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
 	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
 
 	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
-
-		Laser laser_proj2(m_position, m_shootDir);
-		projectiles.emplace_back(std::move(laser_proj2));
+		projectiles.emplace_back(std::make_unique<Laser>(m_position, m_shootDir));
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}

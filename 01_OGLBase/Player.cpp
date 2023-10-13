@@ -145,7 +145,7 @@ void Player::Shoot()
 	}
 }
 
-void Player::RemoveProjectile(Projectile& proj)
+void Player::RemoveProjectile(std::unique_ptr<Projectile>& proj)
 {
 	auto position = std::find(m_projectiles.begin(), m_projectiles.end(), proj);
 	if (position != m_projectiles.end())
@@ -154,17 +154,17 @@ void Player::RemoveProjectile(Projectile& proj)
 
 void Player::UpdateProjectiles(const float& delta)
 {
-	for (Projectile& proj : m_projectiles)
+	for (int i = 0; i < m_projectiles.size(); i++)
 	{
-		glm::vec3 newPos = proj.GetPos() + proj.GetDirection() * (delta * proj.GetSpeed());
-		proj.SetPosition(newPos);
+		Projectile* proj = m_projectiles[i].get();
+		
+		glm::vec3 newPos = proj->GetPos() + proj->GetDirection() * (delta * proj->GetSpeed());
+		proj->SetPosition(newPos);
 
-		glm::vec3 dist_vec = proj.GetPos() - m_position;
+		glm::vec3 dist_vec = proj->GetPos() - m_position;
 		if (glm::length(dist_vec) > 500.0f)
-		{
-			auto position = std::find(m_projectiles.begin(), m_projectiles.end(), proj);
-			if (position != m_projectiles.end())
-				m_projectiles.erase(position);
+		{	
+			m_projectiles.erase(m_projectiles.begin() + i);
 		}
 	}
 }
@@ -278,7 +278,7 @@ glm::vec3 Player::GetCrossVec()
 	return m_cross_vec;
 }
 
-std::vector<Projectile>& Player::GetProjectiles()
+std::vector<std::unique_ptr<Projectile>>& Player::GetProjectiles()
 {
 	return m_projectiles;
 }

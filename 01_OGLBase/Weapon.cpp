@@ -48,11 +48,11 @@ void Weapon::SetParent(Player* parent)
 	m_parent = parent;
 }
 
-void Weapon::Shoot(std::vector<Projectile>&)
+void Weapon::Shoot(std::vector<std::unique_ptr<Projectile>>&)
 {
 }
 
-void Weapon::Shoot(std::vector<Projectile>&, int)
+void Weapon::Shoot(std::vector<std::unique_ptr<Projectile>>&, int)
 {
 }
 
