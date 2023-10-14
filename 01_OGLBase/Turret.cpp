@@ -22,7 +22,7 @@ Turret::Turret()
 	m_projectiles = nullptr;
 }
 
-Turret::Turret(glm::vec3 Pos, Entity* ref, std::vector<Projectile>* proj)
+Turret::Turret(glm::vec3 Pos, Entity* ref, std::vector<std::unique_ptr<Projectile>>* proj)
 {
 	m_position = Pos;
 	m_reference = ref;
@@ -67,8 +67,7 @@ void Turret::Shoot()
 
 	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
-		Laser laser_proj(m_position, m_shootDir);
-		m_projectiles->emplace_back(std::move(laser_proj));
+		m_projectiles->emplace_back(std::make_unique<Laser>(m_position, m_shootDir));
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}

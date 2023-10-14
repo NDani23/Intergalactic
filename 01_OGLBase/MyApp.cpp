@@ -476,9 +476,10 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 		}
 	}
 
-	for (Projectile& proj : m_projectiles)
+	for (int i = 0; i < m_projectiles.size(); i++)
 	{
-		glm::vec3 endPoint = proj.GetPos() + (proj.GetDirection() * 2.0f);
+		Projectile* proj = m_projectiles[i].get();
+		glm::vec3 endPoint = proj->GetPos() + (proj->GetDirection() * 2.0f);
 
 		glm::vec3 distance_vec = m_player.GetPos() - endPoint;
 		Dimensions hitbox_dims = m_player.GetHitboxes()[0].dimensions;
@@ -487,12 +488,10 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 			&& abs(distance_vec.y) < hitbox_dims.height / 2
 			&& abs(distance_vec.z) < hitbox_dims.length / 2)
 		{
-			// hit response
-			auto position = std::find(m_projectiles.begin(), m_projectiles.end(), proj);
-			if (position != m_projectiles.end())
-				m_projectiles.erase(position);
+			// hit response		
+			m_projectiles.erase(m_projectiles.begin() + i);
 
-			if (m_player.Hit(proj.GetDamage())) 
+			if (m_player.Hit(proj->GetDamage()))
 			{
 				m_GameState.gameover = true;
 			}
@@ -511,10 +510,10 @@ void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectil
 		Points.push_back(projectile->GetPos() - (projectile->GetDirection() * 2.0f));
 	}
 
-	for (Projectile& projectile : m_projectiles)
+	for (std::unique_ptr<Projectile>& projectile : m_projectiles)
 	{
-		Points.push_back(projectile.GetPos() + (projectile.GetDirection() * 2.0f));
-		Points.push_back(projectile.GetPos() - (projectile.GetDirection() * 2.0f));
+		Points.push_back(projectile->GetPos() + (projectile->GetDirection() * 2.0f));
+		Points.push_back(projectile->GetPos() - (projectile->GetDirection() * 2.0f));
 	}
 
 	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj());
@@ -554,17 +553,16 @@ void CMyApp::UpdateEntities(const float& delta)
 
 void CMyApp::UpdateProjectiles(const float& delta)
 {
-	for (Projectile& proj : m_projectiles)
+	for (int i = 0; i < m_projectiles.size(); i++)
 	{
-		glm::vec3 newPos = proj.GetPos() + proj.GetDirection() * (delta * proj.GetSpeed());
-		proj.SetPosition(newPos);
+		Projectile* proj = m_projectiles[i].get();
+		glm::vec3 newPos = proj->GetPos() + proj->GetDirection() * (delta * proj->GetSpeed());
+		proj->SetPosition(newPos);
 
-		glm::vec3 dist_vec = proj.GetPos() - m_player.GetPos();
+		glm::vec3 dist_vec = proj->GetPos() - m_player.GetPos();
 		if (glm::length(dist_vec) > 500.0f)
 		{
-			auto position = std::find(m_projectiles.begin(), m_projectiles.end(), proj);
-			if (position != m_projectiles.end())
-				m_projectiles.erase(position);
+			m_projectiles.erase(m_projectiles.begin() + i);
 		}
 	}
 }

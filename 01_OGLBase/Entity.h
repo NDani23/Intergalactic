@@ -22,6 +22,7 @@ protected:
 public:
 
 	Entity();
+	virtual ~Entity() {};
 	Entity(const std::string&, glm::vec3, const std::string&);
 	Entity(const std::string&, glm::vec3, const std::string&, Dimensions);
 	Entity(const std::string&, glm::vec3, glm::mat4, const std::string&);
@@ -31,7 +32,6 @@ public:
 
 	Entity& operator=(const Entity&) = default;
 	Entity& operator=(Entity&&) noexcept = default;
-	~Entity() = default;
 
 	std::unique_ptr<Mesh>& GetMesh();
 	glm::vec3 GetPos();

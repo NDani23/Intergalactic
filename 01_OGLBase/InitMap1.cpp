@@ -1,6 +1,6 @@
 #include "InitMap1.h"
 
-void Map1::InitMap(Map& outMap, std::vector<Projectile>& projectiles, Player* player)
+void Map1::InitMap(Map& outMap, std::vector<std::unique_ptr<Projectile>>& projectiles, Player* player)
 {
 	outMap.SetSkyBox("assets/right.png", "assets/left.png", "assets/top.png", "assets/bottom.png", "assets/front.png", "assets/back.png");
 
@@ -26,7 +26,7 @@ void Map1::InitMap(Map& outMap, std::vector<Projectile>& projectiles, Player* pl
 	CreateMeteorField(outMap);
 }
 
-void Map1::ResetMap(Map& outMap, std::vector<Projectile>& projectiles, Player* player)
+void Map1::ResetMap(Map& outMap, std::vector<std::unique_ptr<Projectile>>& projectiles, Player* player)
 {
 	outMap.ClearMap();
 

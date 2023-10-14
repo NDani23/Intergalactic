@@ -28,7 +28,7 @@ Enemy::Enemy()
 	m_lastShootTime = std::chrono::system_clock::now();
 }
 
-Enemy::Enemy(glm::vec3 pos, Entity* target, std::vector<Projectile>* projectiles, std::vector<std::shared_ptr<Entity>>* objects)
+Enemy::Enemy(glm::vec3 pos, Entity* target, std::vector<std::unique_ptr<Projectile>>* projectiles, std::vector<std::shared_ptr<Entity>>* objects)
 {
 	m_position = pos;
 	m_target = target;
@@ -155,8 +155,7 @@ void Enemy::Shoot()
 
 	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
-		Laser laser_proj(m_position, m_shootDir);
-		m_projectiles->emplace_back(std::move(laser_proj));
+		m_projectiles->emplace_back(std::make_unique<Laser>(m_position, m_shootDir));
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}

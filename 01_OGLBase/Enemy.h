@@ -13,12 +13,12 @@ private:
 	glm::vec3 m_up_vec;
 
 	Entity* m_target;
-	std::vector<Projectile>* m_projectiles;
+	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
 	std::vector<std::shared_ptr<Entity>>* world_objects;
 
 public:
 	Enemy();
-	Enemy(glm::vec3, Entity*, std::vector<Projectile>*, std::vector<std::shared_ptr<Entity>>*);
+	Enemy(glm::vec3, Entity*, std::vector<std::unique_ptr<Projectile>>*, std::vector<std::shared_ptr<Entity>>*);
 	bool Update(const float& delta) override;
 	void Shoot();
 	bool Hit(int) override;

@@ -7,10 +7,10 @@ class Turret : public Weapon
 {
 private:
 	Entity* m_reference;
-	std::vector<Projectile>* m_projectiles;
+	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
 public:
 	Turret();
-	Turret(glm::vec3, Entity*, std::vector<Projectile>*);
+	Turret(glm::vec3, Entity*, std::vector<std::unique_ptr<Projectile>>*);
 	virtual bool Update(const float& delta) override;
 	void Shoot();
 	void SetReference(Entity*);

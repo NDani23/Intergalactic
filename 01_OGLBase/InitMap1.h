@@ -11,8 +11,8 @@
 
 namespace Map1 
 {
-	void InitMap(Map&, std::vector<Projectile>&, Player*);
-	void ResetMap(Map&, std::vector<Projectile>&, Player*);
+	void InitMap(Map&, std::vector<std::unique_ptr<Projectile>>&, Player*);
+	void ResetMap(Map&, std::vector<std::unique_ptr<Projectile>>&, Player*);
 
 	static void CreateMeteorField(Map&);
 }
