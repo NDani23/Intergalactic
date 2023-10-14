@@ -156,13 +156,7 @@ void Player::UpdateProjectiles(const float& delta)
 {
 	for (int i = 0; i < m_projectiles.size(); i++)
 	{
-		Projectile* proj = m_projectiles[i].get();
-		
-		glm::vec3 newPos = proj->GetPos() + proj->GetDirection() * (delta * proj->GetSpeed());
-		proj->SetPosition(newPos);
-
-		glm::vec3 dist_vec = proj->GetPos() - m_position;
-		if (glm::length(dist_vec) > 500.0f)
+		if (m_projectiles[i]->Update(delta))
 		{	
 			m_projectiles.erase(m_projectiles.begin() + i);
 		}

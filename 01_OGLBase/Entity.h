@@ -42,7 +42,7 @@ public:
 	void SetTransforms(glm::mat4);
 	void AddHitBox(HitBox);
 
-	void DrawMesh(ProgramObject&, glm::mat4&);
+	virtual void DrawMesh(ProgramObject&, glm::mat4&);
 	virtual bool Update(const float&);
 	virtual bool Hit(int);
 	virtual bool IsTargetable();

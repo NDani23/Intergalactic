@@ -14,6 +14,7 @@ public:
 	glm::vec3 GetDirection();
 	int GetDamage();
 	void SetPosition(const glm::vec3&);
+	virtual bool CheckHit(Entity*);
 
 	bool operator==(const Projectile&) const;
 };

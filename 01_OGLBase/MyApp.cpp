@@ -449,17 +449,10 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 	for (int i=0; i < projectiles.size(); i++)
 	{
 		Projectile* proj = projectiles[i].get();
-		glm::vec3 endPoint = proj->GetPos() + (proj->GetDirection() * 2.0f);
 		for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
 		{
-			glm::vec3 distance_vec = entity->GetPos() - endPoint;
-			Dimensions hitbox_dims = entity->GetHitboxes()[0].dimensions;
-
-			if (abs(distance_vec.x) < hitbox_dims.width / 2
-				&& abs(distance_vec.y) < hitbox_dims.height / 2
-				&& abs(distance_vec.z) < hitbox_dims.length / 2)
+			if (proj->CheckHit(entity.get()))
 			{
-				// hit response
 				if (entity->Hit(proj->GetDamage()))
 				{
 					auto position = std::find(m_map.GetEntities().begin(), m_map.GetEntities().end(), entity);
@@ -470,7 +463,6 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 				}
 
 				m_player.RemoveProjectile(projectiles[i]);
-				//std::cout << "Hit detected!" << std::endl;
 				break;
 			}
 		}
@@ -479,46 +471,30 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 	for (int i = 0; i < m_projectiles.size(); i++)
 	{
 		Projectile* proj = m_projectiles[i].get();
-		glm::vec3 endPoint = proj->GetPos() + (proj->GetDirection() * 2.0f);
 
-		glm::vec3 distance_vec = m_player.GetPos() - endPoint;
-		Dimensions hitbox_dims = m_player.GetHitboxes()[0].dimensions;
-
-		if (abs(distance_vec.x) < hitbox_dims.width / 2
-			&& abs(distance_vec.y) < hitbox_dims.height / 2
-			&& abs(distance_vec.z) < hitbox_dims.length / 2)
+		if(proj->CheckHit(&m_player))
 		{
-			// hit response		
 			m_projectiles.erase(m_projectiles.begin() + i);
 
 			if (m_player.Hit(proj->GetDamage()))
 			{
 				m_GameState.gameover = true;
 			}
-			//std::cout << "Damage!" << std::endl;
 		}
 	}
 }
 
 void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
-	std::vector<glm::vec3> Points;
-
 	for (std::unique_ptr<Projectile>& projectile : projectiles)
 	{
-		Points.push_back(projectile->GetPos() + (projectile->GetDirection() * 2.0f));
-		Points.push_back(projectile->GetPos() - (projectile->GetDirection() * 2.0f));
+		projectile->DrawMesh(m_axesProgram, m_camera.GetViewProj());
 	}
 
 	for (std::unique_ptr<Projectile>& projectile : m_projectiles)
 	{
-		Points.push_back(projectile->GetPos() + (projectile->GetDirection() * 2.0f));
-		Points.push_back(projectile->GetPos() - (projectile->GetDirection() * 2.0f));
+		projectile->DrawMesh(m_axesProgram, m_camera.GetViewProj());
 	}
-
-	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj());
-	m_axesProgram.SetUniform("points", Points);
-	glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
 }
 
 void CMyApp::UpdateEntities(const float& delta)
@@ -555,12 +531,7 @@ void CMyApp::UpdateProjectiles(const float& delta)
 {
 	for (int i = 0; i < m_projectiles.size(); i++)
 	{
-		Projectile* proj = m_projectiles[i].get();
-		glm::vec3 newPos = proj->GetPos() + proj->GetDirection() * (delta * proj->GetSpeed());
-		proj->SetPosition(newPos);
-
-		glm::vec3 dist_vec = proj->GetPos() - m_player.GetPos();
-		if (glm::length(dist_vec) > 500.0f)
+		if (m_projectiles[i]->Update(delta))
 		{
 			m_projectiles.erase(m_projectiles.begin() + i);
 		}

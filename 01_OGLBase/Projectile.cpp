@@ -24,3 +24,8 @@ bool Projectile::operator==(const Projectile& rhs) const
 {
 	return  this == &rhs;
 };
+
+bool Projectile::CheckHit(Entity* entity)
+{
+	return false;
+}
