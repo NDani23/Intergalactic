@@ -275,8 +275,9 @@ void CMyApp::Render()
 
 		m_program.Unuse();
 
-		m_axesProgram.Use();
 		DrawProjectiles(m_player.GetProjectiles());
+
+		m_axesProgram.Use();
 		if (m_player.GetTarget() != nullptr && m_player.GetWeapons()[m_player.GetActiveWeaponInd()]->requireTarget())
 		{
 			DrawHitBox(m_player.GetTarget()->GetHitboxes()[0]);
@@ -488,12 +489,34 @@ void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectil
 {
 	for (std::unique_ptr<Projectile>& projectile : projectiles)
 	{
-		projectile->DrawMesh(m_axesProgram, m_camera.GetViewProj());
+		if (projectile->GetMesh() == nullptr)
+		{
+			m_axesProgram.Use();
+			projectile->DrawMesh(m_axesProgram, m_camera.GetViewProj());
+			m_axesProgram.Unuse();
+		}
+		else
+		{
+			m_program.Use();
+			projectile->DrawMesh(m_program, m_camera.GetViewProj());
+			m_program.Unuse();
+		}
 	}
 
 	for (std::unique_ptr<Projectile>& projectile : m_projectiles)
 	{
-		projectile->DrawMesh(m_axesProgram, m_camera.GetViewProj());
+		if (projectile->GetMesh() == nullptr)
+		{
+			m_axesProgram.Use();
+			projectile->DrawMesh(m_axesProgram, m_camera.GetViewProj());
+			m_axesProgram.Unuse();
+		}
+		else
+		{
+			m_program.Use();
+			projectile->DrawMesh(m_program, m_camera.GetViewProj());
+			m_program.Unuse();
+		}
 	}
 }
 

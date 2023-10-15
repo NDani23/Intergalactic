@@ -44,9 +44,9 @@ void RocketLauncher::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles
 {
 	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
 
-	if (elapsed_seconds.count() >= m_coolDownTime)
+	if (elapsed_seconds.count() >= m_coolDownTime && m_parent->GetTarget() != nullptr)
 	{
-		projectiles.emplace_back(std::make_unique<Laser>(m_position, m_shootDir));
+		projectiles.emplace_back(std::make_unique<Rocket>(m_position, m_parent->GetTarget()));
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}
