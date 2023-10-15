@@ -156,7 +156,7 @@ void AppUI::RenderPlayWindow()
 	ImGui::Indent(m_app->m_screenWidth / 10.f);
 	for (int i = 0; i < 3; i++)
 	{
-		int TexId = m_app->m_player.GetWeapons()[i] == nullptr ? 0 : m_app->m_player.GetWeapons()[i]->GetProjectileImage().GetId();
+		int TexId = m_app->m_player.GetWeapons()[i] == nullptr ? -1 : m_app->m_player.GetWeapons()[i]->GetProjectileImage().GetId();
 		if (i == m_app->m_player.GetActiveWeaponInd())
 		{
 			border_col = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);

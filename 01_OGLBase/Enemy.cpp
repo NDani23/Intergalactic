@@ -1,8 +1,19 @@
 #include "Enemy.h"
 
+std::unique_ptr<Mesh> Enemy::m_static_mesh;
+Texture2D Enemy::m_static_tex;
+
+int Enemy::FirstInit()
+{
+	std::cout << "bemegy" << std::endl;
+	Enemy::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/enemy_ship.obj"));
+	Enemy::m_static_mesh->initBuffers();
+	Enemy::m_static_tex.FromFile("assets/enemy_tex.png");
+}
 
 Enemy::Enemy()
 {
+	static int onFirstCall = FirstInit();
 	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_shootDir = glm::vec3(1.0f, 0.0f, 0.0f);
 	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -19,10 +30,7 @@ Enemy::Enemy()
 	m_projectiles = nullptr;
 	world_objects = nullptr;
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/enemy_ship.obj"));
-	m_mesh->initBuffers();
-
-	m_texture.FromFile("assets/enemy_tex.png");
+	m_mesh = nullptr;
 
 	m_coolDownTime = 0.25f;
 	m_lastShootTime = std::chrono::system_clock::now();
@@ -30,6 +38,7 @@ Enemy::Enemy()
 
 Enemy::Enemy(glm::vec3 pos, Entity* target, std::vector<std::unique_ptr<Projectile>>* projectiles, std::vector<std::shared_ptr<Entity>>* objects)
 {
+	static int onFirstCall = FirstInit();
 	m_position = pos;
 	m_target = target;
 	m_projectiles = projectiles;
@@ -46,10 +55,7 @@ Enemy::Enemy(glm::vec3 pos, Entity* target, std::vector<std::unique_ptr<Projecti
 	m_health = 100;
 	m_speed = 100;
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/enemy_ship.obj"));
-	m_mesh->initBuffers();
-
-	m_texture.FromFile("assets/enemy_tex.png");
+	m_mesh = nullptr;
 
 	m_coolDownTime = 0.25f;
 	m_lastShootTime = std::chrono::system_clock::now();
@@ -175,4 +181,14 @@ void Enemy::SetTexture()
 bool Enemy::IsTargetable()
 {
 	return true;
+}
+
+void Enemy::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
+{
+	program.SetTexture("texImage", 0, m_static_tex);
+	program.SetUniform("MVP", viewProj * m_transforms);
+	program.SetUniform("world", m_transforms);
+	program.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
+
+	m_static_mesh->draw();
 }

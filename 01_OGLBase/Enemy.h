@@ -8,6 +8,8 @@
 class Enemy : public Weapon
 {
 private:
+	static std::unique_ptr<Mesh> m_static_mesh;
+	static Texture2D m_static_tex;
 	int m_health;
 	float m_speed;
 	glm::vec3 m_up_vec;
@@ -24,8 +26,10 @@ public:
 	bool Hit(int) override;
 	void SetTexture();
 	bool IsTargetable() override;
+	void DrawMesh(ProgramObject&, glm::mat4&) override;
 
 private:
 	HitBox UpdateDimensions();
+	static int FirstInit();
 
 };
