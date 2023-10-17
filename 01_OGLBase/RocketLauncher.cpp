@@ -7,8 +7,10 @@ RocketLauncher::RocketLauncher()
 	m_position = glm::vec3(0, 0, 0);
 	m_shootDir = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
-	m_coolDownTime = 5.f;
+	m_coolDownTime = 10.f;
 	m_lastShootTime = std::chrono::system_clock::now();
+
+	m_side = 0;
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -20,14 +22,15 @@ RocketLauncher::RocketLauncher()
 	m_projectileImage.FromFile("assets/rocket.png");
 }
 
-RocketLauncher::RocketLauncher(Player* target)
+RocketLauncher::RocketLauncher(Player* target, int side)
 {
-	m_parent = target;
 
+	m_parent = target;
+	m_side = side;
 	m_shootDir = m_parent->GetForwardVec();
-	m_position = m_parent->GetPos() + (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
+	m_position = m_parent->GetPos() - (float)m_side*(m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
-	m_coolDownTime = 5.f;
+	m_coolDownTime = 10.f;
 	m_lastShootTime = std::chrono::system_clock::now();
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
@@ -54,8 +57,9 @@ void RocketLauncher::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles
 
 void RocketLauncher::Update()
 {
+
 	m_shootDir = m_parent->GetForwardVec();
-	m_position = m_parent->GetPos() + (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
+	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
 }
 

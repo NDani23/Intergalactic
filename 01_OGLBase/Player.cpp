@@ -15,9 +15,10 @@ Player::Player()
 	m_activeWeaponInd = 1;
 	m_target = nullptr;
 
+
 	m_guns[1] = std::make_unique<LaserGun>(this);
-	m_guns[0] = std::make_unique<RocketLauncher>(this);
 	m_guns[2] = nullptr;
+	m_guns[0] = nullptr;
 
 
 	m_points = 0;
@@ -57,8 +58,6 @@ void Player::Reset()
 
 	m_target = nullptr;
 
-	m_guns[0] = std::make_unique<RocketLauncher>(this);
-	m_guns[2] = nullptr;
 
 	m_points = 0;
 	m_upgradePoints = 20;

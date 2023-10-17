@@ -4,6 +4,14 @@
 AppUI::AppUI(CMyApp* app)
 {
 	m_app = app;
+
+	m_weaponChoices[0].InsertWeapon = [](Player* player, int side) { return std::make_unique<RocketLauncher>(player, side); };
+	m_weaponChoices[0].Image.FromFile("assets/rocket.png");
+	m_weaponChoices[0].Text = "Thermal rocket launcher";
+
+	m_weaponChoices[1].InsertWeapon = [](Player* player, int side) { return std::make_unique<MinePlacer>(player, side); };
+	m_weaponChoices[1].Image.FromFile("assets/mine.png");
+	m_weaponChoices[1].Text = "Mine placer";
 }
 
 AppUI::AppUI()
@@ -257,6 +265,50 @@ void AppUI::RenderHangarWindow()
 	ImGui::PopStyleVar();
 
 	ImGui::Begin("HangarBottom");
+	{
+		ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+		ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+		//ImVec4 border_col = ImGui::GetStyleColorVec4(ImGuiCol_Border);
+		ImVec4 border_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+		ImVec2 image_size = ImVec2(m_app->m_screenWidth / 20.f, m_app->m_screenWidth / 20.f);
+
+		ImGui::Indent(m_app->m_screenWidth / 2.5f);
+		for (int i = 0; i < 3; i++)
+		{
+
+			int TexId = m_app->m_player.GetWeapons()[i] == nullptr ? -1 : m_app->m_player.GetWeapons()[i]->GetProjectileImage().GetId();
+
+			if (i == 1)
+			{
+				ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
+			}
+			else
+			{
+				std::string name = std::to_string(i);
+				if (ImGui::ImageButton(name.c_str(), (ImTextureID)TexId, image_size, uv_min, uv_max, border_col, tint_col))
+				{
+					m_app->m_player.GetWeapons()[i] = nullptr;
+				}
+			}
+
+			if (i != 1)
+			{
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Weapon"))
+					{
+						int payload_n = *(const int*)payload->Data;
+						m_app->m_player.GetWeapons()[i] = m_weaponChoices[payload_n].InsertWeapon(&m_app->m_player, i-1);
+					}
+
+					ImGui::EndDragDropTarget();
+				}
+			}
+			ImGui::SameLine();
+			
+		}
+	}
 	ImGui::End();
 
 	ImGui::Begin("HangarLeft");
@@ -370,5 +422,37 @@ void AppUI::RenderHangarWindow()
 	ImGui::End();
 
 	ImGui::Begin("HangarRight");
+	{
+		ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+		ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+		ImVec4 border_col = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+		ImVec2 image_size = ImVec2(m_app->m_screenWidth / 20.f, m_app->m_screenWidth / 20.f);
+
+		if (ImGui::TreeNode("Weapons"))
+		{
+			
+			
+			for (int n = 0; n < IM_ARRAYSIZE(m_weaponChoices); n++)
+			{
+				ImGui::PushID(n);
+				ImGui::ImageButton("", (ImTextureID)m_weaponChoices[n].Image.GetId(), image_size, uv_min, uv_max, border_col, tint_col);
+				// Our buttons are both drag sources and drag targets here!
+				if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+				{
+					// Set payload to carry the index of our item (could be anything)
+
+					ImGui::SetDragDropPayload("Weapon", &n, sizeof(int));
+
+					ImGui::Text(m_weaponChoices[n].Text.c_str());
+					
+					ImGui::EndDragDropSource();
+				}
+				
+				ImGui::PopID();
+			}
+			ImGui::TreePop();
+		}
+	}
 	ImGui::End();
 }

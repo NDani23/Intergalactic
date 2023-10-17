@@ -5,6 +5,7 @@
 #include "Laser.h"
 #include "LaserGun.h"
 #include "RocketLauncher.h"
+#include "MinePlacer.h"
 
 #include <algorithm>
 
@@ -36,7 +37,7 @@ private:
 
 	Entity* m_target;
 
-	std::unique_ptr<Weapon> m_guns[3];	
+	std::unique_ptr<Weapon> m_guns[3];
 
 	int m_points;
 	int m_upgradePoints;

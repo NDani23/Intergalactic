@@ -1,18 +1,15 @@
 #pragma once
 
 #include "Weapon.h"
-#include "Rocket.h"
+#include "Laser.h"
 
-
-
-class RocketLauncher : public Weapon
+class MinePlacer : public Weapon
 {
 private:
 	int m_side;
 public:
-	RocketLauncher();
-	RocketLauncher(Player*, int);
+	MinePlacer();
+	MinePlacer(Player*, int);
 	void Shoot(std::vector<std::unique_ptr<Projectile>>&) override;
 	void Update() override;
-	bool requireTarget() override;
 };

@@ -224,7 +224,7 @@ void CMyApp::Update()
 	glm::vec3 new_up = m_player.GetUpVec();*/
 
 	//camera teszt side
-	/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetCrossVec() * 40.f;
+	/*glm::vec3 new_eye = m_player.GetPos() + m_player.GetCrossVec() * 40.f;
 	glm::vec3 new_at = m_player.GetPos();
 	glm::vec3 new_up = m_player.GetUpVec();*/
 

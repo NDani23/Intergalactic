@@ -125,6 +125,7 @@
     <ClInclude Include="Laser.h" />
     <ClInclude Include="LaserGun.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="MinePlacer.h" />
     <ClInclude Include="Mothership.h" />
     <ClInclude Include="MyApp.h" />
     <ClInclude Include="Player.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="LaserGun.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MinePlacer.cpp" />
     <ClCompile Include="Mothership.cpp" />
     <ClCompile Include="MyApp.cpp" />
     <ClCompile Include="Player.cpp" />
