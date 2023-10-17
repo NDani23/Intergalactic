@@ -134,6 +134,7 @@
     <ClInclude Include="Rocket.h" />
     <ClInclude Include="RocketLauncher.h" />
     <ClInclude Include="Turret.h" />
+    <ClInclude Include="Upgrade.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@
     <ClCompile Include="Rocket.cpp" />
     <ClCompile Include="RocketLauncher.cpp" />
     <ClCompile Include="Turret.cpp" />
+    <ClCompile Include="Upgrade.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <None Include="axes.frag" />
     <None Include="axes.vert" />
