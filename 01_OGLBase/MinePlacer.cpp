@@ -48,7 +48,7 @@ void MinePlacer::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 
 	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
-		projectiles.emplace_back(std::make_unique<Laser>(m_position, m_parent->GetForwardVec()));
+		projectiles.emplace_back(std::make_unique<Mine>(m_position));
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}

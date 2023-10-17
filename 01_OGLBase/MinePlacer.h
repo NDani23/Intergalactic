@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Weapon.h"
-#include "Laser.h"
+#include "Mine.h"
 
 class MinePlacer : public Weapon
 {
