@@ -20,6 +20,7 @@ Player::Player()
 	m_guns[2] = nullptr;
 	m_guns[0] = nullptr;
 
+	m_Upgrade = std::make_unique<SpeedBooster>(this);
 
 	m_points = 0;
 	m_upgradePoints = 20;
@@ -79,7 +80,6 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 
 	m_position += GetForwardVec() * (delta * m_speed);
 
-
 	glm::vec3 dot_cross = m_cross_vec * glm::dot(m_cross_vec, cursor_diff_vec);
 	glm::vec3 dot_up = m_up_vec * glm::dot(m_up_vec, cursor_diff_vec);
 
@@ -125,6 +125,8 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 			m_guns[i]->Update();
 		}
 	}
+
+	m_Upgrade->Update();
 	
 
 	m_hitboxes[0].Position = m_position;
@@ -142,6 +144,11 @@ void Player::Shoot()
 	{
 		m_guns[m_activeWeaponInd]->Shoot(m_projectiles);
 	}
+}
+
+void Player::ActivateUpgrade()
+{
+	m_Upgrade->Activate();
 }
 
 void Player::RemoveProjectile(std::unique_ptr<Projectile>& proj)
@@ -206,6 +213,11 @@ void Player::setTarget(Entity* target)
 	m_target = target;
 }
 
+void Player::setSpeed(float speed)
+{
+	m_speed = speed;
+}
+
 Entity* Player::GetTarget()
 {
 	return m_target;
@@ -244,6 +256,11 @@ int Player::GetSpeed()
 int Player::GetActiveWeaponInd()
 {
 	return m_activeWeaponInd;
+}
+
+std::unique_ptr<Upgrade>& Player::GetUpgrade()
+{
+	return m_Upgrade;
 }
 
 std::unique_ptr<Weapon>* Player::GetWeapons()

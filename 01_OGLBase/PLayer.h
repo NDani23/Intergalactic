@@ -6,6 +6,7 @@
 #include "LaserGun.h"
 #include "RocketLauncher.h"
 #include "MinePlacer.h"
+#include "SpeedBooster.h"
 
 #include <algorithm>
 
@@ -38,6 +39,8 @@ private:
 	Entity* m_target;
 
 	std::unique_ptr<Weapon> m_guns[3];
+	std::unique_ptr<Upgrade> m_Upgrade;
+
 
 	int m_points;
 	int m_upgradePoints;
@@ -52,6 +55,7 @@ public:
 
 	void Move(const float&, const glm::vec3&);
 	void Shoot();
+	void ActivateUpgrade();
 	void RemoveProjectile(std::unique_ptr<Projectile>&);
 	void UpdateProjectiles(const float&);
 
@@ -63,6 +67,7 @@ public:
 	void setStats(Stats);
 	void setActiveWeapon(int);
 	void setTarget(Entity*);
+	void setSpeed(float);
 
 	void Decelerate(bool);
 	bool Hit(int) override;
@@ -83,6 +88,7 @@ public:
 	std::vector<std::unique_ptr<Projectile>>& GetProjectiles();
 	std::unique_ptr<Weapon>* GetWeapons();
 	Weapon& GetActiveWeapon1();
+	std::unique_ptr<Upgrade>& GetUpgrade();
 
 private:
 	void Roll(const int&, const float&);

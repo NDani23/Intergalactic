@@ -6,7 +6,7 @@ Upgrade::Upgrade()
 	m_position = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
 	m_coolDownTime = 0.0f;
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_lastActiveTime = std::chrono::system_clock::now();
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -17,6 +17,11 @@ Upgrade::Upgrade()
 float Upgrade::GetCoolDownTime()
 {
 	return m_coolDownTime;
+}
+
+Player* Upgrade::GetParent()
+{
+	return m_parent;
 }
 
 void Upgrade::SetPosition(const glm::vec3& pos)

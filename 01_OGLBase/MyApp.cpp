@@ -201,6 +201,7 @@ void CMyApp::Update()
 	UpdateEntities(delta_time);
 
 	if (m_shooting) m_player.Shoot();
+	if (m_useUpgrade) m_player.ActivateUpgrade();
 
 	//camera
 	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
@@ -258,6 +259,9 @@ void CMyApp::Render()
 				Weapon* weapon = m_player.GetWeapons()[i].get();
 				if(weapon != nullptr)  m_player.GetWeapons()[i]->DrawMesh(m_program, viewProj);
 			}
+
+			//player upgrade
+			m_player.GetUpgrade()->DrawMesh(m_program, viewProj);
 		}
 	}
 
@@ -348,6 +352,9 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 		if(m_GameState.play)
 			m_GameState.pause = true;
 		break;
+	case SDLK_LSHIFT:
+		m_useUpgrade = true;
+		break;
 	}
 }
 
@@ -375,6 +382,9 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 		break;
 	case SDLK_v:
 		m_backward_camera = false;
+		break;
+	case SDLK_LSHIFT:
+		m_useUpgrade = false;
 		break;
 	}
 }

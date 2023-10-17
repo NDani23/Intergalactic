@@ -90,6 +90,8 @@ protected:
 	float m_PlayTime = 0;
 
 	bool m_shooting = false;
+	bool m_useUpgrade = false;
+
 	bool m_backward_camera = false;
 	std::vector<std::unique_ptr<Projectile>> m_projectiles;
 	glm::vec3 m_cursor_diff_vec = { 0.0f, 0.0f, 0.0f };
