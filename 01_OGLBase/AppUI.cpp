@@ -12,6 +12,10 @@ AppUI::AppUI(CMyApp* app)
 	m_weaponChoices[1].InsertWeapon = [](Player* player, int side) { return std::make_unique<MinePlacer>(player, side); };
 	m_weaponChoices[1].Image.FromFile("assets/mine.png");
 	m_weaponChoices[1].Text = "Mine placer";
+
+	m_upgradeChoices[0].InsertUpgrade = [](Player* player) { return std::make_unique<SpeedBooster>(player); };
+	m_upgradeChoices[0].Image.FromFile("assets/booster.png");
+	m_upgradeChoices[0].Text = "Speed booster";
 }
 
 AppUI::AppUI()
@@ -183,6 +187,14 @@ void AppUI::RenderPlayWindow()
 		}
 	}
 
+	image_size = ImVec2(m_app->m_screenWidth / 25.f, m_app->m_screenWidth / 25.f);
+	if(m_app->m_useUpgrade) border_col = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+	ImGui::Indent(m_app->m_screenWidth / 2.f);
+
+	int TexId = m_app->m_player.GetUpgrade() == nullptr ? -1 : m_app->m_player.GetUpgrade()->GetImage().GetId();
+	ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
+
+
 	ImGui::End();
 }
 
@@ -308,6 +320,24 @@ void AppUI::RenderHangarWindow()
 			ImGui::SameLine();
 			
 		}
+
+		ImGui::Indent(m_app->m_screenWidth / 2.f);
+		int TexId = m_app->m_player.GetUpgrade() == nullptr ? -1 : m_app->m_player.GetUpgrade()->GetImage().GetId();
+		if (ImGui::ImageButton("Upgrade", (ImTextureID)TexId, image_size, uv_min, uv_max, border_col, tint_col))
+		{
+			m_app->m_player.GetUpgrade() = nullptr;
+		}
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Upgrade"))
+			{
+				int payload_n = *(const int*)payload->Data;
+				m_app->m_player.GetUpgrade() = m_upgradeChoices[payload_n].InsertUpgrade(&m_app->m_player);
+			}
+
+			ImGui::EndDragDropTarget();
+		}
 	}
 	ImGui::End();
 
@@ -430,8 +460,7 @@ void AppUI::RenderHangarWindow()
 		ImVec2 image_size = ImVec2(m_app->m_screenWidth / 20.f, m_app->m_screenWidth / 20.f);
 
 		if (ImGui::TreeNode("Weapons"))
-		{
-			
+		{	
 			
 			for (int n = 0; n < IM_ARRAYSIZE(m_weaponChoices); n++)
 			{
@@ -449,6 +478,30 @@ void AppUI::RenderHangarWindow()
 					ImGui::EndDragDropSource();
 				}
 				
+				ImGui::PopID();
+			}
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Upgrades"))
+		{
+
+			for (int n = 0; n < IM_ARRAYSIZE(m_upgradeChoices); n++)
+			{
+				ImGui::PushID(n);
+				ImGui::ImageButton("", (ImTextureID)m_upgradeChoices[n].Image.GetId(), image_size, uv_min, uv_max, border_col, tint_col);
+				// Our buttons are both drag sources and drag targets here!
+				if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+				{
+					// Set payload to carry the index of our item (could be anything)
+
+					ImGui::SetDragDropPayload("Upgrade", &n, sizeof(int));
+
+					ImGui::Text(m_upgradeChoices[n].Text.c_str());
+
+					ImGui::EndDragDropSource();
+				}
+
 				ImGui::PopID();
 			}
 			ImGui::TreePop();

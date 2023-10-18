@@ -20,7 +20,7 @@ Player::Player()
 	m_guns[2] = nullptr;
 	m_guns[0] = nullptr;
 
-	m_Upgrade = std::make_unique<SpeedBooster>(this);
+	m_Upgrade = nullptr;
 
 	m_points = 0;
 	m_upgradePoints = 20;
@@ -126,7 +126,7 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 		}
 	}
 
-	m_Upgrade->Update();
+	if(m_Upgrade != nullptr) m_Upgrade->Update();
 	
 
 	m_hitboxes[0].Position = m_position;

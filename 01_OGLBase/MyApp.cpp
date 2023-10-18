@@ -201,7 +201,7 @@ void CMyApp::Update()
 	UpdateEntities(delta_time);
 
 	if (m_shooting) m_player.Shoot();
-	if (m_useUpgrade) m_player.ActivateUpgrade();
+	if (m_useUpgrade && m_player.GetUpgrade() != nullptr) m_player.ActivateUpgrade();
 
 	//camera
 	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
@@ -261,7 +261,8 @@ void CMyApp::Render()
 			}
 
 			//player upgrade
-			m_player.GetUpgrade()->DrawMesh(m_program, viewProj);
+			if(m_player.GetUpgrade() != nullptr) m_player.GetUpgrade()->DrawMesh(m_program, viewProj);
+			
 		}
 	}
 
