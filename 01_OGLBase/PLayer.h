@@ -7,6 +7,8 @@
 
 #include <algorithm>
 
+class Persistence;
+
 struct Stats
 {
 	int speed;
@@ -42,9 +44,13 @@ private:
 	int m_points;
 	int m_upgradePoints;
 
+	int m_credit;
+
 	int m_activeWeaponInd;
 
 	Stats m_stats;
+
+	friend class Persistence;
 
 public:
 	Player();
@@ -65,6 +71,7 @@ public:
 	void setActiveWeapon(int);
 	void setTarget(Entity*);
 	void setSpeed(float);
+	void setCredit(int);
 
 	void Decelerate(bool);
 	bool Hit(int) override;
@@ -76,8 +83,11 @@ public:
 	int GetMaxHealth();
 	int GetUpgradePoints();
 	int GetActiveWeaponInd();
+	int GetCredit();
 	Stats& GetStats();
 	Entity* GetTarget();
+
+	int GetUpgradePointsSum();
 
 	glm::vec3 GetForwardVec();
 	glm::vec3 GetUpVec();

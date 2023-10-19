@@ -117,6 +117,7 @@ void AppUI::RenderMenu()
 	if (ImGui::Button("EXIT", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
 	{
 		*(m_app->m_quit) = true;
+		m_app->m_Persistence.Save();
 	}
 	ImGui::End();
 }
@@ -257,8 +258,8 @@ void AppUI::RenderHangarWindow()
 		}
 
 
-		ImGui::Indent(m_app->m_screenWidth - 80.f);
-		ImGui::Text("Credit: %i", m_app->m_player.GetPoints());
+		ImGui::Indent(m_app->m_screenWidth - 100.f);
+		ImGui::Text("Credit: %d", m_app->m_player.GetCredit());
 
 		ImGui::EndMainMenuBar();
 	}
@@ -334,7 +335,26 @@ void AppUI::RenderHangarWindow()
 
 	int player_upgrade_points = m_app->m_player.GetUpgradePoints();
 
+
+	ImVec2 windowSize = ImGui::GetWindowSize();
+
 	ImGui::Text("Upgrade points: %d", player_upgrade_points);
+
+	if (m_app->m_player.GetUpgradePointsSum() != 20)
+	{
+
+		ImGui::SameLine();
+		if (ImGui::Button("+", ImVec2(20.f, 20.f)))
+		{
+			if (m_app->m_player.GetCredit() >= 200)
+			{
+				m_app->m_player.setUpgradePoints(m_app->m_player.GetUpgradePoints() + 1);
+				m_app->m_player.setCredit(m_app->m_player.GetCredit() - 200);
+			}
+		}
+		ImGui::SameLine();
+		ImGui::Text("(200$)");
+	}
 
 	//Example input for stat modifiers
 	int step = 1;

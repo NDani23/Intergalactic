@@ -15,6 +15,8 @@ Player::Player()
 	m_activeWeaponInd = 1;
 	m_target = nullptr;
 
+	m_credit = 0;
+
 
 	m_guns[1] = std::make_unique<LaserGun>(this);
 	m_guns[2] = nullptr;
@@ -23,7 +25,7 @@ Player::Player()
 	m_Upgrade = nullptr;
 
 	m_points = 0;
-	m_upgradePoints = 20;
+	m_upgradePoints = 0;
 
 	m_stats = {0, 0, 0, 0, 0};
 
@@ -67,7 +69,6 @@ void Player::Reset()
 	if (m_Upgrade != nullptr) m_Upgrade->Update();
 
 	m_points = 0;
-	m_upgradePoints = 20;
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
@@ -195,6 +196,11 @@ void Player::setPoints(int point)
 	m_points = point;
 }
 
+void Player::setCredit(int credit)
+{
+	m_credit = credit;
+}
+
 void Player::setUpgradePoints(int points)
 {
 	m_upgradePoints = points;
@@ -234,6 +240,11 @@ int Player::GetPoints()
 	return m_points;
 }
 
+int Player::GetCredit()
+{
+	return m_credit;
+}
+
 int Player::GetMaxSpeed()
 {
 	return m_max_speed;
@@ -247,6 +258,14 @@ int Player::GetMaxHealth()
 int Player::GetUpgradePoints()
 {
 	return m_upgradePoints;
+}
+
+int Player::GetUpgradePointsSum()
+{
+	int sum = m_upgradePoints;
+	sum += m_stats.speed + m_stats.damage + m_stats.fire_rate + m_stats.health + m_stats.mobility;
+
+	return sum;
 }
 
 int Player::GetHealth()

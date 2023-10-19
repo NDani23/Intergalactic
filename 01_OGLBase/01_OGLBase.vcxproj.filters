@@ -25,6 +25,9 @@
     <Filter Include="Source Files\model">
       <UniqueIdentifier>{8150ed97-658d-4cea-9b03-71fbaf75bfbd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\persistence">
+      <UniqueIdentifier>{43b03b09-a86c-438a-a5ab-f785f52659db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h">
@@ -162,6 +165,9 @@
     <ClInclude Include="UpgradeDataStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Persistence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyApp.cpp">
@@ -272,6 +278,9 @@
     </ClCompile>
     <ClCompile Include="UpgradeDataStorage.cpp">
       <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="Persistence.cpp">
+      <Filter>Source Files\persistence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

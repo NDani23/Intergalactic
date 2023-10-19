@@ -10,11 +10,14 @@
 #include <imgui/imgui_internal.h>
 #include "includes/GLUtils.hpp"
 
+
 CMyApp::CMyApp(void)
 {
+	m_Persistence = Persistence(&m_player);
 	UI = AppUI(this);
 	m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0));
 	m_quit = nullptr;
+
 }
 
 CMyApp::~CMyApp(void)
@@ -113,6 +116,8 @@ void CMyApp::InitShaders()
 bool CMyApp::Init(bool* quit)
 {
 	m_quit = quit;
+
+	m_Persistence.Load();
 
 	glClearColor(0.125f, 0.25f, 0.5f, 1.0f);
 
@@ -435,7 +440,7 @@ void CMyApp::DetectCollisions()
 
 	for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
 	{
-
+		if (m_GameState.gameover) break;
 		for (HitBox& hitbox : entity->GetHitboxes())
 		{
 			glm::vec3 distance_vec = player_pos - hitbox.Position;
@@ -448,8 +453,10 @@ void CMyApp::DetectCollisions()
 			{
 				//Collision response
 				//std::cout << "Collision detected!" << std::endl;
+				m_player.setCredit(m_player.GetCredit() + m_player.GetPoints());
 				m_player.setHealth(0);
 				m_GameState.gameover = true;
+				break;
 			}
 		}
 		
@@ -490,7 +497,9 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 
 			if (m_player.Hit(proj->GetDamage()))
 			{
+				m_player.setCredit(m_player.GetCredit() + m_player.GetPoints());
 				m_GameState.gameover = true;
+				break;
 			}
 		}
 	}

@@ -35,6 +35,7 @@
 #include "Turret.h"
 #include "GameState.h"
 #include "AppUI.h"
+#include "Persistence.h"
 
 class CMyApp
 {
@@ -86,6 +87,7 @@ protected:
 	WeaponDataStorage m_weaponStorage;
 	UpgradeDataStorage m_upgradeStorage;
 
+	Persistence m_Persistence;
 	AppUI UI;
 	Player m_player;
 	Map m_map;

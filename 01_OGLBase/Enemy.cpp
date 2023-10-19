@@ -8,6 +8,8 @@ int Enemy::FirstInit()
 	Enemy::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/enemy_ship.obj"));
 	Enemy::m_static_mesh->initBuffers();
 	Enemy::m_static_tex.FromFile("assets/enemy_tex.png");
+
+	return 1;
 }
 
 Enemy::Enemy()
