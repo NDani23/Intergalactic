@@ -5,30 +5,16 @@
 #include <functional>
 
 #include "GameState.h"
+#include "WeaponDataStorage.h"
+#include "UpgradeDataStorage.h"
 #include "Weapon.h"
 #include "Upgrade.h"
 
 class CMyApp;
 
-struct DragDropWeaponItem
-{
-	std::function<std::unique_ptr<Weapon>(Player*, int)> InsertWeapon;
-	Texture2D Image;
-	std::string Text;
-};
-
-struct DragDropUpgradeItem
-{
-	std::function<std::unique_ptr<Upgrade>(Player*)> InsertUpgrade;
-	Texture2D Image;
-	std::string Text;
-};
-
 class AppUI
 {
 private:
-	DragDropWeaponItem m_weaponChoices[2];
-	DragDropUpgradeItem m_upgradeChoices[1];
 	CMyApp* m_app;
 
 public:

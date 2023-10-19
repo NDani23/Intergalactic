@@ -136,7 +136,9 @@
     <ClInclude Include="SpeedBooster.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="Upgrade.h" />
+    <ClInclude Include="UpgradeDataStorage.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponDataStorage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui.cpp" />
@@ -173,7 +175,9 @@
     <ClCompile Include="SpeedBooster.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="Upgrade.cpp" />
+    <ClCompile Include="UpgradeDataStorage.cpp" />
     <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponDataStorage.cpp" />
     <None Include="axes.frag" />
     <None Include="axes.vert" />
     <None Include="Includes\BufferObject.inl" />

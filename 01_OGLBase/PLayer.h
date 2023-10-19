@@ -2,10 +2,7 @@
 
 #include "Directions.h"
 #include "Entity.h"
-#include "Laser.h"
-#include "LaserGun.h"
-#include "RocketLauncher.h"
-#include "MinePlacer.h"
+#include "WeaponDataStorage.h"
 #include "SpeedBooster.h"
 
 #include <algorithm>

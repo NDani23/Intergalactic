@@ -59,6 +59,12 @@ void Player::Reset()
 
 	m_target = nullptr;
 
+	for (int i = 0; i < 3; i++)
+	{
+		if (m_guns[i] != nullptr) m_guns[i]->Update();
+	}
+
+	if (m_Upgrade != nullptr) m_Upgrade->Update();
 
 	m_points = 0;
 	m_upgradePoints = 20;

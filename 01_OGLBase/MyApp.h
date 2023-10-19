@@ -82,7 +82,10 @@ protected:
 	TextureCubeMap		m_skyboxTexture;
 
 	GameState m_GameState = {true, false, false, false};
-	
+
+	WeaponDataStorage m_weaponStorage;
+	UpgradeDataStorage m_upgradeStorage;
+
 	AppUI UI;
 	Player m_player;
 	Map m_map;

@@ -4,18 +4,6 @@
 AppUI::AppUI(CMyApp* app)
 {
 	m_app = app;
-
-	m_weaponChoices[0].InsertWeapon = [](Player* player, int side) { return std::make_unique<RocketLauncher>(player, side); };
-	m_weaponChoices[0].Image.FromFile("assets/rocket.png");
-	m_weaponChoices[0].Text = "Thermal rocket launcher";
-
-	m_weaponChoices[1].InsertWeapon = [](Player* player, int side) { return std::make_unique<MinePlacer>(player, side); };
-	m_weaponChoices[1].Image.FromFile("assets/mine.png");
-	m_weaponChoices[1].Text = "Mine placer";
-
-	m_upgradeChoices[0].InsertUpgrade = [](Player* player) { return std::make_unique<SpeedBooster>(player); };
-	m_upgradeChoices[0].Image.FromFile("assets/booster.png");
-	m_upgradeChoices[0].Text = "Speed booster";
 }
 
 AppUI::AppUI()
@@ -311,7 +299,7 @@ void AppUI::RenderHangarWindow()
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Weapon"))
 					{
 						int payload_n = *(const int*)payload->Data;
-						m_app->m_player.GetWeapons()[i] = m_weaponChoices[payload_n].InsertWeapon(&m_app->m_player, i-1);
+						m_app->m_player.GetWeapons()[i] = m_app->m_weaponStorage.GetStorage().at(payload_n).InsertWeapon(&m_app->m_player, i - 1);
 					}
 
 					ImGui::EndDragDropTarget();
@@ -333,7 +321,7 @@ void AppUI::RenderHangarWindow()
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Upgrade"))
 			{
 				int payload_n = *(const int*)payload->Data;
-				m_app->m_player.GetUpgrade() = m_upgradeChoices[payload_n].InsertUpgrade(&m_app->m_player);
+				m_app->m_player.GetUpgrade() = m_app->m_upgradeStorage.GetStorage().at(payload_n).InsertUpgrade(&m_app->m_player);
 			}
 
 			ImGui::EndDragDropTarget();
@@ -461,11 +449,11 @@ void AppUI::RenderHangarWindow()
 
 		if (ImGui::TreeNode("Weapons"))
 		{	
-			
-			for (int n = 0; n < IM_ARRAYSIZE(m_weaponChoices); n++)
+			std::map<int, WeaponItem>& Weapons = m_app->m_weaponStorage.GetStorage();
+			for (int n = 0; n < Weapons.size(); n++)
 			{
 				ImGui::PushID(n);
-				ImGui::ImageButton("", (ImTextureID)m_weaponChoices[n].Image.GetId(), image_size, uv_min, uv_max, border_col, tint_col);
+				ImGui::ImageButton("", (ImTextureID)Weapons.at(n).Image.GetId(), image_size, uv_min, uv_max, border_col, tint_col);
 				// Our buttons are both drag sources and drag targets here!
 				if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
 				{
@@ -473,7 +461,7 @@ void AppUI::RenderHangarWindow()
 
 					ImGui::SetDragDropPayload("Weapon", &n, sizeof(int));
 
-					ImGui::Text(m_weaponChoices[n].Text.c_str());
+					ImGui::Text(Weapons.at(n).Text.c_str());
 					
 					ImGui::EndDragDropSource();
 				}
@@ -486,10 +474,11 @@ void AppUI::RenderHangarWindow()
 		if (ImGui::TreeNode("Upgrades"))
 		{
 
-			for (int n = 0; n < IM_ARRAYSIZE(m_upgradeChoices); n++)
+			std::map<int, UpgradeItem>& Upgrades = m_app->m_upgradeStorage.GetStorage();
+			for (int n = 0; n < Upgrades.size(); n++)
 			{
 				ImGui::PushID(n);
-				ImGui::ImageButton("", (ImTextureID)m_upgradeChoices[n].Image.GetId(), image_size, uv_min, uv_max, border_col, tint_col);
+				ImGui::ImageButton("", (ImTextureID)Upgrades.at(n).Image.GetId(), image_size, uv_min, uv_max, border_col, tint_col);
 				// Our buttons are both drag sources and drag targets here!
 				if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
 				{
@@ -497,7 +486,7 @@ void AppUI::RenderHangarWindow()
 
 					ImGui::SetDragDropPayload("Upgrade", &n, sizeof(int));
 
-					ImGui::Text(m_upgradeChoices[n].Text.c_str());
+					ImGui::Text(Upgrades.at(n).Text.c_str());
 
 					ImGui::EndDragDropSource();
 				}

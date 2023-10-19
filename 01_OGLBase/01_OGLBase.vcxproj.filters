@@ -156,6 +156,12 @@
     <ClInclude Include="SpeedBooster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponDataStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UpgradeDataStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyApp.cpp">
@@ -259,6 +265,12 @@
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="SpeedBooster.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponDataStorage.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="UpgradeDataStorage.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>
