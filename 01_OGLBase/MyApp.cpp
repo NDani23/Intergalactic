@@ -685,3 +685,8 @@ void CMyApp::DrawHitBox(HitBox& hitbox)
 
 	Points.clear();
 }
+
+void CMyApp::Exit()
+{
+	m_Persistence.Save();
+}

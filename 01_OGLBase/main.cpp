@@ -163,6 +163,7 @@ int main( int argc, char* args[] )
 				switch (ev.type)
 				{
 				case SDL_QUIT:
+					app.Exit();
 					quit = true;
 					break;
 				case SDL_KEYDOWN:
