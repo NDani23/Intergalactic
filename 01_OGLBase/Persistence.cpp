@@ -42,12 +42,47 @@ void Persistence::Save()
 	//equiped weapons
 	ss << "w ";
 	m_app->m_player.m_guns[0] == nullptr ? ss << "-1 " : ss << m_app->m_player.m_guns[0]->ID() << " ";
-	m_app->m_player.m_guns[2] == nullptr ? ss << "-1 " : ss << m_app->m_player.m_guns[2]->ID() << "\n";
+	m_app->m_player.m_guns[2] == nullptr ? ss << "-1 \n" : ss << m_app->m_player.m_guns[2]->ID() << "\n";
 
 	//equiped Upgrade
 	ss << "eu ";
-	m_app->m_player.m_Upgrade == nullptr ? ss << "-1 " : ss << m_app->m_player.m_Upgrade->ID() << "\n";
+	m_app->m_player.m_Upgrade == nullptr ? ss << "-1 \n" : ss << m_app->m_player.m_Upgrade->ID() << "\n";
 
+	//owned weapons
+	ss << "ow ";
+	{
+		std::vector<int> indexes;
+		for (int i = 0; i < m_app->m_weaponStorage.GetStorage().size(); i++)
+		{
+			if (m_app->m_weaponStorage.GetStorage().at(i).Owned) indexes.push_back(i);
+		}
+		ss << indexes.size();
+
+		for (int i : indexes)
+		{
+			ss << " ";
+			ss << i;
+		}
+		ss << "\n";
+	}
+
+	//owned upgrades
+	ss << "ou ";
+	{
+		std::vector<int> indexes;
+		for (int i = 0; i < m_app->m_upgradeStorage.GetStorage().size(); i++)
+		{
+			if (m_app->m_upgradeStorage.GetStorage().at(i).Owned) indexes.push_back(i);
+		}
+		ss << indexes.size();
+
+		for (int i : indexes)
+		{
+			ss << " ";
+			ss << i;
+		}
+		ss << "\n";
+	}
 
 	myfile << ss.str();
 
@@ -103,6 +138,30 @@ bool Persistence::Load()
 
 			myfile >> id;
 			if(id != -1) m_app->m_player.GetUpgrade() = m_app->m_upgradeStorage.GetStorage().at(id).InsertUpgrade(&m_app->m_player);
+		}
+		else if (line_id == "ow")
+		{
+			int count;
+			myfile >> count;
+
+			for (int i = 0; i < count; i++)
+			{
+				int id;
+				myfile >> id;
+				m_app->m_weaponStorage.GetStorage().at(id).Owned = true;
+			}
+		}
+		else if (line_id == "ou")
+		{
+			int count;
+			myfile >> count;
+
+			for (int i = 0; i < count; i++)
+			{
+				int id;
+				myfile >> id;
+				m_app->m_upgradeStorage.GetStorage().at(id).Owned = true;
+			}
 		}
 	}
 	

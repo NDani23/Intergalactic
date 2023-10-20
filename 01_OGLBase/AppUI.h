@@ -16,6 +16,7 @@ class AppUI
 {
 private:
 	CMyApp* m_app;
+	std::pair<std::string, int> m_ItemIdentifier;
 
 public:
 	AppUI(CMyApp* app);
@@ -29,4 +30,5 @@ private:
 	void RenderGameOverWindow();
 	void RenderPauseWindow();
 	void RenderHangarWindow();
+	void RenderBuyWindow();
 };

@@ -4,11 +4,13 @@
 AppUI::AppUI(CMyApp* app)
 {
 	m_app = app;
+	m_ItemIdentifier = std::make_pair("", -1);
 }
 
 AppUI::AppUI()
 {
 	m_app = nullptr;
+	m_ItemIdentifier = std::make_pair("", -1);
 }
 
 
@@ -80,6 +82,9 @@ void AppUI::Render()
 
 	if (m_app->m_GameState.hangar)
 		RenderHangarWindow();
+
+	if (m_ItemIdentifier.second != -1)
+		RenderBuyWindow();
 
 	ImGui::End();
 }
@@ -473,17 +478,20 @@ void AppUI::RenderHangarWindow()
 			for (int n = 0; n < Weapons.size(); n++)
 			{
 				ImGui::PushID(n);
-				ImGui::ImageButton("", (ImTextureID)Weapons.at(n).Image.GetId(), image_size, uv_min, uv_max, border_col, tint_col);
-				// Our buttons are both drag sources and drag targets here!
-				if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+				Weapons.at(n).Owned ? tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f) : tint_col = ImVec4(0.3f, 0.3f, 0.3f, 1.0f);
+				if (ImGui::ImageButton("", (ImTextureID)Weapons.at(n).Image.GetId(), image_size, uv_min, uv_max, border_col, tint_col))
 				{
-					// Set payload to carry the index of our item (could be anything)
-
-					ImGui::SetDragDropPayload("Weapon", &n, sizeof(int));
-
-					ImGui::Text(Weapons.at(n).Text.c_str());
-					
-					ImGui::EndDragDropSource();
+					if(!Weapons.at(n).Owned) m_ItemIdentifier = std::make_pair("Weapon", n);
+				}
+				
+				if (Weapons.at(n).Owned)
+				{
+					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+					{
+						ImGui::SetDragDropPayload("Weapon", &n, sizeof(int));
+						ImGui::Text(Weapons.at(n).Text.c_str());
+						ImGui::EndDragDropSource();
+					}
 				}
 				
 				ImGui::PopID();
@@ -498,17 +506,20 @@ void AppUI::RenderHangarWindow()
 			for (int n = 0; n < Upgrades.size(); n++)
 			{
 				ImGui::PushID(n);
-				ImGui::ImageButton("", (ImTextureID)Upgrades.at(n).Image.GetId(), image_size, uv_min, uv_max, border_col, tint_col);
-				// Our buttons are both drag sources and drag targets here!
-				if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+				Upgrades.at(n).Owned ? tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f) : tint_col = ImVec4(0.3f, 0.3f, 0.3f, 1.0f);
+				if (ImGui::ImageButton("", (ImTextureID)Upgrades.at(n).Image.GetId(), image_size, uv_min, uv_max, border_col, tint_col))
 				{
-					// Set payload to carry the index of our item (could be anything)
+					if (!Upgrades.at(n).Owned)m_ItemIdentifier = std::make_pair("Upgrade", n);
+				}
 
-					ImGui::SetDragDropPayload("Upgrade", &n, sizeof(int));
-
-					ImGui::Text(Upgrades.at(n).Text.c_str());
-
-					ImGui::EndDragDropSource();
+				if (Upgrades.at(n).Owned)
+				{
+					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+					{
+						ImGui::SetDragDropPayload("Upgrade", &n, sizeof(int));
+						ImGui::Text(Upgrades.at(n).Text.c_str());
+						ImGui::EndDragDropSource();
+					}
 				}
 
 				ImGui::PopID();
@@ -516,5 +527,56 @@ void AppUI::RenderHangarWindow()
 			ImGui::TreePop();
 		}
 	}
+	ImGui::End();
+}
+
+void AppUI::RenderBuyWindow()
+{
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize;
+
+	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + m_app->m_screenWidth / 3, main_viewport->WorkPos.y + m_app->m_screenHeight / 5 * 2));
+	ImGui::SetNextWindowSize(ImVec2(m_app->m_screenWidth / 3, m_app->m_screenHeight / 5));
+
+	ImGui::Begin("Buy", nullptr, window_flags);
+
+	ImVec2 windowSize = ImGui::GetWindowSize();
+	ImVec2 windowPos = ImGui::GetWindowPos();
+
+
+	ImGui::Indent(windowSize.x / 8.f);
+
+	UpgradeItem* upgrade = nullptr;
+	WeaponItem* weapon = nullptr;
+
+	if (m_ItemIdentifier.first == "Weapon")
+	{
+		weapon = &m_app->m_weaponStorage.GetStorage().at(m_ItemIdentifier.second);
+		ImGui::Text(weapon->Text.c_str());
+		ImGui::SameLine();
+		ImGui::Text("(%d$)", weapon->Price);
+	}
+	else
+	{
+		upgrade = &m_app->m_upgradeStorage.GetStorage().at(m_ItemIdentifier.second);
+		ImGui::Text(upgrade->Text.c_str());
+		ImGui::SameLine();
+		ImGui::Text("(%d$)", upgrade->Price);
+	}
+
+
+	if (ImGui::Button("BUY", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	{
+		int price = upgrade == nullptr ? weapon->Price : upgrade->Price;
+		upgrade == nullptr ? weapon->Owned = true : upgrade->Owned = true;
+		m_app->m_player.setCredit(m_app->m_player.GetCredit() - price);
+		m_ItemIdentifier = std::make_pair("", -1);
+	}
+
+	if (ImGui::Button("CANCEL", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	{
+		m_ItemIdentifier = std::make_pair("", -1);
+	}
+
 	ImGui::End();
 }

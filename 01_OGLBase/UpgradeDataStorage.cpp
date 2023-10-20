@@ -10,7 +10,8 @@ UpgradeDataStorage::UpgradeDataStorage()
 			std::move(
 				UpgradeItem({[](Player* player) { return std::make_unique<SpeedBooster>(player); },
 				Texture2D("assets/booster.png"),
-				"Speed booster"})
+				"Speed booster",
+				1000})
 			)
 		}
 	);

@@ -13,6 +13,8 @@ struct WeaponItem
 	std::function<std::unique_ptr<Weapon>(Player*, int)> InsertWeapon;
 	Texture2D Image;
 	std::string Text;
+	int Price;
+	bool Owned = false;
 };
 
 class WeaponDataStorage

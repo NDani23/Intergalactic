@@ -8,9 +8,11 @@ WeaponDataStorage::WeaponDataStorage()
 		{
 			0,
 			std::move(
-				WeaponItem({[](Player* player, int side) { return std::make_unique<RocketLauncher>(player, side); },
+				WeaponItem(
+				{[](Player* player, int side) { return std::make_unique<RocketLauncher>(player, side); },
 				Texture2D("assets/rocket.png"),
-				"Thermal rocket launcher"})
+				"Thermal rocket launcher",
+				2000})
 			)
 		}
 	);
@@ -22,7 +24,8 @@ WeaponDataStorage::WeaponDataStorage()
 			std::move(
 				WeaponItem({[](Player* player, int side) { return std::make_unique<MinePlacer>(player, side); },
 				Texture2D("assets/mine.png"),
-				"Mine Placer"})
+				"Mine Placer",
+				1500})
 			)
 		}
 	);
