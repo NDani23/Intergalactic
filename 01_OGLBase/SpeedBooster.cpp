@@ -3,6 +3,7 @@
 
 SpeedBooster::SpeedBooster()
 {
+	m_ID = 0;
 	m_parent = nullptr;
 	m_position = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
@@ -24,6 +25,7 @@ SpeedBooster::SpeedBooster()
 
 SpeedBooster::SpeedBooster(Player* parent)
 {
+	m_ID = 0;
 	m_parent = parent;
 	m_active = false;
 	m_position = m_parent->GetPos();

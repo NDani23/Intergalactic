@@ -4,15 +4,16 @@
 #include <iostream>
 #include <string>
 
-class Player;
+class CMyApp;
 
 class Persistence
 {
 private:
-	Player* m_player;
+	CMyApp* m_app;
+
 public:
 	Persistence();
-	Persistence(Player*);
+	Persistence(CMyApp*);
 
 	void Save();
 	bool Load();

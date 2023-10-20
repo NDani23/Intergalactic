@@ -13,7 +13,7 @@
 
 CMyApp::CMyApp(void)
 {
-	m_Persistence = Persistence(&m_player);
+	m_Persistence = Persistence(this);
 	UI = AppUI(this);
 	m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0));
 	m_quit = nullptr;

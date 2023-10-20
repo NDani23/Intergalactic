@@ -1,8 +1,8 @@
 #include "Weapon.h"
 
-
 Weapon::Weapon()
 {
+	m_ID = -1;
 	m_parent = nullptr;
 	m_position = glm::vec3(0, 0, 0);
 	m_shootDir = glm::vec3(0, 0, 0);
@@ -69,4 +69,9 @@ void Weapon::Update()
 bool Weapon::requireTarget()
 {
 	return false;
+}
+
+int Weapon::ID()
+{
+	return m_ID;
 }

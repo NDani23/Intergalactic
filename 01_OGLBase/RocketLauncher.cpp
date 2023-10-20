@@ -3,6 +3,7 @@
 
 RocketLauncher::RocketLauncher()
 {
+	m_ID = 0;
 	m_parent = nullptr;
 	m_position = glm::vec3(0, 0, 0);
 	m_shootDir = glm::vec3(0, 0, 0);
@@ -24,7 +25,7 @@ RocketLauncher::RocketLauncher()
 
 RocketLauncher::RocketLauncher(Player* target, int side)
 {
-
+	m_ID = 0;
 	m_parent = target;
 	m_side = side;
 	m_shootDir = m_parent->GetForwardVec();

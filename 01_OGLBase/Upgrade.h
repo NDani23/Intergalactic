@@ -8,6 +8,7 @@ class Player;
 class Upgrade : public Entity
 {
 protected:
+	int m_ID;
 	Player* m_parent;
 	float m_coolDownTime;
 	std::chrono::time_point<std::chrono::system_clock> m_lastActiveTime;
@@ -15,6 +16,7 @@ protected:
 
 public:
 	Upgrade();
+	int ID();
 	float GetCoolDownTime();
 	void SetPosition(const glm::vec3&);
 	void SetCooldown(float);

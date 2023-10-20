@@ -3,6 +3,7 @@
 Upgrade::Upgrade()
 {
 	m_parent = nullptr;
+	m_ID = -1;
 	m_position = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
 	m_coolDownTime = 0.0f;
@@ -50,4 +51,9 @@ void Upgrade::Update()
 
 void Upgrade::Activate()
 {
+}
+
+int Upgrade::ID()
+{
+	return m_ID;
 }

@@ -9,6 +9,8 @@ class Player;
 class Weapon : public Entity
 {
 protected:
+	int m_ID;
+
 	Player* m_parent;
 	glm::vec3 m_shootDir;
 	float m_coolDownTime;
@@ -17,6 +19,7 @@ protected:
 
 public:
 	Weapon();
+	int ID();
 	glm::vec3 GetShootDir() const;
 	float GetCoolDownTime();
 	void SetPosition(const glm::vec3);

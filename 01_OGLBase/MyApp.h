@@ -67,6 +67,7 @@ public:
 	void UpdateProjectiles(const float&);
 
 	friend class AppUI;
+	friend class Persistence;
 
 protected:
 	// shaderekhez szükséges változók
