@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+	m_record = 0;
 	m_health = 100;
 	m_max_health = 100;
 	m_position = glm::vec3(0, 0, 0);
@@ -225,6 +226,11 @@ void Player::setTarget(Entity* target)
 	m_target = target;
 }
 
+void Player::setRecord(int record)
+{
+	m_record = record;
+}
+
 void Player::setSpeed(float speed)
 {
 	m_speed = speed;
@@ -258,6 +264,11 @@ int Player::GetMaxHealth()
 int Player::GetUpgradePoints()
 {
 	return m_upgradePoints;
+}
+
+int Player::GetRecord()
+{
+	return m_record;
 }
 
 int Player::GetUpgradePointsSum()

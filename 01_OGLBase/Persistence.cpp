@@ -28,6 +28,8 @@ void Persistence::Save()
 	//credit
 	ss << "c " << m_app->m_player.m_credit << "\n";
 
+	ss << "r " << m_app->m_player.GetRecord() << "\n";
+
 	//upgrade points
 	ss << "u " << m_app->m_player.m_upgradePoints << "\n";
 
@@ -109,6 +111,12 @@ bool Persistence::Load()
 		if (line_id == "c")
 		{
 			myfile >> m_app->m_player.m_credit;
+		}
+		else if (line_id == "r")
+		{
+			int record;
+			myfile >> record;
+			m_app->m_player.setRecord(record);
 		}
 		else if (line_id == "u")
 		{

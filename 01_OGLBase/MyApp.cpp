@@ -452,10 +452,7 @@ void CMyApp::DetectCollisions()
 				&& abs(distance_vec.z) < std::max(player_dims.length / 2, hitbox_dims.length / 2))
 			{
 				//Collision response
-				//std::cout << "Collision detected!" << std::endl;
-				m_player.setCredit(m_player.GetCredit() + m_player.GetPoints());
-				m_player.setHealth(0);
-				m_GameState.gameover = true;
+				GameOver();
 				break;
 			}
 		}
@@ -497,8 +494,7 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 
 			if (m_player.Hit(proj->GetDamage()))
 			{
-				m_player.setCredit(m_player.GetCredit() + m_player.GetPoints());
-				m_GameState.gameover = true;
+				GameOver();
 				break;
 			}
 		}
@@ -684,6 +680,14 @@ void CMyApp::DrawHitBox(HitBox& hitbox)
 	glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
 
 	Points.clear();
+}
+
+void CMyApp::GameOver()
+{
+	m_player.setHealth(0);
+	m_player.setCredit(m_player.GetCredit() + m_player.GetPoints());
+	if (m_player.GetPoints() > m_player.GetRecord()) m_player.setRecord(m_player.GetPoints());
+	m_GameState.gameover = true;
 }
 
 void CMyApp::Exit()

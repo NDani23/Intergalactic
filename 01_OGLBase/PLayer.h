@@ -21,7 +21,7 @@ struct Stats
 class Player : public Entity
 {
 private:
-
+	int m_record;
 	int m_health;
 	int m_max_health;
 	glm::vec3 m_forward_vec;
@@ -72,6 +72,7 @@ public:
 	void setTarget(Entity*);
 	void setSpeed(float);
 	void setCredit(int);
+	void setRecord(int);
 
 	void Decelerate(bool);
 	bool Hit(int) override;
@@ -84,6 +85,7 @@ public:
 	int GetUpgradePoints();
 	int GetActiveWeaponInd();
 	int GetCredit();
+	int GetRecord();
 	Stats& GetStats();
 	Entity* GetTarget();
 

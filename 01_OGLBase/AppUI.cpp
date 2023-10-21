@@ -105,6 +105,8 @@ void AppUI::RenderMenu()
 
 	ImGui::Indent(windowSize.x / 8.f);
 
+	ImGui::Text("Record: %d", m_app->m_player.GetRecord());
+
 	if (ImGui::Button("PLAY", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
 	{
 		m_app->m_GameState.play = true;

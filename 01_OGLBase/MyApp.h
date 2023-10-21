@@ -65,6 +65,7 @@ public:
 	void DrawProjectiles(std::vector<std::unique_ptr<Projectile>>&);
 	void UpdateEntities(const float&);
 	void UpdateProjectiles(const float&);
+	void GameOver();
 	void Exit();
 
 	friend class AppUI;
