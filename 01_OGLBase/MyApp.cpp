@@ -87,16 +87,6 @@ void CMyApp::InitSkyBox()
 
 void CMyApp::InitShaders()
 {
-	/*m_program.AttachShaders({
-		{ GL_VERTEX_SHADER, "myVert.vert"},
-		{ GL_FRAGMENT_SHADER, "myFrag.frag"}
-	});
-
-	m_program.BindAttribLocations({
-		{ 0, "vs_in_pos" },
-		{ 1, "vs_in_norm" },
-		{ 2, "vs_in_tex" },
-	});˛*/
 
 	m_programSkybox.Init(
 		{
@@ -149,7 +139,6 @@ void CMyApp::Reset()
 
 void CMyApp::Update()
 {
-	
 	static Uint32 last_time = SDL_GetTicks();
 	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
 
@@ -250,10 +239,10 @@ void CMyApp::Render()
 
 	ProgramObject& BaseProgram = m_map->getProgram();
 
+	BaseProgram.Use();
 	float t = SDL_GetTicks() / 20;
 	if (m_GameState.play || m_GameState.hangar)
 	{
-		BaseProgram.Use();
 
 		if (!m_GameState.gameover)
 		{
@@ -261,7 +250,6 @@ void CMyApp::Render()
 			m_player.DrawMesh(BaseProgram, viewProj);		
 		}
 	}
-	
 	m_map->DrawEntities(viewProj, m_GameState);
 	if (m_GameState.play)
 	{
@@ -279,9 +267,11 @@ void CMyApp::Render()
 		}
 		//DrawHitBoxes();
 		m_axesProgram.Unuse();
+
+		BaseProgram.Use();
 	}
 	
-
+	BaseProgram.Unuse();
 	// skybox
 	GLint prevDepthFnc;
 	glGetIntegerv(GL_DEPTH_FUNC, &prevDepthFnc);

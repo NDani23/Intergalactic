@@ -16,8 +16,8 @@ uniform vec3 Ls = vec3(1, 1, 1);
 
 // anyagtulajdonságok: ambiens, diffúz, spekuláris
 uniform vec3 Ka = vec3(0.5, 0.5, 0.5);
-uniform vec3 Kd = vec3(0.7, 0.7, 0.7);
-uniform vec3 Ks = vec3(0.8, 0.8, 0.8);
+uniform vec3 Kd = vec3(0.4, 0.4, 0.4);
+uniform vec3 Ks = vec3(0.5, 0.5, 0.5);
 
 uniform vec3 eye_pos = vec3(0,7,-30);
 
@@ -37,7 +37,7 @@ void main()
 	//specular light
 	vec3 ref = normalize(reflect(light_dir, vs_out_norm));
 	vec3 to_eye = normalize(eye_pos-vs_out_pos);	
-	float si = pow(clamp(dot(ref,to_eye),0,1),500);
+	float si = pow(clamp(dot(ref,to_eye),0,1),100);
 
 	vec3 specular = si * Ls;
 
