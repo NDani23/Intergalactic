@@ -376,3 +376,21 @@ void Player::updateDimensions()
 	m_hitboxes[0].dimensions.length = 2.5 + ((abs(m_forward_vec.z)) * (10.0 - 2.5)) / 1;
 	m_hitboxes[0].dimensions.length = std::max(2.5 + ((abs(m_cross_vec.z)) * (8.0 - 2.5)) / 1, (double)m_hitboxes[0].dimensions.length);
 }
+
+void Player::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
+{
+	program.SetTexture("texImage", 0, m_texture);
+	program.SetUniform("MVP", viewProj * m_transforms);
+	program.SetUniform("world", m_transforms);
+	program.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
+
+	m_mesh->draw();
+
+	for (int i = 0; i < 3; i++)
+	{
+		Weapon* weapon =GetWeapons()[i].get();
+		if (weapon != nullptr) weapon->DrawMesh(program, viewProj);
+	}
+
+	if (GetUpgrade() != nullptr) GetUpgrade()->DrawMesh(program, viewProj);
+}

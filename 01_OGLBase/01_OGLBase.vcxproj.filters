@@ -168,6 +168,12 @@
     <ClInclude Include="Persistence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DeepSpace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyApp.cpp">
@@ -281,6 +287,9 @@
     </ClCompile>
     <ClCompile Include="Persistence.cpp">
       <Filter>Source Files\persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="DeepSpace.cpp">
+      <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

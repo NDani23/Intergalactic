@@ -1,6 +1,6 @@
 #pragma once
 
-#include "map.cpp"
+#include "map.h"
 #include "LaserGun.h"
 #include <random>
 #include "Projectile.h"

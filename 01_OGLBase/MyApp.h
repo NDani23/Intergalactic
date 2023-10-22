@@ -29,6 +29,7 @@
 #include "includes/ObjParser_OGL3.h"
 
 #include "Directions.h"
+#include "DeepSpace.h"
 #include "InitMap1.h"
 #include "Projectile.h"
 #include "Player.h"
@@ -73,7 +74,7 @@ public:
 
 protected:
 	// shaderekhez szükséges változók
-	ProgramObject		m_program;			// mesh shader
+	//ProgramObject		m_program;			// mesh shader
 	ProgramObject		m_programSkybox;	// skybox shader
 	ProgramObject		m_axesProgram;
 
@@ -93,7 +94,7 @@ protected:
 	Persistence m_Persistence;
 	AppUI UI;
 	Player m_player;
-	Map m_map;
+	Map& m_map = DeepSpace(&m_projectiles, &m_player);
 
 	float m_PlayTime = 0;
 

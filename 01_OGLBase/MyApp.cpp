@@ -17,7 +17,6 @@ CMyApp::CMyApp(void)
 	UI = AppUI(this);
 	m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0));
 	m_quit = nullptr;
-
 }
 
 CMyApp::~CMyApp(void)
@@ -84,7 +83,7 @@ void CMyApp::InitSkyBox()
 
 void CMyApp::InitShaders()
 {
-	m_program.AttachShaders({
+	/*m_program.AttachShaders({
 		{ GL_VERTEX_SHADER, "myVert.vert"},
 		{ GL_FRAGMENT_SHADER, "myFrag.frag"}
 	});
@@ -95,7 +94,7 @@ void CMyApp::InitShaders()
 		{ 2, "vs_in_tex" },
 	});
 
-	m_program.LinkProgram();
+	m_program.LinkProgram();*/
 
 	m_programSkybox.Init(
 		{
@@ -126,7 +125,6 @@ bool CMyApp::Init(bool* quit)
 
 	glLineWidth(4.0f);
 
-	Map1::InitMap(m_map, m_projectiles, &m_player);
 	InitShaders();
 	InitSkyBox();
 
@@ -144,7 +142,7 @@ void CMyApp::Reset()
 	m_PlayTime = 0.f;
 	m_projectiles.clear();
 	m_player.Reset();
-	Map1::ResetMap(m_map, m_projectiles, &m_player);
+	m_map.LoadMap();
 }
 
 void CMyApp::Update()
@@ -248,42 +246,27 @@ void CMyApp::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glm::mat4 viewProj = m_camera.GetViewProj();
 
+	ProgramObject& BaseProgram = m_map.getProgram();
+
 	float t = SDL_GetTicks() / 20;
 	if (m_GameState.play || m_GameState.hangar)
 	{
-		m_program.Use();
+		BaseProgram.Use();
 
 		if (!m_GameState.gameover)
 		{
 			//player
-			m_player.DrawMesh(m_program, viewProj);
-
-			//player guns
-			for (int i = 0; i < 3; i++)
-			{
-				Weapon* weapon = m_player.GetWeapons()[i].get();
-				if(weapon != nullptr)  m_player.GetWeapons()[i]->DrawMesh(m_program, viewProj);
-			}
-
-			//player upgrade
-			if(m_player.GetUpgrade() != nullptr) m_player.GetUpgrade()->DrawMesh(m_program, viewProj);
-			
+			m_player.DrawMesh(BaseProgram, viewProj);		
 		}
 	}
-
+	
+	m_map.DrawEntities(viewProj, m_GameState);
 	if (m_GameState.play)
 	{
-
-		//world objects
-		for (std::shared_ptr<Entity>& entity : m_map.GetEntities())
-		{
-			entity->DrawMesh(m_program, viewProj);
-		}
-
 		glm::vec3 eye_pos = m_camera.GetEye();
-		m_program.SetUniform("eye_pos", eye_pos);
+		BaseProgram.SetUniform("eye_pos", eye_pos);
 
-		m_program.Unuse();
+		BaseProgram.Unuse();
 
 		DrawProjectiles(m_player.GetProjectiles());
 
@@ -503,6 +486,7 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 
 void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
+	ProgramObject& BaseProgram = m_map.getProgram();
 	for (std::unique_ptr<Projectile>& projectile : projectiles)
 	{
 		if (projectile->GetMesh() == nullptr)
@@ -513,9 +497,9 @@ void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectil
 		}
 		else
 		{
-			m_program.Use();
-			projectile->DrawMesh(m_program, m_camera.GetViewProj());
-			m_program.Unuse();
+			BaseProgram.Use();
+			projectile->DrawMesh(BaseProgram, m_camera.GetViewProj());
+			BaseProgram.Unuse();
 		}
 	}
 
@@ -529,9 +513,9 @@ void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectil
 		}
 		else
 		{
-			m_program.Use();
-			projectile->DrawMesh(m_program, m_camera.GetViewProj());
-			m_program.Unuse();
+			BaseProgram.Use();
+			projectile->DrawMesh(BaseProgram, m_camera.GetViewProj());
+			BaseProgram.Unuse();
 		}
 	}
 }

@@ -99,6 +99,8 @@ public:
 	Weapon& GetActiveWeapon1();
 	std::unique_ptr<Upgrade>& GetUpgrade();
 
+	void DrawMesh(ProgramObject&, glm::mat4&) override;
+
 private:
 	void Roll(const int&, const float&);
 	void Pitch(const int&, const float&);
