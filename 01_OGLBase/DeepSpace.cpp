@@ -3,6 +3,7 @@
 
 DeepSpace::DeepSpace(std::vector<std::unique_ptr<Projectile>>* projectiles, Player* player)
 {
+	m_name = "Deep Space";
 	m_player = player;
 	m_projectiles = projectiles;
 

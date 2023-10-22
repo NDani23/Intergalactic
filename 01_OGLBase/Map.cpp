@@ -3,6 +3,7 @@
 
 Map::Map()
 {
+	m_name = "";
 	m_player = nullptr;
 	m_projectiles = nullptr;
 }
@@ -25,6 +26,11 @@ TextureCubeMap& Map::GetSkyBox()
 ProgramObject& Map::getProgram()
 {
 	return m_program;
+}
+
+std::string& Map::getName()
+{
+	return m_name;
 }
 
 void Map::ClearMap()

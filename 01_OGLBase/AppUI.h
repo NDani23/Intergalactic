@@ -15,6 +15,7 @@ class CMyApp;
 class AppUI
 {
 private:
+	int m_currentMapIndex;
 	CMyApp* m_app;
 	std::pair<std::string, int> m_ItemIdentifier;
 

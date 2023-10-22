@@ -13,6 +13,7 @@
 class Map
 {
 protected:
+	std::string m_name;
 	Player* m_player;
 	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
 	TextureCubeMap	m_skyboxTexture;
@@ -25,6 +26,8 @@ public:
 	std::vector<std::shared_ptr<Entity>>* GetEntitiesPtr();
 	TextureCubeMap& GetSkyBox();
 	ProgramObject& getProgram();
+	std::string& getName();
+
 	void ClearMap();
 	void AddEntity(std::shared_ptr<Entity> entity);
 	void SetSkyBox(std::string, std::string, std::string, std::string ,std::string ,std::string);

@@ -3,12 +3,14 @@
 
 AppUI::AppUI(CMyApp* app)
 {
+	m_currentMapIndex = 0;
 	m_app = app;
 	m_ItemIdentifier = std::make_pair("", -1);
 }
 
 AppUI::AppUI()
 {
+	m_currentMapIndex = 0;
 	m_app = nullptr;
 	m_ItemIdentifier = std::make_pair("", -1);
 }
@@ -114,6 +116,26 @@ void AppUI::RenderMenu()
 
 		m_app->Reset();
 	}
+
+	if (ImGui::Button("<", ImVec2(windowSize.x * 0.10, windowSize.y / 10)))
+	{
+		m_currentMapIndex = std::abs((m_currentMapIndex - 1) % 2);
+		m_app->m_map = m_app->m_maps[m_currentMapIndex].get();
+		m_app->m_skyboxTexture = m_app->m_map->GetSkyBox();
+	}
+	ImGui::SameLine(0.f, 1.f);
+
+	ImGui::Button(m_app->m_map->getName().c_str(), ImVec2(windowSize.x * 0.545, windowSize.y / 10));
+
+	ImGui::SameLine(0.f, 1.f);
+
+	if (ImGui::Button(">", ImVec2(windowSize.x * 0.10, windowSize.y / 10)))
+	{
+		m_currentMapIndex = (m_currentMapIndex + 1) % 2;
+		m_app->m_map = m_app->m_maps[m_currentMapIndex].get();
+		m_app->m_skyboxTexture = m_app->m_map->GetSkyBox();
+	}
+
 
 	if (ImGui::Button("HANGAR", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
 	{

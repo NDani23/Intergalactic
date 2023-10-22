@@ -30,6 +30,7 @@
 
 #include "Directions.h"
 #include "DeepSpace.h"
+#include "PlanetEarth.h"
 #include "InitMap1.h"
 #include "Projectile.h"
 #include "Player.h"
@@ -94,7 +95,9 @@ protected:
 	Persistence m_Persistence;
 	AppUI UI;
 	Player m_player;
-	Map& m_map = DeepSpace(&m_projectiles, &m_player);
+
+	std::array<std::unique_ptr<Map>, 2> m_maps;
+	Map* m_map;
 
 	float m_PlayTime = 0;
 

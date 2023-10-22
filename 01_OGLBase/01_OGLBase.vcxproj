@@ -132,6 +132,7 @@
     <ClInclude Include="Mothership.h" />
     <ClInclude Include="MyApp.h" />
     <ClInclude Include="Persistence.h" />
+    <ClInclude Include="PlanetEarth.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Rocket.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="Mothership.cpp" />
     <ClCompile Include="MyApp.cpp" />
     <ClCompile Include="Persistence.cpp" />
+    <ClCompile Include="PlanetEarth.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Rocket.cpp" />
