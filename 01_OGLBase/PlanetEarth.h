@@ -21,6 +21,8 @@ private:
 	glm::vec3 GetFloorNorm(float, float);
 	void DrawFloor(glm::mat4&);
 	void InitFloor();
+	float GetZCoord(float, float);
+	void UpdateFloor();
 public:
 	PlanetEarth(std::vector<std::unique_ptr<Projectile>>*, Player*);
 
