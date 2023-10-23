@@ -10,7 +10,7 @@ PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, 
 
 	m_program.AttachShaders({
 		{ GL_VERTEX_SHADER, "myVert.vert"},
-		{ GL_FRAGMENT_SHADER, "myFrag.frag"}
+		{ GL_FRAGMENT_SHADER, "PlanetEarthBaseFrag.frag"}
 		});
 
 	m_program.BindAttribLocations({
@@ -104,7 +104,7 @@ void PlanetEarth::InitFloor()
 	glBufferData(GL_ARRAY_BUFFER,
 		vert.size() * sizeof(Vertex),
 		vert.data(),
-		GL_DYNAMIC_DRAW);
+		GL_STATIC_DRAW);
 
 	// VAO-ban jegyezzük fel, hogy a VBO-ban az elsõ 3 float sizeof(Vertex)-enként lesz az elsõ attribútum (pozíció)
 	glEnableVertexAttribArray(0); // ez lesz majd a pozíció
@@ -148,18 +148,15 @@ void PlanetEarth::InitFloor()
 
 glm::vec3 PlanetEarth::GetFloorUV(float u, float v)
 {
-	u = u * 10000 - 5000;
-	v = v * 10000 - 5000;
-
-	u += m_player->GetPos().z;
-	v += m_player->GetPos().x;
+	u = u * 5000 - 2500;
+	v = v * 5000 - 2500;
 
 	return glm::vec3(v, GetZCoord(v, u), u);
 }
 
 float PlanetEarth::GetZCoord(float x, float y)
 {
-	return sin(x * 0.003f) * 30.f + cos(y * 0.005f) * 30.f - 50;
+	return sin(x * 0.005026f) * 20.f + cos(y * 0.005f) * 30.f - 50;
 }
 
 glm::vec3 PlanetEarth::GetFloorNorm(float u, float v)
@@ -176,21 +173,30 @@ void PlanetEarth::DrawFloor(glm::mat4& viewproj)
 	int N = 99;
 	int M = 99;
 
-	UpdateFloor();
-
-	//glm::mat4 basetransform = glm::translate(glm::vec3(0, -50, 0));
 	m_floorProgram.Use();
 	glBindVertexArray(m_FloorVaoID);
-	
 
-	glm::mat4 transform = glm::mat4();
-	m_floorProgram.SetUniform("MVP", viewproj * transform);
-	m_floorProgram.SetUniform("world", transform);
-	m_floorProgram.SetUniform("worldIT", glm::inverse(glm::transpose(transform)));
-	glDrawElements(GL_TRIANGLES,
-		3 * 2 * (N) * (M),
-		GL_UNSIGNED_SHORT,
-		0);
+	int player_offsetX = std::round(m_player->GetPos().x / 5000.f);
+	int player_offsetZ = std::round(m_player->GetPos().z / 5000.f);
+
+
+	glm::mat4 BaseTransform = glm::translate(glm::vec3(5000 * player_offsetX, 0, 5000 * player_offsetZ));
+	
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+
+			glm::mat4 transform = BaseTransform * glm::translate(glm::vec3((i-1)*5000, 0, (j-1)*5000));
+			m_floorProgram.SetUniform("MVP", viewproj * transform);
+			m_floorProgram.SetUniform("world", transform);
+			m_floorProgram.SetUniform("worldIT", glm::inverse(glm::transpose(transform)));
+			glDrawElements(GL_TRIANGLES,
+				3 * 2 * (N) * (M),
+				GL_UNSIGNED_SHORT,
+				0);
+		}
+	}
 	
 
 
@@ -198,34 +204,4 @@ void PlanetEarth::DrawFloor(glm::mat4& viewproj)
 	glBindVertexArray(0);
 
 	m_floorProgram.Unuse();
-}
-
-void PlanetEarth::UpdateFloor()
-{
-	int N = 99;
-	int M = 99;
-
-
-	std::vector<Vertex> vert((N + 1) * (M + 1));
-	for (int j = 0; j <= M; ++j)
-	{
-		for (int i = 0; i <= N; ++i)
-		{
-			float u = i / (float)N;
-			float v = j / (float)M;
-			int index = i + j * (N + 1);
-			vert[index].p = GetFloorUV(u, v);
-			vert[index].n = GetFloorNorm(u, v);
-			vert[index].c = glm::vec3(194.f / 255.f, 178.f / 255.f, 128.f / 255.f);
-		}
-	}
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_FloorVboID);
-	glBufferData(GL_ARRAY_BUFFER,
-		vert.size() * sizeof(Vertex),
-		vert.data(),
-		GL_DYNAMIC_DRAW);
-
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

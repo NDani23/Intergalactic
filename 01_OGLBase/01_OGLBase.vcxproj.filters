@@ -329,5 +329,14 @@
     <None Include="axes.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="PlanetEarthBaseFrag.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="proceduralFrag.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="proceduralVert.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
