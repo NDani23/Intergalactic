@@ -35,5 +35,5 @@ void main()
 	vs_out_norm = (worldIT * vec4(vs_in_norm, 0)).xyz;
 	vs_out_col = vs_in_col;
 	//visibility = exp(-pow((dist*density),gradient));
-	visibility = clamp(dist / 5000.f, 0, 1);
+	visibility = clamp(dist / 4000.f, 0, 1);
 }

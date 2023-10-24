@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Map.h"
+#include "DesertFloor.h"
 
 class PlanetEarth : public Map
 {
@@ -12,16 +13,7 @@ private:
 		glm::vec3 c;
 	};
 
-	GLuint m_FloorVaoID = 0;
-	GLuint m_FloorVboID = 0;
-	GLuint m_FloorIbID = 0;
-
-	ProgramObject m_floorProgram;
-	glm::vec3 GetFloorUV(float, float);
-	glm::vec3 GetFloorNorm(float, float);
-	void DrawFloor(glm::mat4&);
-	void InitFloor();
-	float GetZCoord(float, float);
+	DesertFloor m_Floor;
 public:
 	PlanetEarth(std::vector<std::unique_ptr<Projectile>>*, Player*);
 

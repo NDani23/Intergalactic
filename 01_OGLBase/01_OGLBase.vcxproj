@@ -105,10 +105,12 @@
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_truetype.h" />
     <ClInclude Include="AppUI.h" />
     <ClInclude Include="DeepSpace.h" />
+    <ClInclude Include="DesertFloor.h" />
     <ClInclude Include="Dimensions.h" />
     <ClInclude Include="Directions.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="Includes\BufferObject.h" />
@@ -154,8 +156,10 @@
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="AppUI.cpp" />
     <ClCompile Include="DeepSpace.cpp" />
+    <ClCompile Include="DesertFloor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Includes\gCamera.cpp" />
     <ClCompile Include="Includes\GLconversions.cpp" />
     <ClCompile Include="Includes\GLDebugMessageCallback.cpp" />
