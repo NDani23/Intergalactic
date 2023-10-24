@@ -54,3 +54,8 @@ void PlanetEarth::DrawEntities(glm::mat4& viewproj, GameState& state)
 	}
 	m_program.Unuse();
 }
+
+Floor* PlanetEarth::GetFloor()
+{
+	return &m_Floor;
+}

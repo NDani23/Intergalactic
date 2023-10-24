@@ -22,4 +22,5 @@ protected:
 public:
 	Floor() {};
 	virtual void DrawFloor(glm::mat4&, Player*) {};
+	virtual bool DetectCollision(Entity&);
 };

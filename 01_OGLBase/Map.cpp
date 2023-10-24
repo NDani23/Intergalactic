@@ -43,6 +43,11 @@ void Map::ClearMap()
 	m_Entities.clear();
 }
 
+Floor* Map::GetFloor()
+{
+	return nullptr;
+}
+
 void Map::AddEntity(std::shared_ptr<Entity> entity)
 {
 	m_Entities.emplace_back(entity);

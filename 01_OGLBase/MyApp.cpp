@@ -405,6 +405,15 @@ void CMyApp::DetectCollisions()
 	glm::vec3 player_pos = m_player.GetPos();
 	Dimensions player_dims = m_player.GetHitboxes()[0].dimensions;
 
+	if (m_map->GetFloor() != nullptr)
+	{
+		if (m_map->GetFloor()->DetectCollision(m_player))
+		{
+			GameOver();
+			return;
+		}
+	}
+
 	for (std::shared_ptr<Entity>& entity : m_map->GetEntities())
 	{
 		if (m_GameState.gameover) break;

@@ -17,5 +17,6 @@ private:
 	float GetZCoord(float, float) override;
 public:
 	DesertFloor();
-	virtual void DrawFloor(glm::mat4&, Player*) override;
+	void DrawFloor(glm::mat4&, Player*) override;
+	bool DetectCollision(Entity&) override;
 };

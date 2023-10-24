@@ -158,3 +158,9 @@ void DesertFloor::DrawFloor(glm::mat4& viewproj, Player* player)
 
 	m_Program.Unuse();
 }
+
+bool DesertFloor::DetectCollision(Entity& entity)
+{
+	float floorHeightBeneath = GetZCoord(entity.GetPos().x, entity.GetPos().z);
+	return entity.GetPos().y <= floorHeightBeneath;
+}

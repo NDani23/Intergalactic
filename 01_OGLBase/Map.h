@@ -11,7 +11,8 @@
 #include <glm/gtx/transform2.hpp>
 
 #include "GameState.h"
-#include "PLayer.h"
+#include "Player.h"
+#include "Floor.h"
 
 class Map
 {
@@ -33,6 +34,8 @@ public:
 	ProgramObject& getProgram();
 	ProgramObject& getSkyBoxProgram();
 	std::string& getName();
+	virtual Floor* GetFloor();
+
 
 	void ClearMap();
 	void AddEntity(std::shared_ptr<Entity> entity);

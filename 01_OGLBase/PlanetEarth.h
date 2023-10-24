@@ -19,4 +19,5 @@ public:
 
 	void LoadMap() override;
 	void DrawEntities(glm::mat4&, GameState&) override;
+	Floor* GetFloor() override;
 };
