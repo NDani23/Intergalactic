@@ -21,7 +21,9 @@ protected:
 	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
 	TextureCubeMap	m_skyboxTexture;
 	std::vector<std::shared_ptr<Entity>> m_Entities;
+
 	ProgramObject m_program;
+	ProgramObject m_skyBoxProgram;
 
 public:
 	Map();
@@ -29,6 +31,7 @@ public:
 	std::vector<std::shared_ptr<Entity>>* GetEntitiesPtr();
 	TextureCubeMap& GetSkyBox();
 	ProgramObject& getProgram();
+	ProgramObject& getSkyBoxProgram();
 	std::string& getName();
 
 	void ClearMap();
@@ -37,4 +40,5 @@ public:
 
 	virtual void LoadMap() {};
 	virtual void DrawEntities(glm::mat4&, GameState&) {};
+	virtual void DrawSkyBox(glm::mat4&) {};
 };

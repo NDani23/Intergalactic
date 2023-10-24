@@ -192,6 +192,9 @@
     <None Include="Includes\TextureObject.inl" />
     <None Include="Includes\VertexArrayObject.inl" />
     <None Include="PlanetEarthBaseFrag.frag" />
+    <None Include="PlanetEarthBaseVert.vert" />
+    <None Include="PlanetEarthSkyBox.frag" />
+    <None Include="PlanetEarthSkyBox.vert" />
     <None Include="proceduralFrag.frag" />
     <None Include="proceduralVert.vert" />
     <None Include="skybox.frag" />

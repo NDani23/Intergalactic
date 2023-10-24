@@ -75,8 +75,6 @@ public:
 
 protected:
 	// shaderekhez szükséges változók
-	//ProgramObject		m_program;			// mesh shader
-	ProgramObject		m_programSkybox;	// skybox shader
 	ProgramObject		m_axesProgram;
 
 	VertexArrayObject	m_SkyboxVao;

@@ -338,5 +338,14 @@
     <None Include="proceduralVert.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="PlanetEarthSkyBox.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="PlanetEarthSkyBox.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="PlanetEarthBaseVert.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

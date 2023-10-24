@@ -6,8 +6,8 @@ in vec3 vs_in_pos;
 // a pipeline-ban tovább adandó értékek
 out vec3 vs_out_pos;
 
-// shader külső paraméterei - most a három transzformációs mátrixot külön-külön vesszük át
 uniform mat4 MVP;
+
 
 void main()
 {

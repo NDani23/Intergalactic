@@ -9,7 +9,7 @@ PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, 
 	m_projectiles = projectiles;
 
 	m_program.AttachShaders({
-		{ GL_VERTEX_SHADER, "myVert.vert"},
+		{ GL_VERTEX_SHADER, "PlanetEarthBaseVert.vert"},
 		{ GL_FRAGMENT_SHADER, "PlanetEarthBaseFrag.frag"}
 		});
 
@@ -34,6 +34,17 @@ PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, 
 
 	m_floorProgram.LinkProgram();
 
+	m_skyBoxProgram.AttachShaders({
+		{ GL_VERTEX_SHADER, "PlanetEarthSkyBox.vert"},
+		{ GL_FRAGMENT_SHADER, "PlanetEarthSkyBox.frag"}
+		});
+
+	m_skyBoxProgram.BindAttribLocations({
+		{ 0, "vs_in_pos" },
+		});
+
+	m_skyBoxProgram.LinkProgram();
+
 	InitFloor();
 
 	SetSkyBox("assets/xpos.png", "assets/xneg.png", "assets/ypos.png", "assets/yneg.png", "assets/zpos.png", "assets/zneg.png");
@@ -52,7 +63,7 @@ void PlanetEarth::DrawEntities(glm::mat4& viewproj, GameState& state)
 	{
 		for (std::shared_ptr<Entity>& entity : m_Entities)
 		{
-			
+			m_program.SetUniform("playerPos", m_player->GetPos());
 			entity->DrawMesh(m_program, viewproj);
 		}
 	}
@@ -191,6 +202,7 @@ void PlanetEarth::DrawFloor(glm::mat4& viewproj)
 			m_floorProgram.SetUniform("MVP", viewproj * transform);
 			m_floorProgram.SetUniform("world", transform);
 			m_floorProgram.SetUniform("worldIT", glm::inverse(glm::transpose(transform)));
+			m_floorProgram.SetUniform("playerPos", m_player->GetPos());
 			glDrawElements(GL_TRIANGLES,
 				3 * 2 * (N) * (M),
 				GL_UNSIGNED_SHORT,

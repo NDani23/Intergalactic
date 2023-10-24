@@ -20,6 +20,17 @@ DeepSpace::DeepSpace(std::vector<std::unique_ptr<Projectile>>* projectiles, Play
 
 	m_program.LinkProgram();
 
+	m_skyBoxProgram.AttachShaders({
+		{ GL_VERTEX_SHADER, "skybox.vert"},
+		{ GL_FRAGMENT_SHADER, "skybox.frag"}
+		});
+
+	m_skyBoxProgram.BindAttribLocations({
+		{ 0, "vs_in_pos" },
+		});
+
+	m_skyBoxProgram.LinkProgram();
+
 	SetSkyBox("assets/right.png", "assets/left.png", "assets/top.png", "assets/bottom.png", "assets/front.png", "assets/back.png");
 }
 

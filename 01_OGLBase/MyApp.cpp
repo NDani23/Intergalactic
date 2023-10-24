@@ -88,16 +88,6 @@ void CMyApp::InitSkyBox()
 void CMyApp::InitShaders()
 {
 
-	m_programSkybox.Init(
-		{
-			{ GL_VERTEX_SHADER, "skybox.vert" },
-			{ GL_FRAGMENT_SHADER, "skybox.frag" }
-		},
-		{
-			{ 0, "vs_in_pos" },
-		}
-	);
-
 	m_axesProgram.Init({
 		{GL_VERTEX_SHADER, "axes.vert"},
 		{GL_FRAGMENT_SHADER, "axes.frag"}
@@ -279,15 +269,17 @@ void CMyApp::Render()
 	glDepthFunc(GL_LEQUAL);
 
 	m_SkyboxVao.Bind();
-	m_programSkybox.Use();
-	m_programSkybox.SetUniform("MVP", viewProj * glm::translate( m_camera.GetEye()) );
+	ProgramObject& SkyBoxProgram = m_map->getSkyBoxProgram();
+
+	SkyBoxProgram.Use();
+	SkyBoxProgram.SetUniform("MVP", viewProj * glm::translate( m_camera.GetEye()) );
 	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_skyboxTexture);
-	glUniform1i(m_programSkybox.GetLocation("skyboxTexture"), 0);
+	glUniform1i(SkyBoxProgram.GetLocation("skyboxTexture"), 0);
 
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-	m_programSkybox.Unuse();
+	SkyBoxProgram.Unuse();
 
 	glDepthFunc(prevDepthFnc);
 

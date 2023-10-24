@@ -28,6 +28,11 @@ ProgramObject& Map::getProgram()
 	return m_program;
 }
 
+ProgramObject& Map::getSkyBoxProgram()
+{
+	return m_skyBoxProgram;
+}
+
 std::string& Map::getName()
 {
 	return m_name;
