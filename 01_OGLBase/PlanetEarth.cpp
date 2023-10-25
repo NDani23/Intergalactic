@@ -37,7 +37,8 @@ PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, 
 
 void PlanetEarth::LoadMap()
 {
-	AddEntity(std::make_shared<Entity>("assets/ufo.obj", glm::vec3(500, 200, 1000), "assets/ufo_tex.png", Dimensions{ 50.0f, 17.0f, 50.0f }));
+	m_Entities.clear();
+	AddEntity(std::make_shared<Mothership>(Mothership(glm::vec3(0, 0, 2000), m_player, m_projectiles, this)));
 }
 
 void PlanetEarth::DrawEntities(glm::mat4& viewproj, GameState& state)

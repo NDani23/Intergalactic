@@ -31,7 +31,6 @@
 #include "Directions.h"
 #include "DeepSpace.h"
 #include "PlanetEarth.h"
-#include "InitMap1.h"
 #include "Projectile.h"
 #include "Player.h"
 #include "Turret.h"

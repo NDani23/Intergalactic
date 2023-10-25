@@ -2,6 +2,7 @@
 
 #include "Weapon.h"
 #include "Laser.h"
+#include "Map.h"
 
 #include <algorithm>
 
@@ -16,11 +17,11 @@ private:
 
 	Entity* m_target;
 	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
-	std::vector<std::shared_ptr<Entity>>* world_objects;
+	Map* m_Map;
 
 public:
 	Enemy();
-	Enemy(glm::vec3, Entity*, std::vector<std::unique_ptr<Projectile>>*, std::vector<std::shared_ptr<Entity>>*);
+	Enemy(glm::vec3, Entity*, std::vector<std::unique_ptr<Projectile>>*, Map*);
 	bool Update(const float& delta) override;
 	void Shoot();
 	bool Hit(int) override;

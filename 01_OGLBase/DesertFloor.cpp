@@ -28,7 +28,7 @@ DesertFloor::DesertFloor()
 			int index = i + j * (m_Res.x + 1);
 			vert[index].p = GetUV(u, v);
 			vert[index].n = GetNorm(u, v);
-			vert[index].c = glm::vec3(194.f/255.f, 178.f/255.f, 128.f/255.f);
+			vert[index].c = glm::vec3(154.f/255.f, 138.f/255.f, 108.f/255.f);
 		}
 	}
 

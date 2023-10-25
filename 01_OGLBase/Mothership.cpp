@@ -19,10 +19,10 @@ Mothership::Mothership()
 
 	m_target = nullptr;
 	m_projectiles = nullptr;
-	world_objects = nullptr;
+	m_Map = nullptr;
 }
 
-Mothership::Mothership(const glm::vec3& pos, Entity* target, std::vector<std::unique_ptr<Projectile>>* projectiles, std::vector<std::shared_ptr<Entity>>* objects)
+Mothership::Mothership(const glm::vec3& pos, Entity* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
 {
 	m_position = pos;
 	m_transforms = glm::translate(pos);
@@ -48,11 +48,11 @@ Mothership::Mothership(const glm::vec3& pos, Entity* target, std::vector<std::un
 
 	m_spawnTimeWindow = 30.0f;
 
-	world_objects = objects;
+	m_Map = map;
 	m_target = target;
 	m_projectiles = projectiles;
 
-	world_objects->emplace_back(std::make_shared<Enemy>(Enemy(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, world_objects)));
+	m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Enemy>(Enemy(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 }
 
 bool Mothership::Update(const float& delta)
@@ -61,7 +61,7 @@ bool Mothership::Update(const float& delta)
 
 	if (elapsed_seconds.count() >= m_spawnTimeWindow)
 	{
-		world_objects->emplace_back(std::make_shared<Enemy>(Enemy(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, world_objects)));
+		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Enemy>(Enemy(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 
 		m_lastSpawnTime = std::chrono::system_clock::now();
 

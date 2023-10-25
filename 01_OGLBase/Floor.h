@@ -18,9 +18,10 @@ protected:
 
 	virtual glm::vec3 GetUV(float, float);
 	virtual glm::vec3 GetNorm(float, float);
-	virtual float GetZCoord(float, float);
 public:
 	Floor() {};
 	virtual void DrawFloor(glm::mat4&, Player*) {};
 	virtual bool DetectCollision(Entity&);
+
+	virtual float GetZCoord(float, float);
 };

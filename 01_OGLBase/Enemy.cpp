@@ -29,7 +29,7 @@ Enemy::Enemy()
 	
 	m_target = nullptr;
 	m_projectiles = nullptr;
-	world_objects = nullptr;
+	m_Map = nullptr;
 
 	m_mesh = nullptr;
 
@@ -37,13 +37,13 @@ Enemy::Enemy()
 	m_lastShootTime = std::chrono::system_clock::now();
 }
 
-Enemy::Enemy(glm::vec3 pos, Entity* target, std::vector<std::unique_ptr<Projectile>>* projectiles, std::vector<std::shared_ptr<Entity>>* objects)
+Enemy::Enemy(glm::vec3 pos, Entity* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
 {
 	static int onFirstCall = FirstInit();
 	m_position = pos;
 	m_target = target;
 	m_projectiles = projectiles;
-	world_objects = objects;
+	m_Map = map;
 
 	m_shootDir = glm::normalize(m_target->GetPos() - m_position);
 	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -83,7 +83,7 @@ bool Enemy::Update(const float& delta)
 
 	Dimensions enemy_dims = m_hitboxes[0].dimensions;
 
-	for (std::shared_ptr<Entity>& obj : *world_objects)
+	for (std::shared_ptr<Entity>& obj : m_Map->GetEntities())
 	{
 		if (obj.get() == this)
 		{
@@ -121,6 +121,32 @@ bool Enemy::Update(const float& delta)
 		}
 
 		m_shootDir = temp_dir;
+	}
+
+	if (m_Map->GetFloor() != nullptr)
+	{
+		if (m_Map->GetFloor()->DetectCollision(*this))
+		{
+			return true;
+		}
+
+		glm::vec3 future_position = m_position + m_shootDir * 50.f;
+		glm::vec3 distance_vec = glm::vec3(future_position.x, m_Map->GetFloor()->GetZCoord(future_position.x, future_position.z), future_position.z) - m_position;
+		float distance = glm::length(distance_vec);
+		if (distance < 200.0f)
+		{
+			distance_vec = glm::normalize(distance_vec);
+			cross_vec = glm::normalize(distance_vec - temp_dir);
+
+			float angle = glm::acos(glm::dot(distance_vec, temp_dir));
+
+			if (angle < 1.5f)
+			{
+				temp_dir += temp_dir - (cross_vec * (1.0f/(angle * 400)));
+				temp_dir = glm::normalize(temp_dir);
+				m_shootDir = temp_dir;
+			}
+		}
 	}
 
 	glm::vec3 to_target = m_target->GetPos() - m_position;

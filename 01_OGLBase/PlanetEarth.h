@@ -2,6 +2,7 @@
 
 #include "Map.h"
 #include "DesertFloor.h"
+#include "Mothership.h"
 
 class PlanetEarth : public Map
 {
