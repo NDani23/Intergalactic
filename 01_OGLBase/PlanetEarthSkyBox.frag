@@ -9,5 +9,5 @@ uniform samplerCube skyboxTexture;
 void main()
 {
 	//fog - sandstorm shading
-	fs_out_col = mix(glm::vec4(150/255.f,105/255.f,50/255.f, 1), texture( skyboxTexture, (vs_out_pos)), (vs_out_pos.y)/2);
+	fs_out_col = mix(vec4(150/255.f,105/255.f,50/255.f, 1), texture( skyboxTexture, (vs_out_pos)), (vs_out_pos.y)/2);
 }

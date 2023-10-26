@@ -44,5 +44,5 @@ void main()
 
 	//out color
 	fs_out_col = vec4(ambient + diffuse, 1) * vec4(vs_out_col, 1);
-	fs_out_col = mix(fs_out_col, glm::vec4(150/255.f,105/255.f,50/255.f, 1), visibility);
+	fs_out_col = mix(fs_out_col, vec4(150/255.f,105/255.f,50/255.f, 1), visibility);
 }

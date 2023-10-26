@@ -176,7 +176,7 @@ void CMyApp::Update()
 	{
 		m_PlayTime += delta_time;
 
-		m_player.Move(delta_time, m_cursor_diff_vec);
+		m_player.Move(delta_time, m_flyStraight ? m_player.GetForwardVec() : m_cursor_diff_vec);		
 		m_player.UpdateProjectiles(delta_time);
 	}
 	UpdateProjectiles(delta_time);
@@ -188,9 +188,14 @@ void CMyApp::Update()
 	if (m_useUpgrade && m_player.GetUpgrade() != nullptr) m_player.ActivateUpgrade();
 
 	//camera
-	glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
-	glm::vec3 new_at = m_player.GetPos() + m_player.GetForwardVec() * 1000.f;
+	glm::vec3 new_at = m_player.GetPos() + (m_cursor_diff_vec * 2000.f);
+	glm::vec3 new_eye = m_player.GetPos() - m_cursor_diff_vec * 40.f + m_player.GetUpVec() * 5.f;
 	glm::vec3 new_up = m_player.GetUpVec();
+	if (!m_lookAround)
+	{
+		new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
+		new_at = m_player.GetPos() + m_player.GetForwardVec() * 1000.f;
+	}
 
 	if (m_backward_camera)
 	{
@@ -318,6 +323,9 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 	case SDLK_LCTRL:
 		m_player.Decelerate(true);
 		break;
+	case SDLK_q:
+		m_flyStraight = true;
+		break;
 	case SDLK_v:
 		m_backward_camera = true;
 		break;
@@ -353,6 +361,9 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 	case SDLK_LCTRL:
 		m_player.Decelerate(false);
 		break;
+	case SDLK_q:
+		m_flyStraight = false;
+		break;
 	case SDLK_v:
 		m_backward_camera = false;
 		break;
@@ -364,7 +375,7 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 
 void CMyApp::MouseMove(SDL_MouseMotionEvent& mouse)
 {
-	//m_camera.MouseMove(mouse);
+	//if (m_lookAround && m_GameState.play) m_camera.MouseMove(mouse);
 
 	m_mouseX = mouse.x / (float)(m_screenWidth / 2) - 1;
 	m_mouseY = mouse.y / (float)(m_screenHeight / 2) - 1;
@@ -376,6 +387,10 @@ void CMyApp::MouseDown(SDL_MouseButtonEvent& mouse)
 	{
 		m_shooting = true;
 	}
+	else if (mouse.button == SDL_BUTTON_RIGHT)
+	{
+		m_lookAround = true;
+	}
 }
 
 void CMyApp::MouseUp(SDL_MouseButtonEvent& mouse)
@@ -383,6 +398,10 @@ void CMyApp::MouseUp(SDL_MouseButtonEvent& mouse)
 	if (mouse.button == SDL_BUTTON_LEFT)
 	{
 		m_shooting = false;
+	}
+	else if (mouse.button == SDL_BUTTON_RIGHT)
+	{
+		m_lookAround = false;
 	}
 }
 
@@ -405,14 +424,14 @@ void CMyApp::DetectCollisions()
 	glm::vec3 player_pos = m_player.GetPos();
 	Dimensions player_dims = m_player.GetHitboxes()[0].dimensions;
 
-	/*if (m_map->GetFloor() != nullptr)
+	if (m_map->GetFloor() != nullptr)
 	{
 		if (m_map->GetFloor()->DetectCollision(m_player))
 		{
 			GameOver();
 			return;
 		}
-	}*/
+	}
 
 	for (std::shared_ptr<Entity>& entity : m_map->GetEntities())
 	{

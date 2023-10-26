@@ -100,6 +100,8 @@ protected:
 
 	bool m_shooting = false;
 	bool m_useUpgrade = false;
+	bool m_lookAround = false;
+	bool m_flyStraight = false;
 
 	bool m_backward_camera = false;
 	std::vector<std::unique_ptr<Projectile>> m_projectiles;
