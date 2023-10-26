@@ -26,7 +26,7 @@ EnemySpawnPoint::EnemySpawnPoint(const glm::vec3& pos, Entity* target, std::vect
 	m_target = target;
 	m_projectiles = projectiles;
 
-	m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Enemy>(Enemy(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+	m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 }
 
 void EnemySpawnPoint::Update(const float& delta)
@@ -35,7 +35,7 @@ void EnemySpawnPoint::Update(const float& delta)
 
 	if (elapsed_seconds.count() >= m_spawnTimeWindow)
 	{
-		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Enemy>(Enemy(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 
 		m_lastSpawnTime = std::chrono::system_clock::now();
 

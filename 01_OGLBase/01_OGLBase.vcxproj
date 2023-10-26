@@ -139,6 +139,7 @@
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Rocket.h" />
     <ClInclude Include="RocketLauncher.h" />
+    <ClInclude Include="SaR.h" />
     <ClInclude Include="SpeedBooster.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="Upgrade.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Rocket.cpp" />
     <ClCompile Include="RocketLauncher.cpp" />
+    <ClCompile Include="SaR.cpp" />
     <ClCompile Include="SpeedBooster.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="Upgrade.cpp" />
