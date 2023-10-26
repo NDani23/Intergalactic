@@ -40,6 +40,13 @@ void PlanetEarth::LoadMap()
 	m_Entities.clear();
 	m_enemySpawnPoints.clear();
 
+	AddEntity(std::make_shared<Entity>("assets/rock.obj", glm::vec3(50, m_Floor.GetZCoord(50.f, 100.f) + 2.f, 100), "assets/rock_tex.png", Dimensions{13.0f, 13.0f, 13.0f}));
+
+	AddEntity(std::make_shared<Entity>("assets/rock.obj", glm::vec3(800, m_Floor.GetZCoord(800.f, 700.f) + 2.f, 700), "assets/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
+	AddEntity(std::make_shared<Entity>("assets/rock.obj", glm::vec3(1000, m_Floor.GetZCoord(1000.f, 500.f) + 2.f, 500), "assets/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
+	AddEntity(std::make_shared<Entity>("assets/rock.obj", glm::vec3(1200, m_Floor.GetZCoord(1200.f, -300.f) + 2.f, -300), "assets/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
+	AddEntity(std::make_shared<Entity>("assets/rock.obj", glm::vec3(-100, m_Floor.GetZCoord(-100.f, -100.f) + 2.f, -100), "assets/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
+
 	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 0, 2000), m_player, m_projectiles, this));
 }
 

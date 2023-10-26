@@ -26,6 +26,9 @@ public:
 	void SetTexture();
 	bool IsTargetable() override;
 
-private:
+protected:
 	virtual HitBox UpdateDimensions();
+	virtual void CalcBaseDir() {};
+	virtual bool CalcAvoidObjectsVec() { return false; };
+	virtual bool CalcAvoidFloorVec() { return false; };
 };

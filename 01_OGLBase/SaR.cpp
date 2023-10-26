@@ -63,20 +63,48 @@ bool SaR::Update(const float& delta)
 {
 	m_position += m_forward_vec * (delta * m_speed);
 
+	CalcBaseDir();
+	if (CalcAvoidObjectsVec()) return true;
+	if (CalcAvoidFloorVec()) return true;
+
+	m_shootDir = m_forward_vec;
+
+	//Check if shoot
+	glm::vec3 to_target = m_target->GetPos() - m_position;
+	float angle = glm::length(glm::normalize(to_target) - m_forward_vec);
+	if (glm::length(to_target) < 200.0f && angle < 0.1f)
+	{
+		Shoot();
+	}
+
+	m_hitboxes[0] = UpdateDimensions();
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, m_up_vec));
+
+	return false;
+}
+
+void SaR::CalcBaseDir()
+{
 	glm::vec3 temp_dir = glm::normalize(m_target->GetPos() - m_position);
 
 	glm::vec3 cross_vec = temp_dir - m_forward_vec;
 
 	if (glm::length(cross_vec) < 0.008f)
 	{
-		//m_shootDir = temp_dir;
+		m_forward_vec = temp_dir;
 		m_up_vec = glm::normalize(m_up_vec + cross_vec);
 	}
 	else
 	{
-		temp_dir = glm::normalize(m_forward_vec + cross_vec * 0.008f);
+		m_forward_vec = glm::normalize(m_forward_vec + cross_vec * 0.008f);
 		m_up_vec = glm::normalize(m_up_vec + cross_vec * 0.03f);
 	}
+
+}
+
+bool SaR::CalcAvoidObjectsVec()
+{
+	glm::vec3 temp_dir = m_forward_vec;
 
 	Dimensions enemy_dims = m_hitboxes[0].dimensions;
 
@@ -94,6 +122,8 @@ bool SaR::Update(const float& delta)
 			float distance = glm::length(distance_vec);
 			if (distance > 200.0f) break;
 
+
+			//Check collision
 			Dimensions hitbox_dims = hitbox.dimensions;
 
 			if (abs(distance_vec.x) < std::max(enemy_dims.width / 2, hitbox_dims.width / 2)
@@ -104,7 +134,7 @@ bool SaR::Update(const float& delta)
 			}
 
 			distance_vec = glm::normalize(distance_vec);
-			cross_vec = glm::normalize(distance_vec - temp_dir);
+			glm::vec3 cross_vec = glm::normalize(distance_vec - temp_dir);
 
 			float angle = glm::acos(glm::dot(distance_vec, temp_dir));
 
@@ -120,6 +150,11 @@ bool SaR::Update(const float& delta)
 		m_forward_vec = temp_dir;
 	}
 
+	return false;
+}
+
+bool SaR::CalcAvoidFloorVec()
+{
 	if (m_Map->GetFloor() != nullptr)
 	{
 		if (m_Map->GetFloor()->DetectCollision(*this))
@@ -133,32 +168,17 @@ bool SaR::Update(const float& delta)
 		if (distance < 200.0f)
 		{
 			distance_vec = glm::normalize(distance_vec);
-			cross_vec = glm::normalize(distance_vec - temp_dir);
+			glm::vec3 cross_vec = glm::normalize(distance_vec - m_forward_vec);
 
-			float angle = glm::acos(glm::dot(distance_vec, temp_dir));
+			float angle = glm::acos(glm::dot(distance_vec, m_forward_vec));
 
 			if (angle < 1.5f)
 			{
-				temp_dir += temp_dir - (cross_vec * (1.0f / (angle * 400)));
-				temp_dir = glm::normalize(temp_dir);
-				m_forward_vec = temp_dir;
+				m_forward_vec += m_forward_vec - (cross_vec * (1.0f / (angle * 400)));
+				m_forward_vec = glm::normalize(m_forward_vec);
 			}
 		}
 	}
-
-	m_shootDir = m_forward_vec;
-
-	glm::vec3 to_target = m_target->GetPos() - m_position;
-	float angle = glm::length(glm::normalize(to_target) - m_forward_vec);
-
-	if (glm::length(to_target) < 200.0f && angle < 0.1f)
-	{
-		Shoot();
-	}
-
-	m_hitboxes[0] = UpdateDimensions();
-
-	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, m_up_vec));
 
 	return false;
 }

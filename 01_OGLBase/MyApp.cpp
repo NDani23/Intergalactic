@@ -375,8 +375,6 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 
 void CMyApp::MouseMove(SDL_MouseMotionEvent& mouse)
 {
-	//if (m_lookAround && m_GameState.play) m_camera.MouseMove(mouse);
-
 	m_mouseX = mouse.x / (float)(m_screenWidth / 2) - 1;
 	m_mouseY = mouse.y / (float)(m_screenHeight / 2) - 1;
 }

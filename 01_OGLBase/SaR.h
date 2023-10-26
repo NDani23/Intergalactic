@@ -18,4 +18,8 @@ public:
 private:
 	HitBox UpdateDimensions() override;
 	static int FirstInit();
+
+	void CalcBaseDir() override;
+	bool CalcAvoidObjectsVec() override;
+	bool CalcAvoidFloorVec() override;
 };
