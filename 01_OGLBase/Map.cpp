@@ -1,5 +1,5 @@
 #include "Map.h"
-
+#include "EnemySpawnPoint.h"
 
 Map::Map()
 {
@@ -16,6 +16,11 @@ std::vector<std::shared_ptr<Entity>>& Map::GetEntities()
 std::vector<std::shared_ptr<Entity>>* Map::GetEntitiesPtr()
 {
 	return &m_Entities;
+}
+
+std::vector<std::unique_ptr<EnemySpawnPoint>>& Map::GetSpawnPoints()
+{
+	return m_enemySpawnPoints;
 }
 
 TextureCubeMap& Map::GetSkyBox()

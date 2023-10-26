@@ -2,9 +2,10 @@
 
 #include "Weapon.h"
 #include "Laser.h"
-#include "Map.h"
 
 #include <algorithm>
+
+class Map;
 
 class Enemy : public Weapon
 {

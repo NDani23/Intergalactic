@@ -1,22 +1,23 @@
 #pragma once
 
-#include "Map.h"
 #include "Entity.h"
 #include "Projectile.h"
 #include "Enemy.h"
-#include <chrono> 
+#include <chrono>
 
-class Mothership : public Entity
+class Map;
+
+class EnemySpawnPoint
 {
 private:
+	glm::vec3 m_position;
 	float m_spawnTimeWindow;
 	std::chrono::time_point<std::chrono::system_clock> m_lastSpawnTime;
 	Entity* m_target;
 	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
 	Map* m_Map;
-
 public:
-	Mothership();
-	Mothership(const glm::vec3&, Entity*, std::vector<std::unique_ptr<Projectile>>*, Map*);
-	bool Update(const float& delta) override;
+	EnemySpawnPoint();
+	EnemySpawnPoint(const glm::vec3&, Entity*, std::vector<std::unique_ptr<Projectile>>*, Map*);
+	void Update(const float& delta);
 };

@@ -7,7 +7,6 @@
 #include "Player.h"
 #include "Turret.h"
 #include "Enemy.h"
-#include "Mothership.h"
 
 class DeepSpace : public Map
 {

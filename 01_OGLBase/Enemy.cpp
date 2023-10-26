@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "Map.h"
 
 std::unique_ptr<Mesh> Enemy::m_static_mesh;
 Texture2D Enemy::m_static_tex;

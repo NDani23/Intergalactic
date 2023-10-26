@@ -64,7 +64,7 @@ public:
 	void DrawHitBoxes();
 	void DrawHitBox(HitBox&);
 	void DrawProjectiles(std::vector<std::unique_ptr<Projectile>>&);
-	void UpdateEntities(const float&);
+	void UpdateMap(const float&);
 	void UpdateProjectiles(const float&);
 	void GameOver();
 	void Exit();

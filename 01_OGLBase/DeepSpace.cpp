@@ -1,6 +1,5 @@
 #include "DeepSpace.h"
 
-
 DeepSpace::DeepSpace(std::vector<std::unique_ptr<Projectile>>* projectiles, Player* player)
 {
 	m_name = "Deep Space";
@@ -37,6 +36,8 @@ DeepSpace::DeepSpace(std::vector<std::unique_ptr<Projectile>>* projectiles, Play
 void DeepSpace::LoadMap()
 {
 	m_Entities.clear();
+	m_enemySpawnPoints.clear();
+
 	AddEntity(std::make_shared<Entity>("assets/ufo.obj", glm::vec3(500, 200, 1000), "assets/ufo_tex.png", Dimensions{ 50.0f, 17.0f, 50.0f }));
 
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(0, 50, 2000), m_player, m_projectiles)));
@@ -46,8 +47,6 @@ void DeepSpace::LoadMap()
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(25, -50, 2000), m_player, m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(100, 20, 1850), m_player, m_projectiles)));
 
-	AddEntity(std::make_shared<Mothership>(Mothership(glm::vec3(0, 0, 2000), m_player, m_projectiles, this)));
-
 	std::shared_ptr<Entity> gate = std::make_shared<Entity>("assets/gate.obj", glm::vec3(0, -500, 1000), "assets/gate_tex.png");
 	gate->GetHitboxes().clear();
 	gate->AddHitBox({ gate->GetPos() + glm::vec3(20, 0, 0), {10.0f, 50.0f, 10.0f} });
@@ -56,7 +55,17 @@ void DeepSpace::LoadMap()
 	gate->AddHitBox({ gate->GetPos() + glm::vec3(0, -20, 0), {50.0f, 10.0f, 10.0f} });
 	AddEntity(gate);
 
+	std::shared_ptr<Entity> mothership = std::make_shared<Entity>("assets/mothership.obj", glm::vec3(0, 0, 2000.f ), "assets/mothership_tex3.png");
+	mothership->GetHitboxes().clear();
+	mothership->AddHitBox({ mothership->GetPos(), {70.0f, 28.0f, 20.0f} });
+	mothership->AddHitBox({ mothership->GetPos() + glm::vec3(-50, 7, 0), {30.0f, 10.0f, 15.0f} });
+	mothership->AddHitBox({ mothership->GetPos() + glm::vec3(-60, 7, -20), {30.0f, 10.0f, 10.0f} });
+	mothership->AddHitBox({ mothership->GetPos() + glm::vec3(-60, 7, 20), {30.0f, 10.0f, 10.0f} });
+	AddEntity(mothership);
+
 	CreateMeteorField();
+
+	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, -10, 1980), m_player, m_projectiles, this));
 }
 
 void DeepSpace::CreateMeteorField()

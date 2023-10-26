@@ -13,6 +13,7 @@
 #include "GameState.h"
 #include "Player.h"
 #include "Floor.h"
+#include "EnemySpawnPoint.h"
 
 class Map
 {
@@ -20,6 +21,7 @@ protected:
 	std::string m_name;
 	Player* m_player;
 	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
+	std::vector<std::unique_ptr<EnemySpawnPoint>> m_enemySpawnPoints;
 	TextureCubeMap	m_skyboxTexture;
 	std::vector<std::shared_ptr<Entity>> m_Entities;
 
@@ -29,6 +31,7 @@ protected:
 public:
 	Map();
 	std::vector<std::shared_ptr<Entity>>& GetEntities();
+	std::vector<std::unique_ptr<EnemySpawnPoint>>& GetSpawnPoints();
 	std::vector<std::shared_ptr<Entity>>* GetEntitiesPtr();
 	TextureCubeMap& GetSkyBox();
 	ProgramObject& getProgram();

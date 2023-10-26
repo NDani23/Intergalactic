@@ -182,7 +182,7 @@ void CMyApp::Update()
 	UpdateProjectiles(delta_time);
 	DetectHit(m_player.GetProjectiles());
 
-	UpdateEntities(delta_time);
+	UpdateMap(delta_time);
 
 	if (m_shooting) m_player.Shoot();
 	if (m_useUpgrade && m_player.GetUpgrade() != nullptr) m_player.ActivateUpgrade();
@@ -532,9 +532,14 @@ void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectil
 	}
 }
 
-void CMyApp::UpdateEntities(const float& delta)
+void CMyApp::UpdateMap(const float& delta)
 {
 	m_player.setTarget(nullptr);
+
+	for (std::unique_ptr<EnemySpawnPoint>& spawnPoint : m_map->GetSpawnPoints())
+	{
+		spawnPoint->Update(delta);
+	}
 
 	for (int i = m_map->GetEntities().size() - 1; i >= 0; i--)
 	{

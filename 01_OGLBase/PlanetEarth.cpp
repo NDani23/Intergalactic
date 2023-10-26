@@ -1,6 +1,5 @@
 #include "PlanetEarth.h"
 
-
 PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, Player* player)
 {
 	m_name = "Planet Earth";
@@ -37,8 +36,11 @@ PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, 
 
 void PlanetEarth::LoadMap()
 {
+
 	m_Entities.clear();
-	AddEntity(std::make_shared<Mothership>(Mothership(glm::vec3(0, 0, 2000), m_player, m_projectiles, this)));
+	m_enemySpawnPoints.clear();
+
+	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 0, 2000), m_player, m_projectiles, this));
 }
 
 void PlanetEarth::DrawEntities(glm::mat4& viewproj, GameState& state)
