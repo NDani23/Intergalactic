@@ -90,11 +90,18 @@ void SaR::CalcBaseDir(glm::vec3& temp_dir)
 {
 	temp_dir = glm::normalize(m_target->GetPos() - m_position);
 
-	/*glm::vec3 target_dir = m_target->GetForwardVec();
-	std::cout << acos(dot(target_dir, m_forward_vec)) << std::endl;*/
-	//angles:
-	// >3.0f -> opposite dir
-	// < ~0.01 || NAN -> same dir
+
+	bool behind_player = dot(m_target->GetPos() - m_position, m_forward_vec) > 0 ? true : false;
+	
+	if (behind_player) return;
+	
+	glm::vec3 target_dir = m_target->GetForwardVec();
+	float angle = acos(dot(target_dir, m_forward_vec));
+	if (angle < M_PI/2 && glm::length(m_target->GetPos() - m_position) < 200.f)
+	{
+		glm::vec3 cross_vec = glm::normalize(m_forward_vec - (-temp_dir));
+		temp_dir = glm::normalize(m_forward_vec - cross_vec);
+	}
 
 }
 
@@ -105,15 +112,6 @@ bool SaR::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 	if (glm::length(m_target->GetPos() - m_position) < 200.f)
 	{
 		bool behind_player = dot(m_target->GetPos() - m_position, m_forward_vec) > 0 ? true : false;
-
-	/*	if (behind_player)
-		{
-			std::cout << "behind" << std::endl;
-		}
-		else
-		{
-			std::cout << "Front" << std::endl;
-		}*/
 
 		glm::vec3 target_dir = m_target->GetForwardVec();
 		float angle = acos(dot(target_dir, m_forward_vec));
@@ -189,20 +187,20 @@ bool SaR::CalcAvoidFloorVec(glm::vec3& temp_dir)
 			return true;
 		}
 
-		glm::vec3 future_position = m_position + m_forward_vec * 50.f;
+		glm::vec3 future_position = m_position + temp_dir * 100.f;
 		glm::vec3 distance_vec = glm::vec3(future_position.x, m_Map->GetFloor()->GetZCoord(future_position.x, future_position.z), future_position.z) - m_position;
 		float distance = glm::length(distance_vec);
 		if (distance < 200.0f)
 		{
 			distance_vec = glm::normalize(distance_vec);
-			glm::vec3 cross_vec = glm::normalize(distance_vec - m_forward_vec);
+			glm::vec3 cross_vec = glm::normalize(distance_vec - temp_dir);
 
-			float angle = glm::acos(glm::dot(distance_vec, m_forward_vec));
+			float angle = glm::acos(glm::dot(distance_vec, temp_dir));
 
 			if (angle < 1.5f)
 			{
-				m_forward_vec += cross_vec * (1.0f / (angle));
-				m_forward_vec = glm::normalize(m_forward_vec);
+				temp_dir += cross_vec * (1.0f / (angle*10.f));
+				temp_dir = glm::normalize(temp_dir);
 			}
 		}
 	}
@@ -251,6 +249,7 @@ HitBox SaR::UpdateDimensions()
 
 void SaR::RegulateTurnDegree(glm::vec3& temp_dir)
 {
+
 	glm::vec3 cross_vec = temp_dir - m_forward_vec;
 
 	if (glm::length(cross_vec) < 0.008f)
@@ -261,6 +260,6 @@ void SaR::RegulateTurnDegree(glm::vec3& temp_dir)
 	else
 	{
 		m_forward_vec = glm::normalize(m_forward_vec + cross_vec * 0.008f);
-		m_up_vec = glm::normalize(m_up_vec + cross_vec * 0.003f);
+		m_up_vec = glm::normalize(m_up_vec + cross_vec * 0.008f);
 	}
 }

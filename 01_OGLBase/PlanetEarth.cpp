@@ -47,7 +47,7 @@ void PlanetEarth::LoadMap()
 	AddEntity(std::make_shared<Entity>("assets/rock.obj", glm::vec3(1200, m_Floor.GetZCoord(1200.f, -300.f) + 2.f, -300), "assets/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
 	AddEntity(std::make_shared<Entity>("assets/rock.obj", glm::vec3(-100, m_Floor.GetZCoord(-100.f, -100.f) + 2.f, -100), "assets/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
 
-	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 0, 2000), m_player, m_projectiles, this));
+	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 500, 2000), m_player, m_projectiles, this));
 }
 
 void PlanetEarth::DrawEntities(glm::mat4& viewproj, GameState& state)
