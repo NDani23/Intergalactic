@@ -252,14 +252,17 @@ void SaR::RegulateTurnDegree(glm::vec3& temp_dir)
 
 	glm::vec3 cross_vec = temp_dir - m_forward_vec;
 
+	glm::vec3 cross_obj = -glm::cross(m_forward_vec, m_up_vec);
+	glm::vec3 dot_cross = cross_obj * glm::dot(cross_obj, temp_dir);
+
 	if (glm::length(cross_vec) < 0.008f)
 	{
 		m_forward_vec = temp_dir;
-		m_up_vec = glm::normalize(m_up_vec + cross_vec);
 	}
 	else
 	{
 		m_forward_vec = glm::normalize(m_forward_vec + cross_vec * 0.008f);
-		m_up_vec = glm::normalize(m_up_vec + cross_vec * 0.008f);
 	}
+
+	m_up_vec = glm::normalize(glm::cross(m_forward_vec, cross_obj) + dot_cross * (0.020f + 0.008f));
 }
