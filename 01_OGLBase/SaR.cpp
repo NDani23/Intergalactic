@@ -104,7 +104,16 @@ bool SaR::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 	//avoid hitting player:
 	if (glm::length(m_target->GetPos() - m_position) < 200.f)
 	{
-		bool behind_player = dot(m_target->GetForwardVec(), m_forward_vec) > 0 ? false : true;
+		bool behind_player = dot(m_target->GetPos() - m_position, m_forward_vec) > 0 ? true : false;
+
+	/*	if (behind_player)
+		{
+			std::cout << "behind" << std::endl;
+		}
+		else
+		{
+			std::cout << "Front" << std::endl;
+		}*/
 
 		glm::vec3 target_dir = m_target->GetForwardVec();
 		float angle = acos(dot(target_dir, m_forward_vec));
@@ -116,12 +125,13 @@ bool SaR::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 			temp_dir += (cross_vec * (float)(angle / M_PI));
 			temp_dir = glm::normalize(temp_dir);
 		}
-		/*else if (angle < 1.f && behind_player && glm::length(m_target->GetPos() - m_position) < 100.f)
+		else if (angle < 1.5f && behind_player && glm::length(m_target->GetPos() - m_position) < 50.f)
 		{
 			glm::vec3 cross_vec = glm::normalize(target_dir - temp_dir);
-			temp_dir += temp_dir + (cross_vec * (1.0f / (angle * 20)));
+			temp_dir += (cross_vec * (1.0f / (angle * 30.f)));
 			temp_dir = glm::normalize(temp_dir);
-		}*/
+
+		}
 	}
 	
 	
