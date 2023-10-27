@@ -22,7 +22,7 @@ Mothership::Mothership()
 	m_Map = nullptr;
 }
 
-Mothership::Mothership(const glm::vec3& pos, Entity* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
+Mothership::Mothership(const glm::vec3& pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
 {
 	m_position = pos;
 	m_transforms = glm::translate(pos);

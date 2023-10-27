@@ -2,7 +2,9 @@
 
 #include "Weapon.h"
 #include "Laser.h"
+#include "Player.h"
 
+#include <stdlib.h> 
 #include <algorithm>
 
 class Map;
@@ -15,7 +17,7 @@ protected:
 	glm::vec3 m_forward_vec;
 	glm::vec3 m_up_vec;
 
-	Entity* m_target;
+	Player* m_target;
 	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
 	Map* m_Map;
 
@@ -28,7 +30,8 @@ public:
 
 protected:
 	virtual HitBox UpdateDimensions();
-	virtual void CalcBaseDir() {};
-	virtual bool CalcAvoidObjectsVec() { return false; };
-	virtual bool CalcAvoidFloorVec() { return false; };
+	virtual void CalcBaseDir(glm::vec3&) {};
+	virtual bool CalcAvoidObjectsVec(glm::vec3&) { return false; };
+	virtual bool CalcAvoidFloorVec(glm::vec3&) { return false; };
+	virtual void RegulateTurnDegree(glm::vec3&) {};
 };

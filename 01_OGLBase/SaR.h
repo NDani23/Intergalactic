@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Enemy.h"
+#include <math.h>
 
 class SaR : public Enemy
 {
@@ -9,7 +10,7 @@ private:
 	static Texture2D m_static_tex;
 public:
 	SaR();
-	SaR(glm::vec3, Entity*, std::vector<std::unique_ptr<Projectile>>*, Map*);
+	SaR(glm::vec3, Player*, std::vector<std::unique_ptr<Projectile>>*, Map*);
 
 	bool Update(const float& delta) override;
 	void Shoot() override;
@@ -19,7 +20,8 @@ private:
 	HitBox UpdateDimensions() override;
 	static int FirstInit();
 
-	void CalcBaseDir() override;
-	bool CalcAvoidObjectsVec() override;
-	bool CalcAvoidFloorVec() override;
+	void CalcBaseDir(glm::vec3&) override;
+	bool CalcAvoidObjectsVec(glm::vec3&) override;
+	bool CalcAvoidFloorVec(glm::vec3&) override;
+	void RegulateTurnDegree(glm::vec3&) override;
 };

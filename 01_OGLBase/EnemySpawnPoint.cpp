@@ -14,7 +14,7 @@ EnemySpawnPoint::EnemySpawnPoint()
 	m_Map = nullptr;
 }
 
-EnemySpawnPoint::EnemySpawnPoint(const glm::vec3& pos, Entity* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
+EnemySpawnPoint::EnemySpawnPoint(const glm::vec3& pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
 {
 	m_position = pos;
 
