@@ -73,7 +73,7 @@ void SaR::Shoot()
 
 	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
-		m_projectiles->emplace_back(std::make_unique<Laser>(m_position, m_position + m_forward_vec * 10.f, m_damage));
+		m_projectiles->emplace_back(std::make_unique<Laser>(m_position + m_forward_vec * 10.f, m_shootDir, m_damage));
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}

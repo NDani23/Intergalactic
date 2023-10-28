@@ -42,19 +42,19 @@ void Enemy::CalcBaseDir(glm::vec3& temp_dir)
 	if (glm::length(player_behind_pos - m_position) < 50.f) temp_dir = glm::normalize(m_target->GetPos() - m_position);
 
 
-	/*bool behind_player = dot(m_target->GetPos() - m_position, m_forward_vec) > 0 ? true : false;
+	bool behind_player = dot(m_target->GetPos() - m_position, m_forward_vec) > 0 ? true : false;
 
 	if (behind_player) return;
 
 	glm::vec3 target_dir = m_target->GetForwardVec();
 	float angle = acos(dot(target_dir, m_forward_vec));
 	float distance = glm::length(m_target->GetPos() - m_position);
-	if (angle < M_PI / 2 && distance < 100.f)
+	if (angle < M_PI && distance < 150.f)
 	{
-		glm::vec3 cross_vec = m_forward_vec - (-temp_dir);
-		temp_dir = glm::normalize(m_forward_vec + (-cross_vec) * 20.f);
+		glm::vec3 cross_vec = m_forward_vec - target_dir;
+		temp_dir = glm::normalize(m_forward_vec + cross_vec);
 
-	}*/
+	}
 
 }
 

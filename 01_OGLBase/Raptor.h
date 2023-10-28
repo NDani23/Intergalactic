@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Enemy.h"
-#include <math.h>
 
 class Raptor : public Enemy
 {
