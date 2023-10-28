@@ -12,6 +12,8 @@ class Map;
 class Enemy : public Weapon
 {
 protected:
+	int m_damage;
+	int m_mobility;
 	int m_health;
 	float m_speed;
 	glm::vec3 m_forward_vec;
@@ -28,10 +30,13 @@ public:
 	void SetTexture();
 	bool IsTargetable() override;
 
+	virtual bool Update(const float&) override;
+
 protected:
 	virtual HitBox UpdateDimensions();
-	virtual void CalcBaseDir(glm::vec3&) {};
-	virtual bool CalcAvoidObjectsVec(glm::vec3&) { return false; };
-	virtual bool CalcAvoidFloorVec(glm::vec3&) { return false; };
-	virtual void RegulateTurnDegree(glm::vec3&) {};
+	virtual void CalcBaseDir(glm::vec3&);
+	virtual bool CalcAvoidObjectsVec(glm::vec3&);
+	virtual bool CalcAvoidFloorVec(glm::vec3&);
+	virtual void RegulateTurnDegree(glm::vec3&);
+	virtual void CheckIfShoot();
 };
