@@ -26,7 +26,9 @@ EnemySpawnPoint::EnemySpawnPoint(const glm::vec3& pos, Player* target, std::vect
 	m_target = target;
 	m_projectiles = projectiles;
 
-	m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+	//m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+
+	m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Falcon>(Falcon(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 }
 
 void EnemySpawnPoint::Update(const float& delta)

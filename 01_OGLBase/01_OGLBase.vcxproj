@@ -111,6 +111,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemySpawnPoint.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Falcon.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="HitBox.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemySpawnPoint.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Falcon.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Includes\gCamera.cpp" />
     <ClCompile Include="Includes\GLconversions.cpp" />

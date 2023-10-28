@@ -3,14 +3,14 @@
 #include "Enemy.h"
 #include <math.h>
 
-class SaR : public Enemy
+class Falcon : public Enemy
 {
 private:
 	static std::unique_ptr<Mesh> m_static_mesh;
-	static Texture2D sar_static_tex;
+	static Texture2D m_static_tex;
 public:
-	SaR();
-	SaR(glm::vec3, Player*, std::vector<std::unique_ptr<Projectile>>*, Map*);
+	Falcon();
+	Falcon(glm::vec3, Player*, std::vector<std::unique_ptr<Projectile>>*, Map*);
 
 	bool Update(const float& delta) override;
 	void Shoot() override;

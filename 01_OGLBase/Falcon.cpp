@@ -1,19 +1,19 @@
-#include "SaR.h"
+#include "Falcon.h"
 #include "Map.h"
 
-std::unique_ptr<Mesh> SaR::m_static_mesh;
-Texture2D SaR::sar_static_tex;
+std::unique_ptr<Mesh> Falcon::m_static_mesh;
+Texture2D Falcon::m_static_tex;
 
-int SaR::FirstInit()
+int Falcon::FirstInit()
 {
-	SaR::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/player_ship.obj"));
-	SaR::m_static_mesh->initBuffers();
-	SaR::sar_static_tex = Texture2D("assets/SaR_tex.png");
+	Falcon::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/enemy_ship.obj"));
+	Falcon::m_static_mesh->initBuffers();
+	Falcon::m_static_tex = Texture2D("assets/enemy_tex.png");
 
 	return 1;
 }
 
-SaR::SaR()
+Falcon::Falcon()
 {
 	static int onFirstCall = FirstInit();
 	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -21,20 +21,19 @@ SaR::SaR()
 	m_shootDir = m_forward_vec;
 	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
-	//HitBox hitbox = { m_position, {10.0f, 3.0f, 11.0f} };
+	HitBox hitbox = { m_position, {10.0f, 3.0f, 11.0f} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_health = 100;
-	m_speed = 90;
+	m_health = 150;
+	m_speed = 120;
 
 	m_coolDownTime = 0.25f;
 	m_lastShootTime = std::chrono::system_clock::now();
 }
 
-SaR::SaR(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
+Falcon::Falcon(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
 {
 	static int onFirstCall = FirstInit();
 	m_position = pos;
@@ -46,14 +45,13 @@ SaR::SaR(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>
 	m_shootDir = m_forward_vec;
 	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
-	//HitBox hitbox = { m_position, {10.0f, 3.0f, 11.0f} };
+	HitBox hitbox = { m_position, {10.0f, 3.0f, 11.0f} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_health = 100;
-	m_speed = 100;
+	m_health = 150;
+	m_speed = 120;
 
 	m_mesh = nullptr;
 
@@ -61,7 +59,8 @@ SaR::SaR(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>
 	m_lastShootTime = std::chrono::system_clock::now();
 }
 
-bool SaR::Update(const float& delta)
+
+bool Falcon::Update(const float& delta)
 {
 	m_position += m_forward_vec * (delta * m_speed);
 	//std::cout << m_position.x << " " << m_position.y << " " << m_position.z << std::endl;
@@ -83,24 +82,24 @@ bool SaR::Update(const float& delta)
 	}
 
 	m_hitboxes[0] = UpdateDimensions();
-	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_up_vec));
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, m_up_vec));
 
 	return false;
 }
 
-void SaR::CalcBaseDir(glm::vec3& temp_dir)
+void Falcon::CalcBaseDir(glm::vec3& temp_dir)
 {
 	temp_dir = glm::normalize(m_target->GetPos() - m_position);
 
 
 	bool behind_player = dot(m_target->GetPos() - m_position, m_forward_vec) > 0 ? true : false;
-	
+
 	if (behind_player) return;
-	
+
 	glm::vec3 target_dir = m_target->GetForwardVec();
 	float angle = acos(dot(target_dir, m_forward_vec));
 	float distance = glm::length(m_target->GetPos() - m_position);
-	if (angle < M_PI/2 && distance < 100.f)
+	if (angle < M_PI / 2 && distance < 70.f)
 	{
 		glm::vec3 cross_vec = glm::normalize(m_forward_vec - (-temp_dir));
 		temp_dir = glm::normalize(m_forward_vec - cross_vec);
@@ -109,7 +108,7 @@ void SaR::CalcBaseDir(glm::vec3& temp_dir)
 
 }
 
-bool SaR::CalcAvoidObjectsVec(glm::vec3& temp_dir)
+bool Falcon::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 {
 
 	//avoid hitting player:
@@ -127,7 +126,7 @@ bool SaR::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 			temp_dir += (cross_vec * (float)(angle / M_PI));
 			temp_dir = glm::normalize(temp_dir);
 		}
-		else if (angle < 1.8f && behind_player && glm::length(m_target->GetPos() - m_position) < 50.f)
+		else if (angle < 1.5f && behind_player && glm::length(m_target->GetPos() - m_position) < 50.f)
 		{
 			glm::vec3 cross_vec = glm::normalize(target_dir - temp_dir);
 			temp_dir += (cross_vec * (1.0f / (angle * 30.f)));
@@ -135,8 +134,8 @@ bool SaR::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 
 		}
 	}
-	
-	
+
+
 	Dimensions enemy_dims = m_hitboxes[0].dimensions;
 
 	for (std::shared_ptr<Entity>& obj : m_Map->GetEntities())
@@ -182,7 +181,7 @@ bool SaR::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 	return false;
 }
 
-bool SaR::CalcAvoidFloorVec(glm::vec3& temp_dir)
+bool Falcon::CalcAvoidFloorVec(glm::vec3& temp_dir)
 {
 	if (m_Map->GetFloor() != nullptr)
 	{
@@ -203,7 +202,7 @@ bool SaR::CalcAvoidFloorVec(glm::vec3& temp_dir)
 
 			if (angle < 1.5f)
 			{
-				temp_dir += cross_vec * (1.0f / (angle*10.f));
+				temp_dir += cross_vec * (1.0f / (angle * 10.f));
 				temp_dir = glm::normalize(temp_dir);
 			}
 		}
@@ -212,7 +211,7 @@ bool SaR::CalcAvoidFloorVec(glm::vec3& temp_dir)
 	return false;
 }
 
-void SaR::Shoot()
+void Falcon::Shoot()
 {
 	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
 
@@ -224,9 +223,9 @@ void SaR::Shoot()
 	}
 }
 
-void SaR::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
+void Falcon::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 {
-	program.SetTexture("texImage", 0, SaR::sar_static_tex);
+	program.SetTexture("texImage", 0, Falcon::m_static_tex);
 	program.SetUniform("MVP", viewProj * m_transforms);
 	program.SetUniform("world", m_transforms);
 	program.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
@@ -234,24 +233,24 @@ void SaR::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 	m_static_mesh->draw();
 }
 
-HitBox SaR::UpdateDimensions()
+HitBox Falcon::UpdateDimensions()
 {
 	HitBox newHitBox = { m_position, {10.0f, 3.0f, 11.0f} };
 	glm::vec3 cross_vec = glm::normalize(glm::cross(m_forward_vec, m_up_vec));
 
-	newHitBox.dimensions.height = 2.5 + ((abs(m_up_vec.y) - 1) * (8.0 - 2.5)) / -1;
-	newHitBox.dimensions.height = std::max(2.5 + ((abs(m_forward_vec.y) - 0) * (10.0 - 2.5)) / 1, (double)m_hitboxes[0].dimensions.height);
+	newHitBox.dimensions.height = 3.0f + ((abs(m_up_vec.y) - 1) * (10.0f - 3.0f)) / -1;
+	newHitBox.dimensions.height = std::max(2.5 + ((abs(m_forward_vec.y) - 0) * (11.0f - 3.0f)) / 1, (double)newHitBox.dimensions.height);
 
-	newHitBox.dimensions.width = 8.0 + ((abs(cross_vec.x) - 1) * (2.5 - 8.0)) / -1;
-	newHitBox.dimensions.width = std::max(2.5 + ((abs(m_forward_vec.x)) * (10.0 - 2.5)) / 1, (double)m_hitboxes[0].dimensions.width);
+	newHitBox.dimensions.width = 10.0f + ((abs(cross_vec.x) - 1) * (3.0f - 10.0f)) / -1;
+	newHitBox.dimensions.width = std::max(2.5 + ((abs(m_forward_vec.x)) * (11.0f - 3.0f)) / 1, (double)newHitBox.dimensions.width);
 
-	newHitBox.dimensions.length = 2.5 + ((abs(m_forward_vec.z)) * (10.0 - 2.5)) / 1;
-	newHitBox.dimensions.length = std::max(2.5 + ((abs(cross_vec.z)) * (8.0 - 2.5)) / 1, (double)m_hitboxes[0].dimensions.length);
+	newHitBox.dimensions.length = 3.0f + ((abs(m_forward_vec.z)) * (11.0f - 3.0f)) / 1;
+	newHitBox.dimensions.length = std::max(3.0f + ((abs(cross_vec.z)) * (10.0f - 3.0)) / 1, (double)newHitBox.dimensions.length);
 
 	return newHitBox;
 }
 
-void SaR::RegulateTurnDegree(glm::vec3& temp_dir)
+void Falcon::RegulateTurnDegree(glm::vec3& temp_dir)
 {
 
 	glm::vec3 cross_vec = temp_dir - m_forward_vec;
@@ -259,14 +258,14 @@ void SaR::RegulateTurnDegree(glm::vec3& temp_dir)
 	glm::vec3 cross_obj = -glm::cross(m_forward_vec, m_up_vec);
 	glm::vec3 dot_cross = cross_obj * glm::dot(cross_obj, temp_dir);
 
-	if (glm::length(cross_vec) < 0.008f)
+	if (glm::length(cross_vec) < 0.01f)
 	{
 		m_forward_vec = temp_dir;
 	}
 	else
 	{
-		m_forward_vec = glm::normalize(m_forward_vec + cross_vec * 0.008f);
+		m_forward_vec = glm::normalize(m_forward_vec + cross_vec * 0.01f);
 	}
 
-	m_up_vec = glm::normalize(glm::cross(m_forward_vec, cross_obj) + dot_cross * (0.020f + 0.008f));
+	m_up_vec = glm::normalize(glm::cross(m_forward_vec, cross_obj) + dot_cross * (0.020f + 0.01f));
 }
