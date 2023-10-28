@@ -188,8 +188,9 @@ void Enemy::CheckIfShoot()
 	glm::vec3 to_target = m_target->GetPos() - m_position;
 	float angle = glm::length(glm::normalize(to_target) - m_forward_vec);
 
-	if (glm::length(to_target) < 200.0f && angle < 0.1f)
+	if (glm::length(to_target) < m_shootDistance && angle < m_shootAngle)
 	{
+		m_shootDir = glm::normalize(to_target);
 		Shoot();
 	}
 }

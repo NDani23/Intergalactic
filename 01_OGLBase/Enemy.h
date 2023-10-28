@@ -16,6 +16,8 @@ protected:
 	int m_mobility;
 	int m_health;
 	float m_speed;
+	float m_shootAngle;
+	int m_shootDistance;
 	glm::vec3 m_forward_vec;
 	glm::vec3 m_up_vec;
 

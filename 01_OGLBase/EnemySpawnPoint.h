@@ -4,6 +4,7 @@
 #include "Projectile.h"
 #include "SaR.h"
 #include "Falcon.h"
+#include "Raptor.h"
 #include <chrono>
 
 class Map;

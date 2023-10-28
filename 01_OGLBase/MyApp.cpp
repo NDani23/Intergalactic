@@ -546,6 +546,7 @@ void CMyApp::UpdateMap(const float& delta)
 		if (entity->Update(delta))
 		{
 			m_map->GetEntities().erase(m_map->GetEntities().begin() + i);
+			m_player.setPoints(m_player.GetPoints() + 10);
 
 			continue;
 		}

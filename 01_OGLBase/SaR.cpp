@@ -30,6 +30,8 @@ SaR::SaR()
 	m_speed = 90;
 	m_damage = 10;
 	m_mobility = 8;
+	m_shootAngle = 0.1f;
+	m_shootDistance = 200.f;
 
 	m_coolDownTime = 0.25f;
 	m_lastShootTime = std::chrono::system_clock::now();
@@ -56,6 +58,8 @@ SaR::SaR(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>
 	m_speed = 100;
 	m_damage = 10;
 	m_mobility = 8;
+	m_shootAngle = 0.1f;
+	m_shootDistance = 200.f;
 
 	m_mesh = nullptr;
 
@@ -69,7 +73,7 @@ void SaR::Shoot()
 
 	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
-		m_projectiles->emplace_back(std::make_unique<Laser>(m_position, m_shootDir, m_damage));
+		m_projectiles->emplace_back(std::make_unique<Laser>(m_position, m_position + m_forward_vec * 10.f, m_damage));
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}
