@@ -31,11 +31,13 @@ private:
 	float m_speed;
 	int m_max_speed;
 	bool m_slowing;
+	bool m_stealth;
 	int m_damage;
 	horizontal::direction roll_dir = horizontal::none;
 	vertical::direction pitch_dir = vertical::none;
 	std::vector<std::unique_ptr<Projectile>> m_projectiles;
 
+	glm::vec3 m_fakePos;
 	Map* m_map;
 
 	Entity* m_target;
@@ -43,6 +45,7 @@ private:
 	std::unique_ptr<Weapon> m_guns[3];
 	std::unique_ptr<Upgrade> m_Upgrade;
 
+	ProgramObject m_transparentProgram;
 
 	int m_points;
 	int m_upgradePoints;
@@ -76,6 +79,8 @@ public:
 	void setSpeed(float);
 	void setCredit(int);
 	void setRecord(int);
+	void setStealth(bool);
+	void setFakePos(glm::vec3&);
 
 	void Decelerate(bool);
 	bool Hit(int) override;
@@ -89,6 +94,8 @@ public:
 	int GetActiveWeaponInd();
 	int GetCredit();
 	int GetRecord();
+	bool IsStealth();
+	glm::vec3 GetFakePos();
 	Map* GetMapPtr();
 	Stats& GetStats();
 	Entity* GetTarget();

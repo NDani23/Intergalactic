@@ -24,6 +24,7 @@ Shield::Shield()
 
 	m_texture.FromFile("assets/shield_tex.png");
 	m_Image.FromFile("assets/shield.png");
+
 }
 
 Shield::Shield(Player* parent)

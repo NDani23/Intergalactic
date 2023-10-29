@@ -21,6 +21,8 @@ uniform vec3 Ks = vec3(0.8, 0.8, 0.8);
 
 uniform vec3 eye_pos = vec3(0,7,-30);
 
+uniform float alpha = 0.5f;
+
 uniform sampler2D texImage;
 
 void main()
@@ -45,5 +47,5 @@ void main()
 
 	//out color
 	fs_out_col = vec4(ambient + diffuse + specular, 1) * texture(texImage, vs_out_tex);
-	fs_out_col = vec4(fs_out_col.xyz, 0.5f);
+	fs_out_col = vec4(fs_out_col.xyz, alpha);
 }

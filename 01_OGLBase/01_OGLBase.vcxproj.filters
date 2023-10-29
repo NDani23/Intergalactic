@@ -198,6 +198,9 @@
     <ClInclude Include="Barrier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StealthCoat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyApp.cpp">
@@ -340,6 +343,9 @@
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="HitBox.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="StealthCoat.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>

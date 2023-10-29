@@ -4,6 +4,7 @@
 
 #include "SpeedBooster.h"
 #include "Shield.h"
+#include "StealthCoat.h"
 
 class player;
 

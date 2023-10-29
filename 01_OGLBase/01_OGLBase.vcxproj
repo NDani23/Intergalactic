@@ -145,6 +145,7 @@
     <ClInclude Include="SaR.h" />
     <ClInclude Include="Shield.h" />
     <ClInclude Include="SpeedBooster.h" />
+    <ClInclude Include="StealthCoat.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="Upgrade.h" />
     <ClInclude Include="UpgradeDataStorage.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="SaR.cpp" />
     <ClCompile Include="Shield.cpp" />
     <ClCompile Include="SpeedBooster.cpp" />
+    <ClCompile Include="StealthCoat.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="Upgrade.cpp" />
     <ClCompile Include="UpgradeDataStorage.cpp" />

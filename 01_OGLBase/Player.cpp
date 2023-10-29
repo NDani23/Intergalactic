@@ -3,6 +3,21 @@
 
 Player::Player()
 {
+
+	m_transparentProgram.AttachShaders({
+		{ GL_VERTEX_SHADER, "myVert.vert"},
+		{ GL_FRAGMENT_SHADER, "transparentFrag.frag"}
+		});
+
+	m_transparentProgram.BindAttribLocations({
+		{ 0, "vs_in_pos" },
+		{ 1, "vs_in_norm" },
+		{ 2, "vs_in_tex" },
+		});
+
+	m_transparentProgram.LinkProgram();
+
+
 	m_record = 0;
 	m_health = 100;
 	m_max_health = 100;
@@ -17,6 +32,9 @@ Player::Player()
 	m_activeWeaponInd = 1;
 	m_target = nullptr;
 	m_map = nullptr;
+
+	m_stealth = false;
+	m_fakePos = glm::vec3(0.f, 0.f, 0.f);
 
 	m_credit = 0;
 
@@ -211,6 +229,11 @@ void Player::setStats(Stats stat)
 	m_guns[1]->SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
 }
 
+void Player::setStealth(bool stealth)
+{
+	m_stealth = stealth;
+}
+
 void Player::setActiveWeapon(int ind)
 {
 	if (ind < 3 && ind >= 0 && m_guns[ind] != nullptr)
@@ -232,6 +255,11 @@ void Player::setRecord(int record)
 void Player::setSpeed(float speed)
 {
 	m_speed = speed;
+}
+
+void Player::setFakePos(glm::vec3& pos)
+{
+	m_fakePos = pos;
 }
 
 Entity* Player::GetTarget()
@@ -349,6 +377,16 @@ bool Player::Hit(int damage)
 	return m_health <= 0;
 }
 
+glm::vec3 Player::GetFakePos()
+{
+	return m_fakePos;
+}
+
+bool Player::IsStealth()
+{
+	return m_stealth;
+}
+
 void Player::Roll(const int& dir, const float& delta)
 {
 	glm::vec4 new_up_vec = glm::normalize(glm::rotate(dir * (3 * delta), m_forward_vec) * glm::vec4(m_up_vec, 0));
@@ -382,12 +420,33 @@ void Player::updateDimensions()
 
 void Player::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 {
-	program.SetTexture("texImage", 0, m_texture);
-	program.SetUniform("MVP", viewProj * m_transforms);
-	program.SetUniform("world", m_transforms);
-	program.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
 
-	m_mesh->draw();
+	if (!m_stealth)
+	{
+		program.SetTexture("texImage", 0, m_texture);
+		program.SetUniform("MVP", viewProj * m_transforms);
+		program.SetUniform("world", m_transforms);
+		program.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
+
+		m_mesh->draw();
+	}
+	else
+	{
+		program.Unuse();
+		glEnable(GL_BLEND);
+		m_transparentProgram.Use();
+		m_transparentProgram.SetTexture("texImage", 0, m_texture);
+		m_transparentProgram.SetUniform("MVP", viewProj * m_transforms);
+		m_transparentProgram.SetUniform("world", m_transforms);
+		m_transparentProgram.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
+		m_transparentProgram.SetUniform("alpha", 0.3f);
+
+		m_mesh->draw();
+		glDisable(GL_BLEND);
+		m_transparentProgram.Unuse();
+		program.Use();
+	}
+	
 
 	for (int i = 0; i < 3; i++)
 	{
