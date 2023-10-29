@@ -281,14 +281,12 @@ void CMyApp::Render()
 
 		DrawProjectiles(m_player.GetProjectiles());
 
-		m_axesProgram.Use();
 		if (m_player.GetTarget() != nullptr && m_player.GetWeapons()[m_player.GetActiveWeaponInd()]->requireTarget())
 		{
-			DrawHitBox(m_player.GetTarget()->GetHitboxes()[0]);
+			m_player.GetTarget()->GetHitboxes()[0].Draw(m_axesProgram, viewProj);
 		}
-		//DrawHitBoxes();
-		m_axesProgram.Unuse();
 
+		//DrawHitBoxes(m_axesProgram, viewProj);
 		BaseProgram.Use();
 	}
 	
@@ -468,6 +466,8 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 		Projectile* proj = projectiles[i].get();
 		for (std::shared_ptr<Entity>& entity : m_map->GetEntities())
 		{
+			if (!entity->CanCollide()) continue;
+
 			if (proj->CheckHit(entity.get()))
 			{
 				if (entity->Hit(proj->GetDamage()))
@@ -607,7 +607,7 @@ void CMyApp::UpdateProjectiles(const float& delta)
 	}
 }
 
-void CMyApp::DrawHitBoxes()
+void CMyApp::DrawHitBoxes(ProgramObject& program, glm::mat4& viewProj)
 {
 	std::vector<glm::vec3> Points;
 
@@ -615,101 +615,12 @@ void CMyApp::DrawHitBoxes()
 	{
 		for (HitBox& hitbox : entity->GetHitboxes())
 		{
-			DrawHitBox(hitbox);
+			hitbox.Draw(program, viewProj);
 		}
 	}
 
 
-	DrawHitBox(m_player.GetHitboxes()[0]);
-}
-
-void CMyApp::DrawHitBox(HitBox& hitbox)
-{
-	std::vector<glm::vec3> Points;
-
-	glm::vec3 leftDB = hitbox.Position;
-	leftDB.x -= hitbox.dimensions.width / 2;
-	leftDB.y -= hitbox.dimensions.height / 2;
-	leftDB.z -= hitbox.dimensions.length / 2;
-
-	glm::vec3 rightDB = hitbox.Position;
-	rightDB.x +=hitbox.dimensions.width / 2;
-	rightDB.y -=hitbox.dimensions.height / 2;
-	rightDB.z -=hitbox.dimensions.length / 2;
-
-	glm::vec3 rightUB = hitbox.Position;
-	rightUB.x += hitbox.dimensions.width / 2;
-	rightUB.y += hitbox.dimensions.height / 2;
-	rightUB.z -= hitbox.dimensions.length / 2;
-
-	glm::vec3 leftUB = hitbox.Position;
-	leftUB.x -= hitbox.dimensions.width / 2;
-	leftUB.y += hitbox.dimensions.height / 2;
-	leftUB.z -= hitbox.dimensions.length / 2;
-
-
-	glm::vec3 leftDF = hitbox.Position;
-	leftDF.x -= hitbox.dimensions.width / 2;
-	leftDF.y -= hitbox.dimensions.height / 2;
-	leftDF.z += hitbox.dimensions.length / 2;
-
-	glm::vec3 rightDF = hitbox.Position;
-	rightDF.x += hitbox.dimensions.width / 2;
-	rightDF.y -= hitbox.dimensions.height / 2;
-	rightDF.z += hitbox.dimensions.length / 2;
-
-	glm::vec3 rightUF = hitbox.Position;
-	rightUF.x += hitbox.dimensions.width / 2;
-	rightUF.y += hitbox.dimensions.height / 2;
-	rightUF.z += hitbox.dimensions.length / 2;
-
-	glm::vec3 leftUF = hitbox.Position;
-	leftUF.x -= hitbox.dimensions.width / 2;
-	leftUF.y += hitbox.dimensions.height / 2;
-	leftUF.z += hitbox.dimensions.length / 2;
-	//---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-	Points.push_back(leftDB);
-	Points.push_back(rightDB);
-
-	Points.push_back(rightDB);
-	Points.push_back(rightUB);
-
-	Points.push_back(rightUB);
-	Points.push_back(leftUB);
-
-	Points.push_back(leftUB);
-	Points.push_back(leftDB);
-
-	Points.push_back(leftDB);
-	Points.push_back(leftDF);
-
-	Points.push_back(leftUB);
-	Points.push_back(leftUF);
-
-	Points.push_back(leftUF);
-	Points.push_back(leftDF);
-
-	Points.push_back(leftUF);
-	Points.push_back(rightUF);
-
-	Points.push_back(rightUF);
-	Points.push_back(rightDF);
-
-	Points.push_back(rightDF);
-	Points.push_back(leftDF);
-
-	Points.push_back(rightDF);
-	Points.push_back(rightDB);
-
-	Points.push_back(rightUF);
-	Points.push_back(rightUB);
-
-	m_axesProgram.SetUniform("mvp", m_camera.GetViewProj());
-	m_axesProgram.SetUniform("points", Points);
-	glDrawArrays(GL_LINES, 0, (GLsizei)Points.size());
-
-	Points.clear();
+	m_player.GetHitboxes()[0].Draw(program, viewProj);
 }
 
 void CMyApp::GameOver()

@@ -61,8 +61,7 @@ public:
 	void Resize(int, int);
 	void DetectCollisions();
 	void DetectHit(std::vector<std::unique_ptr<Projectile>>&);
-	void DrawHitBoxes();
-	void DrawHitBox(HitBox&);
+	void DrawHitBoxes(ProgramObject&, glm::mat4&);
 	void DrawProjectiles(std::vector<std::unique_ptr<Projectile>>&);
 	void UpdateMap(const float&);
 	void UpdateProjectiles(const float&);

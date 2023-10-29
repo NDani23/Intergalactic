@@ -339,6 +339,9 @@
     <ClCompile Include="Barrier.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
+    <ClCompile Include="HitBox.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="myFrag.frag">
