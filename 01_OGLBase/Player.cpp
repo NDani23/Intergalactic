@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Map.h"
 
 Player::Player()
 {
@@ -15,6 +16,7 @@ Player::Player()
 	m_damage = 10;
 	m_activeWeaponInd = 1;
 	m_target = nullptr;
+	m_map = nullptr;
 
 	m_credit = 0;
 
@@ -42,7 +44,7 @@ Player::Player()
 	m_transforms = glm::inverse(glm::lookAt(GetPos(), GetPos() - GetForwardVec(), GetUpVec()));
 }
 
-void Player::Reset()
+void Player::Reset(Map* map)
 {
 
 	m_hitboxes.clear();
@@ -61,6 +63,7 @@ void Player::Reset()
 	m_activeWeaponInd = 1;
 
 	m_target = nullptr;
+	m_map = map;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -269,6 +272,11 @@ int Player::GetUpgradePoints()
 int Player::GetRecord()
 {
 	return m_record;
+}
+
+Map* Player::GetMapPtr()
+{
+	return m_map;
 }
 
 int Player::GetUpgradePointsSum()

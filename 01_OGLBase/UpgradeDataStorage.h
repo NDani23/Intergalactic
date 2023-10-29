@@ -3,6 +3,7 @@
 #include <functional>
 
 #include "SpeedBooster.h"
+#include "Shield.h"
 
 class player;
 

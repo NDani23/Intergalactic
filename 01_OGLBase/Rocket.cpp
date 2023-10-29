@@ -39,13 +39,13 @@ bool Rocket::Update(const float& delta)
 
 	glm::vec3 cross_vec = temp_dir - m_direction;
 
-	if (glm::length(cross_vec) < 0.05f)
+	if (glm::length(cross_vec) < 0.015f)
 	{
 		m_direction = temp_dir;
 	}
 	else
 	{
-		m_direction = glm::normalize(m_direction + cross_vec * 0.05f);
+		m_direction = glm::normalize(m_direction + cross_vec * 0.015f);
 	}
 	glm::vec3 newPos = m_position + m_direction * (delta * m_speed);
 	m_travelDistance += glm::length(newPos - m_position);

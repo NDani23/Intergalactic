@@ -90,7 +90,7 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 
 	for (std::shared_ptr<Entity>& obj : m_Map->GetEntities())
 	{
-		if (obj.get() == this)
+		if (obj.get() == this || !obj.get()->CanCollidePlayer())
 		{
 			continue;
 		}
@@ -110,6 +110,7 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 				&& abs(distance_vec.y) < std::max(enemy_dims.height / 2, hitbox_dims.height / 2)
 				&& abs(distance_vec.z) < std::max(enemy_dims.length / 2, hitbox_dims.length / 2))
 			{
+				//std::cout << "Collision" << std::endl;
 				return true;
 			}
 

@@ -40,10 +40,12 @@ public:
 	std::vector<HitBox>& GetHitboxes();
 
 	void SetTransforms(glm::mat4);
+	void SetPos(glm::vec3);
 	void AddHitBox(HitBox);
 
 	virtual void DrawMesh(ProgramObject&, glm::mat4&);
 	virtual bool Update(const float&);
 	virtual bool Hit(int);
 	virtual bool IsTargetable();
+	virtual bool CanCollidePlayer();
 };

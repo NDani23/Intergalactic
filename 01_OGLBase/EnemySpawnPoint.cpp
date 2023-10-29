@@ -43,7 +43,6 @@ void EnemySpawnPoint::Update(const float& delta)
 
 	if (elapsed_seconds.count() >= m_spawnTimeWindow)
 	{
-		//m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 		SpawnEnemy();
 
 		m_lastSpawnTime = std::chrono::system_clock::now();

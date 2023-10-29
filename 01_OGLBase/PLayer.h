@@ -8,6 +8,7 @@
 #include <algorithm>
 
 class Persistence;
+class Map;
 
 struct Stats
 {
@@ -35,6 +36,8 @@ private:
 	vertical::direction pitch_dir = vertical::none;
 	std::vector<std::unique_ptr<Projectile>> m_projectiles;
 
+	Map* m_map;
+
 	Entity* m_target;
 
 	std::unique_ptr<Weapon> m_guns[3];
@@ -54,7 +57,7 @@ private:
 
 public:
 	Player();
-	void Reset();
+	void Reset(Map*);
 
 	void Move(const float&, const glm::vec3&);
 	void Shoot();
@@ -86,6 +89,7 @@ public:
 	int GetActiveWeaponInd();
 	int GetCredit();
 	int GetRecord();
+	Map* GetMapPtr();
 	Stats& GetStats();
 	Entity* GetTarget();
 

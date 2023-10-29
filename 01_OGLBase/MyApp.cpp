@@ -104,6 +104,7 @@ bool CMyApp::Init(bool* quit)
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glLineWidth(4.0f);
 
@@ -123,7 +124,7 @@ void CMyApp::Reset()
 {
 	m_PlayTime = 0.f;
 	m_projectiles.clear();
-	m_player.Reset();
+	m_player.Reset(m_map);
 	m_map->LoadMap();
 }
 
@@ -152,7 +153,7 @@ void CMyApp::Update()
 
 	if (m_GameState.hangar)
 	{
-		if (m_player.GetPos() != glm::vec3(0.0f, 0.0f, 0.0f)) m_player.Reset();
+		if (m_player.GetPos() != glm::vec3(0.0f, 0.0f, 0.0f)) m_player.Reset(m_map);
 		glm::vec3 cam_at = glm::vec4(m_player.GetPos(), 1);
 		glm::vec3 cam_eye = cam_at + m_player.GetCrossVec() * 20.f + m_player.GetUpVec() * 10.f + m_player.GetForwardVec() * 10.f;
 		glm::vec3 cam_up = m_player.GetUpVec();
@@ -232,19 +233,43 @@ void CMyApp::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glm::mat4 viewProj = m_camera.GetViewProj();
 
+	// skybox
+	GLint prevDepthFnc;
+	glGetIntegerv(GL_DEPTH_FUNC, &prevDepthFnc);
+
+	glDepthFunc(GL_LEQUAL);
+
+	m_SkyboxVao.Bind();
+	ProgramObject& SkyBoxProgram = m_map->getSkyBoxProgram();
+
+	SkyBoxProgram.Use();
+	SkyBoxProgram.SetUniform("MVP", viewProj * glm::translate(m_camera.GetEye()));
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_skyboxTexture);
+	glUniform1i(SkyBoxProgram.GetLocation("skyboxTexture"), 0);
+
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
+	SkyBoxProgram.Unuse();
+
+	glDepthFunc(prevDepthFnc);
+
+
+	//Objects
 	ProgramObject& BaseProgram = m_map->getProgram();
 
 	BaseProgram.Use();
-	float t = SDL_GetTicks() / 20;
 	if (m_GameState.play || m_GameState.hangar)
 	{
 
 		if (!m_GameState.gameover)
 		{
 			//player
-			m_player.DrawMesh(BaseProgram, viewProj);		
+			m_player.DrawMesh(BaseProgram, viewProj);
 		}
 	}
+
+	float t = SDL_GetTicks() / 20;
 	m_map->DrawEntities(viewProj, m_GameState);
 	if (m_GameState.play)
 	{
@@ -267,26 +292,6 @@ void CMyApp::Render()
 	}
 	
 	BaseProgram.Unuse();
-	// skybox
-	GLint prevDepthFnc;
-	glGetIntegerv(GL_DEPTH_FUNC, &prevDepthFnc);
-
-	glDepthFunc(GL_LEQUAL);
-
-	m_SkyboxVao.Bind();
-	ProgramObject& SkyBoxProgram = m_map->getSkyBoxProgram();
-
-	SkyBoxProgram.Use();
-	SkyBoxProgram.SetUniform("MVP", viewProj * glm::translate( m_camera.GetEye()) );
-	
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_skyboxTexture);
-	glUniform1i(SkyBoxProgram.GetLocation("skyboxTexture"), 0);
-
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-	SkyBoxProgram.Unuse();
-
-	glDepthFunc(prevDepthFnc);
 
 	//ImGui
 	UI.Render();
@@ -434,6 +439,8 @@ void CMyApp::DetectCollisions()
 	for (std::shared_ptr<Entity>& entity : m_map->GetEntities())
 	{
 		if (m_GameState.gameover) break;
+		if (!entity->CanCollidePlayer()) break;
+
 		for (HitBox& hitbox : entity->GetHitboxes())
 		{
 			glm::vec3 distance_vec = player_pos - hitbox.Position;
@@ -479,9 +486,29 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 
 	for (int i = 0; i < m_projectiles.size(); i++)
 	{
+		bool alive = true;
 		Projectile* proj = m_projectiles[i].get();
+		for (std::shared_ptr<Entity>& entity : m_map->GetEntities())
+		{
+			if (proj->CheckHit(entity.get()))
+			{
+				if (entity->Hit(proj->GetDamage()))
+				{
+					auto position = std::find(m_map->GetEntities().begin(), m_map->GetEntities().end(), entity);
+					if (position != m_map->GetEntities().end())
+						m_map->GetEntities().erase(position);
 
-		if(proj->CheckHit(&m_player))
+					m_player.setPoints(m_player.GetPoints() + 10);
+				}
+
+				m_projectiles.erase(m_projectiles.begin() + i);
+				alive = false;
+				break;
+			}
+		}
+		if (!alive) break;
+
+		if (proj->CheckHit(&m_player))
 		{
 			m_projectiles.erase(m_projectiles.begin() + i);
 
@@ -491,7 +518,9 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 				break;
 			}
 		}
+
 	}
+
 }
 
 void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectiles)

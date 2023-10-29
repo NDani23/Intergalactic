@@ -15,6 +15,19 @@ UpgradeDataStorage::UpgradeDataStorage()
 			)
 		}
 	);
+
+	m_Upgrades.insert
+	(
+		{
+			1,
+			std::move(
+				UpgradeItem({[](Player* player) { return std::make_unique<Shield>(player); },
+				Texture2D("assets/shield.png"),
+				"Shield",
+				1500})
+			)
+		}
+	);
 }
 
 std::map<int, UpgradeItem>& UpgradeDataStorage::GetStorage()

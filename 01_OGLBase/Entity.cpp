@@ -107,6 +107,11 @@ void Entity::SetTransforms(glm::mat4 transforms)
 	m_transforms = transforms;
 }
 
+void Entity::SetPos(glm::vec3 pos)
+{
+	m_position = pos;
+}
+
 void Entity::AddHitBox(HitBox hitbox)
 {
 	m_hitboxes.emplace_back(hitbox);
@@ -135,4 +140,9 @@ bool Entity::Hit(int damage)
 bool Entity::IsTargetable()
 {
 	return false;
+}
+
+bool Entity::CanCollidePlayer()
+{
+	return true;
 }

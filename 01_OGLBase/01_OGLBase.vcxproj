@@ -104,6 +104,7 @@
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_truetype.h" />
     <ClInclude Include="AppUI.h" />
+    <ClInclude Include="Barrier.h" />
     <ClInclude Include="DeepSpace.h" />
     <ClInclude Include="DesertFloor.h" />
     <ClInclude Include="Dimensions.h" />
@@ -142,6 +143,7 @@
     <ClInclude Include="Rocket.h" />
     <ClInclude Include="RocketLauncher.h" />
     <ClInclude Include="SaR.h" />
+    <ClInclude Include="Shield.h" />
     <ClInclude Include="SpeedBooster.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="Upgrade.h" />
@@ -158,6 +160,7 @@
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="AppUI.cpp" />
+    <ClCompile Include="Barrier.cpp" />
     <ClCompile Include="DeepSpace.cpp" />
     <ClCompile Include="DesertFloor.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -189,6 +192,7 @@
     <ClCompile Include="Rocket.cpp" />
     <ClCompile Include="RocketLauncher.cpp" />
     <ClCompile Include="SaR.cpp" />
+    <ClCompile Include="Shield.cpp" />
     <ClCompile Include="SpeedBooster.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="Upgrade.cpp" />
@@ -209,6 +213,7 @@
     <None Include="proceduralVert.vert" />
     <None Include="skybox.frag" />
     <None Include="skybox.vert" />
+    <None Include="transparentFrag.frag" />
   </ItemGroup>
   <ItemGroup>
     <None Include="myFrag.frag" />
