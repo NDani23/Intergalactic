@@ -94,6 +94,7 @@ void DeepSpace::CreateMeteorField()
 	AddEntity(std::make_shared<Entity>("assets/meteor.obj", glm::vec3(-700, 300, 1100), glm::rotate(0.5f, glm::vec3(1, 1, 1)) * glm::scale(glm::vec3(1.3f, 1.3f, 1.3f)), "assets/meteor_tex.jpg", Dimensions{ 35.1f, 35.1f, 35.1f }));
 	AddEntity(std::make_shared<Entity>("assets/meteor.obj", glm::vec3(-750, 280, 1000), glm::rotate(-1.3f, glm::vec3(0, 1, 1)) * glm::scale(glm::vec3(0.3f, 0.3f, 0.3f)), "assets/meteor_tex.jpg", Dimensions{ 8.1f, 8.1f, 8.1f }));
 	AddEntity(std::make_shared<Entity>("assets/meteor.obj", glm::vec3(-800, 350, 1150), glm::rotate(0.8f, glm::vec3(1, 1, 1)) * glm::scale(glm::vec3(0.4f, 0.4f, 0.4f)), "assets/meteor_tex.jpg", Dimensions{ 10.8f, 10.8f, 10.8f }));
+	
 }
 
 void DeepSpace::DrawEntities(glm::mat4& viewproj, GameState& state)

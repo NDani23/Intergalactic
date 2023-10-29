@@ -47,5 +47,5 @@ public:
 	virtual bool Update(const float&);
 	virtual bool Hit(int);
 	virtual bool IsTargetable();
-	virtual bool CanCollidePlayer();
+	virtual bool CanCollide();
 };

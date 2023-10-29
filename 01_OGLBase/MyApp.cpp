@@ -180,6 +180,7 @@ void CMyApp::Update()
 		m_player.Move(delta_time, m_flyStraight ? m_player.GetForwardVec() : m_cursor_diff_vec);		
 		m_player.UpdateProjectiles(delta_time);
 	}
+
 	UpdateProjectiles(delta_time);
 	DetectHit(m_player.GetProjectiles());
 
@@ -439,7 +440,7 @@ void CMyApp::DetectCollisions()
 	for (std::shared_ptr<Entity>& entity : m_map->GetEntities())
 	{
 		if (m_GameState.gameover) break;
-		if (!entity->CanCollidePlayer()) break;
+		if (!entity->CanCollide()) break;
 
 		for (HitBox& hitbox : entity->GetHitboxes())
 		{

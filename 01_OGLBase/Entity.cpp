@@ -142,7 +142,7 @@ bool Entity::IsTargetable()
 	return false;
 }
 
-bool Entity::CanCollidePlayer()
+bool Entity::CanCollide()
 {
 	return true;
 }

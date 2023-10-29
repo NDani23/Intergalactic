@@ -13,6 +13,6 @@ public:
 	Barrier(glm::vec3);
 
 	void SetPos(glm::vec3);
-	bool CanCollidePlayer() override;
+	bool CanCollide() override;
 	void DrawMesh(ProgramObject&, glm::mat4&) override;
 };

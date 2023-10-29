@@ -72,7 +72,6 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 		if (angle > 3.f)
 		{
 			glm::vec3 cross_vec = glm::normalize(-target_dir - temp_dir);
-			//std::cout << glm::length(cross_vec) << std::endl;
 			temp_dir += (cross_vec * (float)(angle / M_PI));
 			temp_dir = glm::normalize(temp_dir);
 		}
@@ -90,7 +89,7 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 
 	for (std::shared_ptr<Entity>& obj : m_Map->GetEntities())
 	{
-		if (obj.get() == this || !obj.get()->CanCollidePlayer())
+		if (obj.get() == this || !obj.get()->CanCollide())
 		{
 			continue;
 		}
@@ -118,9 +117,14 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 			glm::vec3 cross_vec = glm::normalize(distance_vec - temp_dir);
 
 			float angle = glm::acos(glm::dot(distance_vec, temp_dir));
+			
 
 			//if enemy moving in the direction of the object
-			if (angle < 1.5f)
+			if (isnan(angle))
+			{
+				temp_dir = glm::normalize(temp_dir);
+			}
+			else if (angle < 1.5f)
 			{
 				temp_dir += temp_dir - (cross_vec * (1.0f / (angle * 10.f)));
 				temp_dir = glm::normalize(temp_dir);
@@ -171,7 +175,13 @@ void Enemy::RegulateTurnDegree(glm::vec3& temp_dir)
 	glm::vec3 dot_cross = cross_obj * glm::dot(cross_obj, temp_dir);
 
 	float turn_limit = m_mobility * 0.001;
-	if (glm::length(cross_vec) < turn_limit)
+
+	if (isnan(glm::length(cross_vec)))
+	{
+		m_forward_vec = glm::normalize(m_forward_vec + m_up_vec * turn_limit);
+		return;
+	}
+	else if (glm::length(cross_vec) < turn_limit)
 	{
 		m_forward_vec = temp_dir;
 	}

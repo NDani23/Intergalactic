@@ -94,11 +94,6 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 	glm::vec3 dot_cross = m_cross_vec * glm::dot(m_cross_vec, cursor_diff_vec);
 	glm::vec3 dot_up = m_up_vec * glm::dot(m_up_vec, cursor_diff_vec);
 
-	//GO-TO feels good settings
-	/*m_forward_vec = glm::normalize(m_forward_vec + dot_up * 0.02f + dot_cross * 0.01f);	
-	m_up_vec = glm::normalize(glm::cross(m_forward_vec, m_cross_vec) + dot_cross * 0.05f);
-	m_cross_vec = glm::normalize(glm::cross(m_up_vec, m_forward_vec));*/
-
 	//slow settings for starter player
 	m_forward_vec = glm::normalize(m_forward_vec + (dot_up * (0.015f + 0.001f * m_stats.mobility)) + (dot_cross * (0.0075f + 0.0005f * m_stats.mobility)));
 	m_up_vec = glm::normalize(glm::cross(m_forward_vec, m_cross_vec) + dot_cross * (0.020f + 0.005f * m_stats.mobility));

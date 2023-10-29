@@ -68,7 +68,7 @@ void Barrier::SetPos(glm::vec3 pos)
 	m_transforms = glm::translate(m_position);
 }
 
-bool Barrier::CanCollidePlayer()
+bool Barrier::CanCollide()
 {
 	return false;
 }
