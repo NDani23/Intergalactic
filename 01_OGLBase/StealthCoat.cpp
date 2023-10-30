@@ -108,11 +108,11 @@ void StealthCoat::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 	m_transparentProgram.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
 	if (m_active)
 	{
-		m_transparentProgram.SetUniform("alpha", 0.2f);
+		m_transparentProgram.SetUniform("alpha", 0.1f);
 	}
 	else
 	{
-		m_transparentProgram.SetUniform("alpha", 0.8f);
+		m_transparentProgram.SetUniform("alpha", 0.2f);
 	}
 
 	m_mesh->draw();

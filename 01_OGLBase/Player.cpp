@@ -439,7 +439,7 @@ void Player::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 		m_transparentProgram.SetUniform("MVP", viewProj * m_transforms);
 		m_transparentProgram.SetUniform("world", m_transforms);
 		m_transparentProgram.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
-		m_transparentProgram.SetUniform("alpha", 0.3f);
+		m_transparentProgram.SetUniform("alpha", 0.2f);
 
 		m_mesh->draw();
 		glDisable(GL_BLEND);
