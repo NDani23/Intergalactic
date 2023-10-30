@@ -62,28 +62,21 @@ void MachineGun::Update()
 
 	if (m_active)
 	{
-		glm::vec3 m_tempDir;
+		glm::vec3 m_tempDir = glm::normalize(m_parent->GetCursorVec());
+		float dot_up = glm::dot(m_parent->GetUpVec(), m_tempDir);
+		float dot_cross = glm::dot(m_parent->GetCrossVec(), m_tempDir);
 		//forward
 		if (!m_parent->IsLookingBack())
 		{
-			m_tempDir = glm::normalize(m_parent->GetCursorVec());
+			dot_cross = m_side == -1 ? std::max(dot_cross, -0.15f) : std::min(dot_cross, 0.15f);
+			m_tempDir = glm::normalize(m_parent->GetForwardVec() + m_parent->GetCrossVec() * dot_cross + m_parent->GetUpVec() * std::min(dot_up, 0.27f));
 		}
 		else
 		{
-			m_tempDir = glm::normalize(-m_parent->GetCursorVec());
-			float dot_up = glm::dot(m_parent->GetUpVec(), m_tempDir);
-			m_tempDir = m_tempDir - m_parent->GetUpVec() * dot_up * 2.f;
+			dot_cross = m_side == 1 ? std::max(dot_cross, -0.4f) : std::min(dot_cross, 0.4f);
+			m_tempDir = glm::normalize(-m_parent->GetForwardVec() - m_parent->GetCrossVec() * dot_cross + m_parent->GetUpVec() * std::min(dot_up, 0.085f) * 2.f);
 		}
-		//m_tempDir = glm::normalize(m_parent->GetCursorVec());
 
-		////glm::vec3 cross_vec = m_parent->GetUpVec() - m_tempDir;
-		//float dot_up = glm::dot(m_parent->GetUpVec(), m_tempDir);
-		//std::cout << dot_up << std::endl;
-
-		//if (dot_up > 0.2f)
-		//{
-		//	m_tempDir = m_shootDir + m_parent->GetUpVec() * 0.2f;
-		//}
 		m_shootDir = m_tempDir;
 
 	}
