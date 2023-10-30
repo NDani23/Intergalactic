@@ -5,6 +5,7 @@
 #include "LaserGun.h"
 #include "RocketLauncher.h"
 #include "MinePlacer.h"
+#include "MachineGun.h"
 
 class player;
 

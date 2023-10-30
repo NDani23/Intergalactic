@@ -1,0 +1,95 @@
+#include "MachineGun.h"
+#include "Player.h"
+
+MachineGun::MachineGun()
+{
+	m_ID = 2;
+	m_parent = nullptr;
+	m_position = glm::vec3(0, 0, 0);
+	m_shootDir = glm::vec3(0, 0, 0);
+	m_transforms = glm::translate(m_position);
+	m_coolDownTime = 0.1f;
+	m_lastShootTime = std::chrono::system_clock::now();
+
+	m_side = 0;
+
+	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
+	m_hitboxes.emplace_back(hitbox);
+
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/machine_gun.obj"));
+	m_mesh->initBuffers();
+
+	m_texture.FromFile("assets/machine_gun_tex.png");
+	m_projectileImage.FromFile("assets/machine_gun.png");
+}
+
+MachineGun::MachineGun(Player* target, int side)
+{
+	m_ID = 2;
+	m_parent = target;
+	m_side = side;
+	m_shootDir = m_parent->GetForwardVec();
+	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.35f);
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
+	m_coolDownTime = 0.1f;
+	m_lastShootTime = std::chrono::system_clock::now();
+
+	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
+	m_hitboxes.emplace_back(hitbox);
+
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/machine_gun.obj"));
+	m_mesh->initBuffers();
+
+	m_texture.FromFile("assets/machine_gun_tex.png");
+	m_projectileImage.FromFile("assets/machine_gun.png");
+}
+
+void MachineGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
+{
+	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
+
+	if (elapsed_seconds.count() >= m_coolDownTime)
+	{
+		projectiles.emplace_back(std::make_unique<Laser>(m_position + m_shootDir * 5.f, m_shootDir));
+
+		m_lastShootTime = std::chrono::system_clock::now();
+	}
+}
+
+void MachineGun::Update()
+{
+	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.35f);
+
+	if (m_active)
+	{
+		glm::vec3 m_tempDir;
+		//forward
+		if (!m_parent->IsLookingBack())
+		{
+			m_tempDir = glm::normalize(m_parent->GetCursorVec());
+		}
+		else
+		{
+			m_tempDir = glm::normalize(-m_parent->GetCursorVec());
+			float dot_up = glm::dot(m_parent->GetUpVec(), m_tempDir);
+			m_tempDir = m_tempDir - m_parent->GetUpVec() * dot_up * 2.f;
+		}
+		//m_tempDir = glm::normalize(m_parent->GetCursorVec());
+
+		////glm::vec3 cross_vec = m_parent->GetUpVec() - m_tempDir;
+		//float dot_up = glm::dot(m_parent->GetUpVec(), m_tempDir);
+		//std::cout << dot_up << std::endl;
+
+		//if (dot_up > 0.2f)
+		//{
+		//	m_tempDir = m_shootDir + m_parent->GetUpVec() * 0.2f;
+		//}
+		m_shootDir = m_tempDir;
+
+	}
+	else
+	{
+		m_shootDir = m_parent->GetForwardVec();
+	}
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
+}

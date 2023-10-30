@@ -34,7 +34,10 @@ Player::Player()
 	m_map = nullptr;
 
 	m_stealth = false;
+	m_flyStraight = false;
+	m_lookBack = false;
 	m_fakePos = glm::vec3(0.f, 0.f, 0.f);
+	m_cursorVec = glm::vec3(0.f, 0.f, 0.f);
 
 	m_credit = 0;
 
@@ -77,6 +80,9 @@ void Player::Reset(Map* map)
 	m_speed = 90 + 10*m_stats.speed;
 	m_max_speed = 90 + 10 * m_stats.speed;
 	m_slowing = false;
+	m_stealth = false;
+	m_flyStraight = false;
+	m_lookBack = false;
 	m_damage = 10 + 5*m_stats.damage;
 	m_activeWeaponInd = 1;
 
@@ -103,19 +109,23 @@ void Player::Reset(Map* map)
 
 void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 {		
+	m_cursorVec = cursor_diff_vec;
+
 
 	if (m_slowing && m_speed > 80.0f) m_speed = m_speed - 0.5f;
 	else if (!m_slowing && m_speed < m_max_speed) m_speed = m_speed + 0.5f;
 
 	m_position += GetForwardVec() * (delta * m_speed);
 
-	glm::vec3 dot_cross = m_cross_vec * glm::dot(m_cross_vec, cursor_diff_vec);
-	glm::vec3 dot_up = m_up_vec * glm::dot(m_up_vec, cursor_diff_vec);
+	if (!m_flyStraight)
+	{
+		glm::vec3 dot_cross = m_cross_vec * glm::dot(m_cross_vec, cursor_diff_vec);
+		glm::vec3 dot_up = m_up_vec * glm::dot(m_up_vec, cursor_diff_vec);
 
-	//slow settings for starter player
-	m_forward_vec = glm::normalize(m_forward_vec + (dot_up * (0.015f + 0.001f * m_stats.mobility)) + (dot_cross * (0.0075f + 0.0005f * m_stats.mobility)));
-	m_up_vec = glm::normalize(glm::cross(m_forward_vec, m_cross_vec) + dot_cross * (0.020f + 0.005f * m_stats.mobility));
-	m_cross_vec = glm::normalize(glm::cross(m_up_vec, m_forward_vec));
+		m_forward_vec = glm::normalize(m_forward_vec + (dot_up * (0.015f + 0.001f * m_stats.mobility)) + (dot_cross * (0.0075f + 0.0005f * m_stats.mobility)));
+		m_up_vec = glm::normalize(glm::cross(m_forward_vec, m_cross_vec) + dot_cross * (0.020f + 0.005f * m_stats.mobility));
+		m_cross_vec = glm::normalize(glm::cross(m_up_vec, m_forward_vec));
+	}
 
 	switch (roll_dir)
 	{
@@ -234,11 +244,18 @@ void Player::setStealth(bool stealth)
 	m_stealth = stealth;
 }
 
+void Player::FlyStraight(bool isStraight)
+{
+	m_flyStraight = isStraight;
+}
+
 void Player::setActiveWeapon(int ind)
 {
 	if (ind < 3 && ind >= 0 && m_guns[ind] != nullptr)
 	{
+		m_guns[m_activeWeaponInd]->SetActive(false);
 		m_activeWeaponInd = ind;
+		m_guns[ind]->SetActive(true);
 	}
 }
 
@@ -262,6 +279,11 @@ void Player::setFakePos(glm::vec3& pos)
 	m_fakePos = pos;
 }
 
+void Player::LookBack(bool lookback)
+{
+	m_lookBack = lookback;
+}
+
 Entity* Player::GetTarget()
 {
 	return m_target;
@@ -270,6 +292,11 @@ Entity* Player::GetTarget()
 int Player::GetPoints()
 {
 	return m_points;
+}
+
+bool Player::IsLookingBack()
+{
+	return m_lookBack;
 }
 
 int Player::GetCredit()
@@ -355,6 +382,11 @@ glm::vec3 Player::GetCrossVec()
 	return m_cross_vec;
 }
 
+glm::vec3& Player::GetCursorVec()
+{
+	return m_cursorVec;
+}
+
 std::vector<std::unique_ptr<Projectile>>& Player::GetProjectiles()
 {
 	return m_projectiles;
@@ -429,6 +461,16 @@ void Player::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 		program.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
 
 		m_mesh->draw();
+
+
+		for (int i = 0; i < 3; i++)
+		{
+			Weapon* weapon = GetWeapons()[i].get();
+			if (weapon != nullptr) weapon->DrawMesh(program, viewProj);
+		}
+
+		if (GetUpgrade() != nullptr) GetUpgrade()->DrawMesh(program, viewProj);
+
 	}
 	else
 	{
@@ -441,18 +483,22 @@ void Player::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 		m_transparentProgram.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
 		m_transparentProgram.SetUniform("alpha", 0.2f);
 
+
 		m_mesh->draw();
+
+
+		for (int i = 0; i < 3; i++)
+		{
+			Weapon* weapon = GetWeapons()[i].get();
+			if (weapon != nullptr) weapon->DrawMesh(m_transparentProgram, viewProj);
+		}
+
+		if (GetUpgrade() != nullptr) GetUpgrade()->DrawMesh(m_transparentProgram, viewProj);
+
+
 		glDisable(GL_BLEND);
 		m_transparentProgram.Unuse();
 		program.Use();
 	}
 	
-
-	for (int i = 0; i < 3; i++)
-	{
-		Weapon* weapon =GetWeapons()[i].get();
-		if (weapon != nullptr) weapon->DrawMesh(program, viewProj);
-	}
-
-	if (GetUpgrade() != nullptr) GetUpgrade()->DrawMesh(program, viewProj);
 }

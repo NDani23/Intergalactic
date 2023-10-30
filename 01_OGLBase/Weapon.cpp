@@ -3,6 +3,7 @@
 Weapon::Weapon()
 {
 	m_ID = -1;
+	m_active = false;
 	m_parent = nullptr;
 	m_position = glm::vec3(0, 0, 0);
 	m_shootDir = glm::vec3(0, 0, 0);
@@ -22,9 +23,19 @@ glm::vec3 Weapon::GetShootDir() const
 	return m_shootDir;
 }
 
+bool Weapon::IsActive()
+{
+	return m_active;
+}
+
 float Weapon::GetCoolDownTime()
 {
 	return m_coolDownTime;
+}
+
+void Weapon::SetActive(bool active)
+{
+	m_active = active;
 }
 
 void Weapon::SetPosition(const glm::vec3 pos)

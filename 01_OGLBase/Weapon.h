@@ -10,7 +10,7 @@ class Weapon : public Entity
 {
 protected:
 	int m_ID;
-
+	bool m_active;
 	Player* m_parent;
 	glm::vec3 m_shootDir;
 	float m_coolDownTime;
@@ -26,6 +26,9 @@ public:
 	void SetShootDir(const glm::vec3);
 	void SetCooldown(float);
 	void SetParent(Player*);
+	void SetActive(bool);
+
+	bool IsActive();
 
 	virtual void Shoot(std::vector<std::unique_ptr<Projectile>>&);
 	virtual void Shoot(std::vector<std::unique_ptr<Projectile>>&, int);

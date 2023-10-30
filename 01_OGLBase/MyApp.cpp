@@ -177,7 +177,7 @@ void CMyApp::Update()
 	{
 		m_PlayTime += delta_time;
 
-		m_player.Move(delta_time, m_flyStraight ? m_player.GetForwardVec() : m_cursor_diff_vec);		
+		m_player.Move(delta_time, m_cursor_diff_vec);		
 		m_player.UpdateProjectiles(delta_time);
 	}
 
@@ -328,10 +328,11 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 		m_player.Decelerate(true);
 		break;
 	case SDLK_q:
-		m_flyStraight = true;
+		m_player.FlyStraight(true);
 		break;
 	case SDLK_v:
 		m_backward_camera = true;
+		m_player.LookBack(true);
 		break;
 	case SDLK_ESCAPE:
 		if(m_GameState.play)
@@ -366,10 +367,11 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 		m_player.Decelerate(false);
 		break;
 	case SDLK_q:
-		m_flyStraight = false;
+		m_player.FlyStraight(false);
 		break;
 	case SDLK_v:
 		m_backward_camera = false;
+		m_player.LookBack(false);
 		break;
 	case SDLK_LSHIFT:
 		m_useUpgrade = false;

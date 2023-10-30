@@ -129,6 +129,7 @@
     <ClInclude Include="Includes\VertexArrayObject.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="LaserGun.h" />
+    <ClInclude Include="MachineGun.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Mine.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Includes\VertexArrayObject.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="LaserGun.cpp" />
+    <ClCompile Include="MachineGun.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mine.cpp" />

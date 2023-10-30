@@ -32,12 +32,15 @@ private:
 	int m_max_speed;
 	bool m_slowing;
 	bool m_stealth;
+	bool m_flyStraight;
+	bool m_lookBack;
 	int m_damage;
 	horizontal::direction roll_dir = horizontal::none;
 	vertical::direction pitch_dir = vertical::none;
 	std::vector<std::unique_ptr<Projectile>> m_projectiles;
 
 	glm::vec3 m_fakePos;
+	glm::vec3 m_cursorVec;
 	Map* m_map;
 
 	Entity* m_target;
@@ -81,6 +84,8 @@ public:
 	void setRecord(int);
 	void setStealth(bool);
 	void setFakePos(glm::vec3&);
+	void FlyStraight(bool);
+	void LookBack(bool);
 
 	void Decelerate(bool);
 	bool Hit(int) override;
@@ -92,9 +97,11 @@ public:
 	int GetMaxHealth();
 	int GetUpgradePoints();
 	int GetActiveWeaponInd();
+	glm::vec3& GetCursorVec();
 	int GetCredit();
 	int GetRecord();
 	bool IsStealth();
+	bool IsLookingBack();
 	glm::vec3 GetFakePos();
 	Map* GetMapPtr();
 	Stats& GetStats();
