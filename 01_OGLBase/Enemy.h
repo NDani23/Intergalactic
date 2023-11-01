@@ -31,6 +31,7 @@ public:
 	bool Hit(int) override;
 	void SetTexture();
 	bool IsTargetable() override;
+	glm::vec3& GetForwardVec();
 
 	virtual bool Update(const float&) override;
 

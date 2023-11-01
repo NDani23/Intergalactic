@@ -148,6 +148,7 @@
     <ClInclude Include="SpeedBooster.h" />
     <ClInclude Include="StealthCoat.h" />
     <ClInclude Include="Turret.h" />
+    <ClInclude Include="TurretWeapon.h" />
     <ClInclude Include="Upgrade.h" />
     <ClInclude Include="UpgradeDataStorage.h" />
     <ClInclude Include="Weapon.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="SpeedBooster.cpp" />
     <ClCompile Include="StealthCoat.cpp" />
     <ClCompile Include="Turret.cpp" />
+    <ClCompile Include="TurretWeapon.cpp" />
     <ClCompile Include="Upgrade.cpp" />
     <ClCompile Include="UpgradeDataStorage.cpp" />
     <ClCompile Include="Weapon.cpp" />

@@ -1,4 +1,5 @@
 #include "Turret.h"
+#include "Player.h"
 
 Turret::Turret()
 {
@@ -22,12 +23,12 @@ Turret::Turret()
 	m_projectiles = nullptr;
 }
 
-Turret::Turret(glm::vec3 Pos, Entity* ref, std::vector<std::unique_ptr<Projectile>>* proj)
+Turret::Turret(glm::vec3 Pos, Player* ref, std::vector<std::unique_ptr<Projectile>>* proj)
 {
 	m_position = Pos;
 	m_reference = ref;
 
-	m_shootDir = glm::normalize(ref->GetPos() - m_position);
+	m_shootDir = glm::normalize(m_reference->GetPos() - m_position);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
 
 	HitBox hitbox = { m_position, {10.0f, 10.0f, 10.0f} };
@@ -48,7 +49,7 @@ Turret::Turret(glm::vec3 Pos, Entity* ref, std::vector<std::unique_ptr<Projectil
 bool Turret::Update(const float& delta)
 {
 
-	glm::vec3 diff_vec = m_reference->GetPos() - m_position;
+	glm::vec3 diff_vec = (m_reference->GetPos() + m_reference->GetForwardVec() * 10.f) - m_position;
 	m_shootDir = glm::normalize(diff_vec);
 
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
@@ -73,7 +74,7 @@ void Turret::Shoot()
 	}
 }
 
-void Turret::SetReference(Entity* ref)
+void Turret::SetReference(Player* ref)
 {
 	m_reference = ref;
 }

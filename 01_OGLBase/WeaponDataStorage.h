@@ -6,6 +6,7 @@
 #include "RocketLauncher.h"
 #include "MinePlacer.h"
 #include "MachineGun.h"
+#include "TurretWeapon.h"
 
 class player;
 

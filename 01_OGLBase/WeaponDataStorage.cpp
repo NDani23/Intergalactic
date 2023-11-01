@@ -43,6 +43,19 @@ WeaponDataStorage::WeaponDataStorage()
 		}
 	);
 
+	m_Weapons.insert
+	(
+		{
+			3,
+			std::move(
+				WeaponItem({[](Player* player, int side) { return std::make_unique<TurretWeapon>(player, side); },
+				Texture2D("assets/turret_weapon.png"),
+				"Turret",
+				1500})
+			)
+		}
+	);
+
 }
 
 std::map<int, WeaponItem>& WeaponDataStorage::GetStorage()

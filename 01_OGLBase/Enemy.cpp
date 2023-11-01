@@ -226,3 +226,8 @@ bool Enemy::IsTargetable()
 {
 	return true;
 }
+
+glm::vec3& Enemy::GetForwardVec()
+{
+	return m_forward_vec;
+}
