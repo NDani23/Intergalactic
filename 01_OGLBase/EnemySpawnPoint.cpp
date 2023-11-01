@@ -8,7 +8,7 @@ EnemySpawnPoint::EnemySpawnPoint()
 
 	m_lastSpawnTime = std::chrono::system_clock::now();
 
-	m_spawnTimeWindow = 30;
+	m_spawnTimeWindow = 20;
 
 	m_target = nullptr;
 	m_projectiles = nullptr;
@@ -24,7 +24,7 @@ EnemySpawnPoint::EnemySpawnPoint(const glm::vec3& pos, Player* target, std::vect
 
 	m_lastSpawnTime = std::chrono::system_clock::now();
 
-	m_spawnTimeWindow = 30;
+	m_spawnTimeWindow = 20;
 
 	m_Map = map;
 	m_target = target;
@@ -35,6 +35,7 @@ EnemySpawnPoint::EnemySpawnPoint(const glm::vec3& pos, Player* target, std::vect
 	m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 	//m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Raptor>(Raptor(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 	//m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Falcon>(Falcon(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+	//m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Rocketer>(Rocketer(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 }
 
 void EnemySpawnPoint::Update(const float& delta)
@@ -53,7 +54,7 @@ void EnemySpawnPoint::Update(const float& delta)
 
 			if (m_spawnTimeWindow % 5 == 0)
 			{
-				ChangeStage(7 - m_spawnTimeWindow / 5);
+				ChangeStage(5 - m_spawnTimeWindow / 5);
 			}
 		}
 
@@ -68,31 +69,25 @@ void EnemySpawnPoint::ChangeStage(int stage)
 		m_EnemyChances[0] = 100;
 		m_EnemyChances[1] = 0;
 		m_EnemyChances[2] = 0;
+		m_EnemyChances[3] = 0;
 		break;
 	case 2:
-		m_EnemyChances[0] = 80;
-		m_EnemyChances[1] = 20;
+		m_EnemyChances[0] = 60;
+		m_EnemyChances[1] = 40;
 		m_EnemyChances[2] = 0;
+		m_EnemyChances[3] = 0;
 		break;
 	case 3:
-		m_EnemyChances[0] = 50;
-		m_EnemyChances[1] = 40;
+		m_EnemyChances[0] = 30;
+		m_EnemyChances[1] = 50;
 		m_EnemyChances[2] = 10;
+		m_EnemyChances[3] = 10;
 		break;
 	case 4:
-		m_EnemyChances[0] = 10;
-		m_EnemyChances[1] = 60;
+		m_EnemyChances[0] = 5;
+		m_EnemyChances[1] = 40;
 		m_EnemyChances[2] = 30;
-		break;
-	case 5:
-		m_EnemyChances[0] = 20;
-		m_EnemyChances[1] = 60;
-		m_EnemyChances[2] = 20;
-		break;
-	case 6:
-		m_EnemyChances[0] = 10;
-		m_EnemyChances[1] = 50;
-		m_EnemyChances[2] = 40;
+		m_EnemyChances[3] = 25;
 		break;
 	default:
 		break;
@@ -123,6 +118,9 @@ void EnemySpawnPoint::SpawnEnemy()
 		break;
 	case 2:
 		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Raptor>(Raptor(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+		break;
+	case 3:
+		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Rocketer>(Rocketer(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 		break;
 	default:
 		break;

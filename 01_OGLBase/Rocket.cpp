@@ -5,7 +5,7 @@ Rocket::Rocket()
 	m_target = nullptr;
 	m_transforms = glm::mat4();
 	m_position = glm::vec3(0.f, 0.f, 0.f);
-	m_speed = 250;
+	m_speed = 210;
 	m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
 	m_damage = 100;
 	m_travelDistance = 0.f;
@@ -20,7 +20,7 @@ Rocket::Rocket(glm::vec3 pos, Entity* target)
 {
 	m_target = target;
 	m_position = pos;
-	m_speed = 250;
+	m_speed = 210;
 	m_direction = glm::normalize(target->GetPos() - m_position);
 	m_damage = 100;
 	m_travelDistance = 0.f;

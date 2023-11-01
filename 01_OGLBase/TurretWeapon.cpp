@@ -12,7 +12,7 @@ TurretWeapon::TurretWeapon()
 	m_position = glm::vec3(0, 0, 0);
 	m_shootDir = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
-	m_coolDownTime = 45.f;
+	m_coolDownTime = 60.f;
 	m_fireRateCooldown = 0.2f;
 	m_durationTime = 15.f;
 	m_lastShootTime = std::chrono::system_clock::now();
@@ -40,7 +40,7 @@ TurretWeapon::TurretWeapon(Player* target, int side)
 	m_shootDir = m_parent->GetForwardVec();
 	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
-	m_coolDownTime = 1.f;
+	m_coolDownTime = 60.f;
 	m_fireRateCooldown = 0.2f;
 	m_durationTime = 15.f;
 	m_lastShootTime = std::chrono::system_clock::now();

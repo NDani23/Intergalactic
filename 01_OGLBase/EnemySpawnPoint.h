@@ -5,6 +5,7 @@
 #include "SaR.h"
 #include "Falcon.h"
 #include "Raptor.h"
+#include "Rocketer.h"
 
 #include <chrono>
 #include <time.h> 
@@ -16,7 +17,7 @@ class EnemySpawnPoint
 {
 private:
 	int m_stage;
-	std::array<int, 3> m_EnemyChances;
+	std::array<int, 4> m_EnemyChances;
 	glm::vec3 m_position;
 	int m_spawnTimeWindow;
 	std::chrono::time_point<std::chrono::system_clock> m_lastSpawnTime;
