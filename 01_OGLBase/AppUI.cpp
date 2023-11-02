@@ -369,7 +369,7 @@ void AppUI::RenderHangarWindow()
 
 	ImGui::Text("Upgrade points: %d", player_upgrade_points);
 
-	if (m_app->m_player.GetUpgradePointsSum() != 20)
+	if (m_app->m_player.GetUpgradePointsSum() != 25)
 	{
 
 		ImGui::SameLine();

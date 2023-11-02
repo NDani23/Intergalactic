@@ -91,7 +91,7 @@ void StealthCoat::Activate()
 	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
 		m_parent->setStealth(true);
-		m_parent->setFakePos(m_parent->GetPos() + m_parent->GetForwardVec() * 1000.f);
+		m_parent->setFakePos(m_parent->GetPos() + m_parent->GetForwardVec() * 5000.f);
 		m_lastActiveTime = std::chrono::system_clock::now();
 		m_active = true;
 	}

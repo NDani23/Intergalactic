@@ -32,7 +32,7 @@ EnemySpawnPoint::EnemySpawnPoint(const glm::vec3& pos, Player* target, std::vect
 
 	ChangeStage(m_stage);
 	
-	m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+	m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(pos, m_target, m_projectiles, m_Map)));
 	//m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Raptor>(Raptor(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 	//m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Falcon>(Falcon(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 	//m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Rocketer>(Rocketer(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
@@ -111,16 +111,16 @@ void EnemySpawnPoint::SpawnEnemy()
 	switch (i)
 	{
 	case 0:
-		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(m_position, m_target, m_projectiles, m_Map)));
 		break;
 	case 1:
-		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Falcon>(Falcon(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Falcon>(Falcon(m_position, m_target, m_projectiles, m_Map)));
 		break;
 	case 2:
-		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Raptor>(Raptor(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Raptor>(Raptor(m_position, m_target, m_projectiles, m_Map)));
 		break;
 	case 3:
-		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Rocketer>(Rocketer(m_position + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+		m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Rocketer>(Rocketer(m_position, m_target, m_projectiles, m_Map)));
 		break;
 	default:
 		break;

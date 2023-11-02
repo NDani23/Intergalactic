@@ -111,7 +111,7 @@ bool CMyApp::Init(bool* quit)
 	InitShaders();
 	InitSkyBox();
 
-	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 0.01f, 10000.0f);
+	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 1.f, 8000.0f);
 
 	return true;
 }

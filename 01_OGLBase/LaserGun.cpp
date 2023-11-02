@@ -63,9 +63,9 @@ void LaserGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles, int 
 
 	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
-		projectiles.emplace_back(std::make_unique<Laser>(m_position + m_parent->GetCrossVec(), m_shootDir));
+		projectiles.emplace_back(std::make_unique<Laser>(m_position + m_parent->GetCrossVec(), m_shootDir, damage));
 
-		projectiles.emplace_back(std::make_unique<Laser>(m_position - m_parent->GetCrossVec(), m_shootDir));
+		projectiles.emplace_back(std::make_unique<Laser>(m_position - m_parent->GetCrossVec(), m_shootDir, damage));
 
 		m_lastShootTime = std::chrono::system_clock::now();
 	}

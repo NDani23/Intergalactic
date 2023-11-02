@@ -71,7 +71,7 @@ void Player::Reset(Map* map)
 	m_hitboxes.clear();
 	m_projectiles.clear();
 
-	m_health = 100 + 20 * m_stats.health;
+	m_health = 100 + 10 * m_stats.health;
 	m_max_health = 100 + 10 * m_stats.health;
 	m_position = glm::vec3(0, 0, 0);
 	m_forward_vec = glm::vec3(0, 0, 1);

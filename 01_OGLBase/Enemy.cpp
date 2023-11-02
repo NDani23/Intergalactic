@@ -51,15 +51,20 @@ void Enemy::CalcBaseDir(glm::vec3& temp_dir)
 	glm::vec3 target_dir = m_target->GetForwardVec();
 	float angle = acos(dot(target_dir, m_forward_vec));
 	float distance = glm::length(target_pos - m_position);
-	if (distance < 70.f)
+	if (distance < 100.f)
 	{
-		/*glm::vec3 to_target = glm::normalize(m_target->GetPos() - m_position);
-		glm::vec3 m_cross = glm::cross(m_up_vec, m_forward_vec);
-		float dot_up = glm::dot(m_up_vec, to_target);
-		int up_sign = dot_up > 0 ? 1 : -1;
-		float dot_cross = glm::dot(m_cross, to_target);
-		int cross_sign = dot_cross > 0 ? 1 : -1;
-		temp_dir = glm::normalize(m_forward_vec + m_up_vec * (-(1/(dot_up + up_sign * 1.f))) + m_cross * (-(1/(dot_cross + cross_sign * 1.f))));*/
+		if (distance < 50.f)
+		{
+			glm::vec3 to_target = glm::normalize(m_target->GetPos() - m_position);
+			glm::vec3 m_cross = glm::cross(m_up_vec, m_forward_vec);
+			float dot_up = glm::dot(m_up_vec, to_target);
+			int up_sign = dot_up > 0 ? 1 : -1;
+			float dot_cross = glm::dot(m_cross, to_target);
+			int cross_sign = dot_cross > 0 ? 1 : -1;
+			temp_dir = glm::normalize(m_forward_vec + m_up_vec * (-(1/(dot_up + up_sign * 1.5f))) + m_cross * (-(1/(dot_cross + cross_sign * 1.5f))));
+			return;
+		}
+
 
 		glm::vec3 cross_vec = m_forward_vec - target_dir;
 		temp_dir = glm::normalize(m_forward_vec + cross_vec);
