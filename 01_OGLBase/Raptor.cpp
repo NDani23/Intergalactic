@@ -106,3 +106,8 @@ HitBox Raptor::UpdateDimensions()
 
 	return newHitBox;
 }
+
+std::unique_ptr<Mesh>& Raptor::GetMesh()
+{
+	return m_static_mesh;
+}

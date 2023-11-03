@@ -107,3 +107,8 @@ HitBox Rocketer::UpdateDimensions()
 
 	return newHitBox;
 }
+
+std::unique_ptr<Mesh>& Rocketer::GetMesh()
+{
+	return m_static_mesh;
+}

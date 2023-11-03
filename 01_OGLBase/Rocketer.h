@@ -13,6 +13,7 @@ public:
 
 	void Shoot() override;
 	void DrawMesh(ProgramObject&, glm::mat4&) override;
+	std::unique_ptr<Mesh>& GetMesh() override;
 
 private:
 	HitBox UpdateDimensions() override;

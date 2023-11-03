@@ -106,3 +106,8 @@ HitBox Falcon::UpdateDimensions()
 
 	return newHitBox;
 }
+
+std::unique_ptr<Mesh>& Falcon::GetMesh()
+{
+	return m_static_mesh;
+}

@@ -36,6 +36,7 @@ public:
 	virtual bool Update(const float&) override;
 
 protected:
+	void AvoidObject(Entity&, glm::vec3&);
 	virtual HitBox UpdateDimensions();
 	virtual void CalcBaseDir(glm::vec3&);
 	virtual bool CalcAvoidObjectsVec(glm::vec3&);

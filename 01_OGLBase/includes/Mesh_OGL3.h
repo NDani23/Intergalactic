@@ -27,6 +27,11 @@ public:
 	void addIndex(unsigned int index) {
 		indices.push_back(index);
 	}
+
+	std::vector<Vertex>& GetVertices()
+	{
+		return vertices;
+	}
 private:
 	GLuint vertexArrayObject;
 	GLuint vertexBuffer;

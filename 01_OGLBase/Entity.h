@@ -33,7 +33,7 @@ public:
 	Entity& operator=(const Entity&) = default;
 	Entity& operator=(Entity&&) noexcept = default;
 
-	std::unique_ptr<Mesh>& GetMesh();
+	virtual std::unique_ptr<Mesh>& GetMesh();
 	glm::vec3 GetPos();
 	Texture2D& GetTexture();
 	glm::mat4& GetWorldTransform();

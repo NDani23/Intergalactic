@@ -109,7 +109,7 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 		{
 			continue;
 		}
-
+		
 		for (HitBox& hitbox : obj->GetHitboxes())
 		{
 			glm::vec3 distance_vec = hitbox.Position - m_position;
@@ -129,27 +129,57 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 				return true;
 			}
 
-			distance_vec = glm::normalize(distance_vec);
-			glm::vec3 cross_vec = glm::normalize(distance_vec - temp_dir);
-
-			float angle = glm::acos(glm::dot(distance_vec, temp_dir));
-			
-
-			//if enemy moving in the direction of the object
-			if (isnan(angle))
-			{
-				temp_dir = glm::normalize(temp_dir);
-			}
-			else if (angle < 1.5f)
-			{
-				temp_dir += temp_dir - (cross_vec * (1.0f / (angle * 10.f)));
-				temp_dir = glm::normalize(temp_dir);
-			}
-
 		}
+
+		AvoidObject(*obj.get(), temp_dir);
 
 	}
 	return false;
+}
+
+void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
+{
+	std::vector<Mesh::Vertex>& vertices = obj.GetMesh().get()->GetVertices();
+	
+	glm::vec3& closest_vert = vertices[0].position;
+
+	glm::vec4 wordPos = obj.GetWorldTransform() * glm::vec4(closest_vert, 1);
+	glm::vec3 vertex = { wordPos.x, wordPos.y, wordPos.z };
+
+	float closest_dist = glm::distance(vertex, m_position);
+
+	for (int i = 0; i < vertices.size(); i += 10)
+	{
+		if (i >= vertices.size()) return;
+
+		wordPos = obj.GetWorldTransform() * glm::vec4(vertices[i].position, 1);
+		vertex = { wordPos.x, wordPos.y, wordPos.z };
+
+		glm::vec3 to_vertex = glm::normalize(vertex - m_position);
+		if (glm::dot(m_forward_vec, to_vertex) < 0) continue;
+
+		if (glm::distance(vertex, m_position) < closest_dist)
+		{
+			closest_dist = glm::distance(vertex, m_position);
+			closest_vert = vertex;
+		}
+	}
+
+	if (closest_dist > 200.f) return;
+
+	glm::vec3 to_vertex = glm::normalize(closest_vert - m_position);
+	glm::vec3 cross_vec = glm::normalize(to_vertex - temp_dir);
+	float angle = glm::acos(glm::dot(to_vertex, temp_dir));
+
+	if (isnan(angle))
+	{
+		temp_dir = glm::normalize(temp_dir);
+	}
+	else if (angle < M_PI / 2)
+	{
+		temp_dir += temp_dir - (cross_vec * (1.0f / (angle * 10.f)));
+		temp_dir = glm::normalize(temp_dir);
+	}
 }
 
 bool Enemy::CalcAvoidFloorVec(glm::vec3& temp_dir)

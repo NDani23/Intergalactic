@@ -105,3 +105,8 @@ HitBox SaR::UpdateDimensions()
 
 	return newHitBox;
 }
+
+std::unique_ptr<Mesh>& SaR::GetMesh()
+{
+	return m_static_mesh;
+}
