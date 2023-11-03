@@ -1,12 +1,18 @@
 #pragma once
 
+#include <algorithm>
 #include <array>
+#include <iostream>
+#include <iterator>
+#include <string>
+
 #include <glm/glm.hpp>
+#include <iostream>
 
 struct Simplex 
 {
 private:
-	std::array<glm::vec3, 4> m_points;
+	std::array<glm::vec3, 4> m_points = {glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) };
 	int m_size;
 
 public:
@@ -16,6 +22,7 @@ public:
 
 	Simplex& operator=(std::initializer_list<glm::vec3> list)
 	{
+		m_size = 0;
 		for (glm::vec3 point : list)
 			m_points[m_size++] = point;
 

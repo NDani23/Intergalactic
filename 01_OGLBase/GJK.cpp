@@ -10,6 +10,8 @@ bool GJK::Collide(MeshCollider& objA, MeshCollider& objB)
 
 	glm::vec3 direction = -support;
 
+	const int MAX_ITERATION = 100;
+	int i = 0;
 	while (true)
 	{
 		support = Support(objA, objB, direction);
@@ -19,7 +21,11 @@ bool GJK::Collide(MeshCollider& objA, MeshCollider& objB)
 		points.push_front(support);
 
 		if (NextSimplex(points, direction)) return true;
+
+		i++;
 	}
+
+	return false;
 }
 
 bool GJK::NextSimplex(Simplex& points, glm::vec3& dir)
@@ -28,17 +34,13 @@ bool GJK::NextSimplex(Simplex& points, glm::vec3& dir)
 	{
 	case 2:
 		return Line(points, dir);
-		break;
 	case 3:
 		return Triangle(points, dir);
-		break;
 	case 4:
 		return Tetrahedron(points, dir);
-		break;
-	default:
-		return false;
-		break;
 	}
+
+	return false;
 }
 
 bool GJK::Line(Simplex& points, glm::vec3& dir)
@@ -145,7 +147,8 @@ bool GJK::Tetrahedron(Simplex& points, glm::vec3& dir)
 
 glm::vec3 GJK::Support(MeshCollider& colliderA, MeshCollider& colliderB, glm::vec3 dir)
 {
-	return colliderA.FindFurthestPoint(dir) - colliderB.FindFurthestPoint(-dir);
+	return colliderA.FindFurthestPoint(dir) 
+		- colliderB.FindFurthestPoint(-dir);
 }
 
 bool GJK::SameDirection(glm::vec3& dir, glm::vec3& ao)

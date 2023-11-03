@@ -452,14 +452,14 @@ void CMyApp::DetectCollisions()
 				&& abs(distance_vec.y) < std::max(player_dims.height / 2, hitbox_dims.height / 2)
 				&& abs(distance_vec.z) < std::max(player_dims.length / 2, hitbox_dims.length / 2))
 			{
-				/*if (GJK::Collide(m_player, *entity.get()))
+				if (GJK::Collide(m_player.GetCollider(), entity.get()->GetCollider()))
 				{
 					GameOver();
 					break;
-				}*/
+				}
 
-				GameOver();
-				break;
+				/*GameOver();
+				break;*/
 			}
 		}
 		

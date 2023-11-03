@@ -10,6 +10,7 @@ void MeshCollider::setVertices(std::vector<Mesh::Vertex> vertices)
 {
 	for (Mesh::Vertex vert : vertices)
 	{
+		m_vertices_initial.emplace_back(vert.position);
 		m_vertices.emplace_back(vert.position);
 	}
 }
@@ -20,7 +21,7 @@ void MeshCollider::setWordTrans(const glm::mat4 wordMat)
 	m_WordPosChanged = true;
 }
 
-glm::vec3 MeshCollider::FindFurthestPoint(glm::vec3& direction)
+glm::vec3 MeshCollider::FindFurthestPoint(glm::vec3 direction)
 {
 	if (m_WordPosChanged) UpdateVertices();
 
@@ -42,9 +43,12 @@ glm::vec3 MeshCollider::FindFurthestPoint(glm::vec3& direction)
 
 void MeshCollider::UpdateVertices()
 {
-	for (glm::vec3& vert : m_vertices)
+	//std::cout << "Updated" << std::endl;
+	for (int i = 0; i < m_vertices.size(); i++)
 	{
-		glm::vec4 wordPos = m_WordTrans * glm::vec4(vert, 1);
-		vert = glm::vec3(wordPos.x, wordPos.y, wordPos.z);
+		glm::vec4 wordPos = m_WordTrans * glm::vec4(m_vertices_initial[i], 1);
+		m_vertices[i] = glm::vec3(wordPos.x, wordPos.y, wordPos.z);
 	}
+
+	m_WordPosChanged = false;
 }

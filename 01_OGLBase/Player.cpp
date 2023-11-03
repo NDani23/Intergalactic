@@ -59,10 +59,12 @@ Player::Player()
 
 	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/player_ship.obj"));
 	m_mesh->initBuffers();
+
+	m_collider.setVertices(m_mesh->GetVertices());
 	
 	m_texture.FromFile("assets/player_tex.png");
 
-	m_transforms = glm::inverse(glm::lookAt(GetPos(), GetPos() - GetForwardVec(), GetUpVec()));
+	SetTransforms(glm::inverse(glm::lookAt(GetPos(), GetPos() - GetForwardVec(), GetUpVec())));
 }
 
 void Player::Reset(Map* map)
@@ -101,7 +103,7 @@ void Player::Reset(Map* map)
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
 
-	m_transforms = glm::inverse(glm::lookAt(GetPos(), GetPos() - GetForwardVec(), GetUpVec()));
+	SetTransforms(glm::inverse(glm::lookAt(GetPos(), GetPos() - GetForwardVec(), GetUpVec())));
 
 	m_hitboxes.emplace_back(hitbox);
 
@@ -165,7 +167,7 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 
 	m_hitboxes[0].Position = m_position;
 
-	m_transforms = glm::inverse(glm::lookAt(GetPos(), GetPos()-GetForwardVec(), GetUpVec()));
+	SetTransforms(glm::inverse(glm::lookAt(GetPos(), GetPos()-GetForwardVec(), GetUpVec())));
 }
 
 void Player::Shoot()
