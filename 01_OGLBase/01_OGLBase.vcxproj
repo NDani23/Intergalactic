@@ -115,6 +115,7 @@
     <ClInclude Include="Falcon.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="GJK.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="Includes\BufferObject.h" />
     <ClInclude Include="Includes\gCamera.h" />
@@ -132,6 +133,7 @@
     <ClInclude Include="MachineGun.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="MeshCollider.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="MinePlacer.h" />
     <ClInclude Include="Mothership.h" />
@@ -146,6 +148,7 @@
     <ClInclude Include="RocketLauncher.h" />
     <ClInclude Include="SaR.h" />
     <ClInclude Include="Shield.h" />
+    <ClInclude Include="Simplex.h" />
     <ClInclude Include="SpeedBooster.h" />
     <ClInclude Include="StealthCoat.h" />
     <ClInclude Include="Turret.h" />
@@ -172,6 +175,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Falcon.cpp" />
     <ClCompile Include="Floor.cpp" />
+    <ClCompile Include="GJK.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Includes\gCamera.cpp" />
     <ClCompile Include="Includes\GLconversions.cpp" />
@@ -186,6 +190,7 @@
     <ClCompile Include="MachineGun.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MeshCollider.cpp" />
     <ClCompile Include="Mine.cpp" />
     <ClCompile Include="MinePlacer.cpp" />
     <ClCompile Include="Mothership.cpp" />

@@ -148,7 +148,7 @@ void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 
 	float closest_dist = glm::distance(vertex, m_position);
 
-	for (int i = 0; i < vertices.size(); i += 10)
+	for (int i = 1; i < vertices.size(); i += 10)
 	{
 		if (i >= vertices.size()) return;
 

@@ -210,6 +210,15 @@
     <ClInclude Include="Rocketer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GJK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Simplex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyApp.cpp">
@@ -364,6 +373,12 @@
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="Rocketer.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="GJK.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshCollider.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>

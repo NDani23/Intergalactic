@@ -37,6 +37,7 @@
 #include "GameState.h"
 #include "AppUI.h"
 #include "Persistence.h"
+#include "GJK.h"
 
 class CMyApp
 {
