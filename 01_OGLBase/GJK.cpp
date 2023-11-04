@@ -10,8 +10,6 @@ bool GJK::Collide(MeshCollider& objA, MeshCollider& objB)
 
 	glm::vec3 direction = -support;
 
-	const int MAX_ITERATION = 100;
-	int i = 0;
 	while (true)
 	{
 		support = Support(objA, objB, direction);
@@ -22,7 +20,6 @@ bool GJK::Collide(MeshCollider& objA, MeshCollider& objB)
 
 		if (NextSimplex(points, direction)) return true;
 
-		i++;
 	}
 
 	return false;

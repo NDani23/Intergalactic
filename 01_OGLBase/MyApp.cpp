@@ -130,8 +130,7 @@ void CMyApp::Reset()
 
 void CMyApp::Update()
 {
-	static Uint32 last_time = SDL_GetTicks();
-	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
+	float delta_time = ImGui::GetIO().DeltaTime;
 
 	if (m_GameState.menu)
 	{
@@ -147,7 +146,6 @@ void CMyApp::Update()
 			m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(cam_at.x, cam_at.y, cam_at.z), glm::vec3(0, 1, 0));
 		}
 		m_camera.Update(delta_time);
-		last_time = SDL_GetTicks();
 		return;
 	}
 
@@ -160,14 +158,12 @@ void CMyApp::Update()
 
 		m_camera.SetView(cam_eye, cam_at, cam_up);
 		m_camera.Update(delta_time);
-		last_time = SDL_GetTicks();
 		return;
 	}
 
 	if (m_GameState.pause)
 	{
 		m_camera.Update(delta_time);
-		last_time = SDL_GetTicks();
 		return;
 	}
 
@@ -224,9 +220,6 @@ void CMyApp::Update()
 	m_camera.Update(delta_time);
 
 	DetectCollisions();
-
-	last_time = SDL_GetTicks();
-	
 }
 
 void CMyApp::Render()
@@ -270,7 +263,6 @@ void CMyApp::Render()
 		}
 	}
 
-	float t = SDL_GetTicks() / 20;
 	m_map->DrawEntities(viewProj, m_GameState);
 	if (m_GameState.play)
 	{
@@ -457,7 +449,6 @@ void CMyApp::DetectCollisions()
 					GameOver();
 					break;
 				}
-
 				/*GameOver();
 				break;*/
 			}

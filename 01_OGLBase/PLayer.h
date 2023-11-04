@@ -65,7 +65,7 @@ public:
 	Player();
 	void Reset(Map*);
 
-	void Move(const float&, const glm::vec3&);
+	void Move(float, const glm::vec3&);
 	void Shoot();
 	void ActivateUpgrade();
 	void RemoveProjectile(std::unique_ptr<Projectile>&);

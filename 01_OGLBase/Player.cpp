@@ -109,7 +109,7 @@ void Player::Reset(Map* map)
 
 }
 
-void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
+void Player::Move(float delta, const glm::vec3& cursor_diff_vec)
 {		
 	m_cursorVec = cursor_diff_vec;
 
@@ -117,7 +117,7 @@ void Player::Move(const float& delta, const glm::vec3& cursor_diff_vec)
 	if (m_slowing && m_speed > 80.0f) m_speed = m_speed - 0.5f;
 	else if (!m_slowing && m_speed < m_max_speed) m_speed = m_speed + 0.5f;
 
-	m_position += GetForwardVec() * (delta * m_speed);
+	m_position += GetForwardVec() * (float)m_speed * delta;
 
 	if (!m_flyStraight)
 	{

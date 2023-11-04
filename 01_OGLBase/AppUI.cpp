@@ -157,11 +157,15 @@ void AppUI::RenderPlayWindow()
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.f, 10.f));
 	if (ImGui::BeginMainMenuBar())
 	{
+		ImGui::Text("FPS: %.2f", ImGui::GetIO().Framerate);
+
+		ImGui::Indent(m_app->m_screenWidth / 2);
 		std::stringstream ss;
 		ss << std::setw(2) << std::setfill('0') << (int)m_app->m_PlayTime / 60 << ":" << std::setw(2) << std::setfill('0') << (int)m_app->m_PlayTime % 60;
 		ImGui::Text(ss.str().c_str());
 
-		ImGui::Indent(m_app->m_screenWidth - 80.f);
+
+		ImGui::Indent(m_app->m_screenWidth / 2 - 100.f);
 		ImGui::Text("Score: %i", m_app->m_player.GetPoints());
 
 		ImGui::EndMainMenuBar();

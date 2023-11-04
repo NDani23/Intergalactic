@@ -52,3 +52,10 @@ void MeshCollider::UpdateVertices()
 
 	m_WordPosChanged = false;
 }
+
+std::vector<glm::vec3>& MeshCollider::GetVertices()
+{
+	if (m_WordPosChanged) UpdateVertices();
+
+	return m_vertices;
+}

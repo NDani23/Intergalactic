@@ -139,7 +139,7 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 
 void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 {
-	/*std::vector<Mesh::Vertex>& vertices = obj.GetMesh().get()->GetVertices();
+	std::vector<Mesh::Vertex>& vertices = obj.GetMesh().get()->GetVertices();
 	
 	glm::vec3& closest_vert = vertices[0].position;
 
@@ -179,7 +179,7 @@ void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 	{
 		temp_dir += temp_dir - (cross_vec * (1.0f / (angle * 10.f)));
 		temp_dir = glm::normalize(temp_dir);
-	}*/
+	}
 }
 
 bool Enemy::CalcAvoidFloorVec(glm::vec3& temp_dir)
