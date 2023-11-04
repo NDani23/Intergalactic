@@ -16,12 +16,13 @@ int Rocketer::FirstInit()
 Rocketer::Rocketer()
 {
 	static int onFirstCall = FirstInit();
+	m_collider.setVertices(m_static_mesh->GetVertices());
 	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_forward_vec = glm::vec3(1.0f, 0.0f, 0.0f);
 	m_shootDir = m_forward_vec;
 	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f)));
+	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f))));
 
 	HitBox hitbox = { m_position, {10.0f, 3.0f, 11.0f} };
 	m_hitboxes.emplace_back(hitbox);
@@ -42,6 +43,7 @@ Rocketer::Rocketer()
 Rocketer::Rocketer(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
 {
 	static int onFirstCall = FirstInit();
+	m_collider.setVertices(m_static_mesh->GetVertices());
 	m_position = pos;
 	m_target = target;
 	m_projectiles = projectiles;
@@ -51,7 +53,7 @@ Rocketer::Rocketer(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Pr
 	m_shootDir = m_forward_vec;
 	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f)));
+	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f))));
 
 	HitBox hitbox = { m_position, {10.0f, 3.0f, 11.0f} };
 	m_hitboxes.emplace_back(hitbox);

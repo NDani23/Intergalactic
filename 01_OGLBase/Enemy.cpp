@@ -29,7 +29,7 @@ bool Enemy::Update(const float& delta)
 	CheckIfShoot();
 
 	m_hitboxes[0] = UpdateDimensions();
-	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, m_up_vec));
+	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, m_up_vec)));
 
 	return false;
 }

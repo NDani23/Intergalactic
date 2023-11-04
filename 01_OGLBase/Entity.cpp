@@ -115,7 +115,7 @@ std::vector<HitBox>& Entity::GetHitboxes()
 void Entity::SetTransforms(glm::mat4 transforms)
 {
 	m_transforms = transforms;
-	if (m_mesh != nullptr) m_collider.setWordTrans(transforms);
+	if (GetMesh() != nullptr) m_collider.setWordTrans(transforms);
 }
 
 void Entity::SetPos(glm::vec3 pos)

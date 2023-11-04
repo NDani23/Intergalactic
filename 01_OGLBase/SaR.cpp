@@ -16,6 +16,7 @@ int SaR::FirstInit()
 SaR::SaR()
 {
 	static int onFirstCall = FirstInit();
+	m_collider.setVertices(m_static_mesh->GetVertices());
 	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_forward_vec = glm::vec3(1.0f, 0.0f, 0.0f);
 	m_shootDir = m_forward_vec;
@@ -40,6 +41,7 @@ SaR::SaR()
 SaR::SaR(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
 {
 	static int onFirstCall = FirstInit();
+	m_collider.setVertices(m_static_mesh->GetVertices());
 	m_position = pos;
 	m_target = target;
 	m_projectiles = projectiles;
@@ -49,7 +51,7 @@ SaR::SaR(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>
 	m_shootDir = m_forward_vec;
 	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f)));
+	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f))));
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 	m_hitboxes.emplace_back(hitbox);
