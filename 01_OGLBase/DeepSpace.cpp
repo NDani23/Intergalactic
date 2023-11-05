@@ -66,7 +66,7 @@ void DeepSpace::LoadMap()
 
 	CreateMeteorField();
 
-	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 60, 1970), m_player, m_projectiles, this));
+	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 60, 1950), m_player, m_projectiles, this));
 }
 
 void DeepSpace::CreateMeteorField()

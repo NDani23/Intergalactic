@@ -41,6 +41,6 @@ protected:
 	virtual void CalcBaseDir(glm::vec3&);
 	virtual bool CalcAvoidObjectsVec(glm::vec3&);
 	virtual bool CalcAvoidFloorVec(glm::vec3&);
-	virtual void RegulateTurnDegree(glm::vec3&);
+	virtual void RegulateTurnDegree(glm::vec3&, const float);
 	virtual void CheckIfShoot();
 };

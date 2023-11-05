@@ -24,7 +24,7 @@ bool Enemy::Update(const float& delta)
 	if (CalcAvoidObjectsVec(temp_dir)) return true;
 	if (CalcAvoidFloorVec(temp_dir)) return true;
 
-	RegulateTurnDegree(temp_dir);
+	RegulateTurnDegree(temp_dir, delta);
 
 	CheckIfShoot();
 
@@ -212,7 +212,7 @@ bool Enemy::CalcAvoidFloorVec(glm::vec3& temp_dir)
 	return false;
 }
 
-void Enemy::RegulateTurnDegree(glm::vec3& temp_dir)
+void Enemy::RegulateTurnDegree(glm::vec3& temp_dir, const float delta)
 {
 
 	glm::vec3 cross_vec = temp_dir - m_forward_vec;
@@ -220,7 +220,7 @@ void Enemy::RegulateTurnDegree(glm::vec3& temp_dir)
 	glm::vec3 cross_obj = -glm::cross(m_forward_vec, m_up_vec);
 	glm::vec3 dot_cross = cross_obj * glm::dot(cross_obj, temp_dir);
 
-	float turn_limit = m_mobility * 0.001;
+	float turn_limit = m_mobility * 0.001 * (delta * 150.f);
 
 	if (isnan(glm::length(cross_vec)))
 	{
