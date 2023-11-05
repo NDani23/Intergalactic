@@ -124,8 +124,8 @@ void CMyApp::Reset()
 {
 	m_PlayTime = 0.f;
 	m_projectiles.clear();
-	m_player.Reset(m_map);
 	m_map->LoadMap();
+	m_player.Reset(m_map);
 }
 
 void CMyApp::Update()
@@ -509,13 +509,14 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 
 		if (proj->CheckHit(&m_player))
 		{
-			m_projectiles.erase(m_projectiles.begin() + i);
-
 			if (m_player.Hit(proj->GetDamage()))
 			{
+				m_projectiles.erase(m_projectiles.begin() + i);
 				GameOver();
 				break;
 			}
+
+			m_projectiles.erase(m_projectiles.begin() + i);
 		}
 
 	}
