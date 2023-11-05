@@ -440,9 +440,9 @@ void CMyApp::DetectCollisions()
 
 			Dimensions hitbox_dims = hitbox.dimensions;
 
-			if (abs(distance_vec.x) < std::max(player_dims.width / 2, hitbox_dims.width / 2)
-				&& abs(distance_vec.y) < std::max(player_dims.height / 2, hitbox_dims.height / 2)
-				&& abs(distance_vec.z) < std::max(player_dims.length / 2, hitbox_dims.length / 2))
+			if (abs(distance_vec.x) < player_dims.width / 2 + hitbox_dims.width / 2
+				&& abs(distance_vec.y) < player_dims.height / 2 + hitbox_dims.height / 2
+				&& abs(distance_vec.z) < player_dims.length / 2 + hitbox_dims.length / 2)
 			{
 				if (GJK::Collide(m_player.GetCollider(), entity.get()->GetCollider()))
 				{
