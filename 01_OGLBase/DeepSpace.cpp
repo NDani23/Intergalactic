@@ -40,12 +40,15 @@ void DeepSpace::LoadMap()
 
 	AddEntity(std::make_shared<Entity>("assets/ufo.obj", glm::vec3(500, 200, 1000), "assets/ufo_tex.png", Dimensions{ 50.0f, 17.0f, 50.0f }));
 
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-40, 50, 2000), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-70, 50, 2000), m_player, m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-100, 0, 1950), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-50, -10, 1900), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-90, -10, 1900), m_player, m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 10, 1950), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(25, -50, 2000), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(80, -50, 2000), m_player, m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(100, 20, 1850), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 30, 2050), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-60, -50, 2010), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 200, 1970), m_player, m_projectiles)));
 
 	std::shared_ptr<Entity> gate = std::make_shared<Entity>("assets/gate.obj", glm::vec3(0, -500, 1000), "assets/gate_tex.png");
 	gate->GetHitboxes().clear();
@@ -55,18 +58,16 @@ void DeepSpace::LoadMap()
 	gate->AddHitBox({ gate->GetPos() + glm::vec3(0, -20, 0), {50.0f, 10.0f, 10.0f} });
 	AddEntity(gate);
 
-	std::shared_ptr<Entity> station = std::make_shared<Entity>("assets/station.obj", glm::vec3(0, 0, 2000.f ), "assets/Station_tex.png");
+	std::shared_ptr<Entity> station = std::make_shared<Entity>("assets/station.obj", glm::vec3(0, 0, 2000.f), "assets/Station_tex.png");
 	station->GetHitboxes().clear();
-	station->AddHitBox({ station->GetPos() + glm::vec3(0.f, 20.f, 0.f), {40.0f, 400.0f, 40.0f}});
+	station->AddHitBox({ station->GetPos() + glm::vec3(0.f, 20.f, 0.f), {40.0f, 400.0f, 40.0f} });
 	station->AddHitBox({ station->GetPos() + glm::vec3(0.f, 130.f, 0.f), {260.0f, 40.0f, 260.0f} });
 	station->AddHitBox({ station->GetPos() + glm::vec3(0.f, -70.f, 0.f), {140.0f, 10.0f, 140.0f} });
-	//station->AddHitBox({ mothership->GetPos() + glm::vec3(-60, 7, -20), {30.0f, 10.0f, 10.0f} });
-	//station->AddHitBox({ mothership->GetPos() + glm::vec3(-60, 7, 20), {30.0f, 10.0f, 10.0f} });
 	AddEntity(station);
 
 	CreateMeteorField();
 
-	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 60, 1950), m_player, m_projectiles, this));
+	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 30, 1900), m_player, m_projectiles, this));
 }
 
 void DeepSpace::CreateMeteorField()

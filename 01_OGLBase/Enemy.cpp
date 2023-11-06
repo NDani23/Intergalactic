@@ -187,7 +187,7 @@ void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 	{
 		temp_dir = glm::normalize(temp_dir);
 	}
-	else if (angle < M_PI / 2)
+	else if (angle < M_PI)
 	{
 		temp_dir += temp_dir - (cross_vec * (1.0f / (angle * 10.f)));
 		temp_dir = glm::normalize(temp_dir);
