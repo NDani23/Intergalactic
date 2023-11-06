@@ -139,37 +139,49 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 
 void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 {
-	std::vector<Mesh::Vertex>& vertices = obj.GetMesh().get()->GetVertices();
-	
-	glm::vec3& closest_vert = vertices[0].position;
 
-	glm::vec4 wordPos = obj.GetWorldTransform() * glm::vec4(closest_vert, 1);
-	glm::vec3 vertex = { wordPos.x, wordPos.y, wordPos.z };
+	float closest_dist = 0.f;
+	glm::vec3 closest_point;
 
-	float closest_dist = glm::distance(vertex, m_position);
-
-	for (int i = 1; i < vertices.size(); i += 10)
+	if (obj.IsStatic())
 	{
-		if (i >= vertices.size()) return;
+		std::vector<glm::vec3>& vertices = obj.GetCollider().GetVertices();
 
-		wordPos = obj.GetWorldTransform() * glm::vec4(vertices[i].position, 1);
-		vertex = { wordPos.x, wordPos.y, wordPos.z };
+		glm::vec3& closest_vert = vertices[0];
+		glm::vec3& vertex = closest_vert;
 
-		glm::vec3 to_vertex = glm::normalize(vertex - m_position);
-		if (glm::dot(m_forward_vec, to_vertex) < 0) continue;
+		closest_dist = glm::distance(vertex, m_position + m_forward_vec * 20.f);
 
-		if (glm::distance(vertex, m_position) < closest_dist)
+		for (int i = 1; i < vertices.size(); i += 10)
 		{
-			closest_dist = glm::distance(vertex, m_position);
-			closest_vert = vertex;
+			if (i >= vertices.size()) return;
+
+			vertex = vertices[i];
+
+			glm::vec3 to_vertex = glm::normalize(vertex - m_position);
+			if (glm::dot(m_forward_vec, to_vertex) < 0) continue;
+
+			if (glm::distance(vertex, m_position + m_forward_vec * 20.f) < closest_dist)
+			{
+				closest_dist = glm::distance(vertex, m_position + m_forward_vec * 20.f);
+				closest_vert = vertex;
+			}
 		}
+
+		closest_point = closest_vert;
 	}
+	else
+	{
+		closest_point = obj.GetPos();
+		closest_dist = glm::distance(closest_point, m_position + m_forward_vec * 20.f);
+	}
+	
 
 	if (closest_dist > 200.f) return;
 
-	glm::vec3 to_vertex = glm::normalize(closest_vert - m_position);
-	glm::vec3 cross_vec = glm::normalize(to_vertex - temp_dir);
-	float angle = glm::acos(glm::dot(to_vertex, temp_dir));
+	glm::vec3 to_point = glm::normalize(closest_point - m_position + m_forward_vec * 20.f);
+	glm::vec3 cross_vec = glm::normalize(to_point - temp_dir);
+	float angle = glm::acos(glm::dot(to_point, temp_dir));
 
 	if (isnan(angle))
 	{
@@ -269,6 +281,11 @@ void Enemy::SetTexture()
 bool Enemy::IsTargetable()
 {
 	return true;
+}
+
+bool Enemy::IsStatic()
+{
+	return false;
 }
 
 glm::vec3& Enemy::GetForwardVec()

@@ -3,6 +3,9 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <iostream>
+#include <execution>
+#include <algorithm>
+#include <utility>
 
 #include "includes/Mesh_OGL3.h"
 
@@ -11,7 +14,7 @@ class MeshCollider
 private:
 	bool m_WordPosChanged;
 	glm::mat4 m_WordTrans;
-	std::vector<glm::vec3> m_vertices_initial;
+	std::vector<std::pair<glm::vec3, int>> m_vertices_initial;
 	std::vector<glm::vec3> m_vertices;
 
 	void UpdateVertices();

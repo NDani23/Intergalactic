@@ -153,6 +153,12 @@ bool Entity::IsTargetable()
 	return false;
 }
 
+bool Entity::IsStatic()
+{
+	return true;
+}
+
+
 bool Entity::CanCollide()
 {
 	return true;
