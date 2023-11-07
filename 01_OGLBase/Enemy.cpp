@@ -37,20 +37,16 @@ bool Enemy::Update(const float& delta)
 void Enemy::CalcBaseDir(glm::vec3& temp_dir)
 {
 	glm::vec3 target_pos = m_target->IsStealth() ? m_target->GetFakePos() : m_target->GetPos();
-
-	glm::vec3 player_behind_pos = target_pos - m_target->GetForwardVec() * 100.f;
-	temp_dir = glm::normalize(player_behind_pos - m_position);
-
-	if (glm::length(player_behind_pos - m_position) < 70.f) temp_dir = glm::normalize((target_pos + m_target->GetForwardVec() * 15.f) - m_position);
+	bool behind_player = dot(m_position - target_pos, m_target->GetForwardVec()) < 0 ? true : false;
+	float distance = glm::length(target_pos - m_position);
 
 
-	bool behind_player = dot(target_pos - m_position, m_forward_vec) > 0 ? true : false;
+	temp_dir = glm::normalize(target_pos - m_position);
 
 	if (behind_player) return;
 
 	glm::vec3 target_dir = m_target->GetForwardVec();
 	float angle = acos(dot(target_dir, m_forward_vec));
-	float distance = glm::length(target_pos - m_position);
 	if (distance < 100.f)
 	{
 		if (distance < 50.f)
@@ -91,7 +87,7 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 			temp_dir += (cross_vec * (float)(angle / M_PI));
 			temp_dir = glm::normalize(temp_dir);
 		}
-		else if (angle < 1.8f && behind_player && glm::length(target_pos - m_position) < 50.f)
+		else if (angle < 2.f && behind_player && glm::length(target_pos - m_position) < 50.f)
 		{
 			glm::vec3 cross_vec = glm::normalize(target_dir - temp_dir);
 			temp_dir += (cross_vec * (1.0f / (angle * 30.f)));

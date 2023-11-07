@@ -44,8 +44,17 @@ void PlanetEarth::LoadMap()
 	base->GetHitboxes().clear();
 	base->AddHitBox({ base->GetPos() - glm::vec3(0.f, 40.f, 0.f), {400.0f, 100.0f, 400.0f} });
 	base->AddHitBox({ base->GetPos() + glm::vec3(0.f, 25.f, 130.f), {270.0f, 50.0f, 50.0f} });
-	//base->AddHitBox({ base->GetPos() - glm::vec3(0.f, 40.f, 0.f), {400.0f, 100.0f, 400.0f} });
+	base->AddHitBox({ base->GetPos() + glm::vec3(130.f, 25.f, -20.f), {50.0f, 50.0f, 250.0f} });
+	base->AddHitBox({ base->GetPos() + glm::vec3(-115.f, 25.f, -20.f), {50.0f, 50.0f, 250.0f} });
 	AddEntity(base);
+
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-130, 55, -15), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-87, 55, -130), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-115, 55, 105), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(0, 55, 142), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(95, 55, -130), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(128, 55, 68), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(140, 55, -47), m_player, m_projectiles)));
 
 	AddEntity(std::make_shared<Entity>("assets/rock.obj", glm::vec3(50, m_Floor.GetZCoord(50.f, 100.f) + 2.f, 100), "assets/rock_tex.png", Dimensions{13.0f, 13.0f, 13.0f}));
 
