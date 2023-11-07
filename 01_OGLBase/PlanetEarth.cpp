@@ -48,6 +48,51 @@ void PlanetEarth::LoadMap()
 	base->AddHitBox({ base->GetPos() + glm::vec3(-115.f, 25.f, -20.f), {50.0f, 50.0f, 250.0f} });
 	AddEntity(base);
 
+	AddEntity(std::make_shared<Entity>("assets/bunker_exit.obj", base->GetPos(), "assets/bunker_exit_tex.png", Dimensions{100.0f, 70.0f, 100.0f}));
+
+	AddEntity(std::make_shared<Entity>("assets/ballon.obj", glm::vec3(-1000.f, 800.f, 800.f), "assets/ballon_tex1.png", Dimensions{30.0f, 40.0f, 30.0f}));
+	AddEntity(std::make_shared<Entity>("assets/ballon.obj", glm::vec3(-950.f, 600.f, 1000.f), "assets/ballon_tex1.png", Dimensions{ 30.0f, 40.0f, 30.0f }));
+	AddEntity(std::make_shared<Entity>("assets/ballon.obj", glm::vec3(-1100.f, 700.f, 1200.f), "assets/ballon_tex1.png", Dimensions{ 30.0f, 40.0f, 30.0f }));
+	AddEntity(std::make_shared<Entity>("assets/ballon.obj", glm::vec3(-820.f, 900.f, 750.f), "assets/ballon_tex2.png", Dimensions{ 30.0f, 40.0f, 30.0f }));
+	AddEntity(std::make_shared<Entity>("assets/ballon.obj", glm::vec3(-950.f, 750.f, 900.f), "assets/ballon_tex2.png", Dimensions{ 30.0f, 40.0f, 30.0f }));
+	AddEntity(std::make_shared<Entity>("assets/ballon.obj", glm::vec3(-800.f, 830.f, 1100.f), "assets/ballon_tex2.png", Dimensions{ 30.0f, 40.0f, 30.0f }));
+	AddEntity(std::make_shared<Entity>("assets/ballon.obj", glm::vec3(-980.f, 610.f, 770.f), "assets/ballon_tex2.png", Dimensions{ 30.0f, 40.0f, 30.0f }));
+	AddEntity(std::make_shared<Entity>("assets/ballon.obj", glm::vec3(-780.f, 550.f, 1130.f), "assets/ballon_tex3.png", Dimensions{ 30.0f, 40.0f, 30.0f }));
+	AddEntity(std::make_shared<Entity>("assets/ballon.obj", glm::vec3(-1200.f, 700.f, 1000.f), "assets/ballon_tex3.png", Dimensions{ 30.0f, 40.0f, 30.0f }));
+	AddEntity(std::make_shared<Entity>("assets/ballon.obj", glm::vec3(-960.f, 910.f, 950.f), "assets/ballon_tex3.png", Dimensions{ 30.0f, 40.0f, 30.0f }));
+
+	std::shared_ptr<Entity> pyramid1 = std::make_shared<Entity>("assets/pyramid.obj", glm::vec3(2000.f, 120.f, 1600.f), "assets/pyramid_tex.png");
+	pyramid1->GetHitboxes().clear();
+	pyramid1->AddHitBox({ pyramid1->GetPos() + glm::vec3(0.f, -150.f, 0.f), {380.0f, 50.0f, 380.0f} });
+	pyramid1->AddHitBox({ pyramid1->GetPos() + glm::vec3(0.f, -100.f, 0.f), {315.0f, 50.0f, 315.0f} });
+	pyramid1->AddHitBox({ pyramid1->GetPos() + glm::vec3(0.f, -50.f, 0.f), {270.0f, 50.0f, 270.0f} });
+	pyramid1->AddHitBox({ pyramid1->GetPos() + glm::vec3(0.f, 0.f, 0.f), {230.0f, 50.0f, 230.0f} });
+	pyramid1->AddHitBox({ pyramid1->GetPos() + glm::vec3(0.f, 50.f, 0.f), {180.0f, 50.0f, 180.0f} });
+	pyramid1->AddHitBox({ pyramid1->GetPos() + glm::vec3(0.f, 100.f, 0.f), {135.0f, 50.0f, 135.0f} });
+	pyramid1->AddHitBox({ pyramid1->GetPos() + glm::vec3(0.f, 150.f, 0.f), {90.0f, 50.0f, 90.0f} });
+	pyramid1->AddHitBox({ pyramid1->GetPos() + glm::vec3(0.f, 185.f, 0.f), {50.0f, 25.0f, 50.0f} });
+	AddEntity(pyramid1);
+
+	std::shared_ptr<Entity> pyramid2 = std::make_shared<Entity>("assets/pyramid.obj", glm::vec3(2400.f, 90.f, 1300.f), glm::scale(glm::vec3(0.75f, 0.75f, 0.75f)), "assets/pyramid_tex.png");
+	pyramid2->GetHitboxes().clear();
+	pyramid2->AddHitBox({ pyramid2->GetPos() + glm::vec3(0.f, -100.f, 0.f), {280.0f, 40.0f, 280.0f} });
+	pyramid2->AddHitBox({ pyramid2->GetPos() + glm::vec3(0.f, -60.f, 0.f), {230.0f, 40.0f, 230.0f} });
+	pyramid2->AddHitBox({ pyramid2->GetPos() + glm::vec3(0.f, -20.f, 0.f), {185.0f, 40.0f, 185.0f} });
+	pyramid2->AddHitBox({ pyramid2->GetPos() + glm::vec3(0.f, 20.f, 0.f), {150.0f, 40.0f, 150.0f} });
+	pyramid2->AddHitBox({ pyramid2->GetPos() + glm::vec3(0.f, 60.f, 0.f), {120.0f, 40.0f, 120.0f} });
+	pyramid2->AddHitBox({ pyramid2->GetPos() + glm::vec3(0.f, 100.f, 0.f), {90.0f, 40.0f, 90.0f} });
+	pyramid2->AddHitBox({ pyramid2->GetPos() + glm::vec3(0.f, 135.f, 0.f), {50.0f, 30.0f, 50.0f} });
+	AddEntity(pyramid2);
+
+	std::shared_ptr<Entity> pyramid3 = std::make_shared<Entity>("assets/pyramid.obj", glm::vec3(2680.f, 50.f, 1050.f), glm::scale(glm::vec3(0.5f, 0.5f, 0.5f)), "assets/pyramid_tex.png", Dimensions{ 30.0f, 40.0f, 30.0f });
+	pyramid3->GetHitboxes().clear();
+	pyramid3->AddHitBox({ pyramid3->GetPos() + glm::vec3(0.f, -60.f, 0.f), {180.0f, 40.0f, 180.0f} });
+	pyramid3->AddHitBox({ pyramid3->GetPos() + glm::vec3(0.f, -20.f, 0.f), {140.0f, 40.0f, 140.0f} });
+	pyramid3->AddHitBox({pyramid3->GetPos() + glm::vec3(0.f, 20.f, 0.f), {100.0f, 40.0f, 100.0f}});
+	pyramid3->AddHitBox({pyramid3->GetPos() + glm::vec3(0.f, 55.f, 0.f), {70.0f, 30.0f, 70.0f}});
+	pyramid3->AddHitBox({ pyramid3->GetPos() + glm::vec3(0.f, 85.f, 0.f), {35.0f, 30.0f, 35.0f} });
+	AddEntity(pyramid3);
+
 	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-130, 55, -15), m_player, m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-87, 55, -130), m_player, m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-115, 55, 105), m_player, m_projectiles)));

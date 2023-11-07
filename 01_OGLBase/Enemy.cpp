@@ -111,7 +111,7 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 			glm::vec3 distance_vec = hitbox.Position - m_position;
 
 			float distance = glm::length(distance_vec);
-			if (distance > 200.0f) break;
+			if (distance > 500.0f) break;
 
 
 			//Check collision

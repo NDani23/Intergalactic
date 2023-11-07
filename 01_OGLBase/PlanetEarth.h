@@ -1,9 +1,14 @@
 #pragma once
 
-#include "Map.h"
 #include "DesertFloor.h"
-#include "Mothership.h"
+#include "Map.h"
+#include "LaserGun.h"
+#include <random>
+#include "Projectile.h"
+#include "Player.h"
 #include "Turret.h"
+#include "Enemy.h"
+#include "HitBox.h"
 
 class PlanetEarth : public Map
 {
