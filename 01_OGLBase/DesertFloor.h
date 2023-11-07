@@ -13,10 +13,10 @@ private:
 	};
 
 	glm::vec3 GetUV(float, float) override;
-	glm::vec3 GetNorm(float, float) override;
 public:
 	DesertFloor();
 	void DrawFloor(glm::mat4&, Player*) override;
 	bool DetectCollision(Entity&) override;
 	float GetZCoord(float, float) override;
+	glm::vec3 GetNorm(float, float) override;
 };

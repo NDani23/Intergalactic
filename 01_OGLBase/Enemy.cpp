@@ -152,7 +152,7 @@ void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 
 		closest_dist = glm::distance(vertex, m_position + m_forward_vec * 20.f);
 
-		for (int i = 1; i < vertices.size(); i += 10)
+		for (int i = 1; i < vertices.size(); i += 5)
 		{
 			if (i >= vertices.size()) return;
 
@@ -181,17 +181,24 @@ void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 
 	glm::vec3 to_point = glm::normalize(closest_point - m_position + m_forward_vec * 20.f);
 	glm::vec3 cross_vec = glm::normalize(to_point - temp_dir);
-	float angle = glm::acos(glm::dot(to_point, temp_dir));
+	float dot_p = glm::dot(to_point, temp_dir);
+	//float angle = glm::acos(glm::dot(to_point, temp_dir));
 
-	if (isnan(angle))
+	if (dot_p > 0.2f)
 	{
+		temp_dir += temp_dir - (cross_vec * dot_p);
 		temp_dir = glm::normalize(temp_dir);
 	}
-	else if (angle < M_PI)
-	{
-		temp_dir += temp_dir - (cross_vec * (1.0f / (angle * 10.f)));
-		temp_dir = glm::normalize(temp_dir);
-	}
+
+	//if (isnan(angle))
+	//{
+	//	temp_dir = glm::normalize(temp_dir);
+	//}
+	//else if (angle < M_PI)
+	//{
+	//	temp_dir += temp_dir - (cross_vec * (1.0f / (angle * 10.f)));
+	//	temp_dir = glm::normalize(temp_dir);
+	//}
 }
 
 bool Enemy::CalcAvoidFloorVec(glm::vec3& temp_dir)
@@ -206,16 +213,17 @@ bool Enemy::CalcAvoidFloorVec(glm::vec3& temp_dir)
 		glm::vec3 future_position = m_position + temp_dir * 100.f;
 		glm::vec3 distance_vec = glm::vec3(future_position.x, m_Map->GetFloor()->GetZCoord(future_position.x, future_position.z), future_position.z) - m_position;
 		float distance = glm::length(distance_vec);
-		if (distance < 200.0f)
+		if (distance < 300.0f)
 		{
 			distance_vec = glm::normalize(distance_vec);
 			glm::vec3 cross_vec = glm::normalize(distance_vec - temp_dir);
 
 			float angle = glm::acos(glm::dot(distance_vec, temp_dir));
+			float dot_p = glm::dot(distance_vec, temp_dir);
 
-			if (angle < 1.5f)
+			if (dot_p > 0.f)
 			{
-				temp_dir += cross_vec * (1.0f / (angle * 10.f));
+				temp_dir += glm::vec3(0.f, 1.0f, 0.0f) * dot_p * (1 / (distance / 100));
 				temp_dir = glm::normalize(temp_dir);
 			}
 		}

@@ -38,7 +38,9 @@ void DeepSpace::LoadMap()
 	m_Entities.clear();
 	m_enemySpawnPoints.clear();
 
-	AddEntity(std::make_shared<Entity>("assets/ufo.obj", glm::vec3(500, 200, 1000), "assets/ufo_tex.png", Dimensions{ 50.0f, 17.0f, 50.0f }));
+	AddEntity(std::make_shared<Entity>("assets/ufo.obj", glm::vec3(1000, 200, 1000), "assets/ufo_tex.png", Dimensions{ 50.0f, 17.0f, 50.0f }));
+
+	AddEntity(std::make_shared<Entity>("assets/satelite.obj", glm::vec3(-200, 1200, 700), "assets/satelite_tex.png", Dimensions{ 20.0f, 17.0f, 20.0f }));
 
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-70, 50, 2000), m_player, m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-100, 0, 1950), m_player, m_projectiles)));
@@ -50,7 +52,7 @@ void DeepSpace::LoadMap()
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-60, -50, 2010), m_player, m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 200, 1970), m_player, m_projectiles)));
 
-	std::shared_ptr<Entity> gate = std::make_shared<Entity>("assets/gate.obj", glm::vec3(0, -500, 1000), "assets/gate_tex.png");
+	std::shared_ptr<Entity> gate = std::make_shared<Entity>("assets/gate.obj", glm::vec3(0, -500, 1200), "assets/gate_tex.png");
 	gate->GetHitboxes().clear();
 	gate->AddHitBox({ gate->GetPos() + glm::vec3(20, 0, 0), {10.0f, 50.0f, 10.0f} });
 	gate->AddHitBox({ gate->GetPos() + glm::vec3(-20, 0, 0), {10.0f, 50.0f, 10.0f} });
@@ -96,6 +98,12 @@ void DeepSpace::CreateMeteorField()
 	AddEntity(std::make_shared<Entity>("assets/meteor.obj", glm::vec3(-700, 300, 1100), glm::rotate(0.5f, glm::vec3(1, 1, 1)) * glm::scale(glm::vec3(1.3f, 1.3f, 1.3f)), "assets/meteor_tex.jpg", Dimensions{ 35.1f, 35.1f, 35.1f }));
 	AddEntity(std::make_shared<Entity>("assets/meteor.obj", glm::vec3(-750, 280, 1000), glm::rotate(-1.3f, glm::vec3(0, 1, 1)) * glm::scale(glm::vec3(0.3f, 0.3f, 0.3f)), "assets/meteor_tex.jpg", Dimensions{ 8.1f, 8.1f, 8.1f }));
 	AddEntity(std::make_shared<Entity>("assets/meteor.obj", glm::vec3(-800, 350, 1150), glm::rotate(0.8f, glm::vec3(1, 1, 1)) * glm::scale(glm::vec3(0.4f, 0.4f, 0.4f)), "assets/meteor_tex.jpg", Dimensions{ 10.8f, 10.8f, 10.8f }));
+
+
+	AddEntity(std::make_shared<Entity>("assets/meteor.obj", glm::vec3(830, 1500, 870), glm::rotate(2.2f, glm::vec3(1, 0, 0)) * glm::scale(glm::vec3(5.0f, 5.0f, 5.0f)), "assets/meteor_tex.jpg", Dimensions{ 130.0f, 130.0f, 130.0f }));
+	AddEntity(std::make_shared<Entity>("assets/meteor.obj", glm::vec3(300, -700, -3000), glm::rotate(2.2f, glm::vec3(1, 0, 0)) * glm::scale(glm::vec3(5.0f, 5.0f, 5.0f)), "assets/meteor_tex.jpg", Dimensions{ 130.0f, 130.0f, 130.0f }));
+	AddEntity(std::make_shared<Entity>("assets/meteor.obj", glm::vec3(-2000, -2000, 300), glm::rotate(2.2f, glm::vec3(1, 0, 0)) * glm::scale(glm::vec3(5.0f, 5.0f, 5.0f)), "assets/meteor_tex.jpg", Dimensions{ 130.0f, 130.0f, 130.0f }));
+	AddEntity(std::make_shared<Entity>("assets/meteor.obj", glm::vec3(4000, 3000, 5000), glm::rotate(2.2f, glm::vec3(1, 0, 0)) * glm::scale(glm::vec3(5.0f, 5.0f, 5.0f)), "assets/meteor_tex.jpg", Dimensions{ 130.0f, 130.0f, 130.0f }));
 	
 }
 

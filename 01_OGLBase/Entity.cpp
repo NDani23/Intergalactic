@@ -51,7 +51,7 @@ Entity::Entity(const std::string& model_path, glm::vec3 position, glm::mat4 tran
 	m_collider.setVertices(m_mesh->GetVertices());
 	m_position = position;
 	m_texture.FromFile(texture_path);
-	SetTransforms(glm::translate(m_position));
+	SetTransforms(glm::translate(m_position) * transform);
 
 	HitBox hitbox = { position, dims };
 	m_hitboxes.emplace_back(hitbox);
