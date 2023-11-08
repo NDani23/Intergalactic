@@ -108,6 +108,13 @@ void PlanetEarth::LoadMap()
 	AddEntity(std::make_shared<Entity>("assets/rock.obj", glm::vec3(1200, m_Floor.GetZCoord(1200.f, -300.f) + 2.f, -300), "assets/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
 	AddEntity(std::make_shared<Entity>("assets/rock.obj", glm::vec3(-100, m_Floor.GetZCoord(-100.f, -100.f) + 2.f, -100), "assets/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
 
+
+	std::shared_ptr<Entity> wrecked_ship = std::make_shared<Entity>("assets/Mothership2.obj", glm::vec3(-800, m_Floor.GetZCoord(-800.f, -1500.f) - 15.f, -1000), glm::rotate(0.8f, glm::vec3(-1, 0, 0)), "assets/Mothership_tex.png");
+	wrecked_ship->GetHitboxes().clear();
+	wrecked_ship->AddHitBox({ wrecked_ship->GetPos() + glm::vec3(+15.f, 25.f, +10.f), {320.0f, 45.0f, 95.f} });
+	wrecked_ship->AddHitBox({ wrecked_ship->GetPos() + glm::vec3(-230.f, 70.f, +30.f), {200.0f, 120.0f, 160.f} });
+	AddEntity(wrecked_ship);
+
 	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 50.f, 2000), m_player, m_projectiles, this));
 }
 
