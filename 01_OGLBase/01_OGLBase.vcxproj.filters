@@ -30,9 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Includes\BufferObject.h">
       <Filter>GL utilities</Filter>
     </ClInclude>
@@ -75,45 +72,6 @@
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imconfig.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Directions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dimensions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HitBox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Laser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LaserGun.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Turret.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mothership.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_opengl3.h">
       <Filter>imgui</Filter>
     </ClInclude>
@@ -132,99 +90,134 @@
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="AppUI.h">
+    <ClInclude Include="headers\AppUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
+    <ClInclude Include="headers\Barrier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RocketLauncher.h">
+    <ClInclude Include="headers\DeepSpace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rocket.h">
+    <ClInclude Include="headers\DesertFloor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MinePlacer.h">
+    <ClInclude Include="headers\Dimensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mine.h">
+    <ClInclude Include="headers\Directions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Upgrade.h">
+    <ClInclude Include="headers\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpeedBooster.h">
+    <ClInclude Include="headers\EnemySpawnPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponDataStorage.h">
+    <ClInclude Include="headers\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UpgradeDataStorage.h">
+    <ClInclude Include="headers\Falcon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Persistence.h">
+    <ClInclude Include="headers\Floor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="headers\GameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DeepSpace.h">
+    <ClInclude Include="headers\GJK.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlanetEarth.h">
+    <ClInclude Include="headers\HitBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Floor.h">
+    <ClInclude Include="headers\Laser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DesertFloor.h">
+    <ClInclude Include="headers\LaserGun.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EnemySpawnPoint.h">
+    <ClInclude Include="headers\MachineGun.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SaR.h">
+    <ClInclude Include="headers\Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Falcon.h">
+    <ClInclude Include="headers\MeshCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Raptor.h">
+    <ClInclude Include="headers\Mine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shield.h">
+    <ClInclude Include="headers\MinePlacer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Barrier.h">
+    <ClInclude Include="headers\Mothership.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StealthCoat.h">
+    <ClInclude Include="headers\MyApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MachineGun.h">
+    <ClInclude Include="headers\Persistence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TurretWeapon.h">
+    <ClInclude Include="headers\PlanetEarth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rocketer.h">
+    <ClInclude Include="headers\PLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GJK.h">
+    <ClInclude Include="headers\Projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Simplex.h">
+    <ClInclude Include="headers\Raptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MeshCollider.h">
+    <ClInclude Include="headers\Rocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Rocketer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\RocketLauncher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\SaR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Shield.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Simplex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\SpeedBooster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\StealthCoat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Turret.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\TurretWeapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Upgrade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\UpgradeDataStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Weapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\WeaponDataStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MyApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Includes\GLconversions.cpp">
       <Filter>GL utilities</Filter>
     </ClCompile>
@@ -258,36 +251,6 @@
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Laser.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="LaserGun.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Turret.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Mothership.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_opengl3.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
@@ -300,86 +263,122 @@
     <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="AppUI.cpp">
+    <ClCompile Include="source\AppUI.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="RocketLauncher.cpp">
+    <ClCompile Include="source\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\WeaponDataStorage.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="Rocket.cpp">
+    <ClCompile Include="source\Weapon.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="MinePlacer.cpp">
+    <ClCompile Include="source\UpgradeDataStorage.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="Mine.cpp">
+    <ClCompile Include="source\Upgrade.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="Upgrade.cpp">
+    <ClCompile Include="source\TurretWeapon.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="SpeedBooster.cpp">
+    <ClCompile Include="source\Turret.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponDataStorage.cpp">
+    <ClCompile Include="source\StealthCoat.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="UpgradeDataStorage.cpp">
+    <ClCompile Include="source\SpeedBooster.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="Persistence.cpp">
+    <ClCompile Include="source\Shield.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\SaR.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\RocketLauncher.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Rocketer.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Rocket.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Raptor.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Projectile.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\PlanetEarth.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MyApp.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mothership.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MinePlacer.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mine.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MeshCollider.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Map.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MachineGun.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\LaserGun.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Laser.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\HitBox.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GJK.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Floor.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Falcon.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Entity.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\EnemySpawnPoint.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Enemy.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DesertFloor.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DeepSpace.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Barrier.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Persistence.cpp">
       <Filter>Source Files\persistence</Filter>
-    </ClCompile>
-    <ClCompile Include="DeepSpace.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="PlanetEarth.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="DesertFloor.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Floor.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemySpawnPoint.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="SaR.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Falcon.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Raptor.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Shield.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Barrier.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="HitBox.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="StealthCoat.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="MachineGun.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="TurretWeapon.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="Rocketer.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="GJK.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshCollider.cpp">
-      <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
