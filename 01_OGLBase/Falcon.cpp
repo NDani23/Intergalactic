@@ -6,9 +6,9 @@ Texture2D Falcon::m_static_tex;
 
 int Falcon::FirstInit()
 {
-	Falcon::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/enemy_ship.obj"));
+	Falcon::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Enemies/enemy_ship.obj"));
 	Falcon::m_static_mesh->initBuffers();
-	Falcon::m_static_tex = Texture2D("assets/enemy_tex.png");
+	Falcon::m_static_tex = Texture2D("assets/Enemies/enemy_tex.png");
 
 	return 1;
 }

@@ -29,11 +29,11 @@ StealthCoat::StealthCoat()
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/stealthCoat.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Upgrades/stealthCoat.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/stealthCoat_tex.png");
-	m_Image.FromFile("assets/stealthCoat.png");
+	m_texture.FromFile("assets/Upgrades/stealthCoat_tex.png");
+	m_Image.FromFile("assets/Upgrades/stealthCoat.png");
 }
 
 StealthCoat::StealthCoat(Player* parent)
@@ -63,11 +63,11 @@ StealthCoat::StealthCoat(Player* parent)
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/stealthCoat.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Upgrades/stealthCoat.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/stealthCoat_tex.png");
-	m_Image.FromFile("assets/stealthCoat.png");
+	m_texture.FromFile("assets/Upgrades/stealthCoat_tex.png");
+	m_Image.FromFile("assets/Upgrades/stealthCoat.png");
 
 }
 

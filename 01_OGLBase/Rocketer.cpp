@@ -6,9 +6,9 @@ Texture2D Rocketer::m_static_tex;
 
 int Rocketer::FirstInit()
 {
-	Rocketer::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/rocketer.obj"));
+	Rocketer::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Enemies/rocketer.obj"));
 	Rocketer::m_static_mesh->initBuffers();
-	Rocketer::m_static_tex = Texture2D("assets/rocketer_tex.png");
+	Rocketer::m_static_tex = Texture2D("assets/Enemies/rocketer_tex.png");
 
 	return 1;
 }

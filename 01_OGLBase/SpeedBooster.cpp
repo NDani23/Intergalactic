@@ -16,11 +16,11 @@ SpeedBooster::SpeedBooster()
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/booster.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Upgrades/booster.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/booster_tex.png");
-	m_Image.FromFile("assets/booster.png");
+	m_texture.FromFile("assets/Upgrades/booster_tex.png");
+	m_Image.FromFile("assets/Upgrades/booster.png");
 }
 
 SpeedBooster::SpeedBooster(Player* parent)
@@ -37,17 +37,11 @@ SpeedBooster::SpeedBooster(Player* parent)
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/booster.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Upgrades/booster.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/booster_tex.png");
-	m_Image.FromFile("assets/booster.png");
-
-	/*m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/shield.obj"));
-	m_mesh->initBuffers();
-
-	m_texture.FromFile("assets/shield_tex.png");
-	m_Image.FromFile("assets/shield.png");*/
+	m_texture.FromFile("assets/Upgrades/booster_tex.png");
+	m_Image.FromFile("assets/Upgrades/booster.png");
 }
 
 void SpeedBooster::Update()

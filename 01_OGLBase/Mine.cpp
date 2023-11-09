@@ -8,10 +8,10 @@ Mine::Mine()
 	m_direction = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_damage = 100;
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/mine.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/mine.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/mine_tex.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/mine_tex.png");
 }
 
 Mine::Mine(glm::vec3& pos)
@@ -22,10 +22,10 @@ Mine::Mine(glm::vec3& pos)
 	m_direction = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_damage = 100;
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/mine.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/mine.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/mine_tex.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/mine_tex.png");
 }
 
 bool Mine::Update(const float& delta)

@@ -9,7 +9,7 @@ UpgradeDataStorage::UpgradeDataStorage()
 			0,
 			std::move(
 				UpgradeItem({[](Player* player) { return std::make_unique<SpeedBooster>(player); },
-				Texture2D("assets/booster.png"),
+				Texture2D("assets/Upgrades/booster.png"),
 				"Speed booster",
 				1000})
 			)
@@ -22,7 +22,7 @@ UpgradeDataStorage::UpgradeDataStorage()
 			1,
 			std::move(
 				UpgradeItem({[](Player* player) { return std::make_unique<Shield>(player); },
-				Texture2D("assets/shield.png"),
+				Texture2D("assets/Upgrades/shield.png"),
 				"Shield",
 				1500})
 			)
@@ -35,7 +35,7 @@ UpgradeDataStorage::UpgradeDataStorage()
 			2,
 			std::move(
 				UpgradeItem({[](Player* player) { return std::make_unique<StealthCoat>(player); },
-				Texture2D("assets/stealthCoat.png"),
+				Texture2D("assets/Upgrades/stealthCoat.png"),
 				"Stealth Coat",
 				1500})
 			)

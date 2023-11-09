@@ -16,11 +16,11 @@ RocketLauncher::RocketLauncher()
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/launcher.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/launcher.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/grey_tex.jpg");
-	m_projectileImage.FromFile("assets/rocket.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/grey_tex.jpg");
+	m_projectileImage.FromFile("assets/Weapons&Projectiles/rocket.png");
 }
 
 RocketLauncher::RocketLauncher(Player* target, int side)
@@ -37,11 +37,11 @@ RocketLauncher::RocketLauncher(Player* target, int side)
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/launcher.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/launcher.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/grey_tex.jpg");
-	m_projectileImage.FromFile("assets/rocket.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/grey_tex.jpg");
+	m_projectileImage.FromFile("assets/Weapons&Projectiles/rocket.png");
 }
 
 void RocketLauncher::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)

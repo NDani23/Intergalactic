@@ -16,11 +16,11 @@ MachineGun::MachineGun()
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/machine_gun.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/machine_gun.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/machine_gun_tex.png");
-	m_projectileImage.FromFile("assets/machine_gun.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/machine_gun_tex.png");
+	m_projectileImage.FromFile("assets/Weapons&Projectiles/machine_gun.png");
 }
 
 MachineGun::MachineGun(Player* target, int side)
@@ -37,11 +37,11 @@ MachineGun::MachineGun(Player* target, int side)
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/machine_gun.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/machine_gun.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/machine_gun_tex.png");
-	m_projectileImage.FromFile("assets/machine_gun.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/machine_gun_tex.png");
+	m_projectileImage.FromFile("assets/Weapons&Projectiles/machine_gun.png");
 }
 
 void MachineGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)

@@ -19,11 +19,11 @@ Shield::Shield()
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/shield.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Upgrades/shield.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/shield_tex.png");
-	m_Image.FromFile("assets/shield.png");
+	m_texture.FromFile("assets/Upgrades/shield_tex.png");
+	m_Image.FromFile("assets/Upgrades/shield.png");
 
 }
 
@@ -43,11 +43,11 @@ Shield::Shield(Player* parent)
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/shield.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Upgrades/shield.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/shield_tex.png");
-	m_Image.FromFile("assets/shield.png");
+	m_texture.FromFile("assets/Upgrades/shield_tex.png");
+	m_Image.FromFile("assets/Upgrades/shield.png");
 }
 
 void Shield::Update()

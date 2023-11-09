@@ -1,5 +1,5 @@
 #include "LaserGun.h"
-#include "PLayer.h"
+#include "Player.h"
 
 LaserGun::LaserGun()
 {
@@ -13,11 +13,11 @@ LaserGun::LaserGun()
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/laser_gun2.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/laser_gun2.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/grey_tex.jpg");
-	m_projectileImage.FromFile("assets/laser.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/grey_tex.jpg");
+	m_projectileImage.FromFile("assets/Weapons&Projectiles/laser.png");
 }
 
 LaserGun::LaserGun(Player* parent)
@@ -33,11 +33,11 @@ LaserGun::LaserGun(Player* parent)
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/laser_gun2.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/laser_gun2.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/grey_tex.jpg");
-	m_projectileImage.FromFile("assets/laser.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/grey_tex.jpg");
+	m_projectileImage.FromFile("assets/Weapons&Projectiles/laser.png");
 }
 
 void LaserGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
@@ -46,10 +46,7 @@ void LaserGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 
 	if (elapsed_seconds.count() >= m_coolDownTime)
 	{
-		//Laser laser_proj(m_position + m_parent->GetCrossVec(), m_shootDir);
 		projectiles.emplace_back(std::make_unique<Laser>(m_position + m_parent->GetCrossVec(), m_shootDir));
-
-		//Laser laser_proj2(m_position - m_parent->GetCrossVec(), m_shootDir);
 		projectiles.emplace_back(std::make_unique<Laser>(m_position - m_parent->GetCrossVec(), m_shootDir));
 
 		m_lastShootTime = std::chrono::system_clock::now();

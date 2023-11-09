@@ -6,9 +6,9 @@ Texture2D SaR::sar_static_tex;
 
 int SaR::FirstInit()
 {
-	SaR::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/SaR.obj"));
+	SaR::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Enemies/SaR.obj"));
 	SaR::m_static_mesh->initBuffers();
-	SaR::sar_static_tex = Texture2D("assets/SaR_tex.png");
+	SaR::sar_static_tex = Texture2D("assets/Enemies/SaR_tex.png");
 
 	return 1;
 }

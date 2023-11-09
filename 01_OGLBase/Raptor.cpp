@@ -6,9 +6,9 @@ Texture2D Raptor::m_static_tex;
 
 int Raptor::FirstInit()
 {
-	Raptor::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/raptor.obj"));
+	Raptor::m_static_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Enemies/raptor.obj"));
 	Raptor::m_static_mesh->initBuffers();
-	Raptor::m_static_tex = Texture2D("assets/raptor_tex.png");
+	Raptor::m_static_tex = Texture2D("assets/Enemies/raptor_tex.png");
 
 	return 1;
 }

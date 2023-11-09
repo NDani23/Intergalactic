@@ -10,10 +10,10 @@ Rocket::Rocket()
 	m_damage = 100;
 	m_travelDistance = 0.f;
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/rocket.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/rocket.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/rocket_tex.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/rocket_tex.png");
 }
 
 Rocket::Rocket(glm::vec3 pos, Entity* target)
@@ -26,10 +26,10 @@ Rocket::Rocket(glm::vec3 pos, Entity* target)
 	m_travelDistance = 0.f;
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_direction, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/rocket.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/rocket.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/rocket_tex.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/rocket_tex.png");
 }
 
 bool Rocket::Update(const float& delta)

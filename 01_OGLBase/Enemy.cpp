@@ -127,7 +127,7 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 
 		}
 
-		AvoidObject(*obj.get(), temp_dir);
+		//AvoidObject(*obj.get(), temp_dir);
 
 	}
 	return false;

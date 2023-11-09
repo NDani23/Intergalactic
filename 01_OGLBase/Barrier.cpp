@@ -21,10 +21,10 @@ Barrier::Barrier()
 
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/barrier.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Upgrades/barrier.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/barrier_tex.png");
+	m_texture.FromFile("assets/Upgrades/barrier_tex.png");
 
 	m_transforms = glm::translate(m_position);
 }
@@ -51,10 +51,10 @@ Barrier::Barrier(glm::vec3 pos)
 
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/barrier.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Upgrades/barrier.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/barrier_tex.png");
+	m_texture.FromFile("assets/Upgrades/barrier_tex.png");
 
 	m_transforms = glm::translate(m_position);
 }

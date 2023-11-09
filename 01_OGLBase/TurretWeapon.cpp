@@ -23,11 +23,11 @@ TurretWeapon::TurretWeapon()
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/turret_weapon.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/turret_weapon.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/turret_tex.png");
-	m_projectileImage.FromFile("assets/turret_weapon.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/turret_tex.png");
+	m_projectileImage.FromFile("assets/Weapons&Projectiles/turret_weapon.png");
 }
 
 TurretWeapon::TurretWeapon(Player* target, int side)
@@ -49,11 +49,11 @@ TurretWeapon::TurretWeapon(Player* target, int side)
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/turret_weapon.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/turret_weapon.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/turret_tex.png");
-	m_projectileImage.FromFile("assets/turret_weapon.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/turret_tex.png");
+	m_projectileImage.FromFile("assets/Weapons&Projectiles/turret_weapon.png");
 }
 
 void TurretWeapon::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)

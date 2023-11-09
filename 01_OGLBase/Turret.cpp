@@ -10,12 +10,12 @@ Turret::Turret()
 	HitBox hitbox = { m_position, {10.0f, 10.0f, 10.0f} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/turret.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/turret.obj"));
 	m_mesh->initBuffers();
 
 	m_collider.setVertices(m_mesh->GetVertices());
 
-	m_texture.FromFile("assets/turret_tex.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/turret_tex.png");
 
 	m_lastShootTime = std::chrono::system_clock::now();
 
@@ -35,12 +35,12 @@ Turret::Turret(glm::vec3 Pos, Player* ref, std::vector<std::unique_ptr<Projectil
 	HitBox hitbox = { m_position, {10.0f, 10.0f, 10.0f} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/turret.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/turret.obj"));
 	m_mesh->initBuffers();
 
 	m_collider.setVertices(m_mesh->GetVertices());
 
-	m_texture.FromFile("assets/turret_tex.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/turret_tex.png");
 
 	m_lastShootTime = std::chrono::system_clock::now();
 

@@ -16,11 +16,11 @@ MinePlacer::MinePlacer()
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/mine_placer.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/mine_placer.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/grey_tex.jpg");
-	m_projectileImage.FromFile("assets/mine.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/grey_tex.jpg");
+	m_projectileImage.FromFile("assets/Weapons&Projectiles/mine.png");
 }
 
 MinePlacer::MinePlacer(Player* target, int side)
@@ -37,11 +37,11 @@ MinePlacer::MinePlacer(Player* target, int side)
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
 
-	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/mine_placer.obj"));
+	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/mine_placer.obj"));
 	m_mesh->initBuffers();
 
-	m_texture.FromFile("assets/grey_tex.jpg");
-	m_projectileImage.FromFile("assets/mine.png");
+	m_texture.FromFile("assets/Weapons&Projectiles/grey_tex.jpg");
+	m_projectileImage.FromFile("assets/Weapons&Projectiles/mine.png");
 }
 
 void MinePlacer::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
