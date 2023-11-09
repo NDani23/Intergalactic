@@ -4,8 +4,8 @@
 StealthCoat::StealthCoat()
 {
 	m_transparentProgram.AttachShaders({
-		{ GL_VERTEX_SHADER, "myVert.vert"},
-		{ GL_FRAGMENT_SHADER, "transparentFrag.frag"}
+		{ GL_VERTEX_SHADER, "shaders/myVert.vert"},
+		{ GL_FRAGMENT_SHADER, "shaders/transparentFrag.frag"}
 		});
 
 	m_transparentProgram.BindAttribLocations({
@@ -39,8 +39,8 @@ StealthCoat::StealthCoat()
 StealthCoat::StealthCoat(Player* parent)
 {
 	m_transparentProgram.AttachShaders({
-		{ GL_VERTEX_SHADER, "myVert.vert"},
-		{ GL_FRAGMENT_SHADER, "transparentFrag.frag"}
+		{ GL_VERTEX_SHADER, "shaders/myVert.vert"},
+		{ GL_FRAGMENT_SHADER, "shaders/transparentFrag.frag"}
 		});
 
 	m_transparentProgram.BindAttribLocations({

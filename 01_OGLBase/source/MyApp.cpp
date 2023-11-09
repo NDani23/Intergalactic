@@ -89,8 +89,8 @@ void CMyApp::InitShaders()
 {
 
 	m_axesProgram.Init({
-		{GL_VERTEX_SHADER, "axes.vert"},
-		{GL_FRAGMENT_SHADER, "axes.frag"}
+		{GL_VERTEX_SHADER, "shaders/axes.vert"},
+		{GL_FRAGMENT_SHADER, "shaders/axes.frag"}
 		});
 }
 

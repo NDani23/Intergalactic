@@ -8,8 +8,8 @@ PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, 
 	m_projectiles = projectiles;
 
 	m_program.AttachShaders({
-		{ GL_VERTEX_SHADER, "PlanetEarthBaseVert.vert"},
-		{ GL_FRAGMENT_SHADER, "PlanetEarthBaseFrag.frag"}
+		{ GL_VERTEX_SHADER, "shaders/PlanetEarthBaseVert.vert"},
+		{ GL_FRAGMENT_SHADER, "shaders/PlanetEarthBaseFrag.frag"}
 		});
 
 	m_program.BindAttribLocations({
@@ -21,8 +21,8 @@ PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, 
 	m_program.LinkProgram();
 
 	m_skyBoxProgram.AttachShaders({
-		{ GL_VERTEX_SHADER, "PlanetEarthSkyBox.vert"},
-		{ GL_FRAGMENT_SHADER, "PlanetEarthSkyBox.frag"}
+		{ GL_VERTEX_SHADER, "shaders/PlanetEarthSkyBox.vert"},
+		{ GL_FRAGMENT_SHADER, "shaders/PlanetEarthSkyBox.frag"}
 		});
 
 	m_skyBoxProgram.BindAttribLocations({

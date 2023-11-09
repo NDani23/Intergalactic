@@ -212,25 +212,23 @@
     <ClCompile Include="source\UpgradeDataStorage.cpp" />
     <ClCompile Include="source\Weapon.cpp" />
     <ClCompile Include="source\WeaponDataStorage.cpp" />
-    <None Include="axes.frag" />
-    <None Include="axes.vert" />
     <None Include="Includes\BufferObject.inl" />
     <None Include="Includes\ProgramObject.inl" />
     <None Include="Includes\TextureObject.inl" />
     <None Include="Includes\VertexArrayObject.inl" />
-    <None Include="PlanetEarthBaseFrag.frag" />
-    <None Include="PlanetEarthBaseVert.vert" />
-    <None Include="PlanetEarthSkyBox.frag" />
-    <None Include="PlanetEarthSkyBox.vert" />
-    <None Include="proceduralFrag.frag" />
-    <None Include="proceduralVert.vert" />
-    <None Include="skybox.frag" />
-    <None Include="skybox.vert" />
-    <None Include="transparentFrag.frag" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="myFrag.frag" />
-    <None Include="myVert.vert" />
+    <None Include="shaders\axes.frag" />
+    <None Include="shaders\axes.vert" />
+    <None Include="shaders\myFrag.frag" />
+    <None Include="shaders\myVert.vert" />
+    <None Include="shaders\PlanetEarthBaseFrag.frag" />
+    <None Include="shaders\PlanetEarthBaseVert.vert" />
+    <None Include="shaders\PlanetEarthSkyBox.frag" />
+    <None Include="shaders\PlanetEarthSkyBox.vert" />
+    <None Include="shaders\proceduralFrag.frag" />
+    <None Include="shaders\proceduralVert.vert" />
+    <None Include="shaders\skybox.frag" />
+    <None Include="shaders\skybox.vert" />
+    <None Include="shaders\transparentFrag.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -382,18 +382,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="myFrag.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="myVert.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="skybox.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="skybox.frag">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Includes\BufferObject.inl">
       <Filter>GL utilities</Filter>
     </None>
@@ -406,31 +394,43 @@
     <None Include="Includes\VertexArrayObject.inl">
       <Filter>GL utilities</Filter>
     </None>
-    <None Include="axes.frag">
+    <None Include="shaders\axes.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="axes.vert">
+    <None Include="shaders\axes.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="PlanetEarthBaseFrag.frag">
+    <None Include="shaders\myFrag.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="proceduralFrag.frag">
+    <None Include="shaders\myVert.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="proceduralVert.vert">
+    <None Include="shaders\PlanetEarthBaseFrag.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="PlanetEarthSkyBox.vert">
+    <None Include="shaders\PlanetEarthBaseVert.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="PlanetEarthSkyBox.frag">
+    <None Include="shaders\PlanetEarthSkyBox.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="PlanetEarthBaseVert.vert">
+    <None Include="shaders\PlanetEarthSkyBox.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="transparentFrag.frag">
+    <None Include="shaders\proceduralFrag.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\proceduralVert.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\skybox.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\skybox.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\transparentFrag.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

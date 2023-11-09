@@ -5,8 +5,8 @@ DesertFloor::DesertFloor()
 	m_Res = glm::vec2(99,99);
 
 	m_Program.AttachShaders({
-		{ GL_VERTEX_SHADER, "proceduralVert.vert"},
-		{ GL_FRAGMENT_SHADER, "proceduralFrag.frag"}
+		{ GL_VERTEX_SHADER, "shaders/proceduralVert.vert"},
+		{ GL_FRAGMENT_SHADER, "shaders/proceduralFrag.frag"}
 		});
 
 	m_Program.BindAttribLocations({

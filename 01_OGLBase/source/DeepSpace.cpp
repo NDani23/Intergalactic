@@ -7,8 +7,8 @@ DeepSpace::DeepSpace(std::vector<std::unique_ptr<Projectile>>* projectiles, Play
 	m_projectiles = projectiles;
 
 	m_program.AttachShaders({
-		{ GL_VERTEX_SHADER, "myVert.vert"},
-		{ GL_FRAGMENT_SHADER, "myFrag.frag"}
+		{ GL_VERTEX_SHADER, "shaders/myVert.vert"},
+		{ GL_FRAGMENT_SHADER, "shaders/myFrag.frag"}
 		});
 
 	m_program.BindAttribLocations({
@@ -20,8 +20,8 @@ DeepSpace::DeepSpace(std::vector<std::unique_ptr<Projectile>>* projectiles, Play
 	m_program.LinkProgram();
 
 	m_skyBoxProgram.AttachShaders({
-		{ GL_VERTEX_SHADER, "skybox.vert"},
-		{ GL_FRAGMENT_SHADER, "skybox.frag"}
+		{ GL_VERTEX_SHADER, "shaders/skybox.vert"},
+		{ GL_FRAGMENT_SHADER, "shaders/skybox.frag"}
 		});
 
 	m_skyBoxProgram.BindAttribLocations({
