@@ -99,19 +99,10 @@
     <ClInclude Include="headers\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\GameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\MyApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\PLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\UpgradeDataStorage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\WeaponDataStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\persistence\Persistence.h">
@@ -213,6 +204,15 @@
     <ClInclude Include="headers\upgrades\Upgrade.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\data_storage\UpgradeDataStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\data_storage\WeaponDataStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Includes\GLconversions.cpp">
@@ -265,12 +265,6 @@
     </ClCompile>
     <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\WeaponDataStorage.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\UpgradeDataStorage.cpp">
-      <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="source\Player.cpp">
       <Filter>Source Files\model</Filter>
@@ -372,6 +366,12 @@
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="source\upgrades\Upgrade.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data_storage\UpgradeDataStorage.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data_storage\WeaponDataStorage.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>

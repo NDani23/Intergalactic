@@ -39,6 +39,7 @@
 #include "persistence/Persistence.h"
 #include "collision_detection/GJK.h"
 
+
 class CMyApp
 {
 public:

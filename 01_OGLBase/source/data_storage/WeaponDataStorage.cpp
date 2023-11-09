@@ -1,5 +1,5 @@
-#include "../headers/WeaponDataStorage.h"
-#include "../headers/Player.h"
+#include "../../headers/data_storage/WeaponDataStorage.h"
+#include "../../headers/Player.h"
 
 WeaponDataStorage::WeaponDataStorage()
 {

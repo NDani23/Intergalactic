@@ -4,9 +4,8 @@
 #include <imgui/imgui_internal.h>
 #include <functional>
 
-#include "GameState.h"
-#include "WeaponDataStorage.h"
-#include "UpgradeDataStorage.h"
+#include "data_storage/WeaponDataStorage.h"
+#include "data_storage/UpgradeDataStorage.h"
 #include "weapons/Weapon.h"
 #include "upgrades/Upgrade.h"
 

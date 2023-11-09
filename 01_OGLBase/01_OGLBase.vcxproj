@@ -109,6 +109,8 @@
     <ClInclude Include="headers\collision_detection\HitBox.h" />
     <ClInclude Include="headers\collision_detection\MeshCollider.h" />
     <ClInclude Include="headers\collision_detection\Simplex.h" />
+    <ClInclude Include="headers\data_storage\UpgradeDataStorage.h" />
+    <ClInclude Include="headers\data_storage\WeaponDataStorage.h" />
     <ClInclude Include="headers\Directions.h" />
     <ClInclude Include="headers\enemy\Enemy.h" />
     <ClInclude Include="headers\enemy\Falcon.h" />
@@ -126,13 +128,11 @@
     <ClInclude Include="headers\scenes\Floor.h" />
     <ClInclude Include="headers\scenes\Map.h" />
     <ClInclude Include="headers\scenes\PlanetEarth.h" />
-    <ClInclude Include="headers\UpgradeDataStorage.h" />
     <ClInclude Include="headers\upgrades\Barrier.h" />
     <ClInclude Include="headers\upgrades\Shield.h" />
     <ClInclude Include="headers\upgrades\SpeedBooster.h" />
     <ClInclude Include="headers\upgrades\StealthCoat.h" />
     <ClInclude Include="headers\upgrades\Upgrade.h" />
-    <ClInclude Include="headers\WeaponDataStorage.h" />
     <ClInclude Include="headers\weapons\Laser.h" />
     <ClInclude Include="headers\weapons\LaserGun.h" />
     <ClInclude Include="headers\weapons\MachineGun.h" />
@@ -176,6 +176,8 @@
     <ClCompile Include="source\collision_detection\GJK.cpp" />
     <ClCompile Include="source\collision_detection\HitBox.cpp" />
     <ClCompile Include="source\collision_detection\MeshCollider.cpp" />
+    <ClCompile Include="source\data_storage\UpgradeDataStorage.cpp" />
+    <ClCompile Include="source\data_storage\WeaponDataStorage.cpp" />
     <ClCompile Include="source\enemy\Enemy.cpp" />
     <ClCompile Include="source\enemy\Falcon.cpp" />
     <ClCompile Include="source\enemy\Raptor.cpp" />
@@ -192,13 +194,11 @@
     <ClCompile Include="source\scenes\Floor.cpp" />
     <ClCompile Include="source\scenes\Map.cpp" />
     <ClCompile Include="source\scenes\PlanetEarth.cpp" />
-    <ClCompile Include="source\UpgradeDataStorage.cpp" />
     <ClCompile Include="source\upgrades\Barrier.cpp" />
     <ClCompile Include="source\upgrades\Shield.cpp" />
     <ClCompile Include="source\upgrades\SpeedBooster.cpp" />
     <ClCompile Include="source\upgrades\StealthCoat.cpp" />
     <ClCompile Include="source\upgrades\Upgrade.cpp" />
-    <ClCompile Include="source\WeaponDataStorage.cpp" />
     <ClCompile Include="source\weapons\Laser.cpp" />
     <ClCompile Include="source\weapons\LaserGun.cpp" />
     <ClCompile Include="source\weapons\MachineGun.cpp" />

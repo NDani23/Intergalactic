@@ -2,11 +2,11 @@
 
 #include <functional>
 
-#include "weapons/LaserGun.h"
-#include "weapons/RocketLauncher.h"
-#include "weapons/MinePlacer.h"
-#include "weapons/MachineGun.h"
-#include "weapons/TurretWeapon.h"
+#include "../weapons/LaserGun.h"
+#include "../weapons/RocketLauncher.h"
+#include "../weapons/MinePlacer.h"
+#include "../weapons/MachineGun.h"
+#include "../weapons/TurretWeapon.h"
 
 class player;
 

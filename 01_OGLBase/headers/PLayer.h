@@ -2,8 +2,8 @@
 
 #include "Directions.h"
 #include "Entity.h"
-#include "WeaponDataStorage.h"
-#include "UpgradeDataStorage.h"
+#include "data_storage/WeaponDataStorage.h"
+#include "data_storage/UpgradeDataStorage.h"
 
 #include <algorithm>
 
