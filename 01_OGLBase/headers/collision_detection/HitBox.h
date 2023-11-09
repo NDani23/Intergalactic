@@ -2,8 +2,8 @@
 
 #include <glm/glm.hpp>
 
-#include "../includes/ProgramObject.h"
-#include "../includes/TextureObject.h"
+#include "../../includes/ProgramObject.h"
+#include "../../includes/TextureObject.h"
 #include "Dimensions.h"
 
 #include <glm/gtc/matrix_transform.hpp>

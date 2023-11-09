@@ -1,5 +1,5 @@
-#include "../headers/Rocketer.h"
-#include "../headers/scenes/Map.h"
+#include "../../headers/enemy/Rocketer.h"
+#include "../../headers/scenes/Map.h"
 
 std::unique_ptr<Mesh> Rocketer::m_static_mesh;
 Texture2D Rocketer::m_static_tex;

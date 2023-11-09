@@ -2,10 +2,10 @@
 
 #include "../Entity.h"
 #include "../Projectile.h"
-#include "../SaR.h"
-#include "../Falcon.h"
-#include "../Raptor.h"
-#include "../Rocketer.h"
+#include "../enemy/SaR.h"
+#include "../enemy/Falcon.h"
+#include "../enemy/Raptor.h"
+#include "../enemy/Rocketer.h"
 
 #include <chrono>
 #include <time.h> 

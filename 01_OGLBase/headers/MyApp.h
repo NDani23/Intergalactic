@@ -37,7 +37,7 @@
 #include "GameState.h"
 #include "AppUI.h"
 #include "persistence/Persistence.h"
-#include "GJK.h"
+#include "collision_detection/GJK.h"
 
 class CMyApp
 {

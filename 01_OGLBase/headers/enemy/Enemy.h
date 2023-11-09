@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Weapon.h"
-#include "Laser.h"
-#include "Player.h"
+#include "../Weapon.h"
+#include "../Laser.h"
+#include "../Player.h"
 
 #include <stdlib.h> 
 #include <algorithm>

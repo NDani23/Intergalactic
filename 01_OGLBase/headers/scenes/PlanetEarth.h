@@ -7,8 +7,8 @@
 #include "../Projectile.h"
 #include "../Player.h"
 #include "../Turret.h"
-#include "../Enemy.h"
-#include "../HitBox.h"
+#include "../enemy/Enemy.h"
+#include "../collision_detection/HitBox.h"
 
 class PlanetEarth : public Map
 {

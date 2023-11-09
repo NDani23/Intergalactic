@@ -6,7 +6,7 @@
 #include "../Projectile.h"
 #include "../Player.h"
 #include "../Turret.h"
-#include "../Enemy.h"
+#include "../enemy/Enemy.h"
 
 class DeepSpace : public Map
 {

@@ -1,4 +1,4 @@
-#include "../headers/MeshCollider.h"
+#include "../../headers/collision_detection/MeshCollider.h"
 
 MeshCollider::MeshCollider()
 {
