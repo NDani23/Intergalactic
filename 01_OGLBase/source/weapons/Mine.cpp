@@ -1,4 +1,4 @@
-#include "../headers/Mine.h"
+#include "../../headers/weapons/Mine.h"
 
 Mine::Mine()
 {

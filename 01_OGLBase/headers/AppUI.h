@@ -7,8 +7,8 @@
 #include "GameState.h"
 #include "WeaponDataStorage.h"
 #include "UpgradeDataStorage.h"
-#include "Weapon.h"
-#include "Upgrade.h"
+#include "weapons/Weapon.h"
+#include "upgrades/Upgrade.h"
 
 class CMyApp;
 

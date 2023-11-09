@@ -1,5 +1,5 @@
-#include "../headers/MachineGun.h"
-#include "../headers/Player.h"
+#include "../../headers/weapons/MachineGun.h"
+#include "../../headers/Player.h"
 
 MachineGun::MachineGun()
 {

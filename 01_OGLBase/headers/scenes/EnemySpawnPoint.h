@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Entity.h"
-#include "../Projectile.h"
+#include "../weapons/Projectile.h"
 #include "../enemy/SaR.h"
 #include "../enemy/Falcon.h"
 #include "../enemy/Raptor.h"

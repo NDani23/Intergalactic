@@ -1,4 +1,4 @@
-#include "../headers/Projectile.h"
+#include "../../headers/weapons/Projectile.h"
 
 float Projectile::GetSpeed()
 {

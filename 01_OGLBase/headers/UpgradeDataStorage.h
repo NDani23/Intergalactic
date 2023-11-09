@@ -2,9 +2,9 @@
 
 #include <functional>
 
-#include "SpeedBooster.h"
-#include "Shield.h"
-#include "StealthCoat.h"
+#include "upgrades/SpeedBooster.h"
+#include "upgrades/shield.h"
+#include "upgrades/StealthCoat.h"
 
 class player;
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Weapon.h"
-#include "../Laser.h"
+#include "../weapons/Weapon.h"
+#include "../weapons/Laser.h"
 #include "../Player.h"
 
 #include <stdlib.h> 

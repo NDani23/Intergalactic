@@ -3,8 +3,6 @@
 #include "Weapon.h"
 #include "Rocket.h"
 
-
-
 class RocketLauncher : public Weapon
 {
 private:

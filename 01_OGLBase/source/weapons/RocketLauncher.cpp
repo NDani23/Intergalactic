@@ -1,5 +1,5 @@
-#include "../headers/RocketLauncher.h"
-#include "../headers/Player.h"
+#include "../../headers/weapons/RocketLauncher.h"
+#include "../../headers/Player.h"
 
 RocketLauncher::RocketLauncher()
 {

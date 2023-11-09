@@ -1,4 +1,4 @@
-#include "../headers/Barrier.h"
+#include "../../headers/upgrades/Barrier.h"
 
 Barrier::Barrier()
 {

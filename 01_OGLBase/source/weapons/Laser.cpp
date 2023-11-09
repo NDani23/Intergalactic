@@ -1,4 +1,4 @@
-#include "../headers/Laser.h"
+#include "../../headers/weapons/Laser.h"
 
 Laser::Laser(glm::vec3 Pos, glm::vec3 dir)
 {

@@ -1,4 +1,4 @@
-#include "../headers/Upgrade.h"
+#include "../../headers/upgrades/Upgrade.h"
 
 Upgrade::Upgrade()
 {

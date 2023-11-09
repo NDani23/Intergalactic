@@ -2,11 +2,11 @@
 
 #include "DesertFloor.h"
 #include "Map.h"
-#include "../LaserGun.h"
+#include "../weapons/LaserGun.h"
 #include <random>
-#include "../Projectile.h"
+#include "../weapons/Projectile.h"
 #include "../Player.h"
-#include "../Turret.h"
+#include "../weapons/Turret.h"
 #include "../enemy/Enemy.h"
 #include "../collision_detection/HitBox.h"
 
