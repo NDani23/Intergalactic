@@ -29,14 +29,14 @@
 #include "../includes/ObjParser_OGL3.h"
 
 #include "Directions.h"
-#include "DeepSpace.h"
-#include "PlanetEarth.h"
+#include "scenes/DeepSpace.h"
+#include "scenes/PlanetEarth.h"
 #include "Projectile.h"
 #include "Player.h"
 #include "Turret.h"
 #include "GameState.h"
-#include "../headers/AppUI.h"
-#include "Persistence.h"
+#include "AppUI.h"
+#include "persistence/Persistence.h"
 #include "GJK.h"
 
 class CMyApp

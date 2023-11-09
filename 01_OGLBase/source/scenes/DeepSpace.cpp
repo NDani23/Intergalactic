@@ -1,4 +1,4 @@
-#include "../headers/DeepSpace.h"
+#include "../../headers/scenes/DeepSpace.h"
 
 DeepSpace::DeepSpace(std::vector<std::unique_ptr<Projectile>>* projectiles, Player* player)
 {

@@ -1,5 +1,5 @@
 #include "../headers/Enemy.h"
-#include "../headers/Map.h"
+#include "../headers/scenes/Map.h"
 
 Enemy::Enemy()
 {

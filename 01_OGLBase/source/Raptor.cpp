@@ -1,5 +1,5 @@
 #include "../headers/Raptor.h"
-#include "../headers/Map.h"
+#include "../headers/scenes/Map.h"
 
 std::unique_ptr<Mesh> Raptor::m_static_mesh;
 Texture2D Raptor::m_static_tex;

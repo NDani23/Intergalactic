@@ -1,4 +1,4 @@
-#include "../headers/Floor.h"
+#include "../../headers/scenes/Floor.h"
 
 glm::vec3 Floor::GetUV(float, float) { return glm::vec3(0, 0, 0); };
 glm::vec3 Floor::GetNorm(float, float) { return glm::vec3(0, 1, 0); };

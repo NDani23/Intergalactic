@@ -1,5 +1,5 @@
-#include "../headers/Map.h"
-#include "../headers/EnemySpawnPoint.h"
+#include "../../headers/scenes/Map.h"
+#include "../../headers/scenes/EnemySpawnPoint.h"
 
 Map::Map()
 {

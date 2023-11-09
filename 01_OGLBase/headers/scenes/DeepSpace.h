@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Map.h"
-#include "LaserGun.h"
+#include "../LaserGun.h"
 #include <random>
-#include "Projectile.h"
-#include "Player.h"
-#include "Turret.h"
-#include "Enemy.h"
+#include "../Projectile.h"
+#include "../Player.h"
+#include "../Turret.h"
+#include "../Enemy.h"
 
 class DeepSpace : public Map
 {

@@ -1,7 +1,7 @@
 #include "../headers/TurretWeapon.h"
 #include "../headers/Player.h"
 #include "../headers/Enemy.h"
-#include "../headers/Map.h"
+#include "../headers/scenes/Map.h"
 
 TurretWeapon::TurretWeapon()
 {

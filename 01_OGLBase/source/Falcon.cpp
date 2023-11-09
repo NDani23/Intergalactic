@@ -1,5 +1,5 @@
 #include "../headers/Falcon.h"
-#include "../headers/Map.h"
+#include "../headers/scenes/Map.h"
 
 std::unique_ptr<Mesh> Falcon::m_static_mesh;
 Texture2D Falcon::m_static_tex;

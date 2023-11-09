@@ -1,4 +1,4 @@
-#include "../headers/PlanetEarth.h"
+#include "../../headers/scenes/PlanetEarth.h"
 
 PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, Player* player)
 {

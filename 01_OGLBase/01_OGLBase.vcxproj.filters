@@ -96,12 +96,6 @@
     <ClInclude Include="headers\Barrier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\DeepSpace.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\DesertFloor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Dimensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -111,16 +105,10 @@
     <ClInclude Include="headers\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\EnemySpawnPoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\Falcon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Floor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\GameState.h">
@@ -141,9 +129,6 @@
     <ClInclude Include="headers\MachineGun.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\MeshCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -153,16 +138,7 @@
     <ClInclude Include="headers\MinePlacer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Mothership.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\MyApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Persistence.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\PlanetEarth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\PLayer.h">
@@ -214,6 +190,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\WeaponDataStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\persistence\Persistence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\scenes\DeepSpace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\scenes\DesertFloor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\scenes\EnemySpawnPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\scenes\Floor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\scenes\Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\scenes\PlanetEarth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -317,13 +314,7 @@
     <ClCompile Include="source\Player.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="source\PlanetEarth.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
     <ClCompile Include="source\MyApp.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Mothership.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="source\MinePlacer.cpp">
@@ -333,9 +324,6 @@
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="source\MeshCollider.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Map.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="source\MachineGun.cpp">
@@ -353,31 +341,37 @@
     <ClCompile Include="source\GJK.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="source\Floor.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
     <ClCompile Include="source\Falcon.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="source\Entity.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="source\EnemySpawnPoint.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
     <ClCompile Include="source\Enemy.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\DesertFloor.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\DeepSpace.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="source\Barrier.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="source\Persistence.cpp">
+    <ClCompile Include="source\scenes\DeepSpace.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scenes\DesertFloor.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scenes\EnemySpawnPoint.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scenes\Floor.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scenes\Map.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scenes\PlanetEarth.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\persistence\Persistence.cpp">
       <Filter>Source Files\persistence</Filter>
     </ClCompile>
   </ItemGroup>

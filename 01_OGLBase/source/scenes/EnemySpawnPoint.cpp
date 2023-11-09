@@ -1,5 +1,5 @@
-#include "../headers/EnemySpawnPoint.h"
-#include "../headers/Map.h"
+#include "../../headers/scenes/EnemySpawnPoint.h"
+#include "../../headers/scenes/Map.h"
 
 EnemySpawnPoint::EnemySpawnPoint()
 {

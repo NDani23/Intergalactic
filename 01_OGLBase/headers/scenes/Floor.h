@@ -1,9 +1,9 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include "Player.h"
+#include "../Player.h"
 
-#include "../includes/ProgramObject.h"
+#include "../../includes/ProgramObject.h"
 
 
 class Floor

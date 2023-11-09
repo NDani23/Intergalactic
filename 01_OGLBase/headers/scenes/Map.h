@@ -2,16 +2,16 @@
 
 #include <glm/glm.hpp>
 
-#include "../includes/ObjParser_OGL3.h"
-#include "../includes/ProgramObject.h"
-#include "../includes/TextureObject.h"
-#include "HitBox.h"
+#include "../../includes/ObjParser_OGL3.h"
+#include "../../includes/ProgramObject.h"
+#include "../../includes/TextureObject.h"
+#include "../HitBox.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform2.hpp>
 
-#include "GameState.h"
-#include "Player.h"
+#include "../GameState.h"
+#include "../Player.h"
 #include "Floor.h"
 #include "EnemySpawnPoint.h"
 

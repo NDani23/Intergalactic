@@ -1,6 +1,6 @@
 #include "../headers/Shield.h"
 #include "../headers/Player.h"
-#include "../headers/Map.h"
+#include "../headers/scenes/Map.h"
 
 Shield::Shield()
 {

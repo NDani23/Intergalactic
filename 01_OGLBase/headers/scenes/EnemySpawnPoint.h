@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Entity.h"
-#include "Projectile.h"
-#include "SaR.h"
-#include "Falcon.h"
-#include "Raptor.h"
-#include "Rocketer.h"
+#include "../Entity.h"
+#include "../Projectile.h"
+#include "../SaR.h"
+#include "../Falcon.h"
+#include "../Raptor.h"
+#include "../Rocketer.h"
 
 #include <chrono>
 #include <time.h> 
