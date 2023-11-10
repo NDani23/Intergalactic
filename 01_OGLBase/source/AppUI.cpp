@@ -4,9 +4,9 @@
 AppUI::AppUI(CMyApp* app)
 {
 	ImGuiIO& io = ImGui::GetIO();
-	medium_font = io.Fonts->AddFontFromFileTTF("assets/Cousine-Regular.ttf", 18);
-	small_font = io.Fonts->AddFontFromFileTTF("assets/Cousine-Regular.ttf", 12);
-	large_font = io.Fonts->AddFontFromFileTTF("assets/Cousine-Regular.ttf", 24);
+	small_font = io.Fonts->AddFontFromFileTTF("assets/ProggyClean.ttf", 13);
+	medium_font = io.Fonts->AddFontFromFileTTF("assets/ProggyClean.ttf", 16);
+	large_font = io.Fonts->AddFontFromFileTTF("assets/ProggyClean.ttf", 18);
 	cursor_tex = Texture2D("assets/cursor.png");
 	m_currentMapIndex = 0;
 	m_app = app;
@@ -167,7 +167,6 @@ void AppUI::RenderMenu()
 
 void AppUI::RenderPlayWindow()
 {
-	ImGui::PushFont(small_font);
 	ImGuiIO& io = ImGui::GetIO();
 	ImGui::SetMouseCursor(ImGuiMouseCursor_None);
 	ImGui::SetCursorPos(io.MousePos);
@@ -249,7 +248,6 @@ void AppUI::RenderPlayWindow()
 
 	int TexId = m_app->m_player.GetUpgrade() == nullptr ? -1 : m_app->m_player.GetUpgrade()->GetImage().GetId();
 	ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
-	ImGui::PopFont();
 	ImGui::End();
 }
 
@@ -270,8 +268,12 @@ void AppUI::RenderGameOverWindow()
 
 	ImGui::Indent(windowSize.x / 8.f);
 
-	ImGui::SetCursorPosX((windowSize.x - 120.f) * 0.5f);
+	ImGui::PushFont(medium_font);
+	ImGui::SetCursorPosX((windowSize.x - 100.f) * 0.5f);
 	ImGui::Text("Final score: %i", m_app->m_player.GetPoints());
+	ImGui::PopFont();
+	ImGui::Dummy(ImVec2(0.f, windowSize.y * 0.1f));
+
 
 	if (ImGui::Button("BACK TO MENU", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.25f)))
 	{
@@ -300,7 +302,7 @@ void AppUI::RenderPauseWindow()
 	ImGui::Dummy(ImVec2(0.0f, windowSize.y * 0.1f));
 	ImGui::Indent(windowSize.x / 8.f);
 
-	if (ImGui::Button("Continue", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.25f)))
+	if (ImGui::Button("CONTINUE", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.25f)))
 	{
 		m_app->m_GameState.pause = false;
 	}
@@ -327,7 +329,7 @@ void AppUI::RenderHangarWindow()
 		}
 
 
-		ImGui::Indent(m_app->m_screenWidth - 200.f);
+		ImGui::Indent(m_app->m_screenWidth - 120.f);
 		ImGui::Text("Credit: %d", m_app->m_player.GetCredit());
 
 		ImGui::EndMainMenuBar();
@@ -402,6 +404,7 @@ void AppUI::RenderHangarWindow()
 	ImGui::Begin("HangarLeft");
 
 
+	ImGui::PushFont(medium_font);
 	int player_upgrade_points = m_app->m_player.GetUpgradePoints();
 
 
@@ -534,6 +537,7 @@ void AppUI::RenderHangarWindow()
 		}
 
 	}
+	ImGui::PopFont();
 	ImGui::End();
 
 	ImGui::Begin("HangarRight");
@@ -608,7 +612,7 @@ void AppUI::RenderBuyWindow()
 
 	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + m_app->m_screenWidth / 3, main_viewport->WorkPos.y + m_app->m_screenHeight / 5 * 2));
-	ImGui::SetNextWindowSize(ImVec2(m_app->m_screenWidth / 3, m_app->m_screenHeight / 5));
+	ImGui::SetNextWindowSize(ImVec2(m_app->m_screenWidth / 3, m_app->m_screenHeight * 0.12f));
 
 	ImGui::Begin("Buy", nullptr, window_flags);
 
@@ -621,6 +625,7 @@ void AppUI::RenderBuyWindow()
 	UpgradeItem* upgrade = nullptr;
 	WeaponItem* weapon = nullptr;
 
+	ImGui::PushFont(medium_font);
 	if (m_ItemIdentifier.first == "Weapon")
 	{
 		weapon = &m_app->m_weaponStorage.GetStorage().at(m_ItemIdentifier.second);
@@ -635,9 +640,12 @@ void AppUI::RenderBuyWindow()
 		ImGui::SameLine();
 		ImGui::Text("(%d$)", upgrade->Price);
 	}
+	ImGui::PopFont();
+
+	ImGui::Dummy(ImVec2(0.f, windowSize.y * 0.1f));
 
 
-	if (ImGui::Button("BUY", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	if (ImGui::Button("BUY", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.23)))
 	{
 		int price = upgrade == nullptr ? weapon->Price : upgrade->Price;
 		upgrade == nullptr ? weapon->Owned = true : upgrade->Owned = true;
@@ -645,7 +653,7 @@ void AppUI::RenderBuyWindow()
 		m_ItemIdentifier = std::make_pair("", -1);
 	}
 
-	if (ImGui::Button("CANCEL", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	if (ImGui::Button("CANCEL", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.23)))
 	{
 		m_ItemIdentifier = std::make_pair("", -1);
 	}

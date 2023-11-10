@@ -40,7 +40,6 @@ SaR::SaR()
 SaR::SaR(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
 {
 	static int onFirstCall = FirstInit();
-	m_collider.setVertices(m_static_mesh->GetVertices());
 	m_position = pos;
 	m_target = target;
 	m_projectiles = projectiles;

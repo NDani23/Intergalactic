@@ -452,13 +452,19 @@ void CMyApp::DetectCollisions()
 				&& abs(distance_vec.y) < player_dims.height / 2 + hitbox_dims.height / 2
 				&& abs(distance_vec.z) < player_dims.length / 2 + hitbox_dims.length / 2)
 			{
-				if (GJK::Collide(m_player.GetCollider(), entity.get()->GetCollider()))
+				if (entity->IsStatic())
+				{
+					if (GJK::Collide(m_player.GetCollider(), entity.get()->GetCollider()))
+					{
+						GameOver();
+						break;
+					}
+				}
+				else
 				{
 					GameOver();
 					break;
 				}
-				/*GameOver();
-				break;*/
 			}
 		}
 		
