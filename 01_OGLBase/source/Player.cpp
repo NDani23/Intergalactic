@@ -98,7 +98,7 @@ void Player::Reset(Map* map)
 		if (m_guns[i] != nullptr) m_guns[i]->Update();
 	}
 
-	if (m_Upgrade != nullptr) m_Upgrade->Update();
+	if (m_Upgrade != nullptr) m_Upgrade->Update(50.f);
 
 	m_points = 0;
 
@@ -164,7 +164,7 @@ void Player::Move(float delta, const glm::vec3& cursor_diff_vec)
 		}
 	}
 
-	if(m_Upgrade != nullptr) m_Upgrade->Update();
+	if(m_Upgrade != nullptr) m_Upgrade->Update(delta);
 	
 
 	m_hitboxes[0].Position = m_position;

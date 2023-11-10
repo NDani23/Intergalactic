@@ -7,7 +7,7 @@ Upgrade::Upgrade()
 	m_position = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
 	m_coolDownTime = 0.0f;
-	m_lastActiveTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.0f;
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -18,6 +18,11 @@ Upgrade::Upgrade()
 float Upgrade::GetCoolDownTime()
 {
 	return m_coolDownTime;
+}
+
+float Upgrade::GetCurrentCooldown()
+{
+	return m_currentCoolDown;
 }
 
 Player* Upgrade::GetParent()
@@ -45,7 +50,7 @@ Texture2D& Upgrade::GetImage()
 	return m_Image;
 }
 
-void Upgrade::Update()
+void Upgrade::Update(const float delta)
 {
 }
 

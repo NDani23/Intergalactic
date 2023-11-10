@@ -7,9 +7,10 @@ class SpeedBooster : public Upgrade
 private:
 	bool m_active;
 	float m_durationTime;
+	float m_activeTime;
 public:
 	SpeedBooster();
 	SpeedBooster(Player*);
-	void Update() override;
+	void Update(const float) override;
 	void Activate() override;
 };

@@ -11,19 +11,20 @@ protected:
 	int m_ID;
 	Player* m_parent;
 	float m_coolDownTime;
-	std::chrono::time_point<std::chrono::system_clock> m_lastActiveTime;
+	float m_currentCoolDown;
 	Texture2D m_Image;
 
 public:
 	Upgrade();
 	int ID();
 	float GetCoolDownTime();
+	float GetCurrentCooldown();
 	void SetPosition(const glm::vec3&);
 	void SetCooldown(float);
 	void SetParent(Player*);
 	Player* GetParent();
 
 	virtual Texture2D& GetImage();
-	virtual void Update();
+	virtual void Update(const float delta);
 	virtual void Activate();
 };

@@ -20,9 +20,10 @@ StealthCoat::StealthCoat()
 	m_parent = nullptr;
 	m_position = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
-	m_coolDownTime = 25.f;
+	m_coolDownTime = 40.f;
+	m_currentCoolDown = 0.f;
 	m_durationTime = 8.f;
-	m_lastActiveTime = std::chrono::system_clock::now();
+	m_activeTime = 0.f;
 
 	m_active = false;
 
@@ -56,9 +57,10 @@ StealthCoat::StealthCoat(Player* parent)
 	m_active = false;
 	m_position = m_parent->GetPos();
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - parent->GetForwardVec(), m_parent->GetUpVec()));
-	m_coolDownTime = 25.f;
+	m_coolDownTime = 40.f;
+	m_currentCoolDown = 0.f;
 	m_durationTime = 8.f;
-	m_lastActiveTime = std::chrono::system_clock::now();
+	m_activeTime = 0.f;
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -71,28 +73,36 @@ StealthCoat::StealthCoat(Player* parent)
 
 }
 
-void StealthCoat::Update()
+void StealthCoat::Update(const float delta)
 {
 	m_position = m_parent->GetPos();
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_parent->GetForwardVec(), m_parent->GetUpVec()));
 
-	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastActiveTime;
-	if (m_active && elapsed_seconds.count() >= m_durationTime)
+	if (m_active)
+	{
+		m_activeTime -= delta;
+	}
+	else if (m_currentCoolDown > 0.f)
+	{
+		m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
+	}
+
+	if (m_active && m_activeTime <= 0.f)
 	{
 		m_active = false;
 		m_parent->setStealth(false);
+		m_activeTime = 0.f;
+		m_currentCoolDown = m_coolDownTime;
 	}
 }
 
 void StealthCoat::Activate()
 {
-	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastActiveTime;
-
-	if (elapsed_seconds.count() >= m_coolDownTime)
+	if (m_currentCoolDown <= 0.f)
 	{
 		m_parent->setStealth(true);
 		m_parent->setFakePos(m_parent->GetPos() + m_parent->GetForwardVec() * 5000.f);
-		m_lastActiveTime = std::chrono::system_clock::now();
+		m_activeTime = m_durationTime;
 		m_active = true;
 	}
 }
