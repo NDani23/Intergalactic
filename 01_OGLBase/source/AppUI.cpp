@@ -179,11 +179,26 @@ void AppUI::RenderPlayWindow()
 	}
 	ImGui::PopStyleVar();
 
-	ImGui::Begin("Viewport");
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar;
+
+	ImGui::Begin("Viewport", nullptr, window_flags);
 	ImGui::Indent(m_app->m_screenWidth / 3.f);
 	ImGui::PushStyleColor(ImGuiCol_PlotHistogram, (ImVec4)ImColor::HSV(0, 255, 235, 255));
 	ImGui::ProgressBar(m_app->m_player.GetHealth() / (float)m_app->m_player.GetMaxHealth(), ImVec2(m_app->m_screenWidth / 3.f, 15.0f));
 	ImGui::PopStyleColor();
+
+	ImGui::SetCursorPosX(10.f);
+	ImGui::Text("%d", m_app->m_player.GetSpeed());
+
+	float speed = (float)m_app->m_player.GetSpeed();
+	ImGui::SetCursorPosX(10.f);
+	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::HSV(3 / 7.0f, 0.5f, 0.5f));
+	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::HSV(3 / 7.0f, 0.6f, 0.5f));
+	ImGui::PushStyleColor(ImGuiCol_FrameBgActive, (ImVec4)ImColor::HSV(3 / 7.0f, 0.7f, 0.5f));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrab, (ImVec4)ImColor::HSV(3 / 7.0f, 0.9f, 0.9f));
+	ImGui::VSliderFloat("##v", ImVec2(18, 70), &speed, 80.0f, 190.0f, "");
+	ImGui::PopStyleColor(4);
+	ImGui::SameLine();
 
 
 	//Example of drawing a texture into ImGUI::image

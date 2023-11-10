@@ -26,6 +26,7 @@ Player::Player()
 	m_up_vec = glm::vec3(0, 1, 0);
 	m_cross_vec = glm::vec3(1,0,0);
 	m_speed = 90;
+	m_current_speed = 90;
 	m_max_speed = 90;
 	m_slowing = false;
 	m_damage = 10;
@@ -79,8 +80,9 @@ void Player::Reset(Map* map)
 	m_forward_vec = glm::vec3(0, 0, 1);
 	m_up_vec = glm::vec3(0, 1, 0);
 	m_cross_vec = glm::vec3(1, 0, 0);
-	m_speed = 90 + 10*m_stats.speed;
 	m_max_speed = 90 + 10 * m_stats.speed;
+	m_speed = m_max_speed;
+	m_current_speed = m_max_speed;
 	m_slowing = false;
 	m_stealth = false;
 	m_flyStraight = false;
@@ -114,10 +116,10 @@ void Player::Move(float delta, const glm::vec3& cursor_diff_vec)
 	m_cursorVec = cursor_diff_vec;
 
 
-	if (m_slowing && m_speed > 80.0f) m_speed = m_speed - 0.5f;
-	else if (!m_slowing && m_speed < m_max_speed) m_speed = m_speed + 0.5f;
+	if (m_slowing && m_current_speed > 80.0f) m_current_speed = m_current_speed - 1.f;
+	else if (!m_slowing && m_current_speed < m_speed) m_current_speed = m_current_speed + 1.f;
 
-	m_position += GetForwardVec() * (float)m_speed * delta;
+	m_position += GetForwardVec() * (float)m_current_speed * delta;
 
 	if (!m_flyStraight)
 	{
@@ -273,6 +275,7 @@ void Player::setRecord(int record)
 
 void Player::setSpeed(float speed)
 {
+	m_current_speed = speed;
 	m_speed = speed;
 }
 
@@ -346,7 +349,7 @@ int Player::GetHealth()
 
 int Player::GetSpeed()
 {
-	return m_speed;
+	return m_current_speed;
 }
 
 int Player::GetActiveWeaponInd()
@@ -399,10 +402,25 @@ Weapon& Player::GetActiveWeapon1()
 	return *m_guns[m_activeWeaponInd];
 }
 
-void Player::Decelerate(bool activated)
+void Player::Decelerate()
 {
+	if (m_speed == 80.f) return;
 
-	activated ? m_slowing = true : m_slowing = false;
+	m_speed -= 2.f;
+	if (m_current_speed >= m_speed) m_current_speed = m_speed;
+}
+
+void Player::Accelerate()
+{
+	if (m_speed == m_max_speed) return;
+
+	m_speed += 2.f;
+	if (!m_current_speed < m_speed-1) m_current_speed = m_speed;
+}
+
+void Player::SlowDown(bool isSlowing)
+{
+	isSlowing ? m_slowing = true : m_slowing = false;
 }
 
 bool Player::Hit(int damage)

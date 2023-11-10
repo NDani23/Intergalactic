@@ -28,6 +28,7 @@ private:
 	glm::vec3 m_forward_vec;
 	glm::vec3 m_up_vec;
 	glm::vec3 m_cross_vec;
+	float m_current_speed;
 	float m_speed;
 	int m_max_speed;
 	bool m_slowing;
@@ -87,7 +88,9 @@ public:
 	void FlyStraight(bool);
 	void LookBack(bool);
 
-	void Decelerate(bool);
+	void SlowDown(bool);
+	void Decelerate();
+	void Accelerate();
 	bool Hit(int) override;
 
 	int GetHealth();

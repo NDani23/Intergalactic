@@ -317,7 +317,7 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 		m_shooting = true;
 		break;
 	case SDLK_LCTRL:
-		m_player.Decelerate(true);
+		m_player.SlowDown(true);
 		break;
 	case SDLK_q:
 		m_player.FlyStraight(true);
@@ -356,7 +356,7 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 		m_shooting = false;
 		break;
 	case SDLK_LCTRL:
-		m_player.Decelerate(false);
+		m_player.SlowDown(false);
 		break;
 	case SDLK_q:
 		m_player.FlyStraight(false);
@@ -403,6 +403,14 @@ void CMyApp::MouseUp(SDL_MouseButtonEvent& mouse)
 
 void CMyApp::MouseWheel(SDL_MouseWheelEvent& wheel)
 {
+	if (wheel.y > 0) // scroll up
+	{
+		m_player.Accelerate();
+	}
+	else if (wheel.y < 0) // scroll down
+	{
+		m_player.Decelerate();
+	}
 }
 
 void CMyApp::Resize(int _w, int _h)

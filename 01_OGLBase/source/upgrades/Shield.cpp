@@ -69,7 +69,6 @@ void Shield::Update()
 			m_parent->GetMapPtr()->GetEntities().erase(position);
 
 		m_active = false;
-		if (m_parent->GetSpeed() > m_parent->GetMaxSpeed()) m_parent->setSpeed(m_parent->GetMaxSpeed());
 	}
 }
 
