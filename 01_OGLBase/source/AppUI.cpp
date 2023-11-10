@@ -3,6 +3,10 @@
 
 AppUI::AppUI(CMyApp* app)
 {
+	ImGuiIO& io = ImGui::GetIO();
+	medium_font = io.Fonts->AddFontFromFileTTF("assets/Cousine-Regular.ttf", 18);
+	small_font = io.Fonts->AddFontFromFileTTF("assets/Cousine-Regular.ttf", 12);
+	large_font = io.Fonts->AddFontFromFileTTF("assets/Cousine-Regular.ttf", 24);
 	cursor_tex = Texture2D("assets/cursor.png");
 	m_currentMapIndex = 0;
 	m_app = app;
@@ -96,11 +100,12 @@ void AppUI::Render()
 
 void AppUI::RenderMenu() 
 {
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 12.0f);
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
 
 	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + m_app->m_screenWidth / 3, main_viewport->WorkPos.y + m_app->m_screenHeight / 4));
-	ImGui::SetNextWindowSize(ImVec2(m_app->m_screenWidth / 3, m_app->m_screenHeight / 2));
+	ImGui::SetNextWindowSize(ImVec2(m_app->m_screenWidth * 0.35f, m_app->m_screenHeight * 0.4f));
 
 	ImGui::Begin("Menu", nullptr, window_flags);
 
@@ -110,9 +115,14 @@ void AppUI::RenderMenu()
 
 	ImGui::Indent(windowSize.x / 8.f);
 
+	ImGui::Dummy(ImVec2(0.0f, windowSize.y * 0.05f));
+	ImGui::SetCursorPosX((windowSize.x - 110.f) * 0.5f);
+	ImGui::PushFont(large_font);
 	ImGui::Text("Record: %d", m_app->m_player.GetRecord());
+	ImGui::PopFont();
+	ImGui::Dummy(ImVec2(0.0f, windowSize.y * 0.1f));
 
-	if (ImGui::Button("PLAY", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	if (ImGui::Button("PLAY", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.13f)))
 	{
 		m_app->m_GameState.play = true;
 		m_app->m_GameState.menu = false;
@@ -120,7 +130,7 @@ void AppUI::RenderMenu()
 		m_app->Reset();
 	}
 
-	if (ImGui::Button("<", ImVec2(windowSize.x * 0.10, windowSize.y / 10)))
+	if (ImGui::Button("<", ImVec2(windowSize.x * 0.10, windowSize.y * 0.13f)))
 	{
 		m_currentMapIndex = std::abs((m_currentMapIndex - 1) % 2);
 		m_app->m_map = m_app->m_maps[m_currentMapIndex].get();
@@ -128,11 +138,11 @@ void AppUI::RenderMenu()
 	}
 	ImGui::SameLine(0.f, 1.f);
 
-	ImGui::Button(m_app->m_map->getName().c_str(), ImVec2(windowSize.x * 0.545, windowSize.y / 10));
+	ImGui::Button(m_app->m_map->getName().c_str(), ImVec2(windowSize.x * 0.545, windowSize.y * 0.13f));
 
 	ImGui::SameLine(0.f, 1.f);
 
-	if (ImGui::Button(">", ImVec2(windowSize.x * 0.10, windowSize.y / 10)))
+	if (ImGui::Button(">", ImVec2(windowSize.x * 0.10, windowSize.y * 0.13f)))
 	{
 		m_currentMapIndex = (m_currentMapIndex + 1) % 2;
 		m_app->m_map = m_app->m_maps[m_currentMapIndex].get();
@@ -140,22 +150,24 @@ void AppUI::RenderMenu()
 	}
 
 
-	if (ImGui::Button("HANGAR", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	if (ImGui::Button("HANGAR", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.13f)))
 	{
 		m_app->m_GameState.hangar = true;
 		m_app->m_GameState.menu = false;
 	}
 
-	if (ImGui::Button("EXIT", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	if (ImGui::Button("EXIT", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.13f)))
 	{
 		*(m_app->m_quit) = true;
 		m_app->m_Persistence.Save();
 	}
+	ImGui::PopStyleVar();
 	ImGui::End();
 }
 
 void AppUI::RenderPlayWindow()
 {
+	ImGui::PushFont(small_font);
 	ImGuiIO& io = ImGui::GetIO();
 	ImGui::SetMouseCursor(ImGuiMouseCursor_None);
 	ImGui::SetCursorPos(io.MousePos);
@@ -182,25 +194,25 @@ void AppUI::RenderPlayWindow()
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar;
 
 	ImGui::Begin("Viewport", nullptr, window_flags);
+	ImGui::SetCursorPosX(10.f);
+	ImGui::Text("%d", m_app->m_player.GetSpeed());
+	ImGui::SameLine();
 	ImGui::Indent(m_app->m_screenWidth / 3.f);
 	ImGui::PushStyleColor(ImGuiCol_PlotHistogram, (ImVec4)ImColor::HSV(0, 255, 235, 255));
 	ImGui::ProgressBar(m_app->m_player.GetHealth() / (float)m_app->m_player.GetMaxHealth(), ImVec2(m_app->m_screenWidth / 3.f, 15.0f));
 	ImGui::PopStyleColor();
 
-	ImGui::SetCursorPosX(10.f);
-	ImGui::Text("%d", m_app->m_player.GetSpeed());
-
 	float speed = (float)m_app->m_player.GetSpeed();
 	ImGui::SetCursorPosX(10.f);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::HSV(3 / 7.0f, 0.5f, 0.5f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::HSV(3 / 7.0f, 0.6f, 0.5f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgActive, (ImVec4)ImColor::HSV(3 / 7.0f, 0.7f, 0.5f));
-	ImGui::PushStyleColor(ImGuiCol_SliderGrab, (ImVec4)ImColor::HSV(3 / 7.0f, 0.9f, 0.9f));
+	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::HSV(4 / 7.0f, 0.5f, 0.5f));
+	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::HSV(4 / 7.0f, 0.6f, 0.5f));
+	ImGui::PushStyleColor(ImGuiCol_FrameBgActive, (ImVec4)ImColor::HSV(4 / 7.0f, 0.7f, 0.5f));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrab, (ImVec4)ImColor::HSV(4 / 7.0f, 0.9f, 0.9f));
+	ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
 	ImGui::VSliderFloat("##v", ImVec2(18, 70), &speed, 80.0f, 190.0f, "");
+	ImGui::PopItemFlag();
 	ImGui::PopStyleColor(4);
 	ImGui::SameLine();
-
-
 	//Example of drawing a texture into ImGUI::image
 	ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
 	ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
@@ -237,7 +249,7 @@ void AppUI::RenderPlayWindow()
 
 	int TexId = m_app->m_player.GetUpgrade() == nullptr ? -1 : m_app->m_player.GetUpgrade()->GetImage().GetId();
 	ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
-
+	ImGui::PopFont();
 	ImGui::End();
 }
 
@@ -248,7 +260,7 @@ void AppUI::RenderGameOverWindow()
 
 	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + m_app->m_screenWidth / 3, main_viewport->WorkPos.y + m_app->m_screenHeight / 5 * 2));
-	ImGui::SetNextWindowSize(ImVec2(m_app->m_screenWidth / 3, m_app->m_screenHeight / 5));
+	ImGui::SetNextWindowSize(ImVec2(m_app->m_screenWidth / 3, m_app->m_screenHeight * 0.1f));
 
 	ImGui::Begin("Game Over", nullptr, window_flags);
 
@@ -258,9 +270,10 @@ void AppUI::RenderGameOverWindow()
 
 	ImGui::Indent(windowSize.x / 8.f);
 
+	ImGui::SetCursorPosX((windowSize.x - 120.f) * 0.5f);
 	ImGui::Text("Final score: %i", m_app->m_player.GetPoints());
 
-	if (ImGui::Button("BACK TO MENU", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	if (ImGui::Button("BACK TO MENU", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.25f)))
 	{
 		m_app->m_GameState.gameover = false;
 		m_app->m_GameState.play = false;
@@ -277,22 +290,22 @@ void AppUI::RenderPauseWindow()
 
 	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + m_app->m_screenWidth / 3, main_viewport->WorkPos.y + m_app->m_screenHeight / 5 * 2));
-	ImGui::SetNextWindowSize(ImVec2(m_app->m_screenWidth / 3, m_app->m_screenHeight / 5));
+	ImGui::SetNextWindowSize(ImVec2(m_app->m_screenWidth / 3, m_app->m_screenHeight * 0.1f));
 
 	ImGui::Begin("Paused", nullptr, window_flags);
 
 	ImVec2 windowSize = ImGui::GetWindowSize();
 	ImVec2 windowPos = ImGui::GetWindowPos();
 
-
+	ImGui::Dummy(ImVec2(0.0f, windowSize.y * 0.1f));
 	ImGui::Indent(windowSize.x / 8.f);
 
-	if (ImGui::Button("Continue", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	if (ImGui::Button("Continue", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.25f)))
 	{
 		m_app->m_GameState.pause = false;
 	}
 
-	if (ImGui::Button("BACK TO MENU", ImVec2(windowSize.x * (3.f / 4), windowSize.y / 10)))
+	if (ImGui::Button("BACK TO MENU", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.25f)))
 	{
 		m_app->m_GameState.play = false;
 		m_app->m_GameState.pause = false;
@@ -314,7 +327,7 @@ void AppUI::RenderHangarWindow()
 		}
 
 
-		ImGui::Indent(m_app->m_screenWidth - 100.f);
+		ImGui::Indent(m_app->m_screenWidth - 200.f);
 		ImGui::Text("Credit: %d", m_app->m_player.GetCredit());
 
 		ImGui::EndMainMenuBar();
@@ -342,20 +355,11 @@ void AppUI::RenderHangarWindow()
 			}
 			else
 			{
-				/*ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.f, 0.f, 0.f, 0.f));
-				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.f, 0.f, 0.f, 0.f));
-				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.f, 0.f, 0.f, 0.f));
-
-				std::string name = std::to_string(i);
-				if (ImGui::ImageButton(name.c_str(), ImVec2((float)300, (float)50), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), 1, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 1.0f))) {
-					
-				}*/
 				std::string name = std::to_string(i);
 				if (ImGui::ImageButton(name.c_str(), (ImTextureID)TexId, image_size, uv_min, uv_max, ImVec4(0.f, 0.f, 0.f, 0.f), tint_col))
 				{
 					m_app->m_player.GetWeapons()[i] = nullptr;
 				}
-				ImGui::PopStyleColor(3);
 			}
 
 			if (i != 1)
@@ -402,7 +406,9 @@ void AppUI::RenderHangarWindow()
 
 
 	ImVec2 windowSize = ImGui::GetWindowSize();
+	float base_unit = windowSize.y / 5 * 0.1f;
 
+	ImGui::Dummy(ImVec2(0.0f, base_unit));
 	ImGui::Text("Upgrade points: %d", player_upgrade_points);
 
 	if (m_app->m_player.GetUpgradePointsSum() != 25)
@@ -425,7 +431,9 @@ void AppUI::RenderHangarWindow()
 	int step = 1;
 	Stats player_stats = m_app->m_player.GetStats();
 
+	ImGui::Dummy(ImVec2(0.0f, base_unit * 10.f));
 	{
+		ImGui::Dummy(ImVec2(0.0f, base_unit));
 		int speed = player_stats.speed;
 		if (ImGui::InputScalar("SPEED", ImGuiDataType_S8, &speed, &step, NULL, "%d"))
 		{
@@ -445,6 +453,7 @@ void AppUI::RenderHangarWindow()
 			}
 		}
 
+		ImGui::Dummy(ImVec2(0.0f, base_unit * 2));
 		int mobility = player_stats.mobility;
 		if (ImGui::InputScalar("MOBILITY", ImGuiDataType_S8, &mobility, &step, NULL, "%d"))
 		{
@@ -464,6 +473,7 @@ void AppUI::RenderHangarWindow()
 			}
 		}
 
+		ImGui::Dummy(ImVec2(0.0f, base_unit * 2));
 		int health = player_stats.health;
 		if (ImGui::InputScalar("HEALTH", ImGuiDataType_S8, &health, &step, NULL, "%d"))
 		{
@@ -483,6 +493,7 @@ void AppUI::RenderHangarWindow()
 			}
 		}
 
+		ImGui::Dummy(ImVec2(0.0f, base_unit * 2));
 		int damage = player_stats.damage;
 		if (ImGui::InputScalar("DAMAGE", ImGuiDataType_S8, &damage, &step, NULL, "%d"))
 		{
@@ -502,6 +513,7 @@ void AppUI::RenderHangarWindow()
 			}
 		}
 
+		ImGui::Dummy(ImVec2(0.0f, base_unit * 2));
 		int fire_rate = player_stats.fire_rate;
 		if (ImGui::InputScalar("FIRE RATE", ImGuiDataType_S8, &fire_rate, &step, NULL, "%d"))
 		{

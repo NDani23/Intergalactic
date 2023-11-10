@@ -14,6 +14,9 @@ class CMyApp;
 class AppUI
 {
 private:
+	ImFont* small_font;
+	ImFont* medium_font;
+	ImFont* large_font;
 	Texture2D cursor_tex;
 	int m_currentMapIndex;
 	CMyApp* m_app;

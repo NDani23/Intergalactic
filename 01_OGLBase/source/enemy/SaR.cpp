@@ -16,7 +16,6 @@ int SaR::FirstInit()
 SaR::SaR()
 {
 	static int onFirstCall = FirstInit();
-	m_collider.setVertices(m_static_mesh->GetVertices());
 	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_forward_vec = glm::vec3(1.0f, 0.0f, 0.0f);
 	m_shootDir = m_forward_vec;
