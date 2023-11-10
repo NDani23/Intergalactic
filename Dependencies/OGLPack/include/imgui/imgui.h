@@ -1400,6 +1400,7 @@ enum ImGuiDockNodeFlags_
 // Flags for ImGui::BeginDragDropSource(), ImGui::AcceptDragDropPayload()
 enum ImGuiDragDropFlags_
 {
+
     ImGuiDragDropFlags_None                         = 0,
     // BeginDragDropSource() flags
     ImGuiDragDropFlags_SourceNoPreviewTooltip       = 1 << 0,   // Disable preview tooltip. By default, a successful call to BeginDragDropSource opens a tooltip so you can display a preview or description of the source contents. This flag disables this behavior.

@@ -14,6 +14,7 @@ class CMyApp;
 class AppUI
 {
 private:
+	Texture2D cursor_tex;
 	int m_currentMapIndex;
 	CMyApp* m_app;
 	std::pair<std::string, int> m_ItemIdentifier;

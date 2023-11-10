@@ -3,6 +3,7 @@
 
 AppUI::AppUI(CMyApp* app)
 {
+	cursor_tex = Texture2D("assets/cursor.png");
 	m_currentMapIndex = 0;
 	m_app = app;
 	m_ItemIdentifier = std::make_pair("", -1);
@@ -10,6 +11,7 @@ AppUI::AppUI(CMyApp* app)
 
 AppUI::AppUI()
 {
+	cursor_tex = Texture2D("assets/cursor.png");
 	m_currentMapIndex = 0;
 	m_app = nullptr;
 	m_ItemIdentifier = std::make_pair("", -1);
@@ -68,6 +70,7 @@ void AppUI::Render()
 
 	dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode ^ ImGuiDockNodeFlags_NoTabBar ^ ImGuiDockNodeFlags_NoResize ^ ImGuiDockNodeFlags_NoUndocking;
 
+	
 	//ImGui::ShowDemoWindow();
 
 	if (m_app->m_GameState.menu)
@@ -153,6 +156,10 @@ void AppUI::RenderMenu()
 
 void AppUI::RenderPlayWindow()
 {
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+	ImGui::SetCursorPos(io.MousePos);
+	ImGui::Image((ImTextureID)cursor_tex.GetId(), ImVec2(20.f, 20.f), ImVec2(0.f, 0.f), ImVec2(1.0f, 1.0f), ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ImVec4(0.f, 0.f, 0.f, 0.f));
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.f, 10.f));
 	if (ImGui::BeginMainMenuBar())
@@ -216,12 +223,12 @@ void AppUI::RenderPlayWindow()
 	int TexId = m_app->m_player.GetUpgrade() == nullptr ? -1 : m_app->m_player.GetUpgrade()->GetImage().GetId();
 	ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
 
-
 	ImGui::End();
 }
 
 void AppUI::RenderGameOverWindow()
 {
+	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
 
 	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
@@ -250,6 +257,7 @@ void AppUI::RenderGameOverWindow()
 
 void AppUI::RenderPauseWindow()
 {
+	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
 
 	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
@@ -300,13 +308,13 @@ void AppUI::RenderHangarWindow()
 
 	ImGui::Begin("HangarBottom");
 	{
+
 		ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
 		ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
-		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f);   // No tint
 		//ImVec4 border_col = ImGui::GetStyleColorVec4(ImGuiCol_Border);
 		ImVec4 border_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
 		ImVec2 image_size = ImVec2(m_app->m_screenWidth / 20.f, m_app->m_screenWidth / 20.f);
-
 		ImGui::Indent(m_app->m_screenWidth / 2.5f);
 		for (int i = 0; i < 3; i++)
 		{
@@ -319,11 +327,20 @@ void AppUI::RenderHangarWindow()
 			}
 			else
 			{
+				/*ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.f, 0.f, 0.f, 0.f));
+				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.f, 0.f, 0.f, 0.f));
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.f, 0.f, 0.f, 0.f));
+
 				std::string name = std::to_string(i);
-				if (ImGui::ImageButton(name.c_str(), (ImTextureID)TexId, image_size, uv_min, uv_max, border_col, tint_col))
+				if (ImGui::ImageButton(name.c_str(), ImVec2((float)300, (float)50), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), 1, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(1.0f, 1.0f, 1.0f, 1.0f))) {
+					
+				}*/
+				std::string name = std::to_string(i);
+				if (ImGui::ImageButton(name.c_str(), (ImTextureID)TexId, image_size, uv_min, uv_max, ImVec4(0.f, 0.f, 0.f, 0.f), tint_col))
 				{
 					m_app->m_player.GetWeapons()[i] = nullptr;
 				}
+				ImGui::PopStyleColor(3);
 			}
 
 			if (i != 1)
