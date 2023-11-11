@@ -8,8 +8,8 @@ RocketLauncher::RocketLauncher()
 	m_position = glm::vec3(0, 0, 0);
 	m_shootDir = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
-	m_coolDownTime = 10.f;
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_coolDownTime = 15.f;
+	m_currentCoolDown = 0.f;
 
 	m_side = 0;
 
@@ -31,8 +31,8 @@ RocketLauncher::RocketLauncher(Player* target, int side)
 	m_shootDir = m_parent->GetForwardVec();
 	m_position = m_parent->GetPos() - (float)m_side*(m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
-	m_coolDownTime = 10.f;
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_coolDownTime = 15.f;
+	m_currentCoolDown = 0.f;
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -46,22 +46,22 @@ RocketLauncher::RocketLauncher(Player* target, int side)
 
 void RocketLauncher::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
-	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
-
-	if (elapsed_seconds.count() >= m_coolDownTime && m_parent->GetTarget() != nullptr)
+	if (m_currentCoolDown <= 0.f && m_parent->GetTarget() != nullptr)
 	{
 		projectiles.emplace_back(std::make_unique<Rocket>(m_position, m_parent->GetTarget()));
 
-		m_lastShootTime = std::chrono::system_clock::now();
+		m_currentCoolDown = m_coolDownTime;
 	}
 }
 
-void RocketLauncher::Update()
+void RocketLauncher::Update(const float delta)
 {
 
 	m_shootDir = m_parent->GetForwardVec();
 	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
+
+	if (m_currentCoolDown > 0.f) m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
 }
 
 bool RocketLauncher::requireTarget()

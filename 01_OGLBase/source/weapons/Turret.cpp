@@ -17,7 +17,7 @@ Turret::Turret()
 
 	m_texture.FromFile("assets/Weapons&Projectiles/turret_tex.png");
 
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.25f;
 
 	m_coolDownTime = 0.25f;
 
@@ -42,7 +42,7 @@ Turret::Turret(glm::vec3 Pos, Player* ref, std::vector<std::unique_ptr<Projectil
 
 	m_texture.FromFile("assets/Weapons&Projectiles/turret_tex.png");
 
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.25f;
 
 	m_coolDownTime = 0.5f;
 
@@ -56,10 +56,11 @@ bool Turret::Update(const float& delta)
 
 	glm::vec3 diff_vec = (m_reference->GetPos() + m_reference->GetForwardVec() * 10.f) - m_position;
 	m_shootDir = glm::normalize(diff_vec);
-
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
 
-	if (glm::length(diff_vec) < 200.0f)
+	if (m_currentCoolDown > 0.f) m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
+
+	if (glm::length(diff_vec) < 300.0f)
 	{
 		Shoot();
 	}
@@ -69,13 +70,11 @@ bool Turret::Update(const float& delta)
 
 void Turret::Shoot()
 {
-	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
-
-	if (elapsed_seconds.count() >= m_coolDownTime)
+	if (m_currentCoolDown <= 0.f)
 	{
 		m_projectiles->emplace_back(std::make_unique<Laser>(m_position, m_shootDir));
 
-		m_lastShootTime = std::chrono::system_clock::now();
+		m_currentCoolDown = m_coolDownTime;
 	}
 }
 

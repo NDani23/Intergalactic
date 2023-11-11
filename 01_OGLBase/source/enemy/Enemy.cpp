@@ -18,6 +18,7 @@ HitBox Enemy::UpdateDimensions()
 bool Enemy::Update(const float& delta)
 {
 	m_position += m_forward_vec * (delta * m_speed);
+	if (m_currentCoolDown > 0.f) m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
 
 	glm::vec3 temp_dir;
 	CalcBaseDir(temp_dir);

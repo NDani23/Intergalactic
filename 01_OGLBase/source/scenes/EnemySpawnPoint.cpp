@@ -6,7 +6,7 @@ EnemySpawnPoint::EnemySpawnPoint()
 	m_stage = 1;
 	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	m_lastSpawnTime = std::chrono::system_clock::now();
+	m_coolDown = 20.f;
 
 	m_spawnTimeWindow = 20;
 
@@ -22,7 +22,7 @@ EnemySpawnPoint::EnemySpawnPoint(const glm::vec3& pos, Player* target, std::vect
 	m_stage = 1;
 	m_position = pos;
 
-	m_lastSpawnTime = std::chrono::system_clock::now();
+	m_coolDown = 20.f;
 
 	m_spawnTimeWindow = 20;
 
@@ -40,13 +40,11 @@ EnemySpawnPoint::EnemySpawnPoint(const glm::vec3& pos, Player* target, std::vect
 
 void EnemySpawnPoint::Update(const float& delta)
 {
-	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastSpawnTime;
+	m_coolDown -= delta;
 
-	if (elapsed_seconds.count() >= m_spawnTimeWindow)
+	if (m_coolDown <= 0.f)
 	{
 		SpawnEnemy();
-
-		m_lastSpawnTime = std::chrono::system_clock::now();
 
 		if (m_spawnTimeWindow > 5)
 		{
@@ -57,6 +55,8 @@ void EnemySpawnPoint::Update(const float& delta)
 				ChangeStage(5 - m_spawnTimeWindow / 5);
 			}
 		}
+
+		m_coolDown = m_spawnTimeWindow;
 
 	}
 }

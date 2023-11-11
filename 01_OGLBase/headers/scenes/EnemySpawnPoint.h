@@ -20,7 +20,7 @@ private:
 	std::array<int, 4> m_EnemyChances;
 	glm::vec3 m_position;
 	int m_spawnTimeWindow;
-	std::chrono::time_point<std::chrono::system_clock> m_lastSpawnTime;
+	float m_coolDown;
 	Player* m_target;
 	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
 	Map* m_Map;

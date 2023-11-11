@@ -95,7 +95,7 @@ void Player::Reset(Map* map)
 
 	for (int i = 0; i < 3; i++)
 	{
-		if (m_guns[i] != nullptr) m_guns[i]->Update();
+		if (m_guns[i] != nullptr) m_guns[i]->Update(50.f);
 	}
 
 	if (m_Upgrade != nullptr) m_Upgrade->Update(50.f);
@@ -160,7 +160,7 @@ void Player::Move(float delta, const glm::vec3& cursor_diff_vec)
 	{
 		if (m_guns[i] != nullptr)
 		{
-			m_guns[i]->Update();
+			m_guns[i]->Update(delta);
 		}
 	}
 

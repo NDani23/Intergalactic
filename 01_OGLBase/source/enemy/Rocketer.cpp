@@ -36,7 +36,7 @@ Rocketer::Rocketer()
 	m_mesh = nullptr;
 
 	m_coolDownTime = 10.f;
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.f;
 }
 
 Rocketer::Rocketer(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
@@ -65,19 +65,17 @@ Rocketer::Rocketer(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Pr
 
 	m_coolDownTime = 10.f;
 
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.f;
 }
 
 
 void Rocketer::Shoot()
 {
-	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
-
-	if (elapsed_seconds.count() >= m_coolDownTime)
+	if (m_currentCoolDown <= 0.f)
 	{
 		m_projectiles->emplace_back(std::make_unique<Rocket>(m_position + m_forward_vec * 10.f, m_target));
 
-		m_lastShootTime = std::chrono::system_clock::now();
+		m_currentCoolDown = m_coolDownTime;
 	}
 }
 

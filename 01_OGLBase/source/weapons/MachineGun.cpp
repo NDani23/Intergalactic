@@ -9,7 +9,7 @@ MachineGun::MachineGun()
 	m_shootDir = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
 	m_coolDownTime = 0.1f;
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.f;
 
 	m_side = 0;
 
@@ -32,7 +32,7 @@ MachineGun::MachineGun(Player* target, int side)
 	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.35f);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
 	m_coolDownTime = 0.1f;
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.f;
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -46,17 +46,15 @@ MachineGun::MachineGun(Player* target, int side)
 
 void MachineGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
-	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
-
-	if (elapsed_seconds.count() >= m_coolDownTime)
+	if (m_currentCoolDown <= 0.f)
 	{
 		projectiles.emplace_back(std::make_unique<Laser>(m_position + m_shootDir * 5.f, m_shootDir));
 
-		m_lastShootTime = std::chrono::system_clock::now();
+		m_currentCoolDown = m_coolDownTime;
 	}
 }
 
-void MachineGun::Update()
+void MachineGun::Update(const float delta)
 {
 	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.35f);
 
@@ -84,5 +82,7 @@ void MachineGun::Update()
 	{
 		m_shootDir = m_parent->GetForwardVec();
 	}
+
+	if (m_currentCoolDown > 0.f) m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
 }

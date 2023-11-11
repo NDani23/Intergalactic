@@ -8,7 +8,7 @@ LaserGun::LaserGun()
 	m_shootDir = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
 	m_coolDownTime = 0.25f;
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.f;
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -28,7 +28,7 @@ LaserGun::LaserGun(Player* parent)
 	m_shootDir = m_parent->GetForwardVec();
 	m_transforms = glm::translate(m_position);
 	m_coolDownTime = 0.25f;
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.f;
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -42,35 +42,33 @@ LaserGun::LaserGun(Player* parent)
 
 void LaserGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
-	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
 
-	if (elapsed_seconds.count() >= m_coolDownTime)
+	if (m_currentCoolDown <= 0.f)
 	{
 		projectiles.emplace_back(std::make_unique<Laser>(m_position + m_parent->GetCrossVec(), m_shootDir));
 		projectiles.emplace_back(std::make_unique<Laser>(m_position - m_parent->GetCrossVec(), m_shootDir));
 
-		m_lastShootTime = std::chrono::system_clock::now();
+		m_currentCoolDown = m_coolDownTime;
 	}
 	
 }
 
 void LaserGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles, int damage)
 {
-	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
-
-	if (elapsed_seconds.count() >= m_coolDownTime)
+	if (m_currentCoolDown <= 0.f)
 	{
 		projectiles.emplace_back(std::make_unique<Laser>(m_position + m_parent->GetCrossVec(), m_shootDir, damage));
-
 		projectiles.emplace_back(std::make_unique<Laser>(m_position - m_parent->GetCrossVec(), m_shootDir, damage));
 
-		m_lastShootTime = std::chrono::system_clock::now();
+		m_currentCoolDown = m_coolDownTime;
 	}
 }
 
-void LaserGun::Update()
+void LaserGun::Update(const float delta)
 {
 	m_shootDir = m_parent->GetForwardVec();
 	m_position = m_parent->GetPos();
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
+
+	if (m_currentCoolDown > 0.f) m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
 }

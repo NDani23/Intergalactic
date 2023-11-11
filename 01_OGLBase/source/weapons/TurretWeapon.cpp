@@ -12,11 +12,12 @@ TurretWeapon::TurretWeapon()
 	m_position = glm::vec3(0, 0, 0);
 	m_shootDir = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
+	m_currentfireRateCooldown = 0.f;
 	m_coolDownTime = 60.f;
 	m_fireRateCooldown = 0.2f;
 	m_durationTime = 15.f;
-	m_lastShootTime = std::chrono::system_clock::now();
-	m_lastActivateTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.f;
+	m_activeTime = 0.f;
 
 	m_side = 0;
 
@@ -40,11 +41,12 @@ TurretWeapon::TurretWeapon(Player* target, int side)
 	m_shootDir = m_parent->GetForwardVec();
 	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
+	m_currentfireRateCooldown = 0.f;
 	m_coolDownTime = 60.f;
 	m_fireRateCooldown = 0.2f;
 	m_durationTime = 15.f;
-	m_lastShootTime = std::chrono::system_clock::now();
-	m_lastActivateTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.f;
+	m_activeTime = 0.f;
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -58,41 +60,44 @@ TurretWeapon::TurretWeapon(Player* target, int side)
 
 void TurretWeapon::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
-	std::chrono::duration<float> last_active = std::chrono::system_clock::now() - m_lastActivateTime;
-	if (last_active.count() >= m_coolDownTime)
+	if (m_currentCoolDown <= 0.f)
 	{
 		m_shooting = true;
-		m_lastActivateTime = std::chrono::system_clock::now();
+		m_activeTime = m_durationTime;
 	}
 
 }
 
-void TurretWeapon::Update()
+void TurretWeapon::Update(const float delta)
 {
 	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
 	m_shootDir = m_parent->GetForwardVec();
+
+	if (m_currentCoolDown >= 0.f) m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
 
 	if (m_shooting)
 	{
 		FindClosestEnemy();
 
-		std::chrono::duration<float> last_active = std::chrono::system_clock::now() - m_lastActivateTime;
-		if (last_active.count() >= m_durationTime)
+		if (m_activeTime <= 0.f)
 		{
 			m_shooting = false;
+			m_currentCoolDown = m_coolDownTime;
+			m_activeTime = 0.f;
 		}
 		else
 		{
+			if (m_currentfireRateCooldown > 0.f) m_currentfireRateCooldown = std::max(0.f, m_currentfireRateCooldown - delta);
+			m_activeTime -= delta;
+
 			if (m_target != nullptr)
 			{
 				SetShootDir();
-				std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
-
-				if (elapsed_seconds.count() >= m_fireRateCooldown)
+				if (m_currentfireRateCooldown <= 0.f)
 				{
 					m_parent->GetProjectiles().emplace_back(std::make_unique<Laser>(m_position + m_shootDir * 5.f, m_shootDir));
 
-					m_lastShootTime = std::chrono::system_clock::now();
+					m_currentfireRateCooldown = m_fireRateCooldown;
 				}
 			}
 		}

@@ -14,7 +14,7 @@ protected:
 	Player* m_parent;
 	glm::vec3 m_shootDir;
 	float m_coolDownTime;
-	std::chrono::time_point<std::chrono::system_clock> m_lastShootTime;
+	float m_currentCoolDown;
 	Texture2D m_projectileImage;
 
 public:
@@ -22,6 +22,7 @@ public:
 	int ID();
 	glm::vec3 GetShootDir() const;
 	float GetCoolDownTime();
+	float GetCurrentCooldown();
 	void SetPosition(const glm::vec3);
 	void SetShootDir(const glm::vec3);
 	void SetCooldown(float);
@@ -33,6 +34,6 @@ public:
 	virtual void Shoot(std::vector<std::unique_ptr<Projectile>>&);
 	virtual void Shoot(std::vector<std::unique_ptr<Projectile>>&, int);
 	virtual Texture2D& GetProjectileImage();
-	virtual void Update();
+	virtual void Update(const float);
 	virtual bool requireTarget();
 };

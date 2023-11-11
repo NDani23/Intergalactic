@@ -8,8 +8,8 @@ MinePlacer::MinePlacer()
 	m_position = glm::vec3(0, 0, 0);
 	m_shootDir = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
-	m_coolDownTime = 10.f;
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_coolDownTime = 15.f;
+	m_currentCoolDown = 0.f;
 
 	m_side = 0;
 
@@ -31,8 +31,8 @@ MinePlacer::MinePlacer(Player* target, int side)
 	m_shootDir = glm::vec3(0, 0, 0);
 	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.2f);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_parent->GetForwardVec(), m_parent->GetUpVec()));
-	m_coolDownTime = 10.f;
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_coolDownTime = 15.f;
+	m_currentCoolDown = 0.f;
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -46,18 +46,17 @@ MinePlacer::MinePlacer(Player* target, int side)
 
 void MinePlacer::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
-	std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - m_lastShootTime;
-
-	if (elapsed_seconds.count() >= m_coolDownTime)
+	if (m_currentCoolDown <= 0.f)
 	{
 		projectiles.emplace_back(std::make_unique<Mine>(m_position));
-
-		m_lastShootTime = std::chrono::system_clock::now();
+		m_currentCoolDown = m_coolDownTime;
 	}
 }
 
-void MinePlacer::Update()
+void MinePlacer::Update(const float delta)
 {
 	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.2f);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_parent->GetForwardVec(), m_parent->GetUpVec()));
+
+	if (m_currentCoolDown > 0.f) m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
 }

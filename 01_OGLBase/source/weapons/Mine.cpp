@@ -6,7 +6,7 @@ Mine::Mine()
 	m_position = glm::vec3(0.f, 0.f, 0.f);
 	m_speed = 0;
 	m_direction = glm::vec3(0.0f, 0.0f, 0.0f);
-	m_damage = 100;
+	m_damage = 200;
 
 	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/mine.obj"));
 	m_mesh->initBuffers();
@@ -20,7 +20,7 @@ Mine::Mine(glm::vec3& pos)
 	m_transforms = glm::translate(m_position);
 	m_speed = 0;
 	m_direction = glm::vec3(0.0f, 0.0f, 0.0f);
-	m_damage = 100;
+	m_damage = 200;
 
 	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Weapons&Projectiles/mine.obj"));
 	m_mesh->initBuffers();

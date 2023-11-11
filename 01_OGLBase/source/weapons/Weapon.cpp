@@ -9,7 +9,7 @@ Weapon::Weapon()
 	m_shootDir = glm::vec3(0, 0, 0);
 	m_transforms = glm::translate(m_position);
 	m_coolDownTime = 0.0f;
-	m_lastShootTime = std::chrono::system_clock::now();
+	m_currentCoolDown = 0.f;
 
 	HitBox hitbox = { m_position, {0.0, 0.0, 0.0} };
 	m_hitboxes.emplace_back(hitbox);
@@ -31,6 +31,11 @@ bool Weapon::IsActive()
 float Weapon::GetCoolDownTime()
 {
 	return m_coolDownTime;
+}
+
+float Weapon::GetCurrentCooldown()
+{
+	return m_currentCoolDown;
 }
 
 void Weapon::SetActive(bool active)
@@ -72,7 +77,7 @@ Texture2D& Weapon::GetProjectileImage()
 	return m_projectileImage;
 }
 
-void Weapon::Update()
+void Weapon::Update(const float)
 {
 
 }

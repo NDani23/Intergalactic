@@ -13,5 +13,5 @@ public:
 	LaserGun(Player*);
 	void Shoot(std::vector<std::unique_ptr<Projectile>>&) override;
 	void Shoot(std::vector<std::unique_ptr<Projectile>>&, int) override;
-	void Update() override;
+	void Update(const float) override;
 };
