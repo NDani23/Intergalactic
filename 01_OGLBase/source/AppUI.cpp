@@ -193,6 +193,7 @@ void AppUI::RenderPlayWindow()
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar;
 
 	ImGui::Begin("Viewport", nullptr, window_flags);
+	ImVec2 windowSize = ImGui::GetWindowSize();
 	ImGui::SetCursorPosX(10.f);
 	ImGui::Text("%d", m_app->m_player.GetSpeed());
 	ImGui::SameLine();
@@ -223,31 +224,39 @@ void AppUI::RenderPlayWindow()
 	ImGui::Indent(m_app->m_screenWidth / 10.f);
 	for (int i = 0; i < 3; i++)
 	{
-		int TexId = m_app->m_player.GetWeapons()[i] == nullptr ? -1 : m_app->m_player.GetWeapons()[i]->GetProjectileImage().GetId();
+		Weapon* weapon = m_app->m_player.GetWeapons()[i].get();
+		int TexId = weapon == nullptr ? -1 : weapon->GetProjectileImage().GetId();
 		if (i == m_app->m_player.GetActiveWeaponInd())
 		{
 			border_col = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
 			image_size = ImVec2(m_app->m_screenWidth / 25.f, m_app->m_screenWidth / 25.f);
 
+			ImGui::SetCursorPos(ImVec2(windowSize.x * 0.5f - image_size.x * 1.5f + i * (image_size.x * 1.4f), (windowSize.y - image_size.y) * 0.5f));
 			ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
-			ImGui::SameLine();
+			ImGui::SetCursorPos(ImVec2(windowSize.x * 0.5f - image_size.x * 1.5f + i * (image_size.x * 1.4f), (windowSize.y * 0.5f) + image_size.y * 0.6f));
+			ImGui::ProgressBar((weapon->GetCoolDownTime() - weapon->GetCurrentCooldown()) / weapon->GetCoolDownTime(), ImVec2(image_size.x, 10.f));
 
 			border_col = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 			image_size = ImVec2(m_app->m_screenWidth / 30.f, m_app->m_screenWidth / 30.f);
 		}
 		else
 		{
+			ImGui::SetCursorPos(ImVec2(windowSize.x * 0.5f - image_size.x * 1.5f + i * (image_size.x * 1.5f), (windowSize.y - image_size.y) * 0.5f));
 			ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
-			ImGui::SameLine();
+			ImGui::SetCursorPos(ImVec2(windowSize.x * 0.5f - image_size.x * 1.5f + i * (image_size.x * 1.5f), (windowSize.y * 0.5f) + image_size.y * 0.6f));
+			ImGui::ProgressBar((weapon->GetCoolDownTime() - weapon->GetCurrentCooldown()) / weapon->GetCoolDownTime(), ImVec2(image_size.x, 10.f));
 		}
 	}
 
+	Upgrade* upgrade = m_app->m_player.GetUpgrade().get();
 	image_size = ImVec2(m_app->m_screenWidth / 25.f, m_app->m_screenWidth / 25.f);
 	if(m_app->m_useUpgrade) border_col = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
-	ImGui::Indent(m_app->m_screenWidth / 2.f);
-
+	
+	ImGui::SetCursorPos(ImVec2(windowSize.x - 1.5f * image_size.x, (windowSize.y - image_size.y) * 0.5f));
 	int TexId = m_app->m_player.GetUpgrade() == nullptr ? -1 : m_app->m_player.GetUpgrade()->GetImage().GetId();
 	ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
+	ImGui::SetCursorPos(ImVec2(windowSize.x - 1.5f * image_size.x, (windowSize.y * 0.5f) + image_size.y * 0.6f));
+	ImGui::ProgressBar((upgrade->GetCoolDownTime() - upgrade->GetCurrentCooldown()) / upgrade->GetCoolDownTime(), ImVec2(image_size.x, 10.f));
 	ImGui::End();
 }
 
