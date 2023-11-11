@@ -53,6 +53,7 @@ public:
 	void KeyboardDown(SDL_KeyboardEvent& key);
 	void KeyboardUp(SDL_KeyboardEvent& key);
 	void MouseMove(SDL_MouseMotionEvent& mouse);
+	void FocusOnPosition(glm::vec3);
 
 private:
 	/// <summary>
@@ -61,7 +62,6 @@ private:
 	/// <param name="du">The du, i.e. the change of spherical coordinate u.</param>
 	/// <param name="dv">The dv, i.e. the change of spherical coordinate v.</param>
 	void UpdateUV(float du, float dv);
-
 	/// <summary>
 	///  The traversal speed of the camera
 	/// </summary>

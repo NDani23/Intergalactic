@@ -151,12 +151,13 @@ void CMyApp::Update()
 
 	if (m_GameState.hangar)
 	{
-		if (m_player.GetPos() != glm::vec3(0.0f, 0.0f, 0.0f)) m_player.Reset(m_map);
-		glm::vec3 cam_at = glm::vec4(m_player.GetPos(), 1);
-		glm::vec3 cam_eye = cam_at + m_player.GetCrossVec() * 20.f + m_player.GetUpVec() * 10.f + m_player.GetForwardVec() * 10.f;
-		glm::vec3 cam_up = m_player.GetUpVec();
+		if (m_player.GetPos() != glm::vec3(0.0f, 0.0f, 0.0f))
+			m_player.Reset(m_map);
 
-		m_camera.SetView(cam_eye, cam_at, cam_up);
+		if (m_camera.GetAt() != m_player.GetPos())
+		{
+			m_camera.FocusOnPosition(glm::vec3(0.f, 0.f, 0.f));
+		}
 		m_camera.Update(delta_time);
 		return;
 	}
@@ -373,6 +374,8 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 
 void CMyApp::MouseMove(SDL_MouseMotionEvent& mouse)
 {
+	if (m_GameState.hangar) m_camera.MouseMove(mouse);
+
 	m_mouseX = mouse.x / (float)(m_screenWidth / 2) - 1;
 	m_mouseY = mouse.y / (float)(m_screenHeight / 2) - 1;
 }

@@ -61,15 +61,31 @@ void gCamera::Update(float _deltaTime)
 
 void gCamera::UpdateUV(float du, float dv)
 {
-	m_u		+= du;
-	m_v		 = glm::clamp<float>(m_v + dv, 0.1f, 3.1f);
 
-	m_at = m_eye + m_dist*glm::vec3(	cosf(m_u)*sinf(m_v), 
-										cosf(m_v), 
-										sinf(m_u)*sinf(m_v) );
+	m_u += du;
+	m_v = glm::clamp<float>(m_v - dv, 0.1f, 3.1f);
 
-	m_fw = glm::normalize( m_at - m_eye );
-	m_st = glm::normalize( glm::cross( m_fw, m_up ) );
+	std::cout << m_u << " " << m_v << std::endl;
+
+	m_eye = m_at + 25.f * glm::vec3(cosf(m_u) * sinf(m_v),
+		cosf(m_v),
+		sinf(m_u) * sinf(m_v));
+
+	m_fw = glm::normalize(m_at - m_eye);
+	m_st = glm::normalize(glm::cross(m_fw, m_up));
+}
+
+void gCamera::FocusOnPosition(glm::vec3 pos)
+{
+	m_u = 0.55f;
+	m_v = 1.25f;
+
+	m_at = pos;
+	m_eye = m_at + 25.f * glm::vec3(cosf(m_u) * sinf(m_v), cosf(m_v), sinf(m_u) * sinf(m_v));
+	m_up = glm::vec3(0.f, 1.f, 0.f);
+
+	m_fw = glm::normalize(m_at - m_eye);
+	m_st = glm::normalize(glm::cross(m_fw, m_up));
 }
 
 void gCamera::SetSpeed(float _val)
@@ -135,7 +151,7 @@ void gCamera::KeyboardUp(SDL_KeyboardEvent& key)
 
 void gCamera::MouseMove(SDL_MouseMotionEvent& mouse)
 {
-	if ( mouse.state & SDL_BUTTON_RMASK )
+	if ( mouse.state & SDL_BUTTON_LMASK )
 	{
 		UpdateUV(mouse.xrel/100.0f, mouse.yrel/100.0f);
 	}
