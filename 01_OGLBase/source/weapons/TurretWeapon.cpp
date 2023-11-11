@@ -64,6 +64,7 @@ void TurretWeapon::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 	{
 		m_shooting = true;
 		m_activeTime = m_durationTime;
+		m_currentCoolDown = m_coolDownTime;
 	}
 
 }
@@ -73,7 +74,7 @@ void TurretWeapon::Update(const float delta)
 	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
 	m_shootDir = m_parent->GetForwardVec();
 
-	if (m_currentCoolDown >= 0.f) m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
+	if (!m_shooting && m_currentCoolDown >= 0.f) m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
 
 	if (m_shooting)
 	{

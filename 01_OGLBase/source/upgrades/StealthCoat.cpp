@@ -104,6 +104,7 @@ void StealthCoat::Activate()
 		m_parent->setFakePos(m_parent->GetPos() + m_parent->GetForwardVec() * 5000.f);
 		m_activeTime = m_durationTime;
 		m_active = true;
+		m_currentCoolDown = m_coolDownTime;
 	}
 }
 

@@ -77,5 +77,6 @@ void SpeedBooster::Activate()
 		m_parent->setSpeed(m_parent->GetMaxSpeed() * 2.f);
 		m_activeTime = m_durationTime;
 		m_active = true;
+		m_currentCoolDown = m_coolDownTime;
 	}
 }

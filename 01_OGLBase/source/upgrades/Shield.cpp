@@ -69,7 +69,13 @@ void Shield::Update(const float delta)
 
 	if (m_active && m_activeTime <= 0.f)
 	{
-		auto delete_pos = std::remove(m_parent->GetMapPtr()->GetEntities().begin(), m_parent->GetMapPtr()->GetEntities().end(), m_barrier);
+		//auto delete_pos = std::remove(m_parent->GetMapPtr()->GetEntitiesPtr()->begin(), m_parent->GetMapPtr()->GetEntitiesPtr()->end(), m_barrier);
+		auto position = std::find(m_parent->GetMapPtr()->GetEntities().begin(), m_parent->GetMapPtr()->GetEntities().end(), m_barrier);
+
+		if (position != m_parent->GetMapPtr()->GetEntitiesPtr()->end())
+			m_parent->GetMapPtr()->GetEntitiesPtr()->erase(position);
+		
+		
 
 		m_active = false;
 		m_activeTime = 0.f;
@@ -85,6 +91,7 @@ void Shield::Activate()
 		m_parent->GetMapPtr()->AddEntity(m_barrier);
 		m_activeTime = m_durationTime;
 		m_active = true;
+		m_currentCoolDown = m_coolDownTime;
 	}
 }
 
