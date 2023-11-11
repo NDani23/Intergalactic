@@ -12,6 +12,7 @@ struct UpgradeItem
 {
 	std::function<std::unique_ptr<Upgrade>(Player*)> InsertUpgrade;
 	Texture2D Image;
+	std::string Name;
 	std::string Text;
 	int Price;
 	bool Owned = false;

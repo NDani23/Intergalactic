@@ -233,8 +233,11 @@ void AppUI::RenderPlayWindow()
 
 			ImGui::SetCursorPos(ImVec2(windowSize.x * 0.5f - image_size.x * 1.5f + i * (image_size.x * 1.4f), (windowSize.y - image_size.y) * 0.5f));
 			ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
-			ImGui::SetCursorPos(ImVec2(windowSize.x * 0.5f - image_size.x * 1.5f + i * (image_size.x * 1.4f), (windowSize.y * 0.5f) + image_size.y * 0.6f));
-			ImGui::ProgressBar((weapon->GetCoolDownTime() - weapon->GetCurrentCooldown()) / weapon->GetCoolDownTime(), ImVec2(image_size.x, 10.f));
+			if (weapon != nullptr)
+			{
+				ImGui::SetCursorPos(ImVec2(windowSize.x * 0.5f - image_size.x * 1.5f + i * (image_size.x * 1.4f), (windowSize.y * 0.5f) + image_size.y * 0.6f));
+				ImGui::ProgressBar((weapon->GetCoolDownTime() - weapon->GetCurrentCooldown()) / weapon->GetCoolDownTime(), ImVec2(image_size.x, 10.f));
+			}
 
 			border_col = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 			image_size = ImVec2(m_app->m_screenWidth / 30.f, m_app->m_screenWidth / 30.f);
@@ -243,6 +246,8 @@ void AppUI::RenderPlayWindow()
 		{
 			ImGui::SetCursorPos(ImVec2(windowSize.x * 0.5f - image_size.x * 1.5f + i * (image_size.x * 1.5f), (windowSize.y - image_size.y) * 0.5f));
 			ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
+
+			if (weapon == nullptr) continue;
 			ImGui::SetCursorPos(ImVec2(windowSize.x * 0.5f - image_size.x * 1.5f + i * (image_size.x * 1.5f), (windowSize.y * 0.5f) + image_size.y * 0.6f));
 			ImGui::ProgressBar((weapon->GetCoolDownTime() - weapon->GetCurrentCooldown()) / weapon->GetCoolDownTime(), ImVec2(image_size.x, 10.f));
 		}
@@ -255,8 +260,11 @@ void AppUI::RenderPlayWindow()
 	ImGui::SetCursorPos(ImVec2(windowSize.x - 1.5f * image_size.x, (windowSize.y - image_size.y) * 0.5f));
 	int TexId = m_app->m_player.GetUpgrade() == nullptr ? -1 : m_app->m_player.GetUpgrade()->GetImage().GetId();
 	ImGui::Image((ImTextureID)TexId, image_size, uv_min, uv_max, tint_col, border_col);
-	ImGui::SetCursorPos(ImVec2(windowSize.x - 1.5f * image_size.x, (windowSize.y * 0.5f) + image_size.y * 0.6f));
-	ImGui::ProgressBar((upgrade->GetCoolDownTime() - upgrade->GetCurrentCooldown()) / upgrade->GetCoolDownTime(), ImVec2(image_size.x, 10.f));
+	if (upgrade != nullptr)
+	{
+		ImGui::SetCursorPos(ImVec2(windowSize.x - 1.5f * image_size.x, (windowSize.y * 0.5f) + image_size.y * 0.6f));
+		ImGui::ProgressBar((upgrade->GetCoolDownTime() - upgrade->GetCurrentCooldown()) / upgrade->GetCoolDownTime(), ImVec2(image_size.x, 10.f));
+	}
 	ImGui::End();
 }
 
@@ -568,13 +576,14 @@ void AppUI::RenderHangarWindow()
 				{
 					if(!Weapons.at(n).Owned) m_ItemIdentifier = std::make_pair("Weapon", n);
 				}
+				ImGui::SetItemTooltip(Weapons.at(n).Text.c_str());
 				
 				if (Weapons.at(n).Owned)
 				{
 					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
 					{
 						ImGui::SetDragDropPayload("Weapon", &n, sizeof(int));
-						ImGui::Text(Weapons.at(n).Text.c_str());
+						ImGui::Text(Weapons.at(n).Name.c_str());
 						ImGui::EndDragDropSource();
 					}
 				}
@@ -596,13 +605,14 @@ void AppUI::RenderHangarWindow()
 				{
 					if (!Upgrades.at(n).Owned)m_ItemIdentifier = std::make_pair("Upgrade", n);
 				}
+				ImGui::SetItemTooltip(Upgrades.at(n).Text.c_str());
 
 				if (Upgrades.at(n).Owned)
 				{
 					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
 					{
 						ImGui::SetDragDropPayload("Upgrade", &n, sizeof(int));
-						ImGui::Text(Upgrades.at(n).Text.c_str());
+						ImGui::Text(Upgrades.at(n).Name.c_str());
 						ImGui::EndDragDropSource();
 					}
 				}
