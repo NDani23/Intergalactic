@@ -41,7 +41,7 @@ void AppUI::Render()
 		ImGui::SetNextWindowViewport(viewport->ID);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-		window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+		window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar;
 		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 	}
 	else
@@ -72,7 +72,10 @@ void AppUI::Render()
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 	}
 
-	dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode ^ ImGuiDockNodeFlags_NoTabBar ^ ImGuiDockNodeFlags_NoResize ^ ImGuiDockNodeFlags_NoUndocking;
+	dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode 
+					^ ImGuiDockNodeFlags_NoTabBar 
+					^ ImGuiDockNodeFlags_NoResize 
+					^ ImGuiDockNodeFlags_NoUndocking;
 
 	
 	//ImGui::ShowDemoWindow();

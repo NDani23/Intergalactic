@@ -65,8 +65,6 @@ void gCamera::UpdateUV(float du, float dv)
 	m_u += du;
 	m_v = glm::clamp<float>(m_v - dv, 0.1f, 3.1f);
 
-	std::cout << m_u << " " << m_v << std::endl;
-
 	m_eye = m_at + 25.f * glm::vec3(cosf(m_u) * sinf(m_v),
 		cosf(m_v),
 		sinf(m_u) * sinf(m_v));
