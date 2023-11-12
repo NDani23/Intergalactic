@@ -39,7 +39,7 @@ PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, 
 			  "assets/PlanetEarth/zneg.png");
 }
 
-void PlanetEarth::LoadMap()
+void PlanetEarth::LoadScene()
 {
 
 	m_Entities.clear();

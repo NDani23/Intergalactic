@@ -1,5 +1,5 @@
 #include "../../headers/enemy/Falcon.h"
-#include "../../headers/scenes/Map.h"
+#include "../../headers/scenes/Scene.h"
 
 std::unique_ptr<Mesh> Falcon::m_static_mesh;
 Texture2D Falcon::m_static_tex;
@@ -37,13 +37,13 @@ Falcon::Falcon()
 	m_currentCoolDown = 0.f;
 }
 
-Falcon::Falcon(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Map* map)
+Falcon::Falcon(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Scene* scene)
 {
 	static int onFirstCall = FirstInit();
 	m_position = pos;
 	m_target = target;
 	m_projectiles = projectiles;
-	m_Map = map;
+	m_Scene = scene;
 
 	m_forward_vec = glm::normalize(m_target->GetPos() - m_position);
 	m_shootDir = m_forward_vec;

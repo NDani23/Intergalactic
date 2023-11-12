@@ -1,64 +1,64 @@
-#include "../../headers/scenes/Map.h"
+#include "../../headers/scenes/Scene.h"
 #include "../../headers/scenes/EnemySpawnPoint.h"
 
-Map::Map()
+Scene::Scene()
 {
 	m_name = "";
 	m_player = nullptr;
 	m_projectiles = nullptr;
 }
 
-std::vector<std::shared_ptr<Entity>>& Map::GetEntities()
+std::vector<std::shared_ptr<Entity>>& Scene::GetEntities()
 {
 	return m_Entities;
 }
 
-std::vector<std::shared_ptr<Entity>>* Map::GetEntitiesPtr()
+std::vector<std::shared_ptr<Entity>>* Scene::GetEntitiesPtr()
 {
 	return &m_Entities;
 }
 
-std::vector<std::unique_ptr<EnemySpawnPoint>>& Map::GetSpawnPoints()
+std::vector<std::unique_ptr<EnemySpawnPoint>>& Scene::GetSpawnPoints()
 {
 	return m_enemySpawnPoints;
 }
 
-TextureCubeMap& Map::GetSkyBox()
+TextureCubeMap& Scene::GetSkyBox()
 {
 	return m_skyboxTexture;
 }
 
-ProgramObject& Map::getProgram()
+ProgramObject& Scene::getProgram()
 {
 	return m_program;
 }
 
-ProgramObject& Map::getSkyBoxProgram()
+ProgramObject& Scene::getSkyBoxProgram()
 {
 	return m_skyBoxProgram;
 }
 
-std::string& Map::getName()
+std::string& Scene::getName()
 {
 	return m_name;
 }
 
-void Map::ClearMap()
+void Scene::ClearScene()
 {
 	m_Entities.clear();
 }
 
-Floor* Map::GetFloor()
+Floor* Scene::GetFloor()
 {
 	return nullptr;
 }
 
-void Map::AddEntity(std::shared_ptr<Entity> entity)
+void Scene::AddEntity(std::shared_ptr<Entity> entity)
 {
 	m_Entities.emplace_back(entity);
 }
 
-void Map::SetSkyBox(std::string right,
+void Scene::SetSkyBox(std::string right,
 			   std::string left,
 			   std::string top,
 			   std::string bottom,

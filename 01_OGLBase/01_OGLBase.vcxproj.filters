@@ -120,7 +120,7 @@
     <ClInclude Include="headers\scenes\Floor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\scenes\Map.h">
+    <ClInclude Include="headers\scenes\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\scenes\PlanetEarth.h">
@@ -287,7 +287,7 @@
     <ClCompile Include="source\scenes\Floor.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="source\scenes\Map.cpp">
+    <ClCompile Include="source\scenes\Scene.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="source\scenes\PlanetEarth.cpp">

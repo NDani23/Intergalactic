@@ -9,7 +9,7 @@ private:
 	static Texture2D sar_static_tex;
 public:
 	SaR();
-	SaR(glm::vec3, Player*, std::vector<std::unique_ptr<Projectile>>*, Map*);
+	SaR(glm::vec3, Player*, std::vector<std::unique_ptr<Projectile>>*, Scene*);
 
 	void Shoot() override;
 	void DrawMesh(ProgramObject&, glm::mat4&) override;

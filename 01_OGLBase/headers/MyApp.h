@@ -50,7 +50,7 @@ public:
 	void Clean();
 
 	void Reset();
-	void LoadMap();
+	void LoadScene();
 
 	void Update();
 	void Render();
@@ -96,8 +96,8 @@ protected:
 	AppUI UI;
 	Player m_player;
 
-	std::array<std::unique_ptr<Map>, 2> m_maps;
-	Map* m_map;
+	std::array<std::unique_ptr<Scene>, 2> m_scenes;
+	Scene* m_scene;
 
 	float m_PlayTime = 0;
 

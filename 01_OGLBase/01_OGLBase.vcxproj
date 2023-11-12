@@ -126,7 +126,7 @@
     <ClInclude Include="headers\scenes\DesertFloor.h" />
     <ClInclude Include="headers\scenes\EnemySpawnPoint.h" />
     <ClInclude Include="headers\scenes\Floor.h" />
-    <ClInclude Include="headers\scenes\Map.h" />
+    <ClInclude Include="headers\scenes\Scene.h" />
     <ClInclude Include="headers\scenes\PlanetEarth.h" />
     <ClInclude Include="headers\upgrades\Barrier.h" />
     <ClInclude Include="headers\upgrades\Shield.h" />
@@ -192,7 +192,7 @@
     <ClCompile Include="source\scenes\DesertFloor.cpp" />
     <ClCompile Include="source\scenes\EnemySpawnPoint.cpp" />
     <ClCompile Include="source\scenes\Floor.cpp" />
-    <ClCompile Include="source\scenes\Map.cpp" />
+    <ClCompile Include="source\scenes\Scene.cpp" />
     <ClCompile Include="source\scenes\PlanetEarth.cpp" />
     <ClCompile Include="source\upgrades\Barrier.cpp" />
     <ClCompile Include="source\upgrades\Shield.cpp" />

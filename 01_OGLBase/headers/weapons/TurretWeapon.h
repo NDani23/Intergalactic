@@ -4,7 +4,7 @@
 #include "Laser.h"
 
 class Enemy;
-class Map;
+class Scene;
 
 class TurretWeapon : public Weapon
 {

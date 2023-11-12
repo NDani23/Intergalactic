@@ -9,7 +9,7 @@ private:
 	static Texture2D m_static_tex;
 public:
 	Rocketer();
-	Rocketer(glm::vec3, Player*, std::vector<std::unique_ptr<Projectile>>*, Map*);
+	Rocketer(glm::vec3, Player*, std::vector<std::unique_ptr<Projectile>>*, Scene*);
 
 	void Shoot() override;
 	void DrawMesh(ProgramObject&, glm::mat4&) override;

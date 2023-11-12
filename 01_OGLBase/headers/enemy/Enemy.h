@@ -7,7 +7,7 @@
 #include <stdlib.h> 
 #include <algorithm>
 
-class Map;
+class Scene;
 
 class Enemy : public Weapon
 {
@@ -23,7 +23,7 @@ protected:
 
 	Player* m_target;
 	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
-	Map* m_Map;
+	Scene* m_Scene;
 
 public:
 	Enemy();

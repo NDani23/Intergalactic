@@ -11,7 +11,7 @@
 #include <time.h> 
 #include <stdlib.h> 
 
-class Map;
+class Scene;
 
 class EnemySpawnPoint
 {
@@ -23,12 +23,12 @@ private:
 	float m_coolDown;
 	Player* m_target;
 	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
-	Map* m_Map;
+	Scene* m_Scene;
 
 	void ChangeStage(int);
 	void SpawnEnemy();
 public:
 	EnemySpawnPoint();
-	EnemySpawnPoint(const glm::vec3&, Player*, std::vector<std::unique_ptr<Projectile>>*, Map*);
+	EnemySpawnPoint(const glm::vec3&, Player*, std::vector<std::unique_ptr<Projectile>>*, Scene*);
 	void Update(const float& delta);
 };

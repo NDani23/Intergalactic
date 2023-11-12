@@ -8,7 +8,7 @@
 #include <algorithm>
 
 class Persistence;
-class Map;
+class Scene;
 
 struct Stats
 {
@@ -42,7 +42,7 @@ private:
 
 	glm::vec3 m_fakePos;
 	glm::vec3 m_cursorVec;
-	Map* m_map;
+	Scene* m_scene;
 
 	Entity* m_target;
 
@@ -64,7 +64,7 @@ private:
 
 public:
 	Player();
-	void Reset(Map*);
+	void Reset(Scene*);
 
 	void Move(float, const glm::vec3&);
 	void Shoot();
@@ -106,7 +106,7 @@ public:
 	bool IsStealth();
 	bool IsLookingBack();
 	glm::vec3 GetFakePos();
-	Map* GetMapPtr();
+	Scene* GetMapPtr();
 	Stats& GetStats();
 	Entity* GetTarget();
 

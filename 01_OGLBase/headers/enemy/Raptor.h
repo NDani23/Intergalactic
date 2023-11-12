@@ -9,7 +9,7 @@ private:
 	static Texture2D m_static_tex;
 public:
 	Raptor();
-	Raptor(glm::vec3, Player*, std::vector<std::unique_ptr<Projectile>>*, Map*);
+	Raptor(glm::vec3, Player*, std::vector<std::unique_ptr<Projectile>>*, Scene*);
 
 	void Shoot() override;
 	void DrawMesh(ProgramObject&, glm::mat4&) override;

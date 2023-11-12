@@ -130,26 +130,26 @@ void AppUI::RenderMenu()
 		m_app->m_GameState.play = true;
 		m_app->m_GameState.menu = false;
 
-		m_app->LoadMap();
+		m_app->LoadScene();
 	}
 
 	if (ImGui::Button("<", ImVec2(windowSize.x * 0.10, windowSize.y * 0.13f)))
 	{
 		m_currentMapIndex = std::abs((m_currentMapIndex - 1) % 2);
-		m_app->m_map = m_app->m_maps[m_currentMapIndex].get();
-		m_app->m_skyboxTexture = m_app->m_map->GetSkyBox();
+		m_app->m_scene = m_app->m_scenes[m_currentMapIndex].get();
+		m_app->m_skyboxTexture = m_app->m_scene->GetSkyBox();
 	}
 	ImGui::SameLine(0.f, 1.f);
 
-	ImGui::Button(m_app->m_map->getName().c_str(), ImVec2(windowSize.x * 0.545, windowSize.y * 0.13f));
+	ImGui::Button(m_app->m_scene->getName().c_str(), ImVec2(windowSize.x * 0.545, windowSize.y * 0.13f));
 
 	ImGui::SameLine(0.f, 1.f);
 
 	if (ImGui::Button(">", ImVec2(windowSize.x * 0.10, windowSize.y * 0.13f)))
 	{
 		m_currentMapIndex = (m_currentMapIndex + 1) % 2;
-		m_app->m_map = m_app->m_maps[m_currentMapIndex].get();
-		m_app->m_skyboxTexture = m_app->m_map->GetSkyBox();
+		m_app->m_scene = m_app->m_scenes[m_currentMapIndex].get();
+		m_app->m_skyboxTexture = m_app->m_scene->GetSkyBox();
 	}
 
 

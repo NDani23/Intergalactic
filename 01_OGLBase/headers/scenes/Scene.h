@@ -15,7 +15,7 @@
 #include "Floor.h"
 #include "EnemySpawnPoint.h"
 
-class Map
+class Scene
 {
 protected:
 	std::string m_name;
@@ -29,7 +29,7 @@ protected:
 	ProgramObject m_skyBoxProgram;
 
 public:
-	Map();
+	Scene();
 	std::vector<std::shared_ptr<Entity>>& GetEntities();
 	std::vector<std::unique_ptr<EnemySpawnPoint>>& GetSpawnPoints();
 	std::vector<std::shared_ptr<Entity>>* GetEntitiesPtr();
@@ -40,11 +40,11 @@ public:
 	virtual Floor* GetFloor();
 
 
-	void ClearMap();
+	void ClearScene();
 	void AddEntity(std::shared_ptr<Entity> entity);
 	void SetSkyBox(std::string, std::string, std::string, std::string ,std::string ,std::string);
 
-	virtual void LoadMap() {};
+	virtual void LoadScene() {};
 	virtual void DrawEntities(glm::mat4&, GameState&) {};
 	virtual void DrawSkyBox(glm::mat4&) {};
 };

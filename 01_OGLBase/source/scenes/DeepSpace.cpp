@@ -38,7 +38,7 @@ DeepSpace::DeepSpace(std::vector<std::unique_ptr<Projectile>>* projectiles, Play
 		      "assets/DeepSpace/back.png");
 }
 
-void DeepSpace::LoadMap()
+void DeepSpace::LoadScene()
 {
 	m_Entities.clear();
 	m_enemySpawnPoints.clear();

@@ -1,11 +1,11 @@
 #include "../../headers/Enemy/Enemy.h"
-#include "../../headers/scenes/Map.h"
+#include "../../headers/scenes/Scene.h"
 
 Enemy::Enemy()
 {
 	m_target = nullptr;
 	m_projectiles = nullptr;
-	m_Map = nullptr;
+	m_Scene = nullptr;
 
 	m_mesh = nullptr;
 }
@@ -100,7 +100,7 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 
 	Dimensions enemy_dims = m_hitboxes[0].dimensions;
 
-	for (std::shared_ptr<Entity>& obj : m_Map->GetEntities())
+	for (std::shared_ptr<Entity>& obj : m_Scene->GetEntities())
 	{
 		if (obj.get() == this || !obj.get()->CanCollide())
 		{
@@ -128,7 +128,7 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 
 		}
 
-		//AvoidObject(*obj.get(), temp_dir);
+		AvoidObject(*obj.get(), temp_dir);
 
 	}
 	return false;
@@ -200,15 +200,15 @@ void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 
 bool Enemy::CalcAvoidFloorVec(glm::vec3& temp_dir)
 {
-	if (m_Map->GetFloor() != nullptr)
+	if (m_Scene->GetFloor() != nullptr)
 	{
-		if (m_Map->GetFloor()->DetectCollision(*this))
+		if (m_Scene->GetFloor()->DetectCollision(*this))
 		{
 			return true;
 		}
 
 		glm::vec3 future_position = m_position + temp_dir * 100.f;
-		glm::vec3 distance_vec = glm::vec3(future_position.x, m_Map->GetFloor()->GetZCoord(future_position.x, future_position.z), future_position.z) - m_position;
+		glm::vec3 distance_vec = glm::vec3(future_position.x, m_Scene->GetFloor()->GetZCoord(future_position.x, future_position.z), future_position.z) - m_position;
 		float distance = glm::length(distance_vec);
 		if (distance < 300.0f)
 		{

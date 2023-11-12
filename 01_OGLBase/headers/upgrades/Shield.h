@@ -3,7 +3,7 @@
 #include "Upgrade.h"
 #include "Barrier.h"
 
-class Map;
+class Scene;
 
 class Shield : public Upgrade
 {

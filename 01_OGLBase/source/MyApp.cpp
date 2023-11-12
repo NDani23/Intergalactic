@@ -18,9 +18,9 @@ CMyApp::CMyApp(void)
 	m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0));
 	m_quit = nullptr;
 
-	m_maps[0] = std::make_unique<DeepSpace>(&m_projectiles, &m_player);
-	m_maps[1] = std::make_unique<PlanetEarth>(&m_projectiles, &m_player);
-	m_map = m_maps[0].get();
+	m_scenes[0] = std::make_unique<DeepSpace>(&m_projectiles, &m_player);
+	m_scenes[1] = std::make_unique<PlanetEarth>(&m_projectiles, &m_player);
+	m_scene = m_scenes[0].get();
 }
 
 CMyApp::~CMyApp(void)
@@ -76,7 +76,7 @@ void CMyApp::InitSkyBox()
 
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
-	m_skyboxTexture = m_map->GetSkyBox();
+	m_skyboxTexture = m_scene->GetSkyBox();
 
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -126,13 +126,13 @@ void CMyApp::Reset()
 {
 	m_PlayTime = 0.f;
 	m_projectiles.clear();
-	m_player.Reset(m_map);
+	m_player.Reset(m_scene);
 }
 
-void CMyApp::LoadMap()
+void CMyApp::LoadScene()
 {
-	m_player.Reset(m_map);
-	m_map->LoadMap();
+	m_player.Reset(m_scene);
+	m_scene->LoadScene();
 }
 
 void CMyApp::Update()
@@ -180,7 +180,7 @@ void CMyApp::Render()
 	glDepthFunc(GL_LEQUAL);
 
 	m_SkyboxVao.Bind();
-	ProgramObject& SkyBoxProgram = m_map->getSkyBoxProgram();
+	ProgramObject& SkyBoxProgram = m_scene->getSkyBoxProgram();
 
 	SkyBoxProgram.Use();
 	SkyBoxProgram.SetUniform("MVP", viewProj * glm::translate(m_camera.GetEye()));
@@ -196,7 +196,7 @@ void CMyApp::Render()
 
 
 	//Objects
-	ProgramObject& BaseProgram = m_map->getProgram();
+	ProgramObject& BaseProgram = m_scene->getProgram();
 
 	BaseProgram.Use();
 	if (m_GameState.play || m_GameState.hangar)
@@ -209,7 +209,8 @@ void CMyApp::Render()
 		}
 	}
 
-	m_map->DrawEntities(viewProj, m_GameState);
+	m_scene->DrawEntities(viewProj, m_GameState);
+
 	if (m_GameState.play)
 	{
 		glm::vec3 eye_pos = m_camera.GetEye();
@@ -376,16 +377,16 @@ void CMyApp::DetectCollisions()
 	glm::vec3 player_pos = m_player.GetPos();
 	Dimensions player_dims = m_player.GetHitboxes()[0].dimensions;
 
-	if (m_map->GetFloor() != nullptr)
+	if (m_scene->GetFloor() != nullptr)
 	{
-		if (m_map->GetFloor()->DetectCollision(m_player))
+		if (m_scene->GetFloor()->DetectCollision(m_player))
 		{
 			GameOver();
 			return;
 		}
 	}
 
-	for (std::shared_ptr<Entity>& entity : m_map->GetEntities())
+	for (std::shared_ptr<Entity>& entity : m_scene->GetEntities())
 	{
 		if (m_GameState.gameover) break;
 		if (!entity->CanCollide()) break;
@@ -424,7 +425,7 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 	for (int i=0; i < projectiles.size(); i++)
 	{
 		Projectile* proj = projectiles[i].get();
-		for (std::shared_ptr<Entity>& entity : m_map->GetEntities())
+		for (std::shared_ptr<Entity>& entity : m_scene->GetEntities())
 		{
 			if (!entity->CanCollide()) continue;
 
@@ -432,9 +433,9 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 			{
 				if (entity->Hit(proj->GetDamage()))
 				{
-					auto position = std::find(m_map->GetEntities().begin(), m_map->GetEntities().end(), entity);
-					if (position != m_map->GetEntities().end())
-						m_map->GetEntities().erase(position);
+					auto position = std::find(m_scene->GetEntities().begin(), m_scene->GetEntities().end(), entity);
+					if (position != m_scene->GetEntities().end())
+						m_scene->GetEntities().erase(position);
 
 					m_player.setPoints(m_player.GetPoints() + 10);
 				}
@@ -449,15 +450,15 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 	{
 		bool alive = true;
 		Projectile* proj = m_projectiles[i].get();
-		for (std::shared_ptr<Entity>& entity : m_map->GetEntities())
+		for (std::shared_ptr<Entity>& entity : m_scene->GetEntities())
 		{
 			if (proj->CheckHit(entity.get()))
 			{
 				if (entity->Hit(proj->GetDamage()))
 				{
-					auto position = std::find(m_map->GetEntities().begin(), m_map->GetEntities().end(), entity);
-					if (position != m_map->GetEntities().end())
-						m_map->GetEntities().erase(position);
+					auto position = std::find(m_scene->GetEntities().begin(), m_scene->GetEntities().end(), entity);
+					if (position != m_scene->GetEntities().end())
+						m_scene->GetEntities().erase(position);
 
 					m_player.setPoints(m_player.GetPoints() + 10);
 				}
@@ -487,7 +488,7 @@ void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 
 void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
-	ProgramObject& BaseProgram = m_map->getProgram();
+	ProgramObject& BaseProgram = m_scene->getProgram();
 	for (std::unique_ptr<Projectile>& projectile : projectiles)
 	{
 		if (projectile->GetMesh() == nullptr)
@@ -525,18 +526,18 @@ void CMyApp::UpdateMap(const float& delta)
 {
 	m_player.setTarget(nullptr);
 
-	for (std::unique_ptr<EnemySpawnPoint>& spawnPoint : m_map->GetSpawnPoints())
+	for (std::unique_ptr<EnemySpawnPoint>& spawnPoint : m_scene->GetSpawnPoints())
 	{
 		spawnPoint->Update(delta);
 	}
 
-	for (int i = m_map->GetEntities().size() - 1; i >= 0; i--)
+	for (int i = m_scene->GetEntities().size() - 1; i >= 0; i--)
 	{
 
-		Entity* entity = m_map->GetEntities()[i].get();
+		Entity* entity = m_scene->GetEntities()[i].get();
 		if (entity->Update(delta))
 		{
-			m_map->GetEntities().erase(m_map->GetEntities().begin() + i);
+			m_scene->GetEntities().erase(m_scene->GetEntities().begin() + i);
 			m_player.setPoints(m_player.GetPoints() + 10);
 
 			continue;
@@ -572,7 +573,7 @@ void CMyApp::DrawHitBoxes(ProgramObject& program, glm::mat4& viewProj)
 {
 	std::vector<glm::vec3> Points;
 
-	for (std::shared_ptr<Entity>& entity : m_map->GetEntities())
+	for (std::shared_ptr<Entity>& entity : m_scene->GetEntities())
 	{
 		for (HitBox& hitbox : entity->GetHitboxes())
 		{
