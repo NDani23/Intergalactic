@@ -100,6 +100,8 @@ bool CMyApp::Init(bool* quit)
 
 	m_Persistence.Load();
 
+	m_camera.LinkToApp(this);
+
 	glClearColor(0.125f, 0.25f, 0.5f, 1.0f);
 
 	glEnable(GL_CULL_FACE);
@@ -124,51 +126,26 @@ void CMyApp::Reset()
 {
 	m_PlayTime = 0.f;
 	m_projectiles.clear();
-	m_map->LoadMap();
 	m_player.Reset(m_map);
+}
+
+void CMyApp::LoadMap()
+{
+	m_player.Reset(m_map);
+	m_map->LoadMap();
 }
 
 void CMyApp::Update()
 {
 	float delta_time = ImGui::GetIO().DeltaTime;
 
-	if (m_GameState.menu)
-	{
-
-		if (m_camera.GetEye() != glm::vec3(0, 0, 0))
-		{
-			m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0));
-		}
-		else
-		{
-			glm::vec4 cam_at = glm::vec4(m_camera.GetAt(), 1);
-			cam_at = glm::rotate(delta_time * 0.2f, glm::vec3(0.f, 1.f, 0.f)) * cam_at;
-			m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(cam_at.x, cam_at.y, cam_at.z), glm::vec3(0, 1, 0));
-		}
-		m_camera.Update(delta_time);
-		return;
-	}
-
-	if (m_GameState.hangar)
-	{
-		if (m_player.GetPos() != glm::vec3(0.0f, 0.0f, 0.0f))
-			m_player.Reset(m_map);
-
-		if (m_camera.GetAt() != m_player.GetPos())
-		{
-			m_camera.FocusOnPosition(glm::vec3(0.f, 0.f, 0.f));
-		}
-		m_camera.Update(delta_time);
-		return;
-	}
-
-	if (m_GameState.pause)
-	{
-		m_camera.Update(delta_time);
-		return;
-	}
-
 	m_cursor_diff_vec = glm::normalize((m_player.GetUpVec() * -1.0f * m_mouseY) + (m_player.GetCrossVec() * -1.0f * m_mouseX) + m_player.GetForwardVec());
+
+	if (!m_GameState.play || m_GameState.pause)
+	{
+		m_camera.Update(delta_time);
+		return;
+	}
 
 	if (!m_GameState.gameover)
 	{
@@ -186,38 +163,6 @@ void CMyApp::Update()
 	if (m_shooting) m_player.Shoot();
 	if (m_useUpgrade && m_player.GetUpgrade() != nullptr) m_player.ActivateUpgrade();
 
-	//camera
-	glm::vec3 new_at = m_player.GetPos() + (m_cursor_diff_vec * 2000.f);
-	glm::vec3 new_eye = m_player.GetPos() - m_cursor_diff_vec * 40.f + m_player.GetUpVec() * 5.f;
-	glm::vec3 new_up = m_player.GetUpVec();
-	if (!m_lookAround)
-	{
-		new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
-		new_at = m_player.GetPos() + m_player.GetForwardVec() * 1000.f;
-	}
-
-	if (m_backward_camera)
-	{
-		new_eye = m_player.GetPos() + m_player.GetForwardVec() * 40.f + m_player.GetUpVec() * 5.f;
-		new_at = m_player.GetPos() - m_player.GetForwardVec() * 30.f;
-	}
-
-	//camera teszt up
-	/*glm::vec3 new_eye = m_player.GetPos() + m_player.GetUpVec() * 50.f;
-	glm::vec3 new_at = m_player.GetPos();
-	glm::vec3 new_up = m_player.GetForwardVec();*/
-
-	////camera teszt behind
-	/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f;
-	glm::vec3 new_at = m_player.GetPos();
-	glm::vec3 new_up = m_player.GetUpVec();*/
-
-	//camera teszt side
-	/*glm::vec3 new_eye = m_player.GetPos() + m_player.GetCrossVec() * 40.f;
-	glm::vec3 new_at = m_player.GetPos();
-	glm::vec3 new_up = m_player.GetUpVec();*/
-
-	m_camera.SetView(new_eye, new_at, new_up);
 	m_camera.Update(delta_time);
 
 	DetectCollisions();

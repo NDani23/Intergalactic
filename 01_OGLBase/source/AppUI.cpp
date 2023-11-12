@@ -130,7 +130,7 @@ void AppUI::RenderMenu()
 		m_app->m_GameState.play = true;
 		m_app->m_GameState.menu = false;
 
-		m_app->Reset();
+		m_app->LoadMap();
 	}
 
 	if (ImGui::Button("<", ImVec2(windowSize.x * 0.10, windowSize.y * 0.13f)))
@@ -300,6 +300,7 @@ void AppUI::RenderGameOverWindow()
 		m_app->m_GameState.gameover = false;
 		m_app->m_GameState.play = false;
 		m_app->m_GameState.menu = true;
+		m_app->Reset();
 	}
 
 	ImGui::End();
@@ -332,6 +333,7 @@ void AppUI::RenderPauseWindow()
 		m_app->m_GameState.play = false;
 		m_app->m_GameState.pause = false;
 		m_app->m_GameState.menu = true;
+		m_app->Reset();
 	}
 
 	ImGui::End();

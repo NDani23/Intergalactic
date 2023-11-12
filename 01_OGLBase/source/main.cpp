@@ -61,9 +61,10 @@ int main( int argc, char* args[] )
 							100,						
 							640,						
 							480,					
-							SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
+							SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
 	//SDL_WINDOW_RESIZABLE for debug
+	//SDL_WINDOW_FULLSCREEN_DESKTOP for fullscreen
 
 	if (win == 0)
 	{

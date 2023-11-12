@@ -3,6 +3,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <math.h>
 
+#include "../headers/MyApp.h"
+
 /// <summary>
 /// Initializes a new instance of the <see cref="gCamera"/> class.
 /// </summary>
@@ -22,6 +24,11 @@ gCamera::gCamera(glm::vec3 _eye, glm::vec3 _at, glm::vec3 _up) : m_speed(16.0f),
 
 gCamera::~gCamera(void)
 {
+}
+
+void gCamera::LinkToApp(CMyApp* app)
+{
+	m_app = app;
 }
 
 void gCamera::SetView(glm::vec3 _eye, glm::vec3 _at, glm::vec3 _up)
@@ -52,8 +59,71 @@ glm::mat4 gCamera::GetViewMatrix()
 
 void gCamera::Update(float _deltaTime)
 {
-	m_eye += (m_goFw*m_fw + m_goRight*m_st)*m_speed*_deltaTime;
-	m_at  += (m_goFw*m_fw + m_goRight*m_st)*m_speed*_deltaTime;
+	GameState state = m_app->m_GameState;
+
+	if (state.menu)
+	{
+		if (m_eye != glm::vec3(0, 0, 0))
+		{
+			m_eye = glm::vec3(0, 0, 0);
+			m_at = glm::vec3(0, 0, 3);
+			m_up = glm::vec3(0, 1, 0);
+		}
+		else
+		{
+			glm::vec4 cam_at = glm::vec4(m_at, 1);
+			cam_at = glm::rotate(_deltaTime * 0.2f, glm::vec3(0.f, 1.f, 0.f)) * cam_at;
+
+			m_at = glm::vec3(cam_at.x, cam_at.y, cam_at.z);
+		}
+	}
+
+	if (state.hangar)
+	{
+		if (m_at != m_app->m_player.GetPos())
+		{
+			FocusOnPosition(glm::vec3(0.f, 0.f, 0.f));
+		}
+	}
+
+	if (state.play && !state.pause)
+	{
+		Player* player = &m_app->m_player;
+		m_at = player->GetPos() + (m_app->m_cursor_diff_vec * 2000.f);
+		m_eye = player->GetPos() - m_app->m_cursor_diff_vec * 40.f + player->GetUpVec() * 5.f;
+		m_up = player->GetUpVec();
+
+		if (!m_app->m_lookAround)
+		{
+			m_eye = player->GetPos() - player->GetForwardVec() * 40.f + player->GetUpVec() * 5.f;
+			m_at = player->GetPos() + player->GetForwardVec() * 1000.f;
+		}
+
+		if (m_app->m_backward_camera)
+		{
+			m_eye = player->GetPos() + player->GetForwardVec() * 40.f + player->GetUpVec() * 5.f;
+			m_at = player->GetPos() - player->GetForwardVec() * 30.f;
+		}
+
+
+		//camera teszt up
+		/*glm::vec3 new_eye = m_player.GetPos() + m_player.GetUpVec() * 50.f;
+		glm::vec3 new_at = m_player.GetPos();
+		glm::vec3 new_up = m_player.GetForwardVec();*/
+		
+		////camera teszt behind
+		/*glm::vec3 new_eye = m_player.GetPos() - m_player.GetForwardVec() * 40.f;
+		glm::vec3 new_at = m_player.GetPos();
+		glm::vec3 new_up = m_player.GetUpVec();*/
+		
+		//camera teszt side
+		/*glm::vec3 new_eye = m_player.GetPos() + m_player.GetCrossVec() * 40.f;
+		glm::vec3 new_at = m_player.GetPos();
+		glm::vec3 new_up = m_player.GetUpVec();*/
+	}
+	
+	//m_eye += (m_goFw*m_fw + m_goRight*m_st)*m_speed*_deltaTime;
+	//m_at  += (m_goFw*m_fw + m_goRight*m_st)*m_speed*_deltaTime;
 
 	m_viewMatrix = glm::lookAt( m_eye, m_at, m_up);
 	m_matViewProj = m_matProj * m_viewMatrix;

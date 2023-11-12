@@ -3,6 +3,8 @@
 #include <SDL.h>
 #include <glm/glm.hpp>
 
+class CMyApp;
+
 class gCamera
 {
 public:
@@ -18,6 +20,7 @@ public:
 
 	void Update(float _deltaTime);
 
+	void LinkToApp(CMyApp*);
 	void SetView(glm::vec3 _eye, glm::vec3 _at, glm::vec3 _up);
 	void SetProj(float _angle, float _aspect, float _zn, float _zf); 
 	void LookAt(glm::vec3 _at);
@@ -56,6 +59,8 @@ public:
 	void FocusOnPosition(glm::vec3);
 
 private:
+	
+	CMyApp* m_app = nullptr;
 	/// <summary>
 	/// Updates the UV.
 	/// </summary>

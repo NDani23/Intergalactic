@@ -50,6 +50,7 @@ public:
 	void Clean();
 
 	void Reset();
+	void LoadMap();
 
 	void Update();
 	void Render();
@@ -72,6 +73,7 @@ public:
 
 	friend class AppUI;
 	friend class Persistence;
+	friend class gCamera;
 
 protected:
 	// shaderekhez szükséges változók
