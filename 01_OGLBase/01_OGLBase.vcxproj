@@ -128,6 +128,7 @@
     <ClInclude Include="headers\scenes\Floor.h" />
     <ClInclude Include="headers\scenes\Scene.h" />
     <ClInclude Include="headers\scenes\PlanetEarth.h" />
+    <ClInclude Include="headers\scenes\SkyBox.h" />
     <ClInclude Include="headers\upgrades\Barrier.h" />
     <ClInclude Include="headers\upgrades\Shield.h" />
     <ClInclude Include="headers\upgrades\SpeedBooster.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="source\scenes\Floor.cpp" />
     <ClCompile Include="source\scenes\Scene.cpp" />
     <ClCompile Include="source\scenes\PlanetEarth.cpp" />
+    <ClCompile Include="source\scenes\SkyBox.cpp" />
     <ClCompile Include="source\upgrades\Barrier.cpp" />
     <ClCompile Include="source\upgrades\Shield.cpp" />
     <ClCompile Include="source\upgrades\SpeedBooster.cpp" />

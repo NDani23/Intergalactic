@@ -20,18 +20,8 @@ PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, 
 
 	m_program.LinkProgram();
 
-	m_skyBoxProgram.AttachShaders({
-		{ GL_VERTEX_SHADER, "shaders/PlanetEarthSkyBox.vert"},
-		{ GL_FRAGMENT_SHADER, "shaders/PlanetEarthSkyBox.frag"}
-		});
-
-	m_skyBoxProgram.BindAttribLocations({
-		{ 0, "vs_in_pos" },
-		});
-
-	m_skyBoxProgram.LinkProgram();
-
-	SetSkyBox("assets/PlanetEarth/xpos.png",
+	m_skyBox.SetShaders("shaders/PlanetEarthSkyBox.vert", "shaders/PlanetEarthSkyBox.frag");
+	m_skyBox.SetTexture("assets/PlanetEarth/xpos.png",
 			  "assets/PlanetEarth/xneg.png",
 		      "assets/PlanetEarth/ypos.png",
 		      "assets/PlanetEarth/yneg.png",
@@ -123,9 +113,11 @@ void PlanetEarth::LoadScene()
 	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 50.f, 2000), m_player, m_projectiles, this));
 }
 
-void PlanetEarth::DrawEntities(glm::mat4& viewproj, GameState& state)
+void PlanetEarth::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos)
 {
+	m_skyBox.Draw(viewproj, eye_pos);
 	m_Floor.DrawFloor(viewproj, m_player);
+
 	m_program.Use();
 	if (state.play)
 	{

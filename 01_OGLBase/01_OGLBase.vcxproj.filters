@@ -213,6 +213,9 @@
     <ClInclude Include="headers\GameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\scenes\SkyBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Includes\GLconversions.cpp">
@@ -373,6 +376,9 @@
     </ClCompile>
     <ClCompile Include="source\data_storage\WeaponDataStorage.cpp">
       <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scenes\SkyBox.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

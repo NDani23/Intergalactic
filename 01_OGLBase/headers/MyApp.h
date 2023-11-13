@@ -77,15 +77,9 @@ public:
 
 protected:
 	// shaderekhez szükséges változók
-	ProgramObject		m_axesProgram;
-
-	VertexArrayObject	m_SkyboxVao;
-	IndexBuffer			m_SkyboxIndices;	
-	ArrayBuffer			m_SkyboxPos;		
+	ProgramObject		m_axesProgram;		
 
 	gCamera				m_camera;
-
-	TextureCubeMap		m_skyboxTexture;
 
 	GameState m_GameState = {true, false, false, false};
 
@@ -126,6 +120,5 @@ protected:
 
 	// a jobb olvashatóság kedvéért
 	void InitShaders();
-	void InitSkyBox();
 };
 

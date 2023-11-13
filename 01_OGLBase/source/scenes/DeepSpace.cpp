@@ -19,18 +19,8 @@ DeepSpace::DeepSpace(std::vector<std::unique_ptr<Projectile>>* projectiles, Play
 
 	m_program.LinkProgram();
 
-	m_skyBoxProgram.AttachShaders({
-		{ GL_VERTEX_SHADER, "shaders/skybox.vert"},
-		{ GL_FRAGMENT_SHADER, "shaders/skybox.frag"}
-		});
-
-	m_skyBoxProgram.BindAttribLocations({
-		{ 0, "vs_in_pos" },
-		});
-
-	m_skyBoxProgram.LinkProgram();
-
-	SetSkyBox("assets/DeepSpace/right.png",
+	m_skyBox.SetShaders("shaders/skybox.vert", "shaders/skybox.frag");
+	m_skyBox.SetTexture("assets/DeepSpace/right.png",
 			  "assets/DeepSpace/left.png",
 			  "assets/DeepSpace/top.png",
 		      "assets/DeepSpace/bottom.png",
@@ -112,8 +102,11 @@ void DeepSpace::CreateMeteorField()
 	
 }
 
-void DeepSpace::DrawEntities(glm::mat4& viewproj, GameState& state)
+void DeepSpace::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos)
 {
+	m_skyBox.Draw(viewproj, eye_pos);
+
+	m_program.Use();
 	if (state.play)
 	{
 		for (std::shared_ptr<Entity>& entity : m_Entities)
@@ -121,4 +114,5 @@ void DeepSpace::DrawEntities(glm::mat4& viewproj, GameState& state)
 			entity->DrawMesh(m_program, viewproj);
 		}
 	}
+	m_program.Unuse();
 }

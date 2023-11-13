@@ -25,6 +25,6 @@ public:
 	PlanetEarth(std::vector<std::unique_ptr<Projectile>>*, Player*);
 
 	void LoadScene() override;
-	void DrawEntities(glm::mat4&, GameState&) override;
+	void DrawScene(glm::mat4&, GameState&, glm::vec3) override;
 	Floor* GetFloor() override;
 };

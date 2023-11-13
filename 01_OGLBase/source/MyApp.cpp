@@ -27,64 +27,6 @@ CMyApp::~CMyApp(void)
 {
 }
 
-void CMyApp::InitSkyBox()
-{
-	m_SkyboxPos.BufferData(
-		std::vector<glm::vec3>{
-
-		glm::vec3(-1, -1, -1),
-		glm::vec3(1, -1, -1),
-		glm::vec3(1, 1, -1),
-		glm::vec3(-1, 1, -1),
-
-		glm::vec3(-1, -1, 1),
-		glm::vec3(1, -1, 1),
-		glm::vec3(1, 1, 1),
-		glm::vec3(-1, 1, 1),
-	}
-	);
-
-
-	m_SkyboxIndices.BufferData(
-		std::vector<int>{
-			// hátsó lap
-			0, 1, 2,
-			2, 3, 0,
-			// elülső lap
-			4, 6, 5,
-			6, 4, 7,
-			// bal
-			0, 3, 4,
-			4, 3, 7,
-			// jobb
-			1, 5, 2,
-			5, 6, 2,
-			// alsó
-			1, 0, 4,
-			1, 4, 5,
-			// felső
-			3, 2, 6,
-			3, 6, 7,
-	}
-	);
-
-	m_SkyboxVao.Init(
-		{
-			{ CreateAttribute<0, glm::vec3, 0, sizeof(glm::vec3)>, m_SkyboxPos },
-		}, m_SkyboxIndices
-	);
-
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-
-	m_skyboxTexture = m_scene->GetSkyBox();
-
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-}
-
 void CMyApp::InitShaders()
 {
 
@@ -111,7 +53,6 @@ bool CMyApp::Init(bool* quit)
 	glLineWidth(4.0f);
 
 	InitShaders();
-	InitSkyBox();
 
 	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 1.f, 8000.0f);
 
@@ -173,27 +114,7 @@ void CMyApp::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glm::mat4 viewProj = m_camera.GetViewProj();
 
-	// skybox
-	GLint prevDepthFnc;
-	glGetIntegerv(GL_DEPTH_FUNC, &prevDepthFnc);
-
-	glDepthFunc(GL_LEQUAL);
-
-	m_SkyboxVao.Bind();
-	ProgramObject& SkyBoxProgram = m_scene->getSkyBoxProgram();
-
-	SkyBoxProgram.Use();
-	SkyBoxProgram.SetUniform("MVP", viewProj * glm::translate(m_camera.GetEye()));
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_skyboxTexture);
-	glUniform1i(SkyBoxProgram.GetLocation("skyboxTexture"), 0);
-
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-	SkyBoxProgram.Unuse();
-
-	glDepthFunc(prevDepthFnc);
-
+	m_scene->DrawScene(viewProj, m_GameState, m_camera.GetEye());
 
 	//Objects
 	ProgramObject& BaseProgram = m_scene->getProgram();
@@ -208,8 +129,6 @@ void CMyApp::Render()
 			m_player.DrawMesh(BaseProgram, viewProj);
 		}
 	}
-
-	m_scene->DrawEntities(viewProj, m_GameState);
 
 	if (m_GameState.play)
 	{
