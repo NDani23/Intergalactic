@@ -69,13 +69,7 @@ void Shield::Update(const float delta)
 
 	if (m_active && m_activeTime <= 0.f)
 	{
-		//auto delete_pos = std::remove(m_parent->GetMapPtr()->GetEntitiesPtr()->begin(), m_parent->GetMapPtr()->GetEntitiesPtr()->end(), m_barrier);
-		auto position = std::find(m_parent->GetMapPtr()->GetEntities().begin(), m_parent->GetMapPtr()->GetEntities().end(), m_barrier);
-
-		if (position != m_parent->GetMapPtr()->GetEntitiesPtr()->end())
-			m_parent->GetMapPtr()->GetEntitiesPtr()->erase(position);
-		
-		
+		m_parent->setImmortal(false);
 
 		m_active = false;
 		m_activeTime = 0.f;
@@ -88,10 +82,22 @@ void Shield::Activate()
 	if (m_currentCoolDown <= 0.f)
 	{
 		//Put barrier around player
-		m_parent->GetMapPtr()->AddEntity(m_barrier);
+		m_parent->setImmortal(true);
 		m_activeTime = m_durationTime;
 		m_active = true;
 		m_currentCoolDown = m_coolDownTime;
 	}
+}
+
+void Shield::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
+{
+	program.SetTexture("texImage", 0, m_texture);
+	program.SetUniform("MVP", viewProj * m_transforms);
+	program.SetUniform("world", m_transforms);
+	program.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
+
+	m_mesh->draw();
+
+	if (m_active) m_barrier->DrawMesh(program, viewProj);
 }
 

@@ -17,4 +17,5 @@ public:
 	Shield(Player*);
 	void Update(const float delta) override;
 	void Activate() override;
+	void DrawMesh(ProgramObject&, glm::mat4&) override;
 };

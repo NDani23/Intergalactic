@@ -49,11 +49,11 @@ public:
 	bool Init(bool*);
 	void Clean();
 
-	void Reset();
-	void LoadScene();
-
 	void Update();
 	void Render();
+
+	void Reset();
+	void GameOver();
 
 	void KeyboardDown(SDL_KeyboardEvent&);
 	void KeyboardUp(SDL_KeyboardEvent&);
@@ -63,7 +63,6 @@ public:
 	void MouseWheel(SDL_MouseWheelEvent&);
 	void Resize(int, int);
 	void DrawHitBoxes(ProgramObject&, glm::mat4&);
-	void GameOver();
 	void Exit();
 
 	friend class AppUI;
@@ -112,7 +111,6 @@ protected:
 
 	bool* m_quit;
 
-	// a jobb olvashatóság kedvéért
 	void InitShaders();
 };
 

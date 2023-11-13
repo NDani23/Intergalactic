@@ -31,6 +31,16 @@ protected:
 	SkyBox m_skyBox;
 	ProgramObject m_program;
 
+	void UpdateProjectiles(const float&);
+	void UpdateEntities(const float&, GameState&);
+
+	bool CheckForCollision();
+	bool DetectHits();
+
+	void DrawSkyBox(glm::mat4&, glm::vec3);
+	void DrawEntities(glm::mat4&);
+	void DrawProjectiles(glm::mat4&, ProgramObject&);
+
 public:
 	Scene();
 	std::vector<std::shared_ptr<Entity>>& GetEntities();
@@ -41,14 +51,9 @@ public:
 	std::unique_ptr<Floor>& GetFloor();
 
 	bool Update(const float&, GameState&);
-	void UpdateProjectiles(const float&);
-	bool CheckForCollision();
-	bool DetectHits();
 
-	void ClearScene();
 	void AddEntity(std::shared_ptr<Entity> entity);
 
 	virtual void LoadScene() {};
 	void DrawScene(glm::mat4&, GameState&, glm::vec3, ProgramObject&);
-	void DrawSkyBox(glm::mat4&, glm::vec3);
 };

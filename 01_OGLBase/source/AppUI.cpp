@@ -130,7 +130,7 @@ void AppUI::RenderMenu()
 		m_app->m_GameState.play = true;
 		m_app->m_GameState.menu = false;
 
-		m_app->LoadScene();
+		m_app->m_scene->LoadScene();
 	}
 
 	if (ImGui::Button("<", ImVec2(windowSize.x * 0.10, windowSize.y * 0.13f)))

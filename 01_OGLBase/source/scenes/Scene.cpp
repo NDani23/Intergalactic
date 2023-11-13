@@ -33,11 +33,6 @@ std::string& Scene::getName()
 	return m_name;
 }
 
-void Scene::ClearScene()
-{
-	m_Entities.clear();
-}
-
 std::unique_ptr<Floor>& Scene::GetFloor()
 {
 	return m_floor;
@@ -46,11 +41,21 @@ std::unique_ptr<Floor>& Scene::GetFloor()
 bool Scene::Update(const float& delta, GameState& state)
 {
 	m_player->setTarget(nullptr);
+
 	for (int i = 0; i < m_enemySpawnPoints.size(); i++)
 	{
 		m_enemySpawnPoints.at(i)->Update(delta);
 	}
 
+	UpdateEntities(delta, state);
+	UpdateProjectiles(delta);
+
+	if (state.gameover) return false;
+	return CheckForCollision() || DetectHits();
+}
+
+void Scene::UpdateEntities(const float& delta, GameState& state)
+{
 	for (int i = m_Entities.size() - 1; i >= 0; i--)
 	{
 
@@ -58,8 +63,8 @@ bool Scene::Update(const float& delta, GameState& state)
 		if (entity->Update(delta))
 		{
 			m_Entities.erase(m_Entities.begin() + i);
-			
-			if(!state.gameover) m_player->setPoints(m_player->GetPoints() + 10);
+
+			if (!state.gameover) m_player->setPoints(m_player->GetPoints() + 10);
 
 			continue;
 		}
@@ -74,12 +79,18 @@ bool Scene::Update(const float& delta, GameState& state)
 		{
 			m_player->setTarget(entity);
 		}
-
 	}
-	UpdateProjectiles(delta);
+}
 
-	if (state.gameover) return false;
-	return CheckForCollision() || DetectHits();
+void Scene::UpdateProjectiles(const float& delta)
+{
+	for (int i = 0; i < m_projectiles.size(); i++)
+	{
+		if (m_projectiles[i]->Update(delta))
+		{
+			m_projectiles.erase(m_projectiles.begin() + i);
+		}
+	}
 }
 
 bool Scene::CheckForCollision()
@@ -142,6 +153,8 @@ bool Scene::DetectHits()
 			{
 				if (entity->Hit(proj->GetDamage()))
 				{
+					if (entity.get() == m_player->GetTarget()) m_player->setTarget(nullptr);
+
 					auto position = std::find(m_Entities.begin(), m_Entities.end(), entity);
 					if (position != m_Entities.end())
 						m_Entities.erase(position);
@@ -195,25 +208,9 @@ bool Scene::DetectHits()
 	return false;
 }
 
-void Scene::UpdateProjectiles(const float&delta)
-{
-	for (int i = 0; i < m_projectiles.size(); i++)
-	{
-		if (m_projectiles[i]->Update(delta))
-		{
-			m_projectiles.erase(m_projectiles.begin() + i);
-		}
-	}
-}
-
 void Scene::AddEntity(std::shared_ptr<Entity> entity)
 {
 	m_Entities.emplace_back(entity);
-}
-
-void Scene::DrawSkyBox(glm::mat4& viewProj, glm::vec3 eye_pos)
-{
-	m_skyBox.Draw(viewProj, eye_pos);
 }
 
 void Scene::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos, ProgramObject& laser_program)
@@ -222,31 +219,57 @@ void Scene::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos, 
 	
 	if(m_floor != nullptr) m_floor->DrawFloor(viewproj, m_player);
 
-	m_program.Use();
 	if (state.play)
 	{
-		for (std::shared_ptr<Entity>& entity : m_Entities)
-		{
-			m_program.SetUniform("playerPos", m_player->GetPos());
-			entity->DrawMesh(m_program, viewproj);
-		}
-	}
-	m_program.Unuse();
+		DrawEntities(viewproj);
+		DrawProjectiles(viewproj, laser_program);
 
-	ProgramObject& BaseProgram = m_program;
+		m_program.Use();
+
+		if (m_player->GetTarget() != nullptr && m_player->GetWeapons()[m_player->GetActiveWeaponInd()]->requireTarget())
+		{
+			m_player->GetTarget()->GetHitboxes()[0].Draw(laser_program, viewproj);
+		}
+
+		m_program.Unuse();
+
+	}
+}
+
+void Scene::DrawSkyBox(glm::mat4& viewProj, glm::vec3 eye_pos)
+{
+	m_skyBox.Draw(viewProj, eye_pos);
+}
+
+
+void Scene::DrawEntities(glm::mat4& viewProj)
+{
+	m_program.Use();
+
+	for (std::shared_ptr<Entity>& entity : m_Entities)
+	{
+		m_program.SetUniform("playerPos", m_player->GetPos());
+		entity->DrawMesh(m_program, viewProj);
+	}
+
+	m_program.Unuse();
+}
+
+void Scene::DrawProjectiles(glm::mat4& viewProj, ProgramObject& laser_program)
+{
 	for (std::unique_ptr<Projectile>& projectile : m_player->GetProjectiles())
 	{
 		if (projectile->GetMesh() == nullptr)
 		{
 			laser_program.Use();
-			projectile->DrawMesh(laser_program, viewproj);
+			projectile->DrawMesh(laser_program, viewProj);
 			laser_program.Unuse();
 		}
 		else
 		{
-			BaseProgram.Use();
-			projectile->DrawMesh(BaseProgram, viewproj);
-			BaseProgram.Unuse();
+			m_program.Use();
+			projectile->DrawMesh(m_program, viewProj);
+			m_program.Unuse();
 		}
 	}
 
@@ -255,14 +278,14 @@ void Scene::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos, 
 		if (projectile->GetMesh() == nullptr)
 		{
 			laser_program.Use();
-			projectile->DrawMesh(laser_program, viewproj);
+			projectile->DrawMesh(laser_program, viewProj);
 			laser_program.Unuse();
 		}
 		else
 		{
-			BaseProgram.Use();
-			projectile->DrawMesh(BaseProgram, viewproj);
-			BaseProgram.Unuse();
+			m_program.Use();
+			projectile->DrawMesh(m_program, viewProj);
+			m_program.Unuse();
 		}
 	}
 }

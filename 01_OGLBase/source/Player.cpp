@@ -37,6 +37,7 @@ Player::Player()
 	m_stealth = false;
 	m_flyStraight = false;
 	m_lookBack = false;
+	m_immortal = false;
 	m_fakePos = glm::vec3(0.f, 0.f, 0.f);
 	m_cursorVec = glm::vec3(0.f, 0.f, 0.f);
 
@@ -87,6 +88,7 @@ void Player::Reset(Scene* scene)
 	m_stealth = false;
 	m_flyStraight = false;
 	m_lookBack = false;
+	m_immortal = false;
 	m_damage = 10 + 5*m_stats.damage;
 	m_activeWeaponInd = 1;
 
@@ -112,9 +114,8 @@ void Player::Reset(Scene* scene)
 }
 
 void Player::Move(float delta, const glm::vec3& cursor_diff_vec)
-{		
+{	
 	m_cursorVec = cursor_diff_vec;
-
 
 	if (m_slowing && m_current_speed > 80.0f) m_current_speed = m_current_speed - 1.f;
 	else if (!m_slowing && m_current_speed < m_speed) m_current_speed = m_current_speed + 1.f;
@@ -165,7 +166,6 @@ void Player::Move(float delta, const glm::vec3& cursor_diff_vec)
 	}
 
 	if(m_Upgrade != nullptr) m_Upgrade->Update(delta);
-	
 
 	m_hitboxes[0].Position = m_position;
 
@@ -425,6 +425,8 @@ void Player::SlowDown(bool isSlowing)
 
 bool Player::Hit(int damage)
 {
+	if (m_immortal) return false;
+
 	m_health -= damage;
 	return m_health <= 0;
 }
@@ -437,6 +439,11 @@ glm::vec3 Player::GetFakePos()
 bool Player::IsStealth()
 {
 	return m_stealth;
+}
+
+void Player::setImmortal(bool isImmortal)
+{
+	m_immortal = isImmortal;
 }
 
 void Player::Roll(const int& dir, const float& delta)

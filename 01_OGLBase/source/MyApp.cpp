@@ -44,6 +44,8 @@ bool CMyApp::Init(bool* quit)
 
 	m_camera.LinkToApp(this);
 
+	m_player.Reset(m_scene);
+
 	glClearColor(0.125f, 0.25f, 0.5f, 1.0f);
 
 	glEnable(GL_CULL_FACE);
@@ -63,44 +65,29 @@ void CMyApp::Clean()
 {
 }
 
-void CMyApp::Reset()
-{
-	m_PlayTime = 0.f;
-	m_player.Reset(m_scene);
-}
-
-void CMyApp::LoadScene()
-{
-	m_player.Reset(m_scene);
-	m_scene->LoadScene();
-}
-
 void CMyApp::Update()
 {
 	float delta_time = ImGui::GetIO().DeltaTime;
 
 	m_cursor_diff_vec = glm::normalize((m_player.GetUpVec() * -1.0f * m_mouseY) + (m_player.GetCrossVec() * -1.0f * m_mouseX) + m_player.GetForwardVec());
 
-	if (!m_GameState.play || m_GameState.pause)
+	if (m_GameState.play && !m_GameState.pause)
 	{
-		m_camera.Update(delta_time);
-		return;
-	}
+		if (!m_GameState.gameover)
+		{
+			m_PlayTime += delta_time;
 
-	if (!m_GameState.gameover)
-	{
-		m_PlayTime += delta_time;
+			m_player.Move(delta_time, m_cursor_diff_vec);
+			m_player.UpdateProjectiles(delta_time);
 
-		m_player.Move(delta_time, m_cursor_diff_vec);		
-		m_player.UpdateProjectiles(delta_time);
+			if (m_shooting) m_player.Shoot();
+			if (m_useUpgrade && m_player.GetUpgrade() != nullptr) m_player.ActivateUpgrade();
+		}
 
-		if (m_shooting) m_player.Shoot();
-		if (m_useUpgrade && m_player.GetUpgrade() != nullptr) m_player.ActivateUpgrade();
-	}
-
-	if (m_scene->Update(delta_time, m_GameState))
-	{
-		GameOver();
+		if (m_scene->Update(delta_time, m_GameState))
+		{
+			GameOver();
+		}	
 	}
 
 	m_camera.Update(delta_time);
@@ -111,42 +98,37 @@ void CMyApp::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glm::mat4 viewProj = m_camera.GetViewProj();
 
-	m_scene->DrawScene(viewProj, m_GameState, m_camera.GetEye(), m_axesProgram);
-
 	//Objects
 	ProgramObject& BaseProgram = m_scene->getProgram();
+	
+	glm::vec3 eye_pos = m_camera.GetEye();
+	BaseProgram.SetUniform("eye_pos", eye_pos);
+
+	m_scene->DrawScene(viewProj, m_GameState, m_camera.GetEye(), m_axesProgram);
 
 	BaseProgram.Use();
-	if (m_GameState.play || m_GameState.hangar)
+	if ((m_GameState.play && !m_GameState.gameover) || m_GameState.hangar)
 	{
-
-		if (!m_GameState.gameover)
-		{
-			//player
-			m_player.DrawMesh(BaseProgram, viewProj);
-		}
+		m_player.DrawMesh(BaseProgram, viewProj);	
 	}
-
-	if (m_GameState.play)
-	{
-		glm::vec3 eye_pos = m_camera.GetEye();
-		BaseProgram.SetUniform("eye_pos", eye_pos);
-
-		BaseProgram.Unuse();
-
-		if (m_player.GetTarget() != nullptr && m_player.GetWeapons()[m_player.GetActiveWeaponInd()]->requireTarget())
-		{
-			m_player.GetTarget()->GetHitboxes()[0].Draw(m_axesProgram, viewProj);
-		}
-
-		//DrawHitBoxes(m_axesProgram, viewProj);
-		BaseProgram.Use();
-	}
-	
 	BaseProgram.Unuse();
 
 	//ImGui
 	UI.Render();
+}
+
+void CMyApp::Reset()
+{
+	m_PlayTime = 0.f;
+	m_player.Reset(m_scene);
+}
+
+void CMyApp::GameOver()
+{
+	m_player.setHealth(0);
+	m_player.setCredit(m_player.GetCredit() + m_player.GetPoints());
+	if (m_player.GetPoints() > m_player.GetRecord()) m_player.setRecord(m_player.GetPoints());
+	m_GameState.gameover = true;
 }
 
 void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
@@ -300,14 +282,6 @@ void CMyApp::DrawHitBoxes(ProgramObject& program, glm::mat4& viewProj)
 
 
 	m_player.GetHitboxes()[0].Draw(program, viewProj);
-}
-
-void CMyApp::GameOver()
-{
-	m_player.setHealth(0);
-	m_player.setCredit(m_player.GetCredit() + m_player.GetPoints());
-	if (m_player.GetPoints() > m_player.GetRecord()) m_player.setRecord(m_player.GetPoints());
-	m_GameState.gameover = true;
 }
 
 void CMyApp::Exit()

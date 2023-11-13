@@ -33,6 +33,7 @@ private:
 	int m_max_speed;
 	bool m_slowing;
 	bool m_stealth;
+	bool m_immortal;
 	bool m_flyStraight;
 	bool m_lookBack;
 	int m_damage;
@@ -84,6 +85,7 @@ public:
 	void setCredit(int);
 	void setRecord(int);
 	void setStealth(bool);
+	void setImmortal(bool);
 	void setFakePos(glm::vec3&);
 	void FlyStraight(bool);
 	void LookBack(bool);
