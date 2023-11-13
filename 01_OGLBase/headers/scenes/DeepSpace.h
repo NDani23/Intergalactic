@@ -13,8 +13,7 @@ class DeepSpace : public Scene
 private:
 	void CreateMeteorField();
 public:
-	DeepSpace(std::vector<std::unique_ptr<Projectile>>*, Player*);
+	DeepSpace(Player*);
 
 	void LoadScene() override;
-	void DrawScene(glm::mat4&, GameState&, glm::vec3) override;
 };

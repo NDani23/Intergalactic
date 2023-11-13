@@ -23,10 +23,11 @@ class Scene
 protected:
 	std::string m_name;
 	Player* m_player;
-	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
+	std::vector<std::unique_ptr<Projectile>> m_projectiles;
 	std::vector<std::unique_ptr<EnemySpawnPoint>> m_enemySpawnPoints;
 	std::vector<std::shared_ptr<Entity>> m_Entities;
 
+	std::unique_ptr<Floor> m_floor;
 	SkyBox m_skyBox;
 	ProgramObject m_program;
 
@@ -37,15 +38,17 @@ public:
 	std::vector<std::shared_ptr<Entity>>* GetEntitiesPtr();
 	ProgramObject& getProgram();
 	std::string& getName();
-	virtual Floor* GetFloor();
+	std::unique_ptr<Floor>& GetFloor();
 
 	bool Update(const float&, GameState&);
+	void UpdateProjectiles(const float&);
 	bool CheckForCollision();
+	bool DetectHits();
 
 	void ClearScene();
 	void AddEntity(std::shared_ptr<Entity> entity);
 
 	virtual void LoadScene() {};
-	virtual void DrawScene(glm::mat4&, GameState&, glm::vec3) {};
+	void DrawScene(glm::mat4&, GameState&, glm::vec3, ProgramObject&);
 	void DrawSkyBox(glm::mat4&, glm::vec3);
 };

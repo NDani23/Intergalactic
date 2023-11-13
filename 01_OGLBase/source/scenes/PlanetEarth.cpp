@@ -1,11 +1,10 @@
 #include "../../headers/scenes/PlanetEarth.h"
 
-PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, Player* player)
+PlanetEarth::PlanetEarth(Player* player)
 {
 	m_name = "Planet Earth";
 
 	m_player = player;
-	m_projectiles = projectiles;
 
 	m_program.AttachShaders({
 		{ GL_VERTEX_SHADER, "shaders/PlanetEarthBaseVert.vert"},
@@ -19,6 +18,8 @@ PlanetEarth::PlanetEarth(std::vector<std::unique_ptr<Projectile>>* projectiles, 
 		});
 
 	m_program.LinkProgram();
+
+	m_floor = std::make_unique<DesertFloor>();
 
 	m_skyBox.SetShaders("shaders/PlanetEarthSkyBox.vert", "shaders/PlanetEarthSkyBox.frag");
 	m_skyBox.SetTexture("assets/PlanetEarth/xpos.png",
@@ -34,8 +35,9 @@ void PlanetEarth::LoadScene()
 
 	m_Entities.clear();
 	m_enemySpawnPoints.clear();
+	m_projectiles.clear();
 
-	std::shared_ptr<Entity> base = std::make_shared<Entity>("assets/PlanetEarth/desert_base.obj", glm::vec3(0, m_Floor.GetZCoord(0.f, 2000.f) + 10.f, 2000), "assets/PlanetEarth/desert_base_tex.png");
+	std::shared_ptr<Entity> base = std::make_shared<Entity>("assets/PlanetEarth/desert_base.obj", glm::vec3(0, m_floor->GetZCoord(0.f, 2000.f) + 10.f, 2000), "assets/PlanetEarth/desert_base_tex.png");
 	base->GetHitboxes().clear();
 	base->AddHitBox({ base->GetPos() - glm::vec3(0.f, 40.f, 0.f), {400.0f, 100.0f, 400.0f} });
 	base->AddHitBox({ base->GetPos() + glm::vec3(0.f, 25.f, 130.f), {270.0f, 50.0f, 50.0f} });
@@ -88,49 +90,27 @@ void PlanetEarth::LoadScene()
 	pyramid3->AddHitBox({ pyramid3->GetPos() + glm::vec3(0.f, 85.f, 0.f), {35.0f, 30.0f, 35.0f} });
 	AddEntity(pyramid3);
 
-	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-130, 55, -15), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-87, 55, -130), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-115, 55, 105), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(0, 55, 142), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(95, 55, -130), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(128, 55, 68), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(140, 55, -47), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-130, 55, -15), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-87, 55, -130), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(-115, 55, 105), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(0, 55, 142), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(95, 55, -130), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(128, 55, 68), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(base->GetPos() + glm::vec3(140, 55, -47), m_player, &m_projectiles)));
 
-	AddEntity(std::make_shared<Entity>("assets/PlanetEarth/rock.obj", glm::vec3(50, m_Floor.GetZCoord(50.f, 100.f) + 2.f, 100), "assets/PlanetEarth/rock_tex.png", Dimensions{13.0f, 13.0f, 13.0f}));
+	AddEntity(std::make_shared<Entity>("assets/PlanetEarth/rock.obj", glm::vec3(50, m_floor->GetZCoord(50.f, 100.f) + 2.f, 100), "assets/PlanetEarth/rock_tex.png", Dimensions{13.0f, 13.0f, 13.0f}));
 
-	AddEntity(std::make_shared<Entity>("assets/PlanetEarth/rock.obj", glm::vec3(800, m_Floor.GetZCoord(800.f, 700.f) + 2.f, 700), "assets/PlanetEarth/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
-	AddEntity(std::make_shared<Entity>("assets/PlanetEarth/rock.obj", glm::vec3(1000, m_Floor.GetZCoord(1000.f, 500.f) + 2.f, 500), "assets/PlanetEarth/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
-	AddEntity(std::make_shared<Entity>("assets/PlanetEarth/rock.obj", glm::vec3(1200, m_Floor.GetZCoord(1200.f, -300.f) + 2.f, -300), "assets/PlanetEarth/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
-	AddEntity(std::make_shared<Entity>("assets/PlanetEarth/rock.obj", glm::vec3(-100, m_Floor.GetZCoord(-100.f, -100.f) + 2.f, -100), "assets/PlanetEarth/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
+	AddEntity(std::make_shared<Entity>("assets/PlanetEarth/rock.obj", glm::vec3(800, m_floor->GetZCoord(800.f, 700.f) + 2.f, 700), "assets/PlanetEarth/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
+	AddEntity(std::make_shared<Entity>("assets/PlanetEarth/rock.obj", glm::vec3(1000, m_floor->GetZCoord(1000.f, 500.f) + 2.f, 500), "assets/PlanetEarth/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
+	AddEntity(std::make_shared<Entity>("assets/PlanetEarth/rock.obj", glm::vec3(1200, m_floor->GetZCoord(1200.f, -300.f) + 2.f, -300), "assets/PlanetEarth/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
+	AddEntity(std::make_shared<Entity>("assets/PlanetEarth/rock.obj", glm::vec3(-100, m_floor->GetZCoord(-100.f, -100.f) + 2.f, -100), "assets/PlanetEarth/rock_tex.png", Dimensions{ 13.0f, 13.0f, 13.0f }));
 
 
-	std::shared_ptr<Entity> wrecked_ship = std::make_shared<Entity>("assets/PlanetEarth/Mothership2.obj", glm::vec3(-800, m_Floor.GetZCoord(-800.f, -1500.f) - 15.f, -1000), glm::rotate(0.8f, glm::vec3(-1, 0, 0)), "assets/PlanetEarth/Mothership_tex.png");
+	std::shared_ptr<Entity> wrecked_ship = std::make_shared<Entity>("assets/PlanetEarth/Mothership2.obj", glm::vec3(-800, m_floor->GetZCoord(-800.f, -1500.f) - 15.f, -1000), glm::rotate(0.8f, glm::vec3(-1, 0, 0)), "assets/PlanetEarth/Mothership_tex.png");
 	wrecked_ship->GetHitboxes().clear();
 	wrecked_ship->AddHitBox({ wrecked_ship->GetPos() + glm::vec3(+15.f, 25.f, +10.f), {320.0f, 45.0f, 95.f} });
 	wrecked_ship->AddHitBox({ wrecked_ship->GetPos() + glm::vec3(-230.f, 70.f, +30.f), {200.0f, 120.0f, 160.f} });
 	AddEntity(wrecked_ship);
 
-	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 50.f, 2000), m_player, m_projectiles, this));
-}
-
-void PlanetEarth::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos)
-{
-	m_skyBox.Draw(viewproj, eye_pos);
-	m_Floor.DrawFloor(viewproj, m_player);
-
-	m_program.Use();
-	if (state.play)
-	{
-		for (std::shared_ptr<Entity>& entity : m_Entities)
-		{
-			m_program.SetUniform("playerPos", m_player->GetPos());
-			entity->DrawMesh(m_program, viewproj);
-		}
-	}
-	m_program.Unuse();
-}
-
-Floor* PlanetEarth::GetFloor()
-{
-	return &m_Floor;
+	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 50.f, 2000), m_player, &m_projectiles, this));
 }

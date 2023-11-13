@@ -18,8 +18,8 @@ CMyApp::CMyApp(void)
 	m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0));
 	m_quit = nullptr;
 
-	m_scenes[0] = std::make_unique<DeepSpace>(&m_projectiles, &m_player);
-	m_scenes[1] = std::make_unique<PlanetEarth>(&m_projectiles, &m_player);
+	m_scenes[0] = std::make_unique<DeepSpace>(&m_player);
+	m_scenes[1] = std::make_unique<PlanetEarth>(&m_player);
 	m_scene = m_scenes[0].get();
 }
 
@@ -66,7 +66,6 @@ void CMyApp::Clean()
 void CMyApp::Reset()
 {
 	m_PlayTime = 0.f;
-	m_projectiles.clear();
 	m_player.Reset(m_scene);
 }
 
@@ -99,17 +98,12 @@ void CMyApp::Update()
 		if (m_useUpgrade && m_player.GetUpgrade() != nullptr) m_player.ActivateUpgrade();
 	}
 
-	UpdateProjectiles(delta_time);
-	DetectHit(m_player.GetProjectiles());
-
 	if (m_scene->Update(delta_time, m_GameState))
 	{
 		GameOver();
 	}
 
 	m_camera.Update(delta_time);
-
-	//DetectCollisions();
 }
 
 void CMyApp::Render()
@@ -117,7 +111,7 @@ void CMyApp::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glm::mat4 viewProj = m_camera.GetViewProj();
 
-	m_scene->DrawScene(viewProj, m_GameState, m_camera.GetEye());
+	m_scene->DrawScene(viewProj, m_GameState, m_camera.GetEye(), m_axesProgram);
 
 	//Objects
 	ProgramObject& BaseProgram = m_scene->getProgram();
@@ -139,8 +133,6 @@ void CMyApp::Render()
 		BaseProgram.SetUniform("eye_pos", eye_pos);
 
 		BaseProgram.Unuse();
-
-		DrawProjectiles(m_player.GetProjectiles());
 
 		if (m_player.GetTarget() != nullptr && m_player.GetWeapons()[m_player.GetActiveWeaponInd()]->requireTarget())
 		{
@@ -292,119 +284,6 @@ void CMyApp::Resize(int _w, int _h)
 	glViewport(0, 0, _w, _h );
 
 	m_camera.Resize(_w, _h);
-}
-
-void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
-{
-	for (int i=0; i < projectiles.size(); i++)
-	{
-		Projectile* proj = projectiles[i].get();
-		for (std::shared_ptr<Entity>& entity : m_scene->GetEntities())
-		{
-			if (!entity->CanCollide()) continue;
-
-			if (proj->CheckHit(entity.get()))
-			{
-				if (entity->Hit(proj->GetDamage()))
-				{
-					auto position = std::find(m_scene->GetEntities().begin(), m_scene->GetEntities().end(), entity);
-					if (position != m_scene->GetEntities().end())
-						m_scene->GetEntities().erase(position);
-
-					m_player.setPoints(m_player.GetPoints() + 10);
-				}
-
-				m_player.RemoveProjectile(projectiles[i]);
-				break;
-			}
-		}
-	}
-
-	for (int i = 0; i < m_projectiles.size(); i++)
-	{
-		bool alive = true;
-		Projectile* proj = m_projectiles[i].get();
-		for (std::shared_ptr<Entity>& entity : m_scene->GetEntities())
-		{
-			if (proj->CheckHit(entity.get()))
-			{
-				if (entity->Hit(proj->GetDamage()))
-				{
-					auto position = std::find(m_scene->GetEntities().begin(), m_scene->GetEntities().end(), entity);
-					if (position != m_scene->GetEntities().end())
-						m_scene->GetEntities().erase(position);
-
-					m_player.setPoints(m_player.GetPoints() + 10);
-				}
-
-				m_projectiles.erase(m_projectiles.begin() + i);
-				alive = false;
-				break;
-			}
-		}
-		if (!alive) break;
-
-		if (proj->CheckHit(&m_player))
-		{
-			if (m_player.Hit(proj->GetDamage()))
-			{
-				m_projectiles.erase(m_projectiles.begin() + i);
-				GameOver();
-				break;
-			}
-
-			m_projectiles.erase(m_projectiles.begin() + i);
-		}
-
-	}
-
-}
-
-void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectiles)
-{
-	ProgramObject& BaseProgram = m_scene->getProgram();
-	for (std::unique_ptr<Projectile>& projectile : projectiles)
-	{
-		if (projectile->GetMesh() == nullptr)
-		{
-			m_axesProgram.Use();
-			projectile->DrawMesh(m_axesProgram, m_camera.GetViewProj());
-			m_axesProgram.Unuse();
-		}
-		else
-		{
-			BaseProgram.Use();
-			projectile->DrawMesh(BaseProgram, m_camera.GetViewProj());
-			BaseProgram.Unuse();
-		}
-	}
-
-	for (std::unique_ptr<Projectile>& projectile : m_projectiles)
-	{
-		if (projectile->GetMesh() == nullptr)
-		{
-			m_axesProgram.Use();
-			projectile->DrawMesh(m_axesProgram, m_camera.GetViewProj());
-			m_axesProgram.Unuse();
-		}
-		else
-		{
-			BaseProgram.Use();
-			projectile->DrawMesh(BaseProgram, m_camera.GetViewProj());
-			BaseProgram.Unuse();
-		}
-	}
-}
-
-void CMyApp::UpdateProjectiles(const float& delta)
-{
-	for (int i = 0; i < m_projectiles.size(); i++)
-	{
-		if (m_projectiles[i]->Update(delta))
-		{
-			m_projectiles.erase(m_projectiles.begin() + i);
-		}
-	}
 }
 
 void CMyApp::DrawHitBoxes(ProgramObject& program, glm::mat4& viewProj)

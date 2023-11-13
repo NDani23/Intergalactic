@@ -19,12 +19,8 @@ private:
 		glm::vec3 n;
 		glm::vec3 c;
 	};
-
-	DesertFloor m_Floor;
 public:
-	PlanetEarth(std::vector<std::unique_ptr<Projectile>>*, Player*);
+	PlanetEarth(Player*);
 
 	void LoadScene() override;
-	void DrawScene(glm::mat4&, GameState&, glm::vec3) override;
-	Floor* GetFloor() override;
 };

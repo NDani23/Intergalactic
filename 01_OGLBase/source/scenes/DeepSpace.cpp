@@ -1,10 +1,10 @@
 #include "../../headers/scenes/DeepSpace.h"
 
-DeepSpace::DeepSpace(std::vector<std::unique_ptr<Projectile>>* projectiles, Player* player)
+DeepSpace::DeepSpace(Player* player)
 {
 	m_name = "Deep Space";
 	m_player = player;
-	m_projectiles = projectiles;
+	m_floor = nullptr;
 
 	m_program.AttachShaders({
 		{ GL_VERTEX_SHADER, "shaders/myVert.vert"},
@@ -32,20 +32,21 @@ void DeepSpace::LoadScene()
 {
 	m_Entities.clear();
 	m_enemySpawnPoints.clear();
+	m_projectiles.clear();
 
 	AddEntity(std::make_shared<Entity>("assets/DeepSpace/ufo.obj", glm::vec3(1000, 200, 1000), "assets/DeepSpace/ufo_tex.png", Dimensions{ 50.0f, 17.0f, 50.0f }));
 
 	AddEntity(std::make_shared<Entity>("assets/DeepSpace/satelite.obj", glm::vec3(-200, 1200, 700), "assets/DeepSpace/satelite_tex.png", Dimensions{ 20.0f, 17.0f, 20.0f }));
 
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-70, 50, 2000), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-100, 0, 1950), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-90, -10, 1900), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 10, 1950), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(80, -50, 2000), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(100, 20, 1850), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 30, 2050), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-60, -50, 2010), m_player, m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 200, 1970), m_player, m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-70, 50, 2000), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-100, 0, 1950), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-90, -10, 1900), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 10, 1950), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(80, -50, 2000), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(100, 20, 1850), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 30, 2050), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-60, -50, 2010), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 200, 1970), m_player, &m_projectiles)));
 
 	std::shared_ptr<Entity> gate = std::make_shared<Entity>("assets/DeepSpace/gate.obj", glm::vec3(0, -500, 1200), "assets/DeepSpace/gate_tex.png");
 	gate->GetHitboxes().clear();
@@ -64,7 +65,7 @@ void DeepSpace::LoadScene()
 
 	CreateMeteorField();
 
-	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 30, 1900), m_player, m_projectiles, this));
+	m_enemySpawnPoints.emplace_back(std::make_unique<EnemySpawnPoint>(glm::vec3(0, 30, 1900), m_player, &m_projectiles, this));
 }
 
 void DeepSpace::CreateMeteorField()
@@ -100,19 +101,4 @@ void DeepSpace::CreateMeteorField()
 	AddEntity(std::make_shared<Entity>("assets/DeepSpace/meteor.obj", glm::vec3(-2000, -2000, 300), glm::rotate(2.2f, glm::vec3(1, 0, 0)) * glm::scale(glm::vec3(5.0f, 5.0f, 5.0f)), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 130.0f, 130.0f, 130.0f }));
 	AddEntity(std::make_shared<Entity>("assets/DeepSpace/meteor.obj", glm::vec3(4000, 3000, 5000), glm::rotate(2.2f, glm::vec3(1, 0, 0)) * glm::scale(glm::vec3(5.0f, 5.0f, 5.0f)), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 130.0f, 130.0f, 130.0f }));
 	
-}
-
-void DeepSpace::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos)
-{
-	m_skyBox.Draw(viewproj, eye_pos);
-
-	m_program.Use();
-	if (state.play)
-	{
-		for (std::shared_ptr<Entity>& entity : m_Entities)
-		{
-			entity->DrawMesh(m_program, viewproj);
-		}
-	}
-	m_program.Unuse();
 }

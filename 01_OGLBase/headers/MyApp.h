@@ -62,10 +62,7 @@ public:
 	void MouseUp(SDL_MouseButtonEvent&);
 	void MouseWheel(SDL_MouseWheelEvent&);
 	void Resize(int, int);
-	void DetectHit(std::vector<std::unique_ptr<Projectile>>&);
 	void DrawHitBoxes(ProgramObject&, glm::mat4&);
-	void DrawProjectiles(std::vector<std::unique_ptr<Projectile>>&);
-	void UpdateProjectiles(const float&);
 	void GameOver();
 	void Exit();
 
@@ -98,7 +95,6 @@ protected:
 	bool m_lookAround = false;
 
 	bool m_backward_camera = false;
-	std::vector<std::unique_ptr<Projectile>> m_projectiles;
 	glm::vec3 m_cursor_diff_vec = { 0.0f, 0.0f, 0.0f };
 
 	float m_mouseX = 320.0f;
