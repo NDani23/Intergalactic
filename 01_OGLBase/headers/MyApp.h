@@ -62,11 +62,9 @@ public:
 	void MouseUp(SDL_MouseButtonEvent&);
 	void MouseWheel(SDL_MouseWheelEvent&);
 	void Resize(int, int);
-	void DetectCollisions();
 	void DetectHit(std::vector<std::unique_ptr<Projectile>>&);
 	void DrawHitBoxes(ProgramObject&, glm::mat4&);
 	void DrawProjectiles(std::vector<std::unique_ptr<Projectile>>&);
-	void UpdateMap(const float&);
 	void UpdateProjectiles(const float&);
 	void GameOver();
 	void Exit();

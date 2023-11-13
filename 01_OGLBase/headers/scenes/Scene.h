@@ -6,6 +6,7 @@
 #include "../../includes/ProgramObject.h"
 #include "../../includes/TextureObject.h"
 #include "../collision_detection/HitBox.h"
+#include "../../headers/collision_detection/GJK.h"
 
 #include "../../headers/scenes/SkyBox.h"
 
@@ -38,6 +39,8 @@ public:
 	std::string& getName();
 	virtual Floor* GetFloor();
 
+	bool Update(const float&, GameState&);
+	bool CheckForCollision();
 
 	void ClearScene();
 	void AddEntity(std::shared_ptr<Entity> entity);

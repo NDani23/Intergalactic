@@ -94,19 +94,22 @@ void CMyApp::Update()
 
 		m_player.Move(delta_time, m_cursor_diff_vec);		
 		m_player.UpdateProjectiles(delta_time);
+
+		if (m_shooting) m_player.Shoot();
+		if (m_useUpgrade && m_player.GetUpgrade() != nullptr) m_player.ActivateUpgrade();
 	}
 
 	UpdateProjectiles(delta_time);
 	DetectHit(m_player.GetProjectiles());
 
-	UpdateMap(delta_time);
-
-	if (m_shooting) m_player.Shoot();
-	if (m_useUpgrade && m_player.GetUpgrade() != nullptr) m_player.ActivateUpgrade();
+	if (m_scene->Update(delta_time, m_GameState))
+	{
+		GameOver();
+	}
 
 	m_camera.Update(delta_time);
 
-	DetectCollisions();
+	//DetectCollisions();
 }
 
 void CMyApp::Render()
@@ -291,54 +294,6 @@ void CMyApp::Resize(int _w, int _h)
 	m_camera.Resize(_w, _h);
 }
 
-void CMyApp::DetectCollisions()
-{
-	glm::vec3 player_pos = m_player.GetPos();
-	Dimensions player_dims = m_player.GetHitboxes()[0].dimensions;
-
-	if (m_scene->GetFloor() != nullptr)
-	{
-		if (m_scene->GetFloor()->DetectCollision(m_player))
-		{
-			GameOver();
-			return;
-		}
-	}
-
-	for (std::shared_ptr<Entity>& entity : m_scene->GetEntities())
-	{
-		if (m_GameState.gameover) break;
-		if (!entity->CanCollide()) break;
-
-		for (HitBox& hitbox : entity->GetHitboxes())
-		{
-			glm::vec3 distance_vec = player_pos - hitbox.Position;
-
-			Dimensions hitbox_dims = hitbox.dimensions;
-
-			if (abs(distance_vec.x) < player_dims.width / 2 + hitbox_dims.width / 2
-				&& abs(distance_vec.y) < player_dims.height / 2 + hitbox_dims.height / 2
-				&& abs(distance_vec.z) < player_dims.length / 2 + hitbox_dims.length / 2)
-			{
-				if (entity->IsStatic())
-				{
-					if (GJK::Collide(m_player.GetCollider(), entity.get()->GetCollider()))
-					{
-						GameOver();
-						break;
-					}
-				}
-				else
-				{
-					GameOver();
-					break;
-				}
-			}
-		}
-		
-	}
-}
-
 void CMyApp::DetectHit(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
 	for (int i=0; i < projectiles.size(); i++)
@@ -439,42 +394,6 @@ void CMyApp::DrawProjectiles(std::vector<std::unique_ptr<Projectile>>& projectil
 			BaseProgram.Unuse();
 		}
 	}
-}
-
-void CMyApp::UpdateMap(const float& delta)
-{
-	m_player.setTarget(nullptr);
-
-	for (std::unique_ptr<EnemySpawnPoint>& spawnPoint : m_scene->GetSpawnPoints())
-	{
-		spawnPoint->Update(delta);
-	}
-
-	for (int i = m_scene->GetEntities().size() - 1; i >= 0; i--)
-	{
-
-		Entity* entity = m_scene->GetEntities()[i].get();
-		if (entity->Update(delta))
-		{
-			m_scene->GetEntities().erase(m_scene->GetEntities().begin() + i);
-			m_player.setPoints(m_player.GetPoints() + 10);
-
-			continue;
-		}
-
-		if (!entity->IsTargetable()) continue;
-
-		glm::vec3 entityPos = entity->GetPos();
-		glm::vec3 from_player = entityPos - m_player.GetPos();
-		float angle = glm::acos(glm::dot(glm::normalize(from_player), m_player.GetForwardVec()));
-
-		if (glm::length(from_player) < 500.f && !isnan(angle) && !isinf(angle) && angle < 0.3f)
-		{
-			m_player.setTarget(entity);
-		}
-		
-	}
-
 }
 
 void CMyApp::UpdateProjectiles(const float& delta)
