@@ -45,7 +45,7 @@ Falcon::Falcon(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projec
 	m_projectiles = projectiles;
 	m_Scene = scene;
 
-	m_forward_vec = glm::normalize(m_target->GetPos() - m_position);
+	m_forward_vec = glm::normalize(glm::vec3(0, 0, 0) - m_position);
 	m_shootDir = m_forward_vec;
 	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
 

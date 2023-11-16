@@ -216,6 +216,12 @@
     <ClInclude Include="headers\scenes\SkyBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\scenes\ParticleSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Includes\GLconversions.cpp">
@@ -380,6 +386,12 @@
     <ClCompile Include="source\scenes\SkyBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Random.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ParticleSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Includes\BufferObject.inl">
@@ -433,5 +445,7 @@
     <None Include="shaders\transparentFrag.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="shaders\particleVert.vert" />
+    <None Include="shaders\particleFrag.frag" />
   </ItemGroup>
 </Project>

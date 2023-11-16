@@ -124,10 +124,12 @@
     <ClInclude Include="headers\MyApp.h" />
     <ClInclude Include="headers\persistence\Persistence.h" />
     <ClInclude Include="headers\PLayer.h" />
+    <ClInclude Include="headers\Random.h" />
     <ClInclude Include="headers\scenes\DeepSpace.h" />
     <ClInclude Include="headers\scenes\DesertFloor.h" />
     <ClInclude Include="headers\scenes\EnemySpawnPoint.h" />
     <ClInclude Include="headers\scenes\Floor.h" />
+    <ClInclude Include="headers\scenes\ParticleSystem.h" />
     <ClInclude Include="headers\scenes\Scene.h" />
     <ClInclude Include="headers\scenes\PlanetEarth.h" />
     <ClInclude Include="headers\scenes\SkyBox.h" />
@@ -189,8 +191,10 @@
     <ClCompile Include="source\Entity.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MyApp.cpp" />
+    <ClCompile Include="source\ParticleSystem.cpp" />
     <ClCompile Include="source\persistence\Persistence.cpp" />
     <ClCompile Include="source\Player.cpp" />
+    <ClCompile Include="source\Random.cpp" />
     <ClCompile Include="source\scenes\DeepSpace.cpp" />
     <ClCompile Include="source\scenes\DesertFloor.cpp" />
     <ClCompile Include="source\scenes\EnemySpawnPoint.cpp" />
@@ -222,6 +226,8 @@
     <None Include="shaders\axes.vert" />
     <None Include="shaders\myFrag.frag" />
     <None Include="shaders\myVert.vert" />
+    <None Include="shaders\particleFrag.frag" />
+    <None Include="shaders\particleVert.vert" />
     <None Include="shaders\PlanetEarthBaseFrag.frag" />
     <None Include="shaders\PlanetEarthBaseVert.vert" />
     <None Include="shaders\PlanetEarthSkyBox.frag" />

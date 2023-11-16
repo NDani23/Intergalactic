@@ -15,17 +15,23 @@
 
 #include "../GameState.h"
 #include "../Player.h"
+
 #include "Floor.h"
 #include "EnemySpawnPoint.h"
+#include "ParticleSystem.h"
 
 class Scene
 {
 protected:
 	std::string m_name;
 	Player* m_player;
+	ParticleSystem m_particleSystem;
+
 	std::vector<std::unique_ptr<Projectile>> m_projectiles;
 	std::vector<std::unique_ptr<EnemySpawnPoint>> m_enemySpawnPoints;
 	std::vector<std::shared_ptr<Entity>> m_Entities;
+	ParticleProps m_explosionProp;
+	//std::vector<ParticleProps> m_particlePool;
 
 	std::unique_ptr<Floor> m_floor;
 	SkyBox m_skyBox;
@@ -40,6 +46,8 @@ protected:
 	void DrawSkyBox(glm::mat4&, glm::vec3);
 	void DrawEntities(glm::mat4&);
 	void DrawProjectiles(glm::mat4&, ProgramObject&);
+
+	void Explosion(glm::vec3&);
 
 public:
 	Scene();

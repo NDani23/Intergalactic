@@ -210,7 +210,7 @@ void AppUI::RenderPlayWindow()
 	ImGui::PushStyleColor(ImGuiCol_FrameBgActive, (ImVec4)ImColor::HSV(4 / 7.0f, 0.7f, 0.5f));
 	ImGui::PushStyleColor(ImGuiCol_SliderGrab, (ImVec4)ImColor::HSV(4 / 7.0f, 0.9f, 0.9f));
 	ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-	ImGui::VSliderFloat("##v", ImVec2(18, 70), &speed, 80.0f, 190.0f, "");
+	ImGui::VSliderFloat("##v", ImVec2(18, 70), &speed, 80.0f, (float)m_app->m_player.GetMaxSpeed(), "");
 	ImGui::PopItemFlag();
 	ImGui::PopStyleColor(4);
 	ImGui::SameLine();
@@ -346,6 +346,7 @@ void AppUI::RenderHangarWindow()
 		{
 			m_app->m_GameState.hangar = false;
 			m_app->m_GameState.menu = true;
+			m_app->Reset();
 		}
 
 

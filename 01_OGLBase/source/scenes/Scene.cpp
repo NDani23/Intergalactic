@@ -6,6 +6,17 @@ Scene::Scene()
 	m_name = "";
 	m_player = nullptr;
 	m_floor = nullptr;
+	//m_particlePool.resize(50);
+	m_explosionProp.ColorBegin = { 254.f / 255.f, 109.f / 255.f, 41 / 255.f, 1.f };
+	m_explosionProp.ColorEnd = { 230.f / 255.f, 230.f / 255.f, 230 / 255.f, 1.f };
+	m_explosionProp.SizeBegin = 1.5f;
+	m_explosionProp.SizeVariation = 0.5f;
+	m_explosionProp.SizeEnd = 0.0f;
+	m_explosionProp.LifeTime = 1.0f;
+	m_explosionProp.Velocity = { 0.0f, 0.0f, 0.0f };
+	m_explosionProp.VelocityVariation = { 30.0f, 30.0f, 30.0f };
+	m_explosionProp.Position = { 0.0f, 0.0f, 0.0f };
+
 }
 
 std::vector<std::shared_ptr<Entity>>& Scene::GetEntities()
@@ -62,6 +73,8 @@ void Scene::UpdateEntities(const float& delta, GameState& state)
 		Entity* entity = m_Entities[i].get();
 		if (entity->Update(delta))
 		{
+			Explosion(entity->GetPos());
+
 			m_Entities.erase(m_Entities.begin() + i);
 
 			if (!state.gameover) m_player->setPoints(m_player->GetPoints() + 10);
@@ -80,6 +93,8 @@ void Scene::UpdateEntities(const float& delta, GameState& state)
 			m_player->setTarget(entity);
 		}
 	}
+
+	m_particleSystem.Update(delta);
 }
 
 void Scene::UpdateProjectiles(const float& delta)
@@ -102,6 +117,7 @@ bool Scene::CheckForCollision()
 	{
 		if (GetFloor()->DetectCollision(*m_player))
 		{
+			Explosion(player_pos);
 			return true;
 		}
 	}
@@ -124,11 +140,13 @@ bool Scene::CheckForCollision()
 				{
 					if (GJK::Collide(m_player->GetCollider(), entity.get()->GetCollider()))
 					{
+						Explosion(player_pos);
 						return true;
 					}
 				}
 				else
 				{
+					Explosion(player_pos);
 					return true;
 				}
 			}
@@ -154,6 +172,8 @@ bool Scene::DetectHits()
 				if (entity->Hit(proj->GetDamage()))
 				{
 					if (entity.get() == m_player->GetTarget()) m_player->setTarget(nullptr);
+
+					Explosion(entity->GetPos());
 
 					auto position = std::find(m_Entities.begin(), m_Entities.end(), entity);
 					if (position != m_Entities.end())
@@ -196,6 +216,7 @@ bool Scene::DetectHits()
 		{
 			if (m_player->Hit(proj->GetDamage()))
 			{
+				Explosion(m_player->GetPos());
 				m_projectiles.erase(m_projectiles.begin() + i);
 				return true;
 			}
@@ -252,6 +273,8 @@ void Scene::DrawEntities(glm::mat4& viewProj)
 		entity->DrawMesh(m_program, viewProj);
 	}
 
+	m_particleSystem.Render(viewProj);
+
 	m_program.Unuse();
 }
 
@@ -287,5 +310,14 @@ void Scene::DrawProjectiles(glm::mat4& viewProj, ProgramObject& laser_program)
 			projectile->DrawMesh(m_program, viewProj);
 			m_program.Unuse();
 		}
+	}
+}
+
+void Scene::Explosion(glm::vec3& Position)
+{
+	m_explosionProp.Position = Position;
+	for (int i = 0; i < 50; i++)
+	{
+		m_particleSystem.Emit(m_explosionProp);
 	}
 }
