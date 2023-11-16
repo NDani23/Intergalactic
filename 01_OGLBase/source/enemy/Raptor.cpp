@@ -45,6 +45,21 @@ Raptor::Raptor(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projec
 	m_projectiles = projectiles;
 	m_Scene = scene;
 
+	ParticleProps particleProp;	
+	particleProp.ColorEnd = { 200.f / 255.f, 200.f / 255.f, 200.f / 255.f, 1.f };
+	particleProp.ColorBegin = { 254.f / 255.f, 109.f / 255.f, 41 / 255.f, 1.f };
+	particleProp.SizeBegin = 0.8f;
+	particleProp.SizeVariation = 0.3f;
+	particleProp.SizeEnd = 0.0f;
+	particleProp.LifeTime = 0.08f;
+	particleProp.Velocity = { 0.0f, 0.0f, 0.0f };
+	particleProp.VelocityVariation = { 1.5f, 1.5f, 1.5f };
+	particleProp.Position = { 0.0f, 0.f, 0.0f };
+
+	m_tailFire.SetParticleProp(particleProp);
+	m_tailFire.Setfrequency(0.020f);
+	m_tailFire.SetPartycleSystem(&m_Scene->GetParticleSystem());
+
 	m_forward_vec = glm::normalize(glm::vec3(0, 0, 0) - m_position);;
 	m_shootDir = m_forward_vec;
 	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);

@@ -2,6 +2,7 @@
 
 #include "../weapons/Weapon.h"
 #include "../weapons/Laser.h"
+#include "../../headers/scenes/TailFire.h"
 #include "../Player.h"
 
 #include <stdlib.h> 
@@ -20,7 +21,7 @@ protected:
 	int m_shootDistance;
 	glm::vec3 m_forward_vec;
 	glm::vec3 m_up_vec;
-
+	TailFire m_tailFire;
 	Player* m_target;
 	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
 	Scene* m_Scene;

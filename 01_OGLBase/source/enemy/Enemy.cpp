@@ -32,6 +32,9 @@ bool Enemy::Update(const float& delta)
 	m_hitboxes[0] = UpdateDimensions();
 	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, m_up_vec)));
 
+	m_tailFire.SetPosition(m_position - m_forward_vec * 5.f);
+	m_tailFire.Update(delta);
+
 	return false;
 }
 

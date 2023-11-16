@@ -55,16 +55,7 @@ Player::Player()
 
 	m_stats = {0, 0, 0, 0, 0};
 
-	emitTailFireTime = 0.025f;
-	m_TailFire.ColorEnd = { 200.f / 255.f, 200.f / 255.f, 200.f / 255.f, 1.f };
-	m_TailFire.ColorBegin = { 254.f / 255.f, 109.f / 255.f, 41 / 255.f, 1.f };
-	m_TailFire.SizeBegin = 0.65f;
-	m_TailFire.SizeVariation = 0.2f;
-	m_TailFire.SizeEnd = 0.0f;
-	m_TailFire.LifeTime = 0.08f;
-	m_TailFire.Velocity = { 0.0f, 0.0f, 0.0f };
-	m_TailFire.VelocityVariation = { 1.5f, 1.5f, 1.5f };
-	m_TailFire.Position = { 0.0f, 0.f, 0.0f };
+	m_TailFire.SetPartycleSystem(&m_scene->GetParticleSystem());
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
@@ -106,6 +97,8 @@ void Player::Reset(Scene* scene)
 	m_target = nullptr;
 	m_scene = scene;
 
+	m_TailFire.SetPartycleSystem(&m_scene->GetParticleSystem());
+
 	for (int i = 0; i < 3; i++)
 	{
 		if (m_guns[i] != nullptr) m_guns[i]->Update(50.f);
@@ -132,7 +125,7 @@ void Player::Move(float delta, const glm::vec3& cursor_diff_vec)
 	else if (!m_slowing && m_current_speed < m_speed) m_current_speed = m_current_speed + 1.f;
 
 	m_position += GetForwardVec() * (float)m_current_speed * delta;
-	m_TailFire.Position = m_position - m_forward_vec * 5.f;
+	m_TailFire.SetPosition(m_position - m_forward_vec * 5.f);
 
 	if (!m_flyStraight)
 	{
@@ -179,23 +172,12 @@ void Player::Move(float delta, const glm::vec3& cursor_diff_vec)
 
 	if(m_Upgrade != nullptr) m_Upgrade->Update(delta);
 
-	if (emitTailFireTime >= 0.0125f)
-	{
-		for (int i = 0; i < emitTailFireTime / 0.0125f; i++)
-		{
-			m_scene->GetParticleSystem().Emit(m_TailFire);
-		}
-
-		emitTailFireTime = 0.f;
-	}
-	else
-	{
-		emitTailFireTime += delta;
-	}
-
+	SetTransforms(glm::inverse(glm::lookAt(GetPos(), GetPos()-GetForwardVec(), GetUpVec())));
 	m_hitboxes[0].Position = m_position;
 
-	SetTransforms(glm::inverse(glm::lookAt(GetPos(), GetPos()-GetForwardVec(), GetUpVec())));
+	if (m_stealth) return;
+	m_TailFire.Update(delta);
+
 }
 
 void Player::Shoot()
