@@ -31,7 +31,6 @@ protected:
 	std::vector<std::unique_ptr<EnemySpawnPoint>> m_enemySpawnPoints;
 	std::vector<std::shared_ptr<Entity>> m_Entities;
 	ParticleProps m_explosionProp;
-	//std::vector<ParticleProps> m_particlePool;
 
 	std::unique_ptr<Floor> m_floor;
 	SkyBox m_skyBox;
@@ -57,6 +56,7 @@ public:
 	ProgramObject& getProgram();
 	std::string& getName();
 	std::unique_ptr<Floor>& GetFloor();
+	ParticleSystem& GetParticleSystem();
 
 	bool Update(const float&, GameState&);
 

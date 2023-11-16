@@ -6,7 +6,7 @@ Scene::Scene()
 	m_name = "";
 	m_player = nullptr;
 	m_floor = nullptr;
-	//m_particlePool.resize(50);
+
 	m_explosionProp.ColorBegin = { 254.f / 255.f, 109.f / 255.f, 41 / 255.f, 1.f };
 	m_explosionProp.ColorEnd = { 230.f / 255.f, 230.f / 255.f, 230 / 255.f, 1.f };
 	m_explosionProp.SizeBegin = 1.5f;
@@ -37,6 +37,11 @@ std::vector<std::unique_ptr<EnemySpawnPoint>>& Scene::GetSpawnPoints()
 ProgramObject& Scene::getProgram()
 {
 	return m_program;
+}
+
+ParticleSystem& Scene::GetParticleSystem()
+{
+	return m_particleSystem;
 }
 
 std::string& Scene::getName()

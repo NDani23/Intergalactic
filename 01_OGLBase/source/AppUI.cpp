@@ -137,6 +137,7 @@ void AppUI::RenderMenu()
 	{
 		m_currentMapIndex = std::abs((m_currentMapIndex - 1) % 2);
 		m_app->m_scene = m_app->m_scenes[m_currentMapIndex].get();
+		m_app->Reset();
 	}
 	ImGui::SameLine(0.f, 1.f);
 
@@ -148,6 +149,7 @@ void AppUI::RenderMenu()
 	{
 		m_currentMapIndex = (m_currentMapIndex + 1) % 2;
 		m_app->m_scene = m_app->m_scenes[m_currentMapIndex].get();
+		m_app->Reset();
 	}
 
 

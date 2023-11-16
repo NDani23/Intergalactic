@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "data_storage/WeaponDataStorage.h"
 #include "data_storage/UpgradeDataStorage.h"
+#include "../headers/scenes/ParticleSystem.h"
 
 #include <algorithm>
 
@@ -43,6 +44,8 @@ private:
 
 	glm::vec3 m_fakePos;
 	glm::vec3 m_cursorVec;
+	ParticleProps m_TailFire;
+	float emitTailFireTime;
 	Scene* m_scene;
 
 	Entity* m_target;

@@ -103,6 +103,9 @@ void ParticleSystem::Update(const float delta)
 
 void ParticleSystem::Render(glm::mat4 viewProj)
 {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	m_ParticleProgram.Use();
 	m_ParticleProgram.SetUniform("ViewProj", viewProj);
 
@@ -112,7 +115,6 @@ void ParticleSystem::Render(glm::mat4 viewProj)
 
 		float life = particle.LifeRemaining / particle.LifeTime;
 		glm::vec4 color = glm::lerp(particle.ColorEnd, particle.ColorBegin, life);
-		color.a = color.a * life;
 
 		float size = glm::lerp(particle.SizeEnd, particle.SizeBegin, life);
 
@@ -126,6 +128,8 @@ void ParticleSystem::Render(glm::mat4 viewProj)
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 	}
 	m_ParticleProgram.Unuse();
+
+	glDisable(GL_BLEND);
 }
 
 void ParticleSystem::Emit(const ParticleProps& particleProps)
