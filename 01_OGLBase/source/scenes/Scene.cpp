@@ -34,6 +34,11 @@ std::vector<std::unique_ptr<EnemySpawnPoint>>& Scene::GetSpawnPoints()
 	return m_enemySpawnPoints;
 }
 
+void Scene::AddEnemy()
+{
+	m_Entities.emplace_back(std::make_shared<SaR>(SaR(glm::vec3(0, 0, 1000), m_player, &m_projectiles, this)));
+}
+
 ProgramObject& Scene::getProgram()
 {
 	return m_program;

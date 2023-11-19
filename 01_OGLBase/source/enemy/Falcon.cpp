@@ -23,8 +23,8 @@ Falcon::Falcon()
 
 	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f))));
 
-	HitBox hitbox = { m_position, {10.0f, 3.0f, 11.0f} };
-	m_hitboxes.emplace_back(hitbox);
+	m_hitboxes.resize(1);
+	m_hitboxes[0] = { m_position, {10.0f, 3.0f, 11.0f} };
 
 	m_health = 150;
 	m_speed = 120;
@@ -91,7 +91,7 @@ void Falcon::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 	m_static_mesh->draw();
 }
 
-HitBox Falcon::UpdateDimensions()
+void Falcon::UpdateDimensions()
 {
 	HitBox newHitBox = { m_position, {10.0f, 3.0f, 11.0f} };
 	glm::vec3 cross_vec = glm::normalize(glm::cross(m_forward_vec, m_up_vec));
@@ -105,7 +105,7 @@ HitBox Falcon::UpdateDimensions()
 	newHitBox.dimensions.length = 3.0f + ((abs(m_forward_vec.z)) * (11.0f - 3.0f)) / 1;
 	newHitBox.dimensions.length = std::max(3.0f + ((abs(cross_vec.z)) * (10.0f - 3.0)) / 1, (double)newHitBox.dimensions.length);
 
-	return newHitBox;
+	m_hitboxes[0] = std::move(newHitBox);
 }
 
 std::unique_ptr<Mesh>& Falcon::GetMesh()

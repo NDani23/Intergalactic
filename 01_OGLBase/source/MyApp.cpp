@@ -10,6 +10,8 @@
 #include <imgui/imgui_internal.h>
 #include "../includes/GLUtils.hpp"
 
+#include "../headers/Timer.h"
+
 
 CMyApp::CMyApp(void)
 {
@@ -67,6 +69,7 @@ void CMyApp::Clean()
 
 void CMyApp::Update()
 {
+	//Timer timer;
 	float delta_time = ImGui::GetIO().DeltaTime;
 
 	m_cursor_diff_vec = glm::normalize((m_player.GetUpVec() * -1.0f * m_mouseY) + (m_player.GetCrossVec() * -1.0f * m_mouseX) + m_player.GetForwardVec());
@@ -112,6 +115,8 @@ void CMyApp::Render()
 		m_player.DrawMesh(BaseProgram, viewProj);	
 	}
 	BaseProgram.Unuse();
+
+	//DrawHitBoxes(m_axesProgram, viewProj);
 
 	//ImGui
 	UI.Render();
@@ -197,6 +202,7 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 		break;
 	case SDLK_SPACE:
 		m_shooting = false;
+		m_scene->AddEnemy();
 		break;
 	case SDLK_LCTRL:
 		m_player.SlowDown(false);

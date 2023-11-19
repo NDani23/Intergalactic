@@ -38,7 +38,7 @@ void DeepSpace::LoadScene()
 
 	AddEntity(std::make_shared<Entity>("assets/DeepSpace/satelite.obj", glm::vec3(-200, 1200, 700), "assets/DeepSpace/satelite_tex.png", Dimensions{ 20.0f, 17.0f, 20.0f }));
 
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-70, 50, 2000), m_player, &m_projectiles)));
+	/*AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-70, 50, 2000), m_player, &m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-100, 0, 1950), m_player, &m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-90, -10, 1900), m_player, &m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 10, 1950), m_player, &m_projectiles)));
@@ -46,7 +46,7 @@ void DeepSpace::LoadScene()
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(100, 20, 1850), m_player, &m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 30, 2050), m_player, &m_projectiles)));
 	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(-60, -50, 2010), m_player, &m_projectiles)));
-	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 200, 1970), m_player, &m_projectiles)));
+	AddEntity(std::make_shared<Turret>(Turret(glm::vec3(50, 200, 1970), m_player, &m_projectiles)));*/
 
 	std::shared_ptr<Entity> gate = std::make_shared<Entity>("assets/DeepSpace/gate.obj", glm::vec3(0, -500, 1200), "assets/DeepSpace/gate_tex.png");
 	gate->GetHitboxes().clear();

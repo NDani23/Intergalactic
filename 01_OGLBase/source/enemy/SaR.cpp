@@ -53,8 +53,8 @@ SaR::SaR(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>
 
 	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f))));
 
-	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
-	m_hitboxes.emplace_back(hitbox);
+	m_hitboxes.resize(1);
+	m_hitboxes[0] = { m_position, {8.0, 2.5, 10.0} };
 
 	m_health = 100;
 	m_speed = 100;
@@ -89,7 +89,7 @@ void SaR::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 	m_static_mesh->draw();
 }
 
-HitBox SaR::UpdateDimensions()
+void SaR::UpdateDimensions()
 {
 	HitBox newHitBox = { m_position, {10.0f, 3.0f, 11.0f} };
 	glm::vec3 cross_vec = glm::normalize(glm::cross(m_forward_vec, m_up_vec));
@@ -103,7 +103,7 @@ HitBox SaR::UpdateDimensions()
 	newHitBox.dimensions.length = 2.5 + ((abs(m_forward_vec.z)) * (10.0 - 2.5)) / 1;
 	newHitBox.dimensions.length = std::max(2.5 + ((abs(cross_vec.z)) * (8.0 - 2.5)) / 1, (double)m_hitboxes[0].dimensions.length);
 
-	return newHitBox;
+	m_hitboxes[0] = std::move(newHitBox);
 }
 
 std::unique_ptr<Mesh>& SaR::GetMesh()

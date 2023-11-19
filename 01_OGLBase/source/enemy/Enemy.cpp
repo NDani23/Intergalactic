@@ -1,6 +1,9 @@
 #include "../../headers/Enemy/Enemy.h"
 #include "../../headers/scenes/Scene.h"
 
+#include <thread>
+#include <ppl.h>
+
 Enemy::Enemy()
 {
 	m_target = nullptr;
@@ -10,9 +13,8 @@ Enemy::Enemy()
 	m_mesh = nullptr;
 }
 
-HitBox Enemy::UpdateDimensions()
+void Enemy::UpdateDimensions()
 {
-	return HitBox();
 }
 
 bool Enemy::Update(const float& delta)
@@ -29,7 +31,7 @@ bool Enemy::Update(const float& delta)
 
 	CheckIfShoot();
 
-	m_hitboxes[0] = UpdateDimensions();
+	UpdateDimensions();
 	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, m_up_vec)));
 
 	m_tailFire.SetPosition(m_position - m_forward_vec * 5.f);
@@ -140,65 +142,170 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 {
 
-	float closest_dist = 0.f;
-	glm::vec3 closest_point;
-
-	if (obj.IsStatic())
+	if (obj.IsTargetable() && glm::distance(obj.GetPos(), m_position) < 50.f)
 	{
-		std::vector<glm::vec3>& vertices = obj.GetCollider().GetVertices();
+		glm::vec3 to_point = glm::normalize(obj.GetPos() - m_position + m_forward_vec);
+		glm::vec3 cross_vec = glm::normalize(to_point - temp_dir);
+		float dot_p = glm::dot(to_point, temp_dir);
 
-		glm::vec3& closest_vert = vertices[0];
-		glm::vec3& vertex = closest_vert;
-
-		closest_dist = glm::distance(vertex, m_position + m_forward_vec * 20.f);
-
-		for (int i = 1; i < vertices.size(); i += 5)
+		if (dot_p > 0.f)
 		{
-			if (i >= vertices.size()) return;
+			temp_dir += temp_dir - (cross_vec * dot_p);
+			temp_dir = glm::normalize(temp_dir);
+		}
 
-			vertex = vertices[i];
+		return;
+	}
 
-			glm::vec3 to_vertex = glm::normalize(vertex - m_position);
-			if (glm::dot(m_forward_vec, to_vertex) < 0) continue;
+	for (HitBox& hitbox : obj.GetHitboxes())
+	{
+		glm::vec3 to_Xside = hitbox.Position + glm::vec3(hitbox.dimensions.width * 0.5f, 0.f, 0.f);
+		glm::vec3 to_Yside = hitbox.Position + glm::vec3(0.f, hitbox.dimensions.height * 0.5f, 0.f);
+		glm::vec3 to_Zside = hitbox.Position + glm::vec3(0.f, 0.f, hitbox.dimensions.length * 0.5f);
 
-			if (glm::distance(vertex, m_position + m_forward_vec * 20.f) < closest_dist)
+		float biggest_side = std::max(std::max(hitbox.dimensions.height, hitbox.dimensions.width), hitbox.dimensions.length);
+		
+		glm::vec3 to_enemy = m_position - hitbox.Position;
+
+		//if the hitbox/object is far -> continue
+		if (glm::distance(m_position, hitbox.Position) > biggest_side * 3.f) continue;
+
+
+		//metszés vizsgálat:
+		//hitbox felsõ/alsó lapja
+		if (m_forward_vec.y != 0)
+		{
+			float y_0 = hitbox.Position.y + hitbox.dimensions.height * 0.5f;
+			float t = (y_0 - m_position.y) / m_forward_vec.y;
+
+			if (t > 0)
 			{
-				closest_dist = glm::distance(vertex, m_position + m_forward_vec * 20.f);
-				closest_vert = vertex;
+				glm::vec3 hit_point = m_position + t * m_forward_vec;
+				glm::vec3 distance_vec = hit_point - hitbox.Position;
+
+				if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
+					&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
+				{
+					float dot_toPoint = glm::dot(m_forward_vec, glm::normalize(to_Yside));
+					temp_dir += (glm::vec3(0, 1, 0));
+					temp_dir = glm::normalize(temp_dir);
+					continue;
+				}
+			}
+
+			y_0 = hitbox.Position.y - hitbox.dimensions.height * 0.5f;
+			t = (y_0 - m_position.y) / m_forward_vec.y;
+
+			if (t > 0)
+			{
+				glm::vec3 hit_point = m_position + t * m_forward_vec;
+				glm::vec3 distance_vec = hit_point - hitbox.Position;
+
+				if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
+					&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
+				{
+					float dot_toPoint = glm::dot(m_forward_vec, glm::normalize(to_Yside));
+					temp_dir += (glm::vec3(0, -1, 0));
+					temp_dir = glm::normalize(temp_dir);
+					continue;
+				}
 			}
 		}
 
-		closest_point = closest_vert;
+		//hitbox szélsõ lapja
+		if (m_forward_vec.x != 0)
+		{
+			float x_0 = hitbox.Position.x + hitbox.dimensions.width * 0.5f;
+			float t = (x_0 - m_position.x) / m_forward_vec.x;
+
+			if (t > 0)
+			{
+				glm::vec3 hit_point = m_position + t * m_forward_vec;
+				glm::vec3 distance_vec = hit_point - hitbox.Position;
+
+				if (abs(distance_vec.y) < hitbox.dimensions.height * 0.8f
+					&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
+				{
+					float dot_toPoint = glm::dot(m_forward_vec, glm::normalize(to_Xside));
+					temp_dir += (glm::vec3(1, 0, 0));
+					temp_dir = glm::normalize(temp_dir);
+					continue;
+				}
+			}
+
+			x_0 = hitbox.Position.x - hitbox.dimensions.width * 0.5f;
+			t = (x_0 - m_position.x) / m_forward_vec.x;
+
+			if (t > 0)
+			{
+				glm::vec3 hit_point = m_position + t * m_forward_vec;
+				glm::vec3 distance_vec = hit_point - hitbox.Position;
+
+				if (abs(distance_vec.y) < hitbox.dimensions.height * 0.8f
+					&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
+				{
+					float dot_toPoint = glm::dot(m_forward_vec, glm::normalize(to_Xside));
+					temp_dir += (glm::vec3(-1, 0, 0));
+					temp_dir = glm::normalize(temp_dir);
+					continue;
+				}
+			}
+		}
+
+		//metszés vizsgálat:
+		//hitbox hosszanti lapja
+		if (m_forward_vec.z != 0)
+		{
+
+			float z_0 = hitbox.Position.z - hitbox.dimensions.length * 0.5f;
+			float t = (z_0 - m_position.z) / m_forward_vec.z;
+
+			if (t > 0)
+			{
+				glm::vec3 hit_point = m_position + t * m_forward_vec;
+				glm::vec3 distance_vec = hit_point - hitbox.Position;
+
+				if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
+					&& abs(distance_vec.y) < hitbox.dimensions.height * 0.8f)
+				{
+					float dot_toPoint = glm::dot(m_forward_vec, glm::vec3(0,0,1));
+					temp_dir += (glm::vec3(0, 0, -1));
+					temp_dir = glm::normalize(temp_dir);
+					continue;
+				}
+			}
+
+			z_0 = hitbox.Position.z + hitbox.dimensions.length * 0.5f;
+			t = (z_0 - m_position.z) / m_forward_vec.z;
+
+			if (t > 0)
+			{
+				glm::vec3 hit_point = m_position + t * m_forward_vec;
+				glm::vec3 distance_vec = hit_point - hitbox.Position;
+
+				if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
+					&& abs(distance_vec.y) < hitbox.dimensions.height * 0.8f)
+				{
+					float dot_toPoint = abs(glm::dot(m_forward_vec, glm::vec3(0, 0, -1)));
+					temp_dir += (glm::vec3(0, 0, 1));
+					temp_dir = glm::normalize(temp_dir);
+					continue;
+				}
+			}
+
+		}
+
+		/*glm::vec3 to_point = glm::normalize(hitbox.Position - m_position + m_forward_vec * 20.f);
+		glm::vec3 cross_vec = glm::normalize(to_point - temp_dir);
+		float dot_p = glm::dot(to_point, temp_dir);
+
+		if (dot_p > 0.2f)
+		{
+			temp_dir += temp_dir - (cross_vec * dot_p);
+			temp_dir = glm::normalize(temp_dir);
+		}*/
+		
 	}
-	else
-	{
-		closest_point = obj.GetPos();
-		closest_dist = glm::distance(closest_point, m_position + m_forward_vec * 20.f);
-	}
-	
-
-	if (closest_dist > 200.f) return;
-
-	glm::vec3 to_point = glm::normalize(closest_point - m_position + m_forward_vec * 20.f);
-	glm::vec3 cross_vec = glm::normalize(to_point - temp_dir);
-	float dot_p = glm::dot(to_point, temp_dir);
-	//float angle = glm::acos(glm::dot(to_point, temp_dir));
-
-	if (dot_p > 0.2f)
-	{
-		temp_dir += temp_dir - (cross_vec * dot_p);
-		temp_dir = glm::normalize(temp_dir);
-	}
-
-	//if (isnan(angle))
-	//{
-	//	temp_dir = glm::normalize(temp_dir);
-	//}
-	//else if (angle < M_PI)
-	//{
-	//	temp_dir += temp_dir - (cross_vec * (1.0f / (angle * 10.f)));
-	//	temp_dir = glm::normalize(temp_dir);
-	//}
 }
 
 bool Enemy::CalcAvoidFloorVec(glm::vec3& temp_dir)

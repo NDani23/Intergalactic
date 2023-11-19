@@ -9,6 +9,7 @@
 #include "../../headers/collision_detection/GJK.h"
 
 #include "../../headers/scenes/SkyBox.h"
+#include "../../headers/weapons/Projectile.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform2.hpp>
@@ -61,6 +62,7 @@ public:
 	bool Update(const float&, GameState&);
 
 	void AddEntity(std::shared_ptr<Entity> entity);
+	void AddEnemy();
 
 	virtual void LoadScene() {};
 	void DrawScene(glm::mat4&, GameState&, glm::vec3, ProgramObject&);

@@ -16,6 +16,6 @@ public:
 	std::unique_ptr<Mesh>& GetMesh() override;
 
 private:
-	HitBox UpdateDimensions() override;
+	void UpdateDimensions() override;
 	static int FirstInit();
 };
