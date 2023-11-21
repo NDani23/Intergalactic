@@ -202,7 +202,7 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 		break;
 	case SDLK_SPACE:
 		m_shooting = false;
-		m_scene->AddEnemy();
+		m_scene->AddEnemy(glm::vec3(0, 0, 1000));
 		break;
 	case SDLK_LCTRL:
 		m_player.SlowDown(false);

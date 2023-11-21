@@ -88,6 +88,7 @@ public:
 	void setRecord(int);
 	void setStealth(bool);
 	void setImmortal(bool);
+	void setMap(Scene*);
 	void setFakePos(glm::vec3&);
 	void FlyStraight(bool);
 	void LookBack(bool);

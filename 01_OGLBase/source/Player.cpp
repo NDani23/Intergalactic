@@ -55,7 +55,7 @@ Player::Player()
 
 	m_stats = {0, 0, 0, 0, 0};
 
-	m_TailFire.SetPartycleSystem(&m_scene->GetParticleSystem());
+	m_TailFire.SetPartycleSystem(nullptr);
 
 	HitBox hitbox = { m_position, {8.0, 2.5, 10.0} };
 
@@ -194,6 +194,7 @@ void Player::Shoot()
 
 void Player::ActivateUpgrade()
 {
+	if (m_Upgrade == nullptr) return;
 	m_Upgrade->Activate();
 }
 
@@ -238,6 +239,11 @@ void Player::setPoints(int point)
 void Player::setCredit(int credit)
 {
 	m_credit = credit;
+}
+
+void Player::setMap(Scene* scene)
+{
+	m_scene = scene;
 }
 
 void Player::setUpgradePoints(int points)

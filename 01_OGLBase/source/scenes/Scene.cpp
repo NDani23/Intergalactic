@@ -19,9 +19,31 @@ Scene::Scene()
 
 }
 
+Scene::Scene(Player* player)
+{
+	m_name = "";
+	m_player = player;
+	m_floor = nullptr;
+
+	m_explosionProp.ColorBegin = { 254.f / 255.f, 109.f / 255.f, 41 / 255.f, 1.f };
+	m_explosionProp.ColorEnd = { 230.f / 255.f, 230.f / 255.f, 230 / 255.f, 1.f };
+	m_explosionProp.SizeBegin = 1.5f;
+	m_explosionProp.SizeVariation = 0.5f;
+	m_explosionProp.SizeEnd = 0.0f;
+	m_explosionProp.LifeTime = 1.0f;
+	m_explosionProp.Velocity = { 0.0f, 0.0f, 0.0f };
+	m_explosionProp.VelocityVariation = { 30.0f, 30.0f, 30.0f };
+	m_explosionProp.Position = { 0.0f, 0.0f, 0.0f };
+}
+
 std::vector<std::shared_ptr<Entity>>& Scene::GetEntities()
 {
 	return m_Entities;
+}
+
+std::vector<std::unique_ptr<Projectile>>& Scene::GetProjectiles()
+{
+	return m_projectiles;
 }
 
 std::vector<std::shared_ptr<Entity>>* Scene::GetEntitiesPtr()
@@ -34,9 +56,9 @@ std::vector<std::unique_ptr<EnemySpawnPoint>>& Scene::GetSpawnPoints()
 	return m_enemySpawnPoints;
 }
 
-void Scene::AddEnemy()
+void Scene::AddEnemy(glm::vec3 position)
 {
-	m_Entities.emplace_back(std::make_shared<SaR>(SaR(glm::vec3(0, 0, 1000), m_player, &m_projectiles, this)));
+	m_Entities.emplace_back(std::make_shared<SaR>(SaR(position, m_player, &m_projectiles, this)));
 }
 
 ProgramObject& Scene::getProgram()

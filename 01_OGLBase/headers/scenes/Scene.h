@@ -51,7 +51,9 @@ protected:
 
 public:
 	Scene();
+	Scene(Player*);
 	std::vector<std::shared_ptr<Entity>>& GetEntities();
+	std::vector<std::unique_ptr<Projectile>>& GetProjectiles();
 	std::vector<std::unique_ptr<EnemySpawnPoint>>& GetSpawnPoints();
 	std::vector<std::shared_ptr<Entity>>* GetEntitiesPtr();
 	ProgramObject& getProgram();
@@ -62,7 +64,7 @@ public:
 	bool Update(const float&, GameState&);
 
 	void AddEntity(std::shared_ptr<Entity> entity);
-	void AddEnemy();
+	void AddEnemy(glm::vec3);
 
 	virtual void LoadScene() {};
 	void DrawScene(glm::mat4&, GameState&, glm::vec3, ProgramObject&);

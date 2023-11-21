@@ -106,6 +106,7 @@
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_truetype.h" />
     <ClInclude Include="headers\AppUI.h" />
+    <ClInclude Include="headers\collision_detection\AAB.h" />
     <ClInclude Include="headers\collision_detection\Dimensions.h" />
     <ClInclude Include="headers\collision_detection\GJK.h" />
     <ClInclude Include="headers\collision_detection\HitBox.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Includes\ShaderObject.cpp" />
     <ClCompile Include="Includes\VertexArrayObject.cpp" />
     <ClCompile Include="source\AppUI.cpp" />
+    <ClCompile Include="source\collision_detection\AAB.cpp" />
     <ClCompile Include="source\collision_detection\GJK.cpp" />
     <ClCompile Include="source\collision_detection\HitBox.cpp" />
     <ClCompile Include="source\collision_detection\MeshCollider.cpp" />

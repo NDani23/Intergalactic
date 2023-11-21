@@ -3,7 +3,7 @@
 TailFire::TailFire()
 {
 	m_particleSystem = nullptr;
-	m_frequency = 0.0125f;
+	m_frequency = 0.01f;
 	m_emitTailFireTime = 0.025f;
 
 	m_ParticleProp.ColorEnd = { 200.f / 255.f, 200.f / 255.f, 200.f / 255.f, 1.f };

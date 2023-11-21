@@ -228,6 +228,9 @@
     <ClInclude Include="headers\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\collision_detection\AAB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Includes\GLconversions.cpp">
@@ -402,6 +405,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\collision_detection\AAB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
