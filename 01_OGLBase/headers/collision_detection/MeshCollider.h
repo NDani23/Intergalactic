@@ -16,11 +16,11 @@ private:
 	glm::mat4 m_WordTrans;
 	std::vector<std::pair<glm::vec3, int>> m_vertices_initial;
 	std::vector<glm::vec3> m_vertices;
+	void UpdateVertices();
 
 public:
 
 	MeshCollider();
-	void UpdateVertices();
 	void setVertices(std::vector<Mesh::Vertex>);
 	void setWordTrans(glm::mat4);
 	std::vector<glm::vec3>& GetVertices();

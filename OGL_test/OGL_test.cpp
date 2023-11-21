@@ -262,7 +262,7 @@ namespace OGLtest
 			Assert::AreEqual(player.GetProjectiles().size(), (size_t)2);
 		}
 
-		TEST_METHOD(MinePlacesTest)
+		TEST_METHOD(MinePlacerTest)
 		{
 			Player player;
 
@@ -281,7 +281,7 @@ namespace OGLtest
 			Assert::AreEqual(player.GetProjectiles().size(), (size_t)2);
 		}
 
-		TEST_METHOD(MinePlacerTest)
+		TEST_METHOD(TurretTest)
 		{
 			Player player;
 			Scene m_dummyScene(&player);
@@ -634,6 +634,32 @@ namespace OGLtest
 			Assert::AreEqual(true, AAB::Collide(entity1, glm::vec3(0, 0, 14.9f)));
 			Assert::AreEqual(false, AAB::Collide(entity1, glm::vec3(30, 0, 0)));
 			Assert::AreEqual(false, AAB::Collide(entity1, glm::vec3(15, 15, 15)));
+
+		}
+
+		TEST_METHOD(GJKShouldNotCollide)
+		{
+			Entity entity1("assets/DeepSpace/meteor.obj", glm::vec3(0, 0, 0), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 0.f, 0.f, 0.f });
+			Entity entity2("assets/DeepSpace/meteor.obj", glm::vec3(0, 30, 10), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 0.f, 0.f, 0.f });
+
+			Assert::AreEqual(false,GJK::Collide(entity1.GetCollider(), entity2.GetCollider()));
+
+			entity2.SetPos(glm::vec3(30, 0 , 0));
+			entity2.SetTransforms(glm::translate(entity2.GetPos()));
+			Assert::AreEqual(false, GJK::Collide(entity1.GetCollider(), entity2.GetCollider()));
+
+		}
+
+		TEST_METHOD(GJKShouldCollide)
+		{
+			Entity entity1("assets/DeepSpace/meteor.obj", glm::vec3(0, 0, 0), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 0.f, 0.f, 0.f });
+			Entity entity2("assets/DeepSpace/meteor.obj", glm::vec3(0, 0, 0), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 0.f, 0.f, 0.f });
+
+			Assert::AreEqual(true, GJK::Collide(entity1.GetCollider(), entity2.GetCollider()));
+
+			entity2.SetPos(glm::vec3(10, 20, 0));
+			entity2.SetTransforms(glm::translate(entity2.GetPos()));
+			Assert::AreEqual(true, GJK::Collide(entity1.GetCollider(), entity2.GetCollider()));
 
 		}
 	};
