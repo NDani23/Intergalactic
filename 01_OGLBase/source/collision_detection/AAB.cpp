@@ -46,6 +46,7 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 
 	float closest_t = FLT_MAX;
 	glm::vec3 closest_normal = glm::vec3(0.f, 0.f, 0.f);
+	float biggest_side = std::max(std::max(hitbox.dimensions.height, hitbox.dimensions.width), hitbox.dimensions.length);
 	//metszés vizsgálat:
 	//hitbox felsõ/alsó lapja
 	if (ray.direction.y != 0)
@@ -58,22 +59,17 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
-				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f
+			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.65f
+				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.65f
 				&& t < closest_t)
 			{
 				closest_t = t;
-				//closest_normal = glm::vec3(0, 1, 0);
 
-				if (abs(distance_vec.x) / hitbox.dimensions.width * 0.8f > abs(distance_vec.z) / hitbox.dimensions.length * 0.8f)
-				{
-					closest_normal = glm::sign(distance_vec.x) == 0 ?  glm::vec3(0, 0, 1) : glm::sign(distance_vec.x) * glm::vec3(1, 0, 0);
-				}
-				else
-				{
-					closest_normal = glm::sign(distance_vec.z) == 0 ? glm::vec3(0, 0, 1) : glm::sign(distance_vec.z) * glm::vec3(0, 0, 1);
-				}
-				//return closest_normal;
+				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.65f);
+				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.65f);
+
+				closest_normal = xPercent * glm::vec3(1, 0, 0) + zPercent * glm::vec3(0, 0, 1);
+
 			}
 		}
 
@@ -85,21 +81,17 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
-				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f
+			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.65f
+				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.65f
 				&& t < closest_t)
 			{
 				closest_t = t;
-				//closest_normal = glm::vec3(0, -1, 0);
-				//return closest_normal;
-				if (abs(distance_vec.x) / hitbox.dimensions.width * 0.8f > abs(distance_vec.z) / hitbox.dimensions.length * 0.8f)
-				{
-					closest_normal = glm::sign(distance_vec.x) == 0 ? glm::vec3(0, 0, 1) : glm::sign(distance_vec.x) * glm::vec3(1, 0, 0);
-				}
-				else
-				{
-					closest_normal = glm::sign(distance_vec.z) == 0 ? glm::vec3(0, 0, 1) : glm::sign(distance_vec.z) * glm::vec3(0, 0, 1);
-				}
+
+				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.65f);
+				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.65f);
+
+				closest_normal = xPercent * glm::vec3(1, 0, 0) + zPercent * glm::vec3(0, 0, 1);
+
 			}
 
 		}
@@ -116,21 +108,17 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.y) < hitbox.dimensions.height * 0.8f
-				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f
+			if (abs(distance_vec.y) < hitbox.dimensions.height * 0.65f
+				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.65f
 				&& t < closest_t)
 			{
 				closest_t = t;
-				//closest_normal = glm::vec3(1, 0, 0);
-				//return closest_normal;
-				if (abs(distance_vec.y) / hitbox.dimensions.height * 0.8f > abs(distance_vec.z) / hitbox.dimensions.length * 0.8f)
-				{
-					closest_normal = glm::sign(distance_vec.y) == 0 ? glm::vec3(0, 0, 1) : glm::sign(distance_vec.y) * glm::vec3(0, 1, 0);
-				}
-				else
-				{
-					closest_normal = glm::sign(distance_vec.z) == 0 ? glm::vec3(0, 0, 1) : glm::sign(distance_vec.z) * glm::vec3(0, 0, 1);
-				}
+
+				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.65f);
+				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.65f);
+
+				closest_normal = yPercent * glm::vec3(0, 1, 0) + zPercent * glm::vec3(0, 0, 1);
+
 			}
 		}
 
@@ -142,22 +130,16 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.y) < hitbox.dimensions.height * 0.8f
-				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f
+			if (abs(distance_vec.y) < hitbox.dimensions.height * 0.65f
+				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.65f
 				&& t < closest_t)
 			{
 				closest_t = t;
-				//closest_normal = glm::vec3(-1, 0, 0);
-				//return closest_normal;
 
-				if (abs(distance_vec.y) / hitbox.dimensions.height * 0.8f > abs(distance_vec.z) / hitbox.dimensions.length * 0.8f)
-				{
-					closest_normal = glm::sign(distance_vec.y) == 0 ? glm::vec3(0, 1, 0) : glm::sign(distance_vec.y) * glm::vec3(0, 1, 0);
-				}
-				else
-				{
-					closest_normal = glm::sign(distance_vec.z) == 0 ? glm::vec3(0, 1, 0) : glm::sign(distance_vec.z) * glm::vec3(0, 0, 1);
-				}
+				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.65f);
+				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.65f);
+
+				closest_normal = yPercent * glm::vec3(0, 1, 0) + zPercent * glm::vec3(0, 0, 1);
 			}
 		}
 	}
@@ -175,22 +157,16 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
-				&& abs(distance_vec.y) < hitbox.dimensions.height * 0.8f
+			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.65f
+				&& abs(distance_vec.y) < hitbox.dimensions.height * 0.65f
 				&& t < closest_t)
 			{
 				closest_t = t;
-				//closest_normal = glm::vec3(0, 0, -1);
-				//return closest_normal;
 
-				if (abs(distance_vec.y) / hitbox.dimensions.height * 0.8f > abs(distance_vec.y) / hitbox.dimensions.width * 0.8f)
-				{
-					closest_normal = glm::sign(distance_vec.y) == 0 ? glm::vec3(0, 1, 0) : glm::sign(distance_vec.y) * glm::vec3(0, 1, 0);
-				}
-				else
-				{
-					closest_normal = glm::sign(distance_vec.x) == 0 ? glm::vec3(0, 1, 0) : glm::sign(distance_vec.x) * glm::vec3(1, 0, 0);
-				}
+				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.65f);
+				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.65f);
+
+				closest_normal = yPercent * glm::vec3(0, 1, 0) + xPercent * glm::vec3(1, 0, 0);
 			}
 		}
 
@@ -202,25 +178,20 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
-				&& abs(distance_vec.y) < hitbox.dimensions.height * 0.8f
+			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.65f
+				&& abs(distance_vec.y) < hitbox.dimensions.height * 0.65f
 				&& t < closest_t)
 			{
 				closest_t = t;
-				//closest_normal = glm::vec3(0, 0, 1);
-				//return closest_normal;
-				if (abs(distance_vec.y) / hitbox.dimensions.height * 0.8f > abs(distance_vec.y) / hitbox.dimensions.width * 0.8f)
-				{
-					closest_normal = glm::sign(distance_vec.y) == 0 ? glm::vec3(0, 1, 0) : glm::sign(distance_vec.y) * glm::vec3(0, 1, 0);
-				}
-				else
-				{
-					closest_normal = glm::sign(distance_vec.x) == 0 ? glm::vec3(0, 1, 0) : glm::sign(distance_vec.x) * glm::vec3(1, 0, 0);
-				}
+
+				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.65f);
+				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.65f);
+
+				closest_normal = yPercent * glm::vec3(0, 1, 0) + xPercent * glm::vec3(1, 0, 0);
 			}
 		}
 
 	}
 
-	return closest_normal;
+	return closest_normal == glm::vec3(0, 0, 0) ? closest_normal : glm::normalize(closest_normal);
 }
