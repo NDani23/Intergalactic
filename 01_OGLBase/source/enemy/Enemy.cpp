@@ -138,143 +138,140 @@ void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 		return;
 	}
 
+	Ray forward_ray = { m_position, m_forward_vec };
 	for (HitBox& hitbox : obj.GetHitboxes())
 	{
-		glm::vec3 to_Xside = hitbox.Position + glm::vec3(hitbox.dimensions.width * 0.5f, 0.f, 0.f);
-		glm::vec3 to_Yside = hitbox.Position + glm::vec3(0.f, hitbox.dimensions.height * 0.5f, 0.f);
-		glm::vec3 to_Zside = hitbox.Position + glm::vec3(0.f, 0.f, hitbox.dimensions.length * 0.5f);
-
 		float biggest_side = std::max(std::max(hitbox.dimensions.height, hitbox.dimensions.width), hitbox.dimensions.length);
-		
-		glm::vec3 to_enemy = m_position - hitbox.Position;
-
 		//if the hitbox/object is far -> continue
 		if (glm::distance(m_position, hitbox.Position) > biggest_side * 3.f) continue;
 
+		glm::vec3 normal = AAB::RayIntersection(hitbox, forward_ray);
 
-		//metszés vizsgálat:
-		//hitbox felsõ/alsó lapja
-		if (m_forward_vec.y != 0)
-		{
-			float y_0 = hitbox.Position.y + hitbox.dimensions.height * 0.5f;
-			float t = (y_0 - m_position.y) / m_forward_vec.y;
+		//if (normal == glm::vec3(0.f, 0.f, 0.f)) continue;
 
-			if (t > 0)
-			{
-				glm::vec3 hit_point = m_position + t * m_forward_vec;
-				glm::vec3 distance_vec = hit_point - hitbox.Position;
+		temp_dir += normal;
+		temp_dir = glm::normalize(temp_dir);
 
-				if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
-					&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
-				{
-					float dot_toPoint = glm::dot(m_forward_vec, glm::normalize(to_Yside));
-					temp_dir += (glm::vec3(0, 1, 0));
-					temp_dir = glm::normalize(temp_dir);
-					continue;
-				}
-			}
+		//glm::vec3 to_enemy = m_position - hitbox.Position;
 
-			y_0 = hitbox.Position.y - hitbox.dimensions.height * 0.5f;
-			t = (y_0 - m_position.y) / m_forward_vec.y;
 
-			if (t > 0)
-			{
-				glm::vec3 hit_point = m_position + t * m_forward_vec;
-				glm::vec3 distance_vec = hit_point - hitbox.Position;
+		////metszés vizsgálat:
+		////hitbox felsõ/alsó lapja
+		//if (m_forward_vec.y != 0)
+		//{
+		//	float y_0 = hitbox.Position.y + hitbox.dimensions.height * 0.5f;
+		//	float t = (y_0 - m_position.y) / m_forward_vec.y;
 
-				if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
-					&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
-				{
-					float dot_toPoint = glm::dot(m_forward_vec, glm::normalize(to_Yside));
-					temp_dir += (glm::vec3(0, -1, 0));
-					temp_dir = glm::normalize(temp_dir);
-					continue;
-				}
-			}
-		}
+		//	if (t > 0)
+		//	{
+		//		glm::vec3 hit_point = m_position + t * m_forward_vec;
+		//		glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-		//hitbox szélsõ lapja
-		if (m_forward_vec.x != 0)
-		{
-			float x_0 = hitbox.Position.x + hitbox.dimensions.width * 0.5f;
-			float t = (x_0 - m_position.x) / m_forward_vec.x;
+		//		if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
+		//			&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
+		//		{
+		//			temp_dir += (glm::vec3(0, 1, 0));
+		//			temp_dir = glm::normalize(temp_dir);
+		//			continue;
+		//		}
+		//	}
 
-			if (t > 0)
-			{
-				glm::vec3 hit_point = m_position + t * m_forward_vec;
-				glm::vec3 distance_vec = hit_point - hitbox.Position;
+		//	y_0 = hitbox.Position.y - hitbox.dimensions.height * 0.5f;
+		//	t = (y_0 - m_position.y) / m_forward_vec.y;
 
-				if (abs(distance_vec.y) < hitbox.dimensions.height * 0.8f
-					&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
-				{
-					float dot_toPoint = glm::dot(m_forward_vec, glm::normalize(to_Xside));
-					temp_dir += (glm::vec3(1, 0, 0));
-					temp_dir = glm::normalize(temp_dir);
-					continue;
-				}
-			}
+		//	if (t > 0)
+		//	{
+		//		glm::vec3 hit_point = m_position + t * m_forward_vec;
+		//		glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			x_0 = hitbox.Position.x - hitbox.dimensions.width * 0.5f;
-			t = (x_0 - m_position.x) / m_forward_vec.x;
+		//		if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
+		//			&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
+		//		{
+		//			temp_dir += (glm::vec3(0, -1, 0));
+		//			temp_dir = glm::normalize(temp_dir);
+		//			continue;
+		//		}
+		//	}
+		//}
 
-			if (t > 0)
-			{
-				glm::vec3 hit_point = m_position + t * m_forward_vec;
-				glm::vec3 distance_vec = hit_point - hitbox.Position;
+		////hitbox szélsõ lapja
+		//if (m_forward_vec.x != 0)
+		//{
+		//	float x_0 = hitbox.Position.x + hitbox.dimensions.width * 0.5f;
+		//	float t = (x_0 - m_position.x) / m_forward_vec.x;
 
-				if (abs(distance_vec.y) < hitbox.dimensions.height * 0.8f
-					&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
-				{
-					float dot_toPoint = glm::dot(m_forward_vec, glm::normalize(to_Xside));
-					temp_dir += (glm::vec3(-1, 0, 0));
-					temp_dir = glm::normalize(temp_dir);
-					continue;
-				}
-			}
-		}
+		//	if (t > 0)
+		//	{
+		//		glm::vec3 hit_point = m_position + t * m_forward_vec;
+		//		glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-		//metszés vizsgálat:
-		//hitbox hosszanti lapja
-		if (m_forward_vec.z != 0)
-		{
+		//		if (abs(distance_vec.y) < hitbox.dimensions.height * 0.8f
+		//			&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
+		//		{
+		//			temp_dir += (glm::vec3(1, 0, 0));
+		//			temp_dir = glm::normalize(temp_dir);
+		//			continue;
+		//		}
+		//	}
 
-			float z_0 = hitbox.Position.z - hitbox.dimensions.length * 0.5f;
-			float t = (z_0 - m_position.z) / m_forward_vec.z;
+		//	x_0 = hitbox.Position.x - hitbox.dimensions.width * 0.5f;
+		//	t = (x_0 - m_position.x) / m_forward_vec.x;
 
-			if (t > 0)
-			{
-				glm::vec3 hit_point = m_position + t * m_forward_vec;
-				glm::vec3 distance_vec = hit_point - hitbox.Position;
+		//	if (t > 0)
+		//	{
+		//		glm::vec3 hit_point = m_position + t * m_forward_vec;
+		//		glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-				if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
-					&& abs(distance_vec.y) < hitbox.dimensions.height * 0.8f)
-				{
-					float dot_toPoint = glm::dot(m_forward_vec, glm::vec3(0,0,1));
-					temp_dir += (glm::vec3(0, 0, -1));
-					temp_dir = glm::normalize(temp_dir);
-					continue;
-				}
-			}
+		//		if (abs(distance_vec.y) < hitbox.dimensions.height * 0.8f
+		//			&& abs(distance_vec.z) < hitbox.dimensions.length * 0.8f)
+		//		{
+		//			temp_dir += (glm::vec3(-1, 0, 0));
+		//			temp_dir = glm::normalize(temp_dir);
+		//			continue;
+		//		}
+		//	}
+		//}
 
-			z_0 = hitbox.Position.z + hitbox.dimensions.length * 0.5f;
-			t = (z_0 - m_position.z) / m_forward_vec.z;
+		////metszés vizsgálat:
+		////hitbox hosszanti lapja
+		//if (m_forward_vec.z != 0)
+		//{
 
-			if (t > 0)
-			{
-				glm::vec3 hit_point = m_position + t * m_forward_vec;
-				glm::vec3 distance_vec = hit_point - hitbox.Position;
+		//	float z_0 = hitbox.Position.z - hitbox.dimensions.length * 0.5f;
+		//	float t = (z_0 - m_position.z) / m_forward_vec.z;
 
-				if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
-					&& abs(distance_vec.y) < hitbox.dimensions.height * 0.8f)
-				{
-					float dot_toPoint = abs(glm::dot(m_forward_vec, glm::vec3(0, 0, -1)));
-					temp_dir += (glm::vec3(0, 0, 1));
-					temp_dir = glm::normalize(temp_dir);
-					continue;
-				}
-			}
+		//	if (t > 0)
+		//	{
+		//		glm::vec3 hit_point = m_position + t * m_forward_vec;
+		//		glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-		}
+		//		if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
+		//			&& abs(distance_vec.y) < hitbox.dimensions.height * 0.8f)
+		//		{
+		//			temp_dir += (glm::vec3(0, 0, -1));
+		//			temp_dir = glm::normalize(temp_dir);
+		//			continue;
+		//		}
+		//	}
+
+		//	z_0 = hitbox.Position.z + hitbox.dimensions.length * 0.5f;
+		//	t = (z_0 - m_position.z) / m_forward_vec.z;
+
+		//	if (t > 0)
+		//	{
+		//		glm::vec3 hit_point = m_position + t * m_forward_vec;
+		//		glm::vec3 distance_vec = hit_point - hitbox.Position;
+
+		//		if (abs(distance_vec.x) < hitbox.dimensions.width * 0.8f
+		//			&& abs(distance_vec.y) < hitbox.dimensions.height * 0.8f)
+		//		{
+		//			temp_dir += (glm::vec3(0, 0, 1));
+		//			temp_dir = glm::normalize(temp_dir);
+		//			continue;
+		//		}
+		//	}
+
+		//}
 		
 	}
 }

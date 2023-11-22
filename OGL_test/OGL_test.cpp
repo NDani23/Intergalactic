@@ -582,7 +582,7 @@ namespace OGLtest
 			DummyScene.AddEnemy(glm::vec3(0, 0, 950));
 			Enemy* enemy = (SaR*)(DummyScene.GetEntities().at(0).get());
 
-			DummyScene.AddEntity(std::make_shared<Entity>("assets/DeepSpace/meteor.obj", glm::vec3(0, 10, 920), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 27.0f, 27.0f, 27.0f }));
+			DummyScene.AddEntity(std::make_shared<Entity>("assets/DeepSpace/meteor.obj", glm::vec3(0, 0, 920), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 27.0f, 27.0f, 27.0f }));
 
 			DummyScene.Update(0.1f, GameState);
 
