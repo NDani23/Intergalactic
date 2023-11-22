@@ -54,8 +54,8 @@ Falcon::Falcon(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projec
 
 	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f))));
 
-	HitBox hitbox = { m_position, {10.0f, 3.0f, 11.0f} };
-	m_hitboxes.emplace_back(hitbox);
+	m_hitboxes.resize(1);
+	m_hitboxes[0] = { m_position, {10.0f, 3.0f, 11.0f} };
 
 	m_health = 150;
 	m_speed = 120;
