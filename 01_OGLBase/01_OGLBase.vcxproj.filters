@@ -126,9 +126,6 @@
     <ClInclude Include="headers\scenes\PlanetEarth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\collision_detection\Dimensions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\collision_detection\GJK.h">
       <Filter>Header Files</Filter>
     </ClInclude>

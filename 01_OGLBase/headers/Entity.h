@@ -5,7 +5,7 @@
 #include "../includes/ObjParser_OGL3.h"
 #include "../includes/ProgramObject.h"
 #include "../includes/TextureObject.h"
-#include "collision_detection/HitBox.h"
+#include "collision_detection/AAB.h"
 #include "collision_detection/MeshCollider.h"
 
 #include <glm/gtc/matrix_transform.hpp>

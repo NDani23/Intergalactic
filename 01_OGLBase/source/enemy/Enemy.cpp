@@ -111,28 +111,9 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 		{
 			continue;
 		}
+
+		if (AAB::Collide(m_hitboxes, obj->GetHitboxes())) return true;
 		
-		for (HitBox& hitbox : obj->GetHitboxes())
-		{
-			glm::vec3 distance_vec = hitbox.Position - m_position;
-
-			float distance = glm::length(distance_vec);
-			if (distance > 500.0f) break;
-
-
-			//Check collision
-			Dimensions hitbox_dims = hitbox.dimensions;
-
-			if (abs(distance_vec.x) < std::max(enemy_dims.width / 2, hitbox_dims.width / 2)
-				&& abs(distance_vec.y) < std::max(enemy_dims.height / 2, hitbox_dims.height / 2)
-				&& abs(distance_vec.z) < std::max(enemy_dims.length / 2, hitbox_dims.length / 2))
-			{
-				//std::cout << "Collision" << std::endl;
-				return true;
-			}
-
-		}
-
 		AvoidObject(*obj.get(), temp_dir);
 
 	}
@@ -294,16 +275,6 @@ void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 			}
 
 		}
-
-		/*glm::vec3 to_point = glm::normalize(hitbox.Position - m_position + m_forward_vec * 20.f);
-		glm::vec3 cross_vec = glm::normalize(to_point - temp_dir);
-		float dot_p = glm::dot(to_point, temp_dir);
-
-		if (dot_p > 0.2f)
-		{
-			temp_dir += temp_dir - (cross_vec * dot_p);
-			temp_dir = glm::normalize(temp_dir);
-		}*/
 		
 	}
 }

@@ -143,7 +143,6 @@ void Scene::UpdateProjectiles(const float& delta)
 bool Scene::CheckForCollision()
 {
 	glm::vec3 player_pos = m_player->GetPos();
-	Dimensions player_dims = m_player->GetHitboxes()[0].dimensions;
 
 	if (GetFloor() != nullptr)
 	{
@@ -158,32 +157,22 @@ bool Scene::CheckForCollision()
 	{
 		if (!entity->CanCollide()) continue;
 
-		for (HitBox& hitbox : entity->GetHitboxes())
+		if (AAB::Collide(m_player->GetHitboxes(), entity->GetHitboxes()))
 		{
-			glm::vec3 distance_vec = player_pos - hitbox.Position;
-
-			Dimensions hitbox_dims = hitbox.dimensions;
-
-			if (abs(distance_vec.x) < player_dims.width / 2 + hitbox_dims.width / 2
-				&& abs(distance_vec.y) < player_dims.height / 2 + hitbox_dims.height / 2
-				&& abs(distance_vec.z) < player_dims.length / 2 + hitbox_dims.length / 2)
+			if (entity->IsStatic())
 			{
-				if (entity->IsStatic())
-				{
-					if (GJK::Collide(m_player->GetCollider(), entity.get()->GetCollider()))
-					{
-						Explosion(player_pos);
-						return true;
-					}
-				}
-				else
+				if (GJK::Collide(m_player->GetCollider(), entity.get()->GetCollider()))
 				{
 					Explosion(player_pos);
 					return true;
 				}
 			}
+			else
+			{
+				Explosion(player_pos);
+				return true;
+			}
 		}
-
 	}
 
 	return false;

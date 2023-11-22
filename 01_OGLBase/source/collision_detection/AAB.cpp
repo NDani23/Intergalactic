@@ -1,10 +1,10 @@
 #include "../../headers/collision_detection/AAB.h"
 
-bool AAB::Collide(Entity& EntityA, Entity& EntityB)
+bool AAB::Collide(std::vector<HitBox>& hitboxesA, std::vector<HitBox>& hitboxesB)
 {
-	for (HitBox& hitboxA : EntityA.GetHitboxes())
+	for (HitBox& hitboxA : hitboxesA)
 	{
-		for (HitBox& hitboxB : EntityB.GetHitboxes())
+		for (HitBox& hitboxB : hitboxesB)
 		{
 			glm::vec3 distance_vec = hitboxA.Position - hitboxB.Position;
 
@@ -20,12 +20,12 @@ bool AAB::Collide(Entity& EntityA, Entity& EntityB)
 	return false;
 }
 
-bool AAB::Collide(Entity& Entity, glm::vec3& Point)
+bool AAB::Collide(std::vector<HitBox>& hitboxes, glm::vec3& Point)
 {
-	glm::vec3 distance_vec = Entity.GetPos() - Point;
 
-	for (HitBox& hitbox : Entity.GetHitboxes())
+	for (HitBox& hitbox : hitboxes)
 	{
+		glm::vec3 distance_vec = hitbox.Position - Point;
 		Dimensions hitbox_dims = hitbox.dimensions;
 
 		if (abs(distance_vec.x) < hitbox_dims.width / 2

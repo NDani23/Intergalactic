@@ -57,16 +57,5 @@ bool Rocket::Update(const float& delta)
 
 bool Rocket::CheckHit(Entity* entity)
 {
-
-	glm::vec3 distance_vec = entity->GetPos() - m_position;
-	Dimensions hitbox_dims = entity->GetHitboxes()[0].dimensions;
-
-	if (abs(distance_vec.x) < hitbox_dims.width / 2
-		&& abs(distance_vec.y) < hitbox_dims.height / 2
-		&& abs(distance_vec.z) < hitbox_dims.length / 2)
-	{
-		return true;
-	}
-
-	return false;
+	return AAB::Collide(entity->GetHitboxes(), m_position);
 }

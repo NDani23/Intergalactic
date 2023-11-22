@@ -602,13 +602,13 @@ namespace OGLtest
 			Entity entity1("assets/DeepSpace/meteor.obj", glm::vec3(0, 0, 0), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 30.0f, 30.0f, 30.0f });
 			Entity entity2("assets/DeepSpace/meteor.obj", glm::vec3(0, 100, 0), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 30.0f, 30.0f, 30.0f });
 
-			Assert::AreEqual(false, AAB::Collide(entity1, entity2));
+			Assert::AreEqual(false, AAB::Collide(entity1.GetHitboxes(), entity2.GetHitboxes()));
 
 			entity2.SetPos(glm::vec3(0, 61, 0));
-			Assert::AreEqual(false, AAB::Collide(entity1, entity2));
+			Assert::AreEqual(false, AAB::Collide(entity1.GetHitboxes(), entity2.GetHitboxes()));
 
 			entity2.SetPos(glm::vec3(0, 50 , 50));
-			Assert::AreEqual(false, AAB::Collide(entity1, entity2));
+			Assert::AreEqual(false, AAB::Collide(entity1.GetHitboxes(), entity2.GetHitboxes()));
 		}
 
 		TEST_METHOD(AABShouldCollide)
@@ -616,24 +616,24 @@ namespace OGLtest
 			Entity entity1("assets/DeepSpace/meteor.obj", glm::vec3(0, 0, 0), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 30.0f, 30.0f, 30.0f });
 			Entity entity2("assets/DeepSpace/meteor.obj", glm::vec3(0, 0, 0), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 30.0f, 30.0f, 30.0f });
 
-			Assert::AreEqual(true, AAB::Collide(entity1, entity2));
+			Assert::AreEqual(true, AAB::Collide(entity1.GetHitboxes(), entity2.GetHitboxes()));
 
 			entity2.SetPos(glm::vec3(0, 60, 0));
-			Assert::AreEqual(true, AAB::Collide(entity1, entity2));
+			Assert::AreEqual(true, AAB::Collide(entity1.GetHitboxes(), entity2.GetHitboxes()));
 
 			entity2.SetPos(glm::vec3(0, 15, 15));
-			Assert::AreEqual(true, AAB::Collide(entity1, entity2));
+			Assert::AreEqual(true, AAB::Collide(entity1.GetHitboxes(), entity2.GetHitboxes()));
 		}
 
 		TEST_METHOD(AABWithPoint)
 		{
 			Entity entity1("assets/DeepSpace/meteor.obj", glm::vec3(0, 0, 0), "assets/DeepSpace/meteor_tex.jpg", Dimensions{ 30.0f, 30.0f, 30.0f });
 
-			Assert::AreEqual(true, AAB::Collide(entity1, glm::vec3(0, 0, 0)));
-			Assert::AreEqual(true, AAB::Collide(entity1, glm::vec3(0, 14, 0)));
-			Assert::AreEqual(true, AAB::Collide(entity1, glm::vec3(0, 0, 14.9f)));
-			Assert::AreEqual(false, AAB::Collide(entity1, glm::vec3(30, 0, 0)));
-			Assert::AreEqual(false, AAB::Collide(entity1, glm::vec3(15, 15, 15)));
+			Assert::AreEqual(true, AAB::Collide(entity1.GetHitboxes(), glm::vec3(0, 0, 0)));
+			Assert::AreEqual(true, AAB::Collide(entity1.GetHitboxes(), glm::vec3(0, 14, 0)));
+			Assert::AreEqual(true, AAB::Collide(entity1.GetHitboxes(), glm::vec3(0, 0, 14.9f)));
+			Assert::AreEqual(false, AAB::Collide(entity1.GetHitboxes(), glm::vec3(30, 0, 0)));
+			Assert::AreEqual(false, AAB::Collide(entity1.GetHitboxes(), glm::vec3(15, 15, 15)));
 
 		}
 

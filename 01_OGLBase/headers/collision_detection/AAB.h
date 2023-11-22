@@ -1,11 +1,10 @@
 #pragma once
 
-#include "../Entity.h"
 #include "HitBox.h"
 
 namespace AAB
 {
-	bool Collide(Entity&, Entity&);
-	bool Collide(Entity&, glm::vec3&);
+	bool Collide(std::vector<HitBox>&, std::vector<HitBox>&);
+	bool Collide(std::vector<HitBox>&, glm::vec3&);
 }
 
