@@ -123,13 +123,15 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 {
 
-	if (obj.IsTargetable() && glm::distance(obj.GetPos(), m_position) < 50.f)
+	if (obj.IsTargetable())
 	{
-		glm::vec3 from_obj = glm::normalize(m_position - obj.GetPos());
+		if (glm::distance(obj.GetPos(), m_position) < 50.f)
+		{
+			glm::vec3 from_obj = glm::normalize(m_position - obj.GetPos());
 
-		temp_dir += from_obj;
-		temp_dir = glm::normalize(temp_dir);
-
+			temp_dir += from_obj;
+			temp_dir = glm::normalize(temp_dir);
+		}
 		return;
 	}
 
@@ -137,8 +139,24 @@ void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 	for (HitBox& hitbox : obj.GetHitboxes())
 	{
 		float biggest_side = std::max(std::max(hitbox.dimensions.height, hitbox.dimensions.width), hitbox.dimensions.length);
-		//if the hitbox/object is far -> continue
-		if (glm::distance(m_position, hitbox.Position) > std::max(biggest_side * 2.f, 200.f)) continue;
+
+		if (biggest_side < 100.f && glm::distance(m_position, hitbox.Position) < 200.f)
+		{
+			glm::vec3 to_point = glm::normalize(hitbox.Position - m_position);
+			float dot_to_point = glm::dot(temp_dir, to_point);
+
+			if (dot_to_point > 0.85f)
+			{
+				glm::vec3 cross_vec = glm::normalize(temp_dir - to_point);
+				temp_dir += cross_vec * dot_to_point * 0.5f;
+				temp_dir = glm::normalize(temp_dir);
+			}
+
+			continue;
+		}
+
+
+		if (glm::distance(m_position, hitbox.Position) > biggest_side * 3.f) continue;
 
 		glm::vec3 normal = AAB::RayIntersection(hitbox, forward_ray);
 
