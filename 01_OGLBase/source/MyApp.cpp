@@ -1,16 +1,5 @@
 ﻿#include "../headers/MyApp.h"
-
-#include <math.h>
-#include <vector>
-
-#include <array>
-#include <list>
-#include <tuple>
-#include <imgui/imgui.h>
-#include <imgui/imgui_internal.h>
 #include "../includes/GLUtils.hpp"
-
-#include "../headers/Timer.h"
 
 
 CMyApp::CMyApp(void)
@@ -27,15 +16,6 @@ CMyApp::CMyApp(void)
 
 CMyApp::~CMyApp(void)
 {
-}
-
-void CMyApp::InitShaders()
-{
-
-	m_axesProgram.Init({
-		{GL_VERTEX_SHADER, "shaders/axes.vert"},
-		{GL_FRAGMENT_SHADER, "shaders/axes.frag"}
-		});
 }
 
 bool CMyApp::Init(bool* quit)
@@ -56,8 +36,6 @@ bool CMyApp::Init(bool* quit)
 
 	glLineWidth(4.0f);
 
-	InitShaders();
-
 	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 1.f, 8000.0f);
 
 	return true;
@@ -69,7 +47,6 @@ void CMyApp::Clean()
 
 void CMyApp::Update()
 {
-	//Timer timer;
 	float delta_time = ImGui::GetIO().DeltaTime;
 
 	m_cursor_diff_vec = glm::normalize((m_player.GetUpVec() * -1.0f * m_mouseY) + (m_player.GetCrossVec() * -1.0f * m_mouseX) + m_player.GetForwardVec());
@@ -107,7 +84,7 @@ void CMyApp::Render()
 	glm::vec3 eye_pos = m_camera.GetEye();
 	BaseProgram.SetUniform("eye_pos", eye_pos);
 
-	m_scene->DrawScene(viewProj, m_GameState, m_camera.GetEye(), m_axesProgram);
+	m_scene->DrawScene(viewProj, m_GameState, m_camera.GetEye());
 
 	BaseProgram.Use();
 	if ((m_GameState.play && !m_GameState.gameover) || m_GameState.hangar)
@@ -272,22 +249,6 @@ void CMyApp::Resize(int _w, int _h)
 	glViewport(0, 0, _w, _h );
 
 	m_camera.Resize(_w, _h);
-}
-
-void CMyApp::DrawHitBoxes(ProgramObject& program, glm::mat4& viewProj)
-{
-	std::vector<glm::vec3> Points;
-
-	for (std::shared_ptr<Entity>& entity : m_scene->GetEntities())
-	{
-		for (HitBox& hitbox : entity->GetHitboxes())
-		{
-			hitbox.Draw(program, viewProj);
-		}
-	}
-
-
-	m_player.GetHitboxes()[0].Draw(program, viewProj);
 }
 
 void CMyApp::Exit()

@@ -8,9 +8,9 @@ bool AAB::Collide(std::vector<HitBox>& hitboxesA, std::vector<HitBox>& hitboxesB
 		{
 			glm::vec3 distance_vec = hitboxA.Position - hitboxB.Position;
 
-			if (abs(distance_vec.x) < std::max(hitboxA.dimensions.width / 2, hitboxB.dimensions.width / 2)
-				&& abs(distance_vec.y) < std::max(hitboxA.dimensions.height / 2, hitboxB.dimensions.height / 2)
-				&& abs(distance_vec.z) < std::max(hitboxA.dimensions.length / 2, hitboxB.dimensions.length / 2))
+			if (abs(distance_vec.x) < hitboxA.dimensions.width / 2 + hitboxB.dimensions.width / 2
+				&& abs(distance_vec.y) < hitboxA.dimensions.height / 2 + hitboxB.dimensions.height / 2
+				&& abs(distance_vec.z) < hitboxA.dimensions.length / 2 + hitboxB.dimensions.length / 2)
 			{
 				return true;
 			}
@@ -59,14 +59,14 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.65f
-				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.65f
+			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.75f
+				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.75f
 				&& t < closest_t)
 			{
 				closest_t = t;
 
-				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.65f);
-				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.65f);
+				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.75f);
+				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.75f);
 
 				closest_normal = xPercent * glm::vec3(1, 0, 0) + zPercent * glm::vec3(0, 0, 1);
 
@@ -81,14 +81,14 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.65f
-				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.65f
+			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.75f
+				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.75f
 				&& t < closest_t)
 			{
 				closest_t = t;
 
-				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.65f);
-				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.65f);
+				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.75f);
+				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.75f);
 
 				closest_normal = xPercent * glm::vec3(1, 0, 0) + zPercent * glm::vec3(0, 0, 1);
 
@@ -108,14 +108,14 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.y) < hitbox.dimensions.height * 0.65f
-				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.65f
+			if (abs(distance_vec.y) < hitbox.dimensions.height * 0.75f
+				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.75f
 				&& t < closest_t)
 			{
 				closest_t = t;
 
-				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.65f);
-				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.65f);
+				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.75f);
+				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.75f);
 
 				closest_normal = yPercent * glm::vec3(0, 1, 0) + zPercent * glm::vec3(0, 0, 1);
 
@@ -130,14 +130,14 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.y) < hitbox.dimensions.height * 0.65f
-				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.65f
+			if (abs(distance_vec.y) < hitbox.dimensions.height * 0.75f
+				&& abs(distance_vec.z) < hitbox.dimensions.length * 0.75f
 				&& t < closest_t)
 			{
 				closest_t = t;
 
-				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.65f);
-				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.65f);
+				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.75f);
+				float zPercent = glm::sign(distance_vec.z) * (abs(distance_vec.z) / hitbox.dimensions.length * 0.75f);
 
 				closest_normal = yPercent * glm::vec3(0, 1, 0) + zPercent * glm::vec3(0, 0, 1);
 			}
@@ -157,14 +157,14 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.65f
-				&& abs(distance_vec.y) < hitbox.dimensions.height * 0.65f
+			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.75f
+				&& abs(distance_vec.y) < hitbox.dimensions.height * 0.75f
 				&& t < closest_t)
 			{
 				closest_t = t;
 
-				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.65f);
-				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.65f);
+				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.75f);
+				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.75f);
 
 				closest_normal = yPercent * glm::vec3(0, 1, 0) + xPercent * glm::vec3(1, 0, 0);
 			}
@@ -178,14 +178,14 @@ glm::vec3 AAB::RayIntersection(HitBox& hitbox, Ray& ray)
 			glm::vec3 hit_point = ray.origin + t * ray.direction;
 			glm::vec3 distance_vec = hit_point - hitbox.Position;
 
-			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.65f
-				&& abs(distance_vec.y) < hitbox.dimensions.height * 0.65f
+			if (abs(distance_vec.x) < hitbox.dimensions.width * 0.75f
+				&& abs(distance_vec.y) < hitbox.dimensions.height * 0.75f
 				&& t < closest_t)
 			{
 				closest_t = t;
 
-				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.65f);
-				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.65f);
+				float yPercent = glm::sign(distance_vec.y) * (abs(distance_vec.y) / hitbox.dimensions.height * 0.75f);
+				float xPercent = glm::sign(distance_vec.x) * (abs(distance_vec.x) / hitbox.dimensions.width * 0.75f);
 
 				closest_normal = yPercent * glm::vec3(0, 1, 0) + xPercent * glm::vec3(1, 0, 0);
 			}

@@ -223,12 +223,14 @@
     <ClCompile Include="source\weapons\Turret.cpp" />
     <ClCompile Include="source\weapons\TurretWeapon.cpp" />
     <ClCompile Include="source\weapons\Weapon.cpp" />
+    <None Include="..\..\..\ClassDiagram.cd" />
+    <None Include="..\..\..\ClassDiagram2.cd" />
     <None Include="Includes\BufferObject.inl" />
     <None Include="Includes\ProgramObject.inl" />
     <None Include="Includes\TextureObject.inl" />
     <None Include="Includes\VertexArrayObject.inl" />
-    <None Include="shaders\axes.frag" />
-    <None Include="shaders\axes.vert" />
+    <None Include="shaders\line.frag" />
+    <None Include="shaders\line.vert" />
     <None Include="shaders\myFrag.frag" />
     <None Include="shaders\myVert.vert" />
     <None Include="shaders\particleFrag.frag" />

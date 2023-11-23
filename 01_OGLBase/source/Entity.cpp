@@ -57,19 +57,6 @@ Entity::Entity(const std::string& model_path, glm::vec3 position, glm::mat4 tran
 	m_hitboxes.emplace_back(hitbox);
 }
 
-Entity::Entity(const Entity& entity)
-{
-	m_position = entity.m_position;
-
-	if (m_mesh != nullptr)
-	{
-		m_mesh = std::make_unique<Mesh>(*entity.m_mesh);
-	}
-	m_texture = entity.m_texture;
-	m_position = entity.m_position;
-	m_hitboxes = entity.m_hitboxes;
-}
-
 Entity::Entity(Entity&& other) noexcept
 {
 	m_position = other.m_position;

@@ -35,6 +35,7 @@ protected:
 
 	std::unique_ptr<Floor> m_floor;
 	SkyBox m_skyBox;
+	ProgramObject m_LineProgram;
 	ProgramObject m_program;
 
 	void UpdateProjectiles(const float&);
@@ -46,6 +47,7 @@ protected:
 	void DrawSkyBox(glm::mat4&, glm::vec3);
 	void DrawEntities(glm::mat4&);
 	void DrawProjectiles(glm::mat4&, ProgramObject&);
+	void DrawHitBoxes(ProgramObject&, glm::mat4&);
 
 	void Explosion(glm::vec3&);
 
@@ -67,5 +69,5 @@ public:
 	void AddEnemy(glm::vec3);
 
 	virtual void LoadScene() {};
-	void DrawScene(glm::mat4&, GameState&, glm::vec3, ProgramObject&);
+	void DrawScene(glm::mat4&, GameState&, glm::vec3);
 };

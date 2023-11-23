@@ -17,6 +17,11 @@ Scene::Scene()
 	m_explosionProp.VelocityVariation = { 30.0f, 30.0f, 30.0f };
 	m_explosionProp.Position = { 0.0f, 0.0f, 0.0f };
 
+	m_LineProgram.Init({
+		{GL_VERTEX_SHADER, "shaders/line.vert"},
+		{GL_FRAGMENT_SHADER, "shaders/line.frag"}
+		});
+
 }
 
 Scene::Scene(Player* player)
@@ -34,6 +39,11 @@ Scene::Scene(Player* player)
 	m_explosionProp.Velocity = { 0.0f, 0.0f, 0.0f };
 	m_explosionProp.VelocityVariation = { 30.0f, 30.0f, 30.0f };
 	m_explosionProp.Position = { 0.0f, 0.0f, 0.0f };
+
+	m_LineProgram.Init({
+		{GL_VERTEX_SHADER, "shaders/line.vert"},
+		{GL_FRAGMENT_SHADER, "shaders/line.frag"}
+		});
 }
 
 std::vector<std::shared_ptr<Entity>>& Scene::GetEntities()
@@ -255,7 +265,7 @@ void Scene::AddEntity(std::shared_ptr<Entity> entity)
 	m_Entities.emplace_back(entity);
 }
 
-void Scene::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos, ProgramObject& laser_program)
+void Scene::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos)
 {
 	m_skyBox.Draw(viewproj, eye_pos);
 	
@@ -264,18 +274,22 @@ void Scene::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos, 
 	if (state.play)
 	{
 		DrawEntities(viewproj);
-		DrawProjectiles(viewproj, laser_program);
+		DrawProjectiles(viewproj, m_LineProgram);
 
 		m_program.Use();
 
 		if (m_player->GetTarget() != nullptr && m_player->GetWeapons()[m_player->GetActiveWeaponInd()]->requireTarget())
 		{
-			m_player->GetTarget()->GetHitboxes()[0].Draw(laser_program, viewproj);
+			m_player->GetTarget()->GetHitboxes()[0].Draw(m_LineProgram, viewproj);
 		}
 
 		m_program.Unuse();
 
 	}
+
+	/*m_LineProgram.Use();
+	DrawHitBoxes(m_LineProgram, viewproj);
+	m_LineProgram.Unuse();*/
 }
 
 void Scene::DrawSkyBox(glm::mat4& viewProj, glm::vec3 eye_pos)
@@ -332,6 +346,22 @@ void Scene::DrawProjectiles(glm::mat4& viewProj, ProgramObject& laser_program)
 			m_program.Unuse();
 		}
 	}
+}
+
+void Scene::DrawHitBoxes(ProgramObject& program, glm::mat4& viewProj)
+{
+	std::vector<glm::vec3> Points;
+
+	for (std::shared_ptr<Entity>& entity : m_Entities)
+	{
+		for (HitBox& hitbox : entity->GetHitboxes())
+		{
+			hitbox.Draw(program, viewProj);
+		}
+	}
+
+
+	//m_player.GetHitboxes()[0].Draw(program, viewProj);
 }
 
 void Scene::Explosion(glm::vec3& Position)

@@ -31,13 +31,19 @@
 #include "Directions.h"
 #include "scenes/DeepSpace.h"
 #include "scenes/PlanetEarth.h"
-#include "weapons/Projectile.h"
 #include "Player.h"
-#include "weapons/Turret.h"
 #include "GameState.h"
 #include "AppUI.h"
 #include "persistence/Persistence.h"
-#include "collision_detection/GJK.h"
+
+#include <math.h>
+#include <vector>
+
+#include <array>
+#include <list>
+#include <tuple>
+#include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 
 
 class CMyApp
@@ -62,17 +68,13 @@ public:
 	void MouseUp(SDL_MouseButtonEvent&);
 	void MouseWheel(SDL_MouseWheelEvent&);
 	void Resize(int, int);
-	void DrawHitBoxes(ProgramObject&, glm::mat4&);
 	void Exit();
 
 	friend class AppUI;
 	friend class Persistence;
 	friend class gCamera;
 
-protected:
-	// shaderekhez szükséges változók
-	ProgramObject		m_axesProgram;		
-
+private:
 	gCamera				m_camera;
 
 	GameState m_GameState = {true, false, false, false};
@@ -110,7 +112,5 @@ protected:
 	};
 
 	bool* m_quit;
-
-	void InitShaders();
 };
 

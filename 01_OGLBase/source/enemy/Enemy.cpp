@@ -143,11 +143,9 @@ void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 		glm::vec3 normal = AAB::RayIntersection(hitbox, forward_ray);
 
 		if (normal == glm::vec3(0.f, 0.f, 0.f)) continue;
-
-		//float dot_normal = glm::dot(temp_dir, normal);
-		//temp_dir += normal * (1 / dot_normal);
-		float dot_normal = glm::dot(temp_dir, normal);
-		temp_dir += normal * (1 / (dot_normal + 1.5f));
+		normal = normal * 0.7f;
+		float dot_normal = glm::abs(glm::dot(temp_dir, normal));
+		temp_dir += normal * (1 / (dot_normal + 1.f));
 		temp_dir = glm::normalize(temp_dir);
 		
 	}

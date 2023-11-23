@@ -23,7 +23,7 @@ Raptor::Raptor()
 
 	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f))));
 
-	HitBox hitbox = { m_position, {10.0f, 3.0f, 11.0f} };
+	HitBox hitbox = { m_position, {7.0f, 2.0f, 8.0f} };
 	m_hitboxes.emplace_back(hitbox);
 
 	m_health = 200;
@@ -67,7 +67,7 @@ Raptor::Raptor(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projec
 	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f))));
 
 	m_hitboxes.resize(1);
-	m_hitboxes[0] = { m_position, {10.0f, 3.0f, 11.0f} };
+	m_hitboxes[0] = { m_position, {7.0f, 2.0f, 8.0f} };
 
 	m_health = 200;
 	m_speed = 180;
@@ -105,17 +105,17 @@ void Raptor::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 
 void Raptor::UpdateDimensions()
 {
-	HitBox newHitBox = { m_position, {10.0f, 3.0f, 11.0f} };
+	HitBox newHitBox = { m_position, {7.0f, 2.0f, 8.0f} };
 	glm::vec3 cross_vec = glm::normalize(glm::cross(m_forward_vec, m_up_vec));
 
-	newHitBox.dimensions.height = 3.0f + ((abs(m_up_vec.y) - 1) * (10.0f - 3.0f)) / -1;
-	newHitBox.dimensions.height = std::max(2.5 + ((abs(m_forward_vec.y) - 0) * (11.0f - 3.0f)) / 1, (double)newHitBox.dimensions.height);
+	newHitBox.dimensions.height = 2.0f + ((abs(m_up_vec.y) - 1) * (7.0f - 2.0f)) / -1;
+	newHitBox.dimensions.height = std::max(2.5 + ((abs(m_forward_vec.y) - 0) * (8.0f - 2.0f)) / 1, (double)newHitBox.dimensions.height);
 
-	newHitBox.dimensions.width = 10.0f + ((abs(cross_vec.x) - 1) * (3.0f - 10.0f)) / -1;
-	newHitBox.dimensions.width = std::max(2.5 + ((abs(m_forward_vec.x)) * (11.0f - 3.0f)) / 1, (double)newHitBox.dimensions.width);
+	newHitBox.dimensions.width = 7.0f + ((abs(cross_vec.x) - 1) * (2.0f - 7.0f)) / -1;
+	newHitBox.dimensions.width = std::max(2.5 + ((abs(m_forward_vec.x)) * (8.0f - 2.0f)) / 1, (double)newHitBox.dimensions.width);
 
-	newHitBox.dimensions.length = 3.0f + ((abs(m_forward_vec.z)) * (11.0f - 3.0f)) / 1;
-	newHitBox.dimensions.length = std::max(3.0f + ((abs(cross_vec.z)) * (10.0f - 3.0)) / 1, (double)newHitBox.dimensions.length);
+	newHitBox.dimensions.length = 2.0f + ((abs(m_forward_vec.z)) * (8.0f - 2.0)) / 1;
+	newHitBox.dimensions.length = std::max(2.0f + ((abs(cross_vec.z)) * (7.0f - 2.0)) / 1, (double)newHitBox.dimensions.length);
 
 	m_hitboxes[0] = std::move(newHitBox);
 }

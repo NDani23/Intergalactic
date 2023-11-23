@@ -29,10 +29,11 @@ public:
 	Entity(const std::string&, glm::vec3, const std::string&, Dimensions);
 	Entity(const std::string&, glm::vec3, glm::mat4, const std::string&);
 	Entity(const std::string&, glm::vec3, glm::mat4, const std::string&, Dimensions);
-	Entity(const Entity&);
-	Entity(Entity&&) noexcept;
 
-	Entity& operator=(const Entity&) = default;
+	Entity(const Entity&) = delete;
+	Entity& operator=(const Entity&) = delete;
+
+	Entity(Entity&&) noexcept;
 	Entity& operator=(Entity&&) noexcept = default;
 
 	virtual std::unique_ptr<Mesh>& GetMesh();

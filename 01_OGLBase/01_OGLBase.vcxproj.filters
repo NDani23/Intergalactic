@@ -421,10 +421,10 @@
     <None Include="Includes\VertexArrayObject.inl">
       <Filter>GL utilities</Filter>
     </None>
-    <None Include="shaders\axes.frag">
+    <None Include="shaders\line.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="shaders\axes.vert">
+    <None Include="shaders\line.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="shaders\myFrag.frag">
@@ -462,5 +462,7 @@
     </None>
     <None Include="shaders\particleVert.vert" />
     <None Include="shaders\particleFrag.frag" />
+    <None Include="..\..\..\ClassDiagram.cd" />
+    <None Include="..\..\..\ClassDiagram2.cd" />
   </ItemGroup>
 </Project>
