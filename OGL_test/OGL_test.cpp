@@ -422,6 +422,22 @@ namespace OGLtest
 			Assert::AreEqual(DummyScene.GetEntities().size(), (size_t)1);
 		}
 
+		TEST_METHOD(EnemyCollideWithEnemy)
+		{
+			Player player;
+			Scene DummyScene(&player);
+			GameState GameState = { false, true, false, false };
+
+			DummyScene.AddEnemy(glm::vec3(0, 0, 30));
+			DummyScene.AddEnemy(glm::vec3(0, 0, 30));
+
+			Assert::AreEqual(DummyScene.GetEntities().size(), (size_t)2);
+
+			DummyScene.Update(0.1f, GameState);
+
+			Assert::AreEqual(DummyScene.GetEntities().size(), (size_t)0);
+		}
+
 		TEST_METHOD(CheckHitPlayer)
 		{
 			Player player;
@@ -450,7 +466,7 @@ namespace OGLtest
 
 			Assert::AreEqual(DummyScene.GetEntities().size(), (size_t)1);
 
-			player.GetProjectiles().emplace_back(std::make_unique<Laser>(glm::vec3(0, 0, 25), glm::vec3(0, 0, 1), 150));
+			player.GetProjectiles().emplace_back(std::make_unique<Laser>(glm::vec3(0, 0, 30), glm::vec3(0, 0, 1), 150));
 
 			DummyScene.Update(0.0001f, GameState);
 

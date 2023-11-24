@@ -33,15 +33,11 @@ EnemySpawnPoint::EnemySpawnPoint(const glm::vec3& pos, Player* target, std::vect
 	ChangeStage(m_stage);
 
 	
-	//m_Scene->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(pos, m_target, m_projectiles, m_Scene)));
+	m_Scene->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(pos, m_target, m_projectiles, m_Scene)));
 	//m_Scene->GetEntitiesPtr()->emplace_back(std::make_shared<Raptor>(Raptor(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Scene)));
-	m_Scene->GetEntitiesPtr()->emplace_back(std::make_shared<Falcon>(Falcon(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Scene)));
+	//m_Scene->GetEntitiesPtr()->emplace_back(std::make_shared<Falcon>(Falcon(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Scene)));
 	//m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Rocketer>(Rocketer(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
 
-	/*for (int i = 0; i < 20; i++)
-	{
-		m_Scene->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(pos + glm::vec3(i * 100, 0, 0), m_target, m_projectiles, m_Scene)));
-	}*/
 }
 
 void EnemySpawnPoint::Update(const float& delta)

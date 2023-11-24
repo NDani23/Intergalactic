@@ -53,7 +53,7 @@ Rocketer::Rocketer(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Pr
 	m_forward_vec = glm::normalize(glm::vec3(0, 0, 0) - m_position);
 	m_shootDir = m_forward_vec;
 	m_up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
-
+	
 	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f))));
 
 	m_hitboxes.resize(1);

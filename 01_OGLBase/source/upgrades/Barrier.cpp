@@ -17,10 +17,6 @@ Barrier::Barrier()
 
 	m_position = glm::vec3(0.f, 0.f, 0.f);
 
-	HitBox hitbox = { m_position, {11.f, 11.f, 11.f} };
-
-	m_hitboxes.emplace_back(hitbox);
-
 	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Upgrades/barrier.obj"));
 	m_mesh->initBuffers();
 
@@ -47,10 +43,6 @@ Barrier::Barrier(glm::vec3 pos)
 
 	m_position = pos;
 
-	HitBox hitbox = { m_position, {11.f, 11.f, 11.f} };
-
-	m_hitboxes.emplace_back(hitbox);
-
 	m_mesh = std::unique_ptr<Mesh>(ObjParser::parse("assets/Upgrades/barrier.obj"));
 	m_mesh->initBuffers();
 
@@ -62,15 +54,7 @@ Barrier::Barrier(glm::vec3 pos)
 void Barrier::SetPos(glm::vec3 pos)
 {
 	m_position = pos;
-
-	m_hitboxes[0].Position = m_position;
-
 	m_transforms = glm::translate(m_position);
-}
-
-bool Barrier::CanCollide()
-{
-	return false;
 }
 
 void Barrier::DrawMesh(ProgramObject& program, glm::mat4& viewProj)

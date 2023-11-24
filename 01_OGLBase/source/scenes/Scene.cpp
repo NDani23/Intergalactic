@@ -1,6 +1,8 @@
 #include "../../headers/scenes/Scene.h"
 #include "../../headers/scenes/EnemySpawnPoint.h"
 
+#include <stack>
+
 Scene::Scene()
 {
 	m_name = "";
@@ -109,7 +111,9 @@ bool Scene::Update(const float& delta, GameState& state)
 
 void Scene::UpdateEntities(const float& delta, GameState& state)
 {
-	for (int i = m_Entities.size() - 1; i >= 0; i--)
+	std::stack<int> EntitiesToDelete;
+
+	for (int i = 0; i < m_Entities.size(); i++)
 	{
 
 		Entity* entity = m_Entities[i].get();
@@ -117,7 +121,7 @@ void Scene::UpdateEntities(const float& delta, GameState& state)
 		{
 			Explosion(entity->GetPos());
 
-			m_Entities.erase(m_Entities.begin() + i);
+			EntitiesToDelete.push(i);
 
 			if (!state.gameover) m_player->setPoints(m_player->GetPoints() + 10);
 
@@ -136,12 +140,18 @@ void Scene::UpdateEntities(const float& delta, GameState& state)
 		}
 	}
 
+	while (!EntitiesToDelete.empty())
+	{
+		m_Entities.erase(m_Entities.begin() + EntitiesToDelete.top());
+		EntitiesToDelete.pop();
+	}
+
 	m_particleSystem.Update(delta);
 }
 
 void Scene::UpdateProjectiles(const float& delta)
 {
-	for (int i = 0; i < m_projectiles.size(); i++)
+	for (int i = m_projectiles.size()-1; i >= 0; i--)
 	{
 		if (m_projectiles[i]->Update(delta))
 		{
@@ -165,8 +175,6 @@ bool Scene::CheckForCollision()
 
 	for (std::shared_ptr<Entity>& entity : m_Entities)
 	{
-		if (!entity->CanCollide()) continue;
-
 		if (AAB::Collide(m_player->GetHitboxes(), entity->GetHitboxes()))
 		{
 			if (entity->IsStatic())
@@ -180,6 +188,12 @@ bool Scene::CheckForCollision()
 			else
 			{
 				Explosion(player_pos);
+
+				Explosion(entity->GetPos());
+				auto position = std::find(m_Entities.begin(), m_Entities.end(), entity);
+				if (position != m_Entities.end())
+					m_Entities.erase(position);
+
 				return true;
 			}
 		}
@@ -196,7 +210,6 @@ bool Scene::DetectHits()
 		Projectile* proj = player_projectiles[i].get();
 		for (std::shared_ptr<Entity>& entity : m_Entities)
 		{
-			if (!entity->CanCollide()) continue;
 
 			if (proj->CheckHit(entity.get()))
 			{

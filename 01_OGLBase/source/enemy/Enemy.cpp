@@ -107,7 +107,7 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 
 	for (std::shared_ptr<Entity>& obj : m_Scene->GetEntities())
 	{
-		if (obj.get() == this || !obj.get()->CanCollide())
+		if (obj.get() == this)
 		{
 			continue;
 		}
@@ -123,9 +123,9 @@ bool Enemy::CalcAvoidObjectsVec(glm::vec3& temp_dir)
 void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 {
 
-	if (obj.IsTargetable())
+	if (!obj.IsStatic())
 	{
-		if (glm::distance(obj.GetPos(), m_position) < 50.f)
+		if (glm::distance(obj.GetPos(), m_position) < 40.f)
 		{
 			glm::vec3 from_obj = glm::normalize(m_position - obj.GetPos());
 
@@ -145,7 +145,7 @@ void Enemy::AvoidObject(Entity& obj, glm::vec3& temp_dir)
 			glm::vec3 to_point = glm::normalize(hitbox.Position - m_position);
 			float dot_to_point = glm::dot(temp_dir, to_point);
 
-			if (dot_to_point > 0.85f)
+			if (dot_to_point > 0.7f)
 			{
 				glm::vec3 cross_vec = glm::normalize(temp_dir - to_point);
 				temp_dir += cross_vec * dot_to_point * 0.5f;
