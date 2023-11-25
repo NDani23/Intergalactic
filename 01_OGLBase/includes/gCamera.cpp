@@ -89,20 +89,20 @@ void gCamera::Update(float _deltaTime)
 	if (state.play && !state.pause)
 	{
 		Player* player = &m_app->m_player;
-		m_at = player->GetPos() + (m_app->m_cursor_diff_vec * 2000.f);
-		m_eye = player->GetPos() - m_app->m_cursor_diff_vec * 40.f + player->GetUpVec() * 5.f;
+		m_eye = player->GetPos() - player->GetForwardVec() * 40.f + player->GetUpVec() * 5.f;
+		m_at = m_eye + player->GetForwardVec();
 		m_up = player->GetUpVec();
 
-		if (!m_app->m_lookAround)
+		if (m_app->m_lookAround)
 		{
-			m_eye = player->GetPos() - player->GetForwardVec() * 40.f + player->GetUpVec() * 5.f;
-			m_at = player->GetPos() + player->GetForwardVec() * 1000.f;
+			m_eye = player->GetPos() - m_app->m_cursor_diff_vec * 40.f + player->GetUpVec() * 5.f;
+			m_at = m_eye + (m_app->m_cursor_diff_vec);
 		}
 
 		if (m_app->m_backward_camera)
 		{
 			m_eye = player->GetPos() + player->GetForwardVec() * 40.f + player->GetUpVec() * 5.f;
-			m_at = player->GetPos() - player->GetForwardVec() * 30.f;
+			m_at = m_eye - player->GetForwardVec();
 		}
 
 

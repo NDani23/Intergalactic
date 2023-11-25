@@ -45,7 +45,7 @@ protected:
 	bool DetectHits();
 
 	void DrawSkyBox(glm::mat4&, glm::vec3);
-	void DrawEntities(glm::mat4&);
+	void DrawEntities(glm::mat4&, glm::vec3&);
 	void DrawProjectiles(glm::mat4&, ProgramObject&);
 	void DrawHitBoxes(ProgramObject&, glm::mat4&);
 

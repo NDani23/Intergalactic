@@ -286,7 +286,7 @@ void Scene::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos)
 
 	if (state.play)
 	{
-		DrawEntities(viewproj);
+		DrawEntities(viewproj, eye_pos);
 		DrawProjectiles(viewproj, m_LineProgram);
 
 		m_program.Use();
@@ -311,12 +311,12 @@ void Scene::DrawSkyBox(glm::mat4& viewProj, glm::vec3 eye_pos)
 }
 
 
-void Scene::DrawEntities(glm::mat4& viewProj)
+void Scene::DrawEntities(glm::mat4& viewProj, glm::vec3& eye_pos)
 {
 	m_program.Use();
-
 	for (std::shared_ptr<Entity>& entity : m_Entities)
 	{
+		m_program.SetUniform("eye_pos", eye_pos);
 		m_program.SetUniform("playerPos", m_player->GetPos());
 		entity->DrawMesh(m_program, viewProj);
 	}

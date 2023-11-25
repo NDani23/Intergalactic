@@ -54,7 +54,6 @@ void AppUI::Render()
 	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
 		window_flags |= ImGuiWindowFlags_NoBackground;
 
-
 	if (!opt_padding)
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin("DockSpace Demo", nullptr, window_flags);
@@ -102,9 +101,9 @@ void AppUI::Render()
 
 void AppUI::RenderViewPort()
 {
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar;
-
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
+
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar;
 
 	ImGui::Begin("ViewPort", nullptr, window_flags);
 
@@ -128,11 +127,10 @@ void AppUI::RenderViewPort()
 		m_app->fbo_width = size.x;
 		m_app->fbo_height = size.y;
 		m_app->RegenerateFrameBuffer();
-		//Mivel itt történik az újra generálás ha átméretezed a viewportot akkor villogni fog.
-		//Ha elmented hogy történt változás és az Update() függvényben generálod újra, akkor nem fog villogni.
 	}
 
 	ImGui::End();
+
 	ImGui::PopStyleVar();
 }
 
@@ -723,7 +721,10 @@ void AppUI::HandleViewportEvents()
 	static SDL_MouseMotionEvent mouseEvent;
 	static SDL_MouseButtonEvent mouseButtonEvent;
 	static SDL_KeyboardEvent keyboardEvent;
+	static SDL_MouseWheelEvent wheelEvent;
 	static ImVec2 lastMousePos;
+	
+	float wheel = ImGui::GetIO().MouseWheel;
 
 	//W
 	if (ImGui::IsKeyPressed(ImGuiKey_W)) //SDL_KEYDOWN
@@ -881,6 +882,18 @@ void AppUI::HandleViewportEvents()
 		m_app->KeyboardUp(keyboardEvent);
 	}
 
+	//Mouse Wheel
+	if (wheel < 0)
+	{
+		wheelEvent.y = -1;
+		m_app->MouseWheel(wheelEvent);
+	}
+	if (wheel > 0)
+	{
+		wheelEvent.y = 1;
+		m_app->MouseWheel(wheelEvent);
+	}
+
 	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
 		mouseEvent.state = SDL_BUTTON_LMASK;
@@ -913,6 +926,7 @@ void AppUI::HandleViewportEvents()
 		mouseEvent.xrel = currentMousePos.x - lastMousePos.x;
 		mouseEvent.yrel = currentMousePos.y - lastMousePos.y;
 		lastMousePos = ImGui::GetMousePos();
+
 		m_app->MouseMove(mouseEvent);
 	}
 }

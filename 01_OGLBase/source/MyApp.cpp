@@ -122,13 +122,12 @@ void CMyApp::Render()
 	ProgramObject& BaseProgram = m_scene->getProgram();
 	
 	glm::vec3 eye_pos = m_camera.GetEye();
-	BaseProgram.SetUniform("eye_pos", eye_pos);
-
 	m_scene->DrawScene(viewProj, m_GameState, m_camera.GetEye());
 
 	BaseProgram.Use();
 	if ((m_GameState.play && !m_GameState.gameover) || m_GameState.hangar)
 	{
+		BaseProgram.SetUniform("eye_pos", eye_pos);
 		m_player.DrawMesh(BaseProgram, viewProj);	
 	}
 	BaseProgram.Unuse();
@@ -240,8 +239,8 @@ void CMyApp::MouseMove(SDL_MouseMotionEvent& mouse)
 {
 	if (m_GameState.hangar) m_camera.MouseMove(mouse);
 
-	m_mouseX = mouse.x / (float)(m_screenWidth / 2) - 1;
-	m_mouseY = mouse.y / (float)(m_screenHeight / 2) - 1;
+	m_mouseX = glm::clamp(mouse.x / (float)(fbo_width / 2) - 1, -1.f, 1.f);
+	m_mouseY = glm::clamp(mouse.y / (float)(fbo_height / 2) - 1, -1.f, 1.f);
 }
 
 void CMyApp::MouseDown(SDL_MouseButtonEvent& mouse)
