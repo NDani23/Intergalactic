@@ -9,6 +9,7 @@
 // SDL
 #include <SDL.h>
 #include <SDL_opengl.h>
+
 #include <string>
 #include <sstream>
 #include <iomanip>
@@ -74,7 +75,7 @@ public:
 	friend class Persistence;
 	friend class gCamera;
 
-private:
+protected:
 	gCamera				m_camera;
 
 	GameState m_GameState = {true, false, false, false};
@@ -112,5 +113,15 @@ private:
 	};
 
 	bool* m_quit;
+
+	//frame buffer
+	GLuint fbo;
+	GLuint fbo_texture;
+	GLuint fbo_renderbuffer;
+	GLint  fbo_width = 5;
+	GLint  fbo_height = 5;
+	void InitFrameBuffer();
+	void RegenerateFrameBuffer();
+
 };
 

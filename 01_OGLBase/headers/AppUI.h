@@ -29,10 +29,13 @@ public:
 	void Render();
 
 private:
+	void RenderViewPort();
 	void RenderMenu();
 	void RenderPlayWindow();
 	void RenderGameOverWindow();
 	void RenderPauseWindow();
 	void RenderHangarWindow();
 	void RenderBuyWindow();
+
+	void HandleViewportEvents();
 };

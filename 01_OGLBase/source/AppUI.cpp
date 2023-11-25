@@ -72,13 +72,12 @@ void AppUI::Render()
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 	}
 
-	dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode 
-					^ ImGuiDockNodeFlags_NoTabBar 
+	dockspace_flags = ImGuiDockNodeFlags_NoTabBar 
 					^ ImGuiDockNodeFlags_NoResize 
 					^ ImGuiDockNodeFlags_NoUndocking;
-
 	
 	//ImGui::ShowDemoWindow();
+	RenderViewPort();
 
 	if (m_app->m_GameState.menu)
 		RenderMenu();
@@ -101,6 +100,42 @@ void AppUI::Render()
 	ImGui::End();
 }
 
+void AppUI::RenderViewPort()
+{
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar;
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
+
+	ImGui::Begin("ViewPort", nullptr, window_flags);
+
+	ImGuiIO& io = ImGui::GetIO();
+
+	HandleViewportEvents();
+
+	ImVec2 size = ImGui::GetContentRegionAvail();
+	ImGui::Image((ImTextureID)m_app->fbo_texture, size, ImVec2(0, 1), ImVec2(1, 0));
+
+	if (m_app->m_GameState.play && !m_app->m_GameState.pause && !m_app->m_GameState.gameover)
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+		ImGui::SetCursorPos(io.MousePos);
+		ImGui::Image((ImTextureID)cursor_tex.GetId(), ImVec2(20.f, 20.f), ImVec2(0.f, 0.f), ImVec2(1.0f, 1.0f), ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ImVec4(0.f, 0.f, 0.f, 0.f));
+	}
+	
+
+	if (size.x != m_app->fbo_width || size.y != m_app->fbo_height)
+	{
+		m_app->fbo_width = size.x;
+		m_app->fbo_height = size.y;
+		m_app->RegenerateFrameBuffer();
+		//Mivel itt történik az újra generálás ha átméretezed a viewportot akkor villogni fog.
+		//Ha elmented hogy történt változás és az Update() függvényben generálod újra, akkor nem fog villogni.
+	}
+
+	ImGui::End();
+	ImGui::PopStyleVar();
+}
+
 void AppUI::RenderMenu() 
 {
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 12.0f);
@@ -111,6 +146,7 @@ void AppUI::RenderMenu()
 	ImGui::SetNextWindowSize(ImVec2(m_app->m_screenWidth * 0.35f, m_app->m_screenHeight * 0.4f));
 
 	ImGui::Begin("Menu", nullptr, window_flags);
+
 
 	ImVec2 windowSize = ImGui::GetWindowSize();
 	ImVec2 windowPos = ImGui::GetWindowPos();
@@ -170,10 +206,6 @@ void AppUI::RenderMenu()
 
 void AppUI::RenderPlayWindow()
 {
-	ImGuiIO& io = ImGui::GetIO();
-	ImGui::SetMouseCursor(ImGuiMouseCursor_None);
-	ImGui::SetCursorPos(io.MousePos);
-	ImGui::Image((ImTextureID)cursor_tex.GetId(), ImVec2(20.f, 20.f), ImVec2(0.f, 0.f), ImVec2(1.0f, 1.0f), ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ImVec4(0.f, 0.f, 0.f, 0.f));
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.f, 10.f));
 	if (ImGui::BeginMainMenuBar())
@@ -193,9 +225,9 @@ void AppUI::RenderPlayWindow()
 	}
 	ImGui::PopStyleVar();
 
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar;
+	ImGuiWindowFlags window_flags = /*ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | */ImGuiWindowFlags_NoScrollbar;
 
-	ImGui::Begin("Viewport", nullptr, window_flags);
+	ImGui::Begin("PlayBottom", nullptr, window_flags);
 	ImVec2 windowSize = ImGui::GetWindowSize();
 	ImGui::SetCursorPosX(10.f);
 	ImGui::Text("%d", m_app->m_player.GetSpeed());
@@ -684,4 +716,203 @@ void AppUI::RenderBuyWindow()
 	}
 
 	ImGui::End();
+}
+
+void AppUI::HandleViewportEvents()
+{
+	static SDL_MouseMotionEvent mouseEvent;
+	static SDL_MouseButtonEvent mouseButtonEvent;
+	static SDL_KeyboardEvent keyboardEvent;
+	static ImVec2 lastMousePos;
+
+	//W
+	if (ImGui::IsKeyPressed(ImGuiKey_W)) //SDL_KEYDOWN
+	{
+		keyboardEvent.keysym.sym = SDLK_w;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_W))
+	{
+		keyboardEvent.keysym.sym = SDLK_w;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//S
+	if (ImGui::IsKeyPressed(ImGuiKey_S))
+	{
+		keyboardEvent.keysym.sym = SDLK_s;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_S))
+	{
+		keyboardEvent.keysym.sym = SDLK_s;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//A
+	if (ImGui::IsKeyPressed(ImGuiKey_A))
+	{
+		keyboardEvent.keysym.sym = SDLK_a;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_A))
+	{
+		keyboardEvent.keysym.sym = SDLK_a;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//D
+	if (ImGui::IsKeyPressed(ImGuiKey_D))
+	{
+		keyboardEvent.keysym.sym = SDLK_d;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_D))
+	{
+		keyboardEvent.keysym.sym = SDLK_d;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//V
+	if (ImGui::IsKeyPressed(ImGuiKey_V))
+	{
+		keyboardEvent.keysym.sym = SDLK_v;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_V))
+	{
+		keyboardEvent.keysym.sym = SDLK_v;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//Q
+	if (ImGui::IsKeyPressed(ImGuiKey_Q))
+	{
+		keyboardEvent.keysym.sym = SDLK_q;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_Q))
+	{
+		keyboardEvent.keysym.sym = SDLK_q;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//1
+	if (ImGui::IsKeyPressed(ImGuiKey_1))
+	{
+		keyboardEvent.keysym.sym = SDLK_1;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_1))
+	{
+		keyboardEvent.keysym.sym = SDLK_1;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//2
+	if (ImGui::IsKeyPressed(ImGuiKey_2))
+	{
+		keyboardEvent.keysym.sym = SDLK_2;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_2))
+	{
+		keyboardEvent.keysym.sym = SDLK_2;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//3
+	if (ImGui::IsKeyPressed(ImGuiKey_3))
+	{
+		keyboardEvent.keysym.sym = SDLK_3;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_3))
+	{
+		keyboardEvent.keysym.sym = SDLK_3;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//spcace
+	if (ImGui::IsKeyPressed(ImGuiKey_Space))
+	{
+		keyboardEvent.keysym.sym = SDLK_SPACE;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_Space))
+	{
+		keyboardEvent.keysym.sym = SDLK_SPACE;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//ESC
+	if (ImGui::IsKeyPressed(ImGuiKey_Escape))
+	{
+		keyboardEvent.keysym.sym = SDLK_ESCAPE;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_Escape))
+	{
+		keyboardEvent.keysym.sym = SDLK_ESCAPE;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//Left Ctrl
+	if (ImGui::IsKeyPressed(ImGuiKey_LeftCtrl))
+	{
+		keyboardEvent.keysym.sym = SDLK_LCTRL;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_LeftCtrl))
+	{
+		keyboardEvent.keysym.sym = SDLK_LCTRL;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	//Left Shift
+	if (ImGui::IsKeyPressed(ImGuiKey_LeftShift))
+	{
+		keyboardEvent.keysym.sym = SDLK_LSHIFT;
+		m_app->KeyboardDown(keyboardEvent);
+	}
+	if (ImGui::IsKeyReleased(ImGuiKey_LeftShift))
+	{
+		keyboardEvent.keysym.sym = SDLK_LSHIFT;
+		m_app->KeyboardUp(keyboardEvent);
+	}
+
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+	{
+		mouseEvent.state = SDL_BUTTON_LMASK;
+		mouseButtonEvent.button = SDL_BUTTON_LEFT;
+		m_app->MouseDown(mouseButtonEvent);
+	}
+	if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+	{
+		mouseEvent.state = NULL;
+		mouseButtonEvent.button = SDL_BUTTON_LEFT;
+		m_app->MouseUp(mouseButtonEvent);
+	}
+
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+	{
+		mouseButtonEvent.button = SDL_BUTTON_RIGHT;
+		m_app->MouseDown(mouseButtonEvent);
+	}
+	if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+	{
+		mouseButtonEvent.button = SDL_BUTTON_RIGHT;
+		m_app->MouseUp(mouseButtonEvent);
+	}
+
+	if (ImGui::IsWindowHovered())
+	{
+		ImVec2 currentMousePos = ImGui::GetMousePos();
+		mouseEvent.x = currentMousePos.x;
+		mouseEvent.y = currentMousePos.y;
+		mouseEvent.xrel = currentMousePos.x - lastMousePos.x;
+		mouseEvent.yrel = currentMousePos.y - lastMousePos.y;
+		lastMousePos = ImGui::GetMousePos();
+		m_app->MouseMove(mouseEvent);
+	}
 }

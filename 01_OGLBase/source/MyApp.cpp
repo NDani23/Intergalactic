@@ -4,8 +4,9 @@
 
 CMyApp::CMyApp(void)
 {
-	m_Persistence = Persistence(this);
 	UI = AppUI(this);
+	m_Persistence = Persistence(this);
+
 	m_camera.SetView(glm::vec3(0, 0, 0), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0));
 	m_quit = nullptr;
 
@@ -20,6 +21,7 @@ CMyApp::~CMyApp(void)
 
 bool CMyApp::Init(bool* quit)
 {
+
 	m_quit = quit;
 
 	m_Persistence.Load();
@@ -34,11 +36,45 @@ bool CMyApp::Init(bool* quit)
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	InitFrameBuffer();
+
 	glLineWidth(4.0f);
 
 	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 1.f, 8000.0f);
 
 	return true;
+}
+
+void CMyApp::InitFrameBuffer()
+{
+	glGenFramebuffers(1, &fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+	glGenTextures(1, &fbo_texture);
+	glBindTexture(GL_TEXTURE_2D, fbo_texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fbo_width, fbo_height, 0, GL_RGBA, GL_UNSIGNED_INT, nullptr);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, fbo_texture, 0);
+
+	glGenRenderbuffers(1, &fbo_renderbuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, fbo_renderbuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, fbo_width, fbo_height); //Stencil nem muszáj
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, fbo_renderbuffer);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		throw std::runtime_error("Error occurred while creating frame buffer!");
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void CMyApp::RegenerateFrameBuffer()
+{
+	glDeleteFramebuffers(1, &fbo);
+	glDeleteTextures(1, &fbo_texture);
+	glDeleteRenderbuffers(1, &fbo_renderbuffer);
+
+	InitFrameBuffer();
 }
 
 void CMyApp::Clean()
@@ -75,6 +111,10 @@ void CMyApp::Update()
 
 void CMyApp::Render()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	glViewport(0, 0, fbo_width, fbo_height);
+	m_camera.Resize(fbo_width, fbo_height);
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glm::mat4 viewProj = m_camera.GetViewProj();
 
@@ -92,11 +132,10 @@ void CMyApp::Render()
 		m_player.DrawMesh(BaseProgram, viewProj);	
 	}
 	BaseProgram.Unuse();
-
-	//DrawHitBoxes(m_axesProgram, viewProj);
-
 	//ImGui
 	UI.Render();
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void CMyApp::Reset()
