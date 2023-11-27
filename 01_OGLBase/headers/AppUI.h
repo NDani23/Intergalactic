@@ -1,7 +1,7 @@
 #pragma once
 
-#include <imgui/imgui.h>
-#include <imgui/imgui_internal.h>
+#include <Gui/imgui.h>
+#include <Gui/imgui_internal.h>
 #include <functional>
 
 #include "data_storage/WeaponDataStorage.h"

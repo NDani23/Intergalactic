@@ -43,8 +43,8 @@
 #include <array>
 #include <list>
 #include <tuple>
-#include <imgui/imgui.h>
-#include <imgui/imgui_internal.h>
+#include <Gui/imgui.h>
+#include <Gui/imgui_internal.h>
 
 
 class CMyApp

@@ -2,9 +2,9 @@
 
 #include <SDL.h>
 
-#include <imgui/imgui.h>
-#include "imgui_impl_sdl2.h"
-#include "imgui_impl_opengl3.h"
+#include <Gui/imgui.h>
+#include "Gui/imgui_impl_sdl2.h"
+#include "Gui/imgui_impl_opengl3.h"
 
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <SDL_opengles2.h>

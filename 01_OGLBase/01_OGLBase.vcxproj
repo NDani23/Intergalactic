@@ -45,13 +45,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Dependencies\OGLPack\include;$(IncludePath);$(SolutionDir)Dependencies\OGLPack\include\imgui</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies\OGLPack\include;$(IncludePath);</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\OGLPack\lib\x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Dependencies\OGLPack\include;$(IncludePath);$(SolutionDir)Dependencies\OGLPack\include\imgui</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies\OGLPack\include;$(IncludePath);</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\OGLPack\lib\x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -94,15 +94,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imconfig.h" />
-    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui.h" />
-    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_sdl2.h" />
-    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imgui_internal.h" />
-    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_textedit.h" />
-    <ClInclude Include="..\Dependencies\OGLPack\include\imgui\imstb_truetype.h" />
+    <ClInclude Include="Gui\imconfig.h" />
+    <ClInclude Include="Gui\imgui.h" />
+    <ClInclude Include="Gui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Gui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="Gui\imgui_impl_sdl2.h" />
+    <ClInclude Include="Gui\imgui_internal.h" />
+    <ClInclude Include="Gui\imstb_rectpack.h" />
+    <ClInclude Include="Gui\imstb_textedit.h" />
+    <ClInclude Include="Gui\imstb_truetype.h" />
     <ClInclude Include="headers\AppUI.h" />
     <ClInclude Include="headers\collision_detection\AAB.h" />
     <ClInclude Include="headers\collision_detection\GJK.h" />
@@ -162,13 +162,13 @@
     <ClInclude Include="Includes\VertexArrayObject.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui.cpp" />
-    <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_impl_sdl2.cpp" />
-    <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\Dependencies\OGLPack\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Gui\imgui.cpp" />
+    <ClCompile Include="Gui\imgui_demo.cpp" />
+    <ClCompile Include="Gui\imgui_draw.cpp" />
+    <ClCompile Include="Gui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Gui\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="Gui\imgui_tables.cpp" />
+    <ClCompile Include="Gui\imgui_widgets.cpp" />
     <ClCompile Include="Includes\gCamera.cpp" />
     <ClCompile Include="Includes\GLconversions.cpp" />
     <ClCompile Include="Includes\GLDebugMessageCallback.cpp" />
@@ -221,8 +221,6 @@
     <ClCompile Include="source\weapons\Turret.cpp" />
     <ClCompile Include="source\weapons\TurretWeapon.cpp" />
     <ClCompile Include="source\weapons\Weapon.cpp" />
-    <None Include="..\..\..\ClassDiagram.cd" />
-    <None Include="..\..\..\ClassDiagram2.cd" />
     <None Include="Includes\BufferObject.inl" />
     <None Include="Includes\ProgramObject.inl" />
     <None Include="Includes\TextureObject.inl" />
