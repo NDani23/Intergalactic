@@ -20,8 +20,8 @@ Scene::Scene()
 	m_explosionProp.Position = { 0.0f, 0.0f, 0.0f };
 
 	m_BaseGeometryProgram.AttachShaders({
-		{ GL_VERTEX_SHADER, "shaders/particleVert.vert"},
-		{ GL_FRAGMENT_SHADER, "shaders/particleFrag.frag"}
+		{ GL_VERTEX_SHADER, "shaders/BaseGeometryVert.vert"},
+		{ GL_FRAGMENT_SHADER, "shaders/BaseGeometryFrag.frag"}
 		});
 
 	m_BaseGeometryProgram.BindAttribLocations({

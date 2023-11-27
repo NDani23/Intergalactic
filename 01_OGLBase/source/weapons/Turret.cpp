@@ -54,7 +54,7 @@ Turret::Turret(glm::vec3 Pos, Player* ref, std::vector<std::unique_ptr<Projectil
 bool Turret::Update(const float& delta)
 {
 
-	glm::vec3 diff_vec = (m_reference->GetPos() + m_reference->GetForwardVec() * 10.f) - m_position;
+	glm::vec3 diff_vec = (m_reference->GetPos() + m_reference->GetForwardVec() * 20.f) - m_position;
 	m_shootDir = glm::normalize(diff_vec);
 	m_transforms = glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f)));
 
@@ -72,7 +72,7 @@ void Turret::Shoot()
 {
 	if (m_currentCoolDown <= 0.f)
 	{
-		m_projectiles->emplace_back(std::make_unique<Laser>(m_position + m_shootDir * 2.f, m_shootDir));
+		m_projectiles->emplace_back(std::make_unique<Laser>(m_position + m_shootDir * 5.f, m_shootDir));
 
 		m_currentCoolDown = m_coolDownTime;
 	}

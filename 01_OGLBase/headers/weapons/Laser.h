@@ -22,4 +22,6 @@ public:
 	bool Update(const float&) override;
 	bool CheckHit(Entity*) override;
 	void DrawMesh(ProgramObject&, glm::mat4&) override;
+
+	static GLuint& getVaoID();
 };

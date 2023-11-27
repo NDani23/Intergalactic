@@ -71,6 +71,14 @@ void Laser::InitGeometry()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+	glDeleteBuffers(1, &VboID);
+	glDeleteBuffers(1, &IbID);
+
+}
+
+GLuint& Laser::getVaoID()
+{
+	return Laser::VaoID;
 }
 
 Laser::Laser(glm::vec3 Pos, glm::vec3 dir)

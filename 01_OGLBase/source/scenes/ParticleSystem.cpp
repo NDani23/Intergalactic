@@ -7,8 +7,8 @@
 ParticleSystem::ParticleSystem()
 {
 	m_ParticleProgram.AttachShaders({
-		{ GL_VERTEX_SHADER, "shaders/particleVert.vert"},
-		{ GL_FRAGMENT_SHADER, "shaders/particleFrag.frag"}
+		{ GL_VERTEX_SHADER, "shaders/BaseGeometryVert.vert"},
+		{ GL_FRAGMENT_SHADER, "shaders/BaseGeometryFrag.frag"}
 		});
 
 	m_ParticleProgram.BindAttribLocations({

@@ -460,8 +460,8 @@
     <None Include="shaders\transparentFrag.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="shaders\particleVert.vert" />
-    <None Include="shaders\particleFrag.frag" />
+    <None Include="shaders\BaseGeometryVert.vert" />
+    <None Include="shaders\BaseGeometryFrag.frag" />
     <None Include="..\..\..\ClassDiagram.cd" />
     <None Include="..\..\..\ClassDiagram2.cd" />
   </ItemGroup>

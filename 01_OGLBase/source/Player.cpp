@@ -94,6 +94,8 @@ void Player::Reset(Scene* scene)
 	m_damage = 10 + 5*m_stats.damage;
 	m_activeWeaponInd = 1;
 
+	m_guns[1]->SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
+
 	m_target = nullptr;
 	m_scene = scene;
 

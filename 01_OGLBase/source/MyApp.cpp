@@ -79,6 +79,7 @@ void CMyApp::RegenerateFrameBuffer()
 
 void CMyApp::Clean()
 {
+	if (Laser::getVaoID()) glDeleteVertexArrays(1, &Laser::getVaoID());
 }
 
 void CMyApp::Update()
