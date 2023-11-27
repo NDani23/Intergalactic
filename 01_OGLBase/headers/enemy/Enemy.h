@@ -28,21 +28,22 @@ protected:
 
 public:
 	Enemy();
-	virtual void Shoot() {};
 	bool Hit(int) override;
 	void SetTexture();
 	bool IsTargetable() override;
 	bool IsStatic() override;
 	glm::vec3& GetForwardVec();
 
-	virtual bool Update(const float&) override;
+	virtual void Shoot() {};
+
+	bool Update(const float&) override;
 
 protected:
 	void AvoidObject(Entity&, glm::vec3&);
+	void CalcBaseDir(glm::vec3&);
+	bool CalcAvoidObjectsVec(glm::vec3&);
+	bool CalcAvoidFloorVec(glm::vec3&);
+	void RegulateTurnDegree(glm::vec3&, const float);
+	void CheckIfShoot();
 	virtual void UpdateDimensions();
-	virtual void CalcBaseDir(glm::vec3&);
-	virtual bool CalcAvoidObjectsVec(glm::vec3&);
-	virtual bool CalcAvoidFloorVec(glm::vec3&);
-	virtual void RegulateTurnDegree(glm::vec3&, const float);
-	virtual void CheckIfShoot();
 };

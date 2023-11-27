@@ -395,7 +395,7 @@
     <ClCompile Include="source\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\ParticleSystem.cpp">
+    <ClCompile Include="source\scenes\ParticleSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\scenes\TailFire.cpp">

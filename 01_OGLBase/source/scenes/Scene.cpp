@@ -19,11 +19,22 @@ Scene::Scene()
 	m_explosionProp.VelocityVariation = { 30.0f, 30.0f, 30.0f };
 	m_explosionProp.Position = { 0.0f, 0.0f, 0.0f };
 
+	m_BaseGeometryProgram.AttachShaders({
+		{ GL_VERTEX_SHADER, "shaders/particleVert.vert"},
+		{ GL_FRAGMENT_SHADER, "shaders/particleFrag.frag"}
+		});
+
+	m_BaseGeometryProgram.BindAttribLocations({
+		{ 0, "vs_in_pos" },
+		});
+
+	m_BaseGeometryProgram.LinkProgram();
+
+
 	m_LineProgram.Init({
 		{GL_VERTEX_SHADER, "shaders/line.vert"},
 		{GL_FRAGMENT_SHADER, "shaders/line.frag"}
 		});
-
 }
 
 Scene::Scene(Player* player)
@@ -41,6 +52,17 @@ Scene::Scene(Player* player)
 	m_explosionProp.Velocity = { 0.0f, 0.0f, 0.0f };
 	m_explosionProp.VelocityVariation = { 30.0f, 30.0f, 30.0f };
 	m_explosionProp.Position = { 0.0f, 0.0f, 0.0f };
+
+	m_BaseGeometryProgram.AttachShaders({
+		{ GL_VERTEX_SHADER, "shaders/particleVert.vert"},
+		{ GL_FRAGMENT_SHADER, "shaders/particleFrag.frag"}
+		});
+
+	m_BaseGeometryProgram.BindAttribLocations({
+		{ 0, "vs_in_pos" },
+		});
+
+	m_BaseGeometryProgram.LinkProgram();
 
 	m_LineProgram.Init({
 		{GL_VERTEX_SHADER, "shaders/line.vert"},
@@ -287,17 +309,12 @@ void Scene::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos)
 	if (state.play)
 	{
 		DrawEntities(viewproj, eye_pos);
-		DrawProjectiles(viewproj, m_LineProgram);
-
-		m_program.Use();
+		DrawProjectiles(viewproj, m_BaseGeometryProgram);
 
 		if (m_player->GetTarget() != nullptr && m_player->GetWeapons()[m_player->GetActiveWeaponInd()]->requireTarget())
 		{
 			m_player->GetTarget()->GetHitboxes()[0].Draw(m_LineProgram, viewproj);
 		}
-
-		m_program.Unuse();
-
 	}
 
 	/*m_LineProgram.Use();
@@ -326,15 +343,13 @@ void Scene::DrawEntities(glm::mat4& viewProj, glm::vec3& eye_pos)
 	m_program.Unuse();
 }
 
-void Scene::DrawProjectiles(glm::mat4& viewProj, ProgramObject& laser_program)
+void Scene::DrawProjectiles(glm::mat4& viewProj, ProgramObject& geometry_program)
 {
 	for (std::unique_ptr<Projectile>& projectile : m_player->GetProjectiles())
 	{
 		if (projectile->GetMesh() == nullptr)
 		{
-			laser_program.Use();
-			projectile->DrawMesh(laser_program, viewProj);
-			laser_program.Unuse();
+			projectile->DrawMesh(geometry_program, viewProj);
 		}
 		else
 		{
@@ -348,9 +363,7 @@ void Scene::DrawProjectiles(glm::mat4& viewProj, ProgramObject& laser_program)
 	{
 		if (projectile->GetMesh() == nullptr)
 		{
-			laser_program.Use();
-			projectile->DrawMesh(laser_program, viewProj);
-			laser_program.Unuse();
+			projectile->DrawMesh(geometry_program, viewProj);
 		}
 		else
 		{
@@ -372,7 +385,6 @@ void Scene::DrawHitBoxes(ProgramObject& program, glm::mat4& viewProj)
 			hitbox.Draw(program, viewProj);
 		}
 	}
-
 
 	//m_player.GetHitboxes()[0].Draw(program, viewProj);
 }

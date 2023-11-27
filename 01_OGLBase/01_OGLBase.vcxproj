@@ -194,7 +194,7 @@
     <ClCompile Include="source\Entity.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MyApp.cpp" />
-    <ClCompile Include="source\ParticleSystem.cpp" />
+    <ClCompile Include="source\scenes\ParticleSystem.cpp" />
     <ClCompile Include="source\persistence\Persistence.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\Random.cpp" />

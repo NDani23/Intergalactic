@@ -1,5 +1,5 @@
-#include "../headers/scenes/ParticleSystem.h"
-#include "../headers/Random.h"
+#include "../../headers/scenes/ParticleSystem.h"
+#include "../../headers/Random.h"
 
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/compatibility.hpp>
@@ -74,8 +74,6 @@ ParticleSystem::ParticleSystem()
 									0,
 									sizeof(glm::vec3)
 								>, m_CubeVertexBuffer },
-			{ CreateAttribute<1, glm::vec3, (sizeof(glm::vec3)), sizeof(glm::vec3)>, m_CubeVertexBuffer },
-			{ CreateAttribute<2, glm::vec2, (2 * sizeof(glm::vec3)), sizeof(glm::vec3)>, m_CubeVertexBuffer },
 		},
 		m_CubeIndices
 	);

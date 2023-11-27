@@ -38,7 +38,7 @@ bool CMyApp::Init(bool* quit)
 
 	InitFrameBuffer();
 
-	glLineWidth(4.0f);
+	//glLineWidth(4.0f);
 
 	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 1.f, 8000.0f);
 

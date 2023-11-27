@@ -35,6 +35,7 @@ protected:
 
 	std::unique_ptr<Floor> m_floor;
 	SkyBox m_skyBox;
+	ProgramObject m_BaseGeometryProgram;
 	ProgramObject m_LineProgram;
 	ProgramObject m_program;
 

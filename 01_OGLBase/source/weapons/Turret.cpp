@@ -72,7 +72,7 @@ void Turret::Shoot()
 {
 	if (m_currentCoolDown <= 0.f)
 	{
-		m_projectiles->emplace_back(std::make_unique<Laser>(m_position, m_shootDir));
+		m_projectiles->emplace_back(std::make_unique<Laser>(m_position + m_shootDir * 2.f, m_shootDir));
 
 		m_currentCoolDown = m_coolDownTime;
 	}

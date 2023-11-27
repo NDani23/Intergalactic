@@ -7,6 +7,7 @@ class SaR : public Enemy
 private:
 	static std::unique_ptr<Mesh> m_static_mesh;
 	static Texture2D sar_static_tex;
+	static VertexArrayObject m_CubeVao;
 public:
 	SaR();
 	SaR(glm::vec3, Player*, std::vector<std::unique_ptr<Projectile>>*, Scene*);

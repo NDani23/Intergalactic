@@ -52,7 +52,6 @@ void Enemy::CalcBaseDir(glm::vec3& temp_dir)
 	if (behind_player) return;
 
 	glm::vec3 target_dir = m_target->GetForwardVec();
-	float angle = acos(dot(target_dir, m_forward_vec));
 	if (distance < 100.f)
 	{
 		if (distance < 50.f)
