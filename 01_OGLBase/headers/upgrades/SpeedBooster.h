@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Upgrade.h"
-#include "../scenes/TailFire.h"
+#include "headers/scenes/TailFire.h"
 
 class SpeedBooster : public Upgrade
 {

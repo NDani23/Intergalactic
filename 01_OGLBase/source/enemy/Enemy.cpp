@@ -1,5 +1,5 @@
-#include "../../headers/Enemy/Enemy.h"
-#include "../../headers/scenes/Scene.h"
+#include "headers/Enemy/Enemy.h"
+#include "headers/scenes/Scene.h"
 
 #include <thread>
 #include <ppl.h>

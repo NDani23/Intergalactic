@@ -1,5 +1,5 @@
-#include "../../headers/upgrades/StealthCoat.h"
-#include "../../headers/Player.h"
+#include "headers/upgrades/StealthCoat.h"
+#include "headers/Player.h"
 
 StealthCoat::StealthCoat()
 {

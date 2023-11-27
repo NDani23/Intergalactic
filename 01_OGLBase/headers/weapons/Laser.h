@@ -2,9 +2,9 @@
 
 #include "Projectile.h"
 
-#include "../../includes/ProgramObject.h"
-#include "../../includes/BufferObject.h"
-#include "../../includes/VertexArrayObject.h"
+#include "includes/ProgramObject.h"
+#include "includes/BufferObject.h"
+#include "includes/VertexArrayObject.h"
 
 #include <GL/glew.h>
 

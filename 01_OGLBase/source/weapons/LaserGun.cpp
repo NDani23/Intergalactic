@@ -1,5 +1,5 @@
-#include "../../headers/weapons/LaserGun.h"
-#include "../../headers/Player.h"
+#include "headers/weapons/LaserGun.h"
+#include "headers/Player.h"
 
 LaserGun::LaserGun()
 {

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../weapons/Weapon.h"
-#include "../weapons/Laser.h"
-#include "../../headers/scenes/TailFire.h"
-#include "../Player.h"
+#include "headers/weapons/Weapon.h"
+#include "headers/weapons/Laser.h"
+#include "headers/scenes/TailFire.h"
+#include "headers/Player.h"
 
 #include <stdlib.h> 
 #include <algorithm>

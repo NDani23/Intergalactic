@@ -1,4 +1,4 @@
-#include "../../headers/weapons/Laser.h"
+#include "headers/weapons/Laser.h"
 
 GLuint Laser::VaoID = 0;
 

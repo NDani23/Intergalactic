@@ -1,21 +1,19 @@
 #pragma once
 
-#include <glm/glm.hpp>
-
-#include "../../includes/ObjParser_OGL3.h"
-#include "../../includes/ProgramObject.h"
-#include "../../includes/TextureObject.h"
-#include "../collision_detection/AAB.h"
-#include "../../headers/collision_detection/GJK.h"
-
-#include "../../headers/scenes/SkyBox.h"
-#include "../../headers/weapons/Projectile.h"
-
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform2.hpp>
+#include <glm/glm.hpp>
 
-#include "../GameState.h"
-#include "../Player.h"
+#include "includes/ObjParser_OGL3.h"
+#include "includes/ProgramObject.h"
+#include "includes/TextureObject.h"
+
+#include "headers/collision_detection/AAB.h"
+#include "headers/collision_detection/GJK.h"
+#include "headers/scenes/SkyBox.h"
+#include "headers/weapons/Projectile.h"
+#include "headers/GameState.h"
+#include "headers/Player.h"
 
 #include "Floor.h"
 #include "EnemySpawnPoint.h"

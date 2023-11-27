@@ -1,5 +1,5 @@
-#include "../../headers/scenes/ParticleSystem.h"
-#include "../../headers/Random.h"
+#include "headers/scenes/ParticleSystem.h"
+#include "headers/Random.h"
 
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/compatibility.hpp>

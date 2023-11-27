@@ -1,4 +1,4 @@
-#include "../../headers/scenes/SkyBox.h"
+#include "headers/scenes/SkyBox.h"
 
 SkyBox::SkyBox()
 {

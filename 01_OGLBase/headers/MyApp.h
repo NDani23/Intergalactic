@@ -19,15 +19,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform2.hpp>
 
-#include "../includes/gCamera.h"
+#include "includes/gCamera.h"
 		  
-#include "../includes/ProgramObject.h"
-#include "../includes/BufferObject.h"
-#include "../includes/VertexArrayObject.h"
-#include "../includes/TextureObject.h"
+#include "includes/ProgramObject.h"
+#include "includes/BufferObject.h"
+#include "includes/VertexArrayObject.h"
+#include "includes/TextureObject.h"
 
 // mesh
-#include "../includes/ObjParser_OGL3.h"
+#include "includes/ObjParser_OGL3.h"
 
 #include "Directions.h"
 #include "scenes/DeepSpace.h"

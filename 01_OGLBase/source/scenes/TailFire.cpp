@@ -1,4 +1,4 @@
-#include "../../headers/scenes/TailFire.h"
+#include "headers/scenes/TailFire.h"
 
 TailFire::TailFire()
 {
@@ -13,7 +13,6 @@ TailFire::TailFire()
 	m_ParticleProp.SizeEnd = 0.0f;
 	m_ParticleProp.LifeTime = 0.08f;
 	m_ParticleProp.Velocity = { 0.0f, 0.0f, 0.0f };
-	//m_ParticleProp.VelocityVariation = { 1.5f, 1.5f, 1.5f };
 	m_ParticleProp.VelocityVariation = { 3.f, 3.f, 3.f };
 	m_ParticleProp.Position = { 0.0f, 0.f, 0.0f };
 }

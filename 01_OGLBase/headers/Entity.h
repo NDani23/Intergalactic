@@ -2,9 +2,9 @@
 
 #include <glm/glm.hpp>
 
-#include "../includes/ObjParser_OGL3.h"
-#include "../includes/ProgramObject.h"
-#include "../includes/TextureObject.h"
+#include "includes/ObjParser_OGL3.h"
+#include "includes/ProgramObject.h"
+#include "includes/TextureObject.h"
 #include "collision_detection/AAB.h"
 #include "collision_detection/MeshCollider.h"
 

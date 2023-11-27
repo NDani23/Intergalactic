@@ -1,4 +1,4 @@
-#include "../../headers/weapons/Rocket.h"
+#include "headers/weapons/Rocket.h"
 
 Rocket::Rocket()
 {

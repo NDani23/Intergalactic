@@ -4,7 +4,7 @@
 #include "Entity.h"
 #include "data_storage/WeaponDataStorage.h"
 #include "data_storage/UpgradeDataStorage.h"
-#include "../headers/scenes/TailFire.h"
+#include "headers/scenes/TailFire.h"
 
 #include <algorithm>
 

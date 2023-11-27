@@ -1,6 +1,6 @@
-#include "../../headers/upgrades/Shield.h"
-#include "../../headers/Player.h"
-#include "../../headers/scenes/Scene.h"
+#include "headers/upgrades/Shield.h"
+#include "headers/Player.h"
+#include "headers/scenes/Scene.h"
 
 Shield::Shield()
 {

@@ -1,5 +1,5 @@
-#include "../../headers/weapons/Turret.h"
-#include "../../headers/Player.h"
+#include "headers/weapons/Turret.h"
+#include "headers/Player.h"
 
 Turret::Turret()
 {

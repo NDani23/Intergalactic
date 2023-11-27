@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Scene.h"
-#include "../weapons/LaserGun.h"
 #include <random>
-#include "../weapons/Projectile.h"
-#include "../Player.h"
-#include "../weapons/Turret.h"
-#include "../enemy/Enemy.h"
+
+#include "Scene.h"
+#include "headers/weapons/LaserGun.h"
+#include "headers/weapons/Projectile.h"
+#include "headers/Player.h"
+#include "headers/weapons/Turret.h"
+#include "headers/enemy/Enemy.h"
 
 class DeepSpace : public Scene
 {

@@ -1,4 +1,4 @@
-#include "../../headers/collision_detection/GJK.h"
+#include "headers/collision_detection/GJK.h"
 
 
 bool GJK::Collide(MeshCollider& objA, MeshCollider& objB)

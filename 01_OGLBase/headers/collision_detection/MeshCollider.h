@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <utility>
 
-#include "../../includes/Mesh_OGL3.h"
+#include "includes/Mesh_OGL3.h"
 
 class MeshCollider
 {

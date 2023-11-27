@@ -1,5 +1,5 @@
-#include "../../headers/data_storage/UpgradeDataStorage.h"
-#include "../../headers/Player.h"
+#include "headers/data_storage/UpgradeDataStorage.h"
+#include "headers/Player.h"
 
 UpgradeDataStorage::UpgradeDataStorage()
 {

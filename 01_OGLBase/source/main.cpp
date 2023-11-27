@@ -15,9 +15,9 @@
 #include <iostream>
 #include <sstream>
 
-#include "../includes/GLDebugMessageCallback.h"
+#include "includes/GLDebugMessageCallback.h"
 
-#include "../headers/MyApp.h"
+#include "headers/MyApp.h"
 
 int main( int argc, char* args[] )
 {

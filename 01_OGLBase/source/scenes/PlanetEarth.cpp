@@ -1,4 +1,4 @@
-#include "../../headers/scenes/PlanetEarth.h"
+#include "headers/scenes/PlanetEarth.h"
 
 PlanetEarth::PlanetEarth(Player* player)
 {

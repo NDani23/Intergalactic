@@ -1,5 +1,5 @@
-#include "../headers/AppUI.h"
-#include "../headers/MyApp.h"
+#include "headers/AppUI.h"
+#include "headers/MyApp.h"
 
 AppUI::AppUI(CMyApp* app)
 {

@@ -1,4 +1,4 @@
-#include "../../headers/scenes/DesertFloor.h"
+#include "headers/scenes/DesertFloor.h"
 
 DesertFloor::DesertFloor()
 {

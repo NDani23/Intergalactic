@@ -4,10 +4,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform2.hpp>
 
-#include "../../includes/ProgramObject.h"
-#include "../../includes/BufferObject.h"
-#include "../../includes/VertexArrayObject.h"
-#include "../../includes/TextureObject.h"
+#include "includes/ProgramObject.h"
+#include "includes/BufferObject.h"
+#include "includes/VertexArrayObject.h"
+#include "includes/TextureObject.h"
 
 class SkyBox
 {

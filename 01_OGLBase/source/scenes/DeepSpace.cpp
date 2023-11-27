@@ -1,4 +1,4 @@
-#include "../../headers/scenes/DeepSpace.h"
+#include "headers/scenes/DeepSpace.h"
 
 DeepSpace::DeepSpace(Player* player)
 {

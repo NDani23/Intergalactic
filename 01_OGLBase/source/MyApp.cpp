@@ -1,5 +1,5 @@
-﻿#include "../headers/MyApp.h"
-#include "../includes/GLUtils.hpp"
+﻿#include "headers/MyApp.h"
+#include "includes/GLUtils.hpp"
 
 
 CMyApp::CMyApp(void)

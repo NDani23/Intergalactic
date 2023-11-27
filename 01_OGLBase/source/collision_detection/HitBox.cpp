@@ -1,4 +1,4 @@
-#include "../../headers/collision_detection/HitBox.h"
+#include "headers/collision_detection/HitBox.h"
 
 void HitBox::Draw(ProgramObject& program, glm::mat4& viewproj)
 {

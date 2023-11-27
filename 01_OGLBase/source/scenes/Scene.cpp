@@ -1,5 +1,5 @@
-#include "../../headers/scenes/Scene.h"
-#include "../../headers/scenes/EnemySpawnPoint.h"
+#include "headers/scenes/Scene.h"
+#include "headers/scenes/EnemySpawnPoint.h"
 
 #include <stack>
 

@@ -1,4 +1,4 @@
-#include "../../headers/collision_detection/AAB.h"
+#include "headers/collision_detection/AAB.h"
 
 bool AAB::Collide(std::vector<HitBox>& hitboxesA, std::vector<HitBox>& hitboxesB)
 {

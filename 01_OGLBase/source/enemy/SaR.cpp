@@ -1,5 +1,5 @@
-#include "../../headers/enemy/SaR.h"
-#include "../../headers/scenes/Scene.h"
+#include "headers/enemy/SaR.h"
+#include "headers/scenes/Scene.h"
 
 std::unique_ptr<Mesh> SaR::m_static_mesh;
 Texture2D SaR::sar_static_tex;

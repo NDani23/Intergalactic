@@ -1,5 +1,5 @@
-#include "../../headers/persistence/Persistence.h"
-#include "../../headers/MyApp.h"
+#include "headers/persistence/Persistence.h"
+#include "headers/MyApp.h"
 
 Persistence::Persistence()
 {

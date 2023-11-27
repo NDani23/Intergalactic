@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../Entity.h"
-#include <chrono> 
+#include <chrono>
+
+#include "headers/Entity.h"
 
 class Player;
 

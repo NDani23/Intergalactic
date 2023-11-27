@@ -1,5 +1,5 @@
-#include "../headers/Player.h"
-#include "../headers/scenes/Scene.h"
+#include "headers/Player.h"
+#include "headers/scenes/Scene.h"
 
 Player::Player()
 {

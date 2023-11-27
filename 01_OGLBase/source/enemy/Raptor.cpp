@@ -1,5 +1,5 @@
-#include "../../headers/enemy/Raptor.h"
-#include "../../headers/scenes/Scene.h"
+#include "headers/enemy/Raptor.h"
+#include "headers/scenes/Scene.h"
 
 std::unique_ptr<Mesh> Raptor::m_static_mesh;
 Texture2D Raptor::m_static_tex;
