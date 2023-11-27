@@ -49,12 +49,6 @@ int main( int argc, char* args[] )
 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,          24);
 
-	//const char* glsl_version = "#version 130";
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-	////SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	////SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-
 	SDL_Window *win = 0;
 	win = SDL_CreateWindow( "Hello SDL&OpenGL!",
 							100,						

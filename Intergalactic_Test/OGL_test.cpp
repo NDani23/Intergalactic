@@ -10,10 +10,10 @@
 
 #include "../includes/GLDebugMessageCallback.h"
 
-#include "../01_OGLBase/headers/Player.h"
-#include "../01_OGLBase/headers/enemy/SaR.h"
-#include "../01_OGLBase/headers/scenes/Scene.h"
-#include "../01_OGLBase/headers/collision_detection/AAB.h"
+#include "../Intergalactic/headers/Player.h"
+#include "../Intergalactic/headers/enemy/SaR.h"
+#include "../Intergalactic/headers/scenes/Scene.h"
+#include "../Intergalactic/headers/collision_detection/AAB.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
