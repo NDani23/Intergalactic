@@ -38,9 +38,14 @@ bool CMyApp::Init(bool* quit)
 
 	InitFrameBuffer();
 
-	//glLineWidth(4.0f);
-
 	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 1.f, 8000.0f);
+
+	m_menuBackGround = Mix_LoadMUS("assets/sound/menu.mp3");
+
+	if (m_menuBackGround == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 
 	return true;
 }
@@ -80,10 +85,20 @@ void CMyApp::RegenerateFrameBuffer()
 void CMyApp::Clean()
 {
 	if (Laser::getVaoID()) glDeleteVertexArrays(1, &Laser::getVaoID());
+
+	if (m_menuBackGround != nullptr)
+	{
+		Mix_FreeMusic(m_menuBackGround);
+	}
 }
 
 void CMyApp::Update()
 {
+
+	if (Mix_PlayingMusic() == 0)
+	{
+		Mix_PlayMusic(m_menuBackGround, -1);
+	}
 	float delta_time = ImGui::GetIO().DeltaTime;
 
 	m_cursor_diff_vec = glm::normalize((m_player.GetUpVec() * -1.0f * m_mouseY) + (m_player.GetCrossVec() * -1.0f * m_mouseX) + m_player.GetForwardVec());
@@ -217,6 +232,7 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 		m_player.setRollDir(horizontal::none);
 		break;
 	case SDLK_SPACE:
+		//Mix_PlayChannel(-1, TestSound, 0);
 		m_shooting = false;
 		m_scene->AddEnemy(glm::vec3(0, 0, 1000));
 		break;

@@ -8,6 +8,7 @@
 
 // SDL
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include <SDL_opengl.h>
 
 #include <string>
@@ -76,6 +77,7 @@ public:
 	friend class gCamera;
 
 protected:
+	Mix_Music* m_menuBackGround = nullptr;
 	gCamera				m_camera;
 
 	GameState m_GameState = {true, false, false, false};

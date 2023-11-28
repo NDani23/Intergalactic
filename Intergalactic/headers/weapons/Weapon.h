@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SDL_mixer.h>
+
 #include "../Entity.h"
 #include "Projectile.h"
 #include <chrono> 
@@ -16,6 +18,7 @@ protected:
 	float m_coolDownTime;
 	float m_currentCoolDown;
 	Texture2D m_projectileImage;
+	Mix_Chunk* m_shootSound = nullptr;
 
 public:
 	Weapon();

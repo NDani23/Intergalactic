@@ -2,6 +2,7 @@
 
 #include <GL/glew.h>
 #include <SDL.h>
+#include <SDL_mixer.h>
 
 #include <iostream>
 #include <string>
@@ -58,6 +59,13 @@ namespace OGLtest
 			return;
 		}
 
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+		{
+			Logger::WriteMessage("Failed to create mixer context");
+			return;
+		}
+
+
 		GLenum error = glewInit();
 		if (error != GLEW_OK)
 		{
@@ -70,6 +78,7 @@ namespace OGLtest
 	{
 		SDL_GL_DeleteContext(context);
 		SDL_DestroyWindow(win);
+		Mix_Quit();
 		SDL_Quit();
 	}
 

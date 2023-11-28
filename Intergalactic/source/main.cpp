@@ -1,6 +1,7 @@
 ﻿#include <GL/glew.h>
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 
 #include <Gui/imgui.h>
 #include "Gui/imgui_impl_sdl2.h"
@@ -75,6 +76,13 @@ int main( int argc, char* args[] )
 
 	SDL_GL_SetSwapInterval(1);
 
+	//SDL_mixer for audio
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		std::cout << "[SDL_mixer init] Error while initializing SDL_mixer: " << SDL_GetError() << std::endl;
+		return 1;
+	}
+
 	GLenum error = glewInit();
 	if ( error != GLEW_OK )
 	{
@@ -98,7 +106,7 @@ int main( int argc, char* args[] )
 	}
 
 	std::stringstream window_title;
-	window_title << "OpenGL " << glVersion[0] << "." << glVersion[1];
+	window_title << "INTERGALACTIC";
 	SDL_SetWindowTitle(win, window_title.str().c_str());
 
 	GLint context_flags;
@@ -223,6 +231,7 @@ int main( int argc, char* args[] )
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
+	Mix_Quit();
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow( win );
 	SDL_Quit();
