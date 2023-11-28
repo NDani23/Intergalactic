@@ -23,6 +23,14 @@ MinePlacer::MinePlacer()
 	m_projectileImage.FromFile("assets/Weapons&Projectiles/mine.png");
 }
 
+MinePlacer::~MinePlacer()
+{
+	if (m_shootSound != nullptr)
+	{
+		Mix_FreeChunk(m_shootSound);
+	}
+}
+
 MinePlacer::MinePlacer(Player* target, int side)
 {
 	m_ID = 1;
@@ -42,6 +50,7 @@ MinePlacer::MinePlacer(Player* target, int side)
 
 	m_texture.FromFile("assets/Weapons&Projectiles/grey_tex.jpg");
 	m_projectileImage.FromFile("assets/Weapons&Projectiles/mine.png");
+
 }
 
 void MinePlacer::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)

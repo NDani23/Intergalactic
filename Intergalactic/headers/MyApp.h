@@ -77,7 +77,9 @@ public:
 	friend class gCamera;
 
 protected:
-	Mix_Music* m_menuBackGround = nullptr;
+	Mix_Music* m_menuBackground = nullptr;
+	Mix_Music* m_gameplayBackground = nullptr;
+
 	gCamera				m_camera;
 
 	GameState m_GameState = {true, false, false, false};

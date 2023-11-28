@@ -29,6 +29,21 @@ TurretWeapon::TurretWeapon()
 
 	m_texture.FromFile("assets/Weapons&Projectiles/turret_tex.png");
 	m_projectileImage.FromFile("assets/Weapons&Projectiles/turret_weapon.png");
+
+	m_shootSound = Mix_LoadWAV("assets/sound/laser.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
+}
+
+TurretWeapon::~TurretWeapon()
+{
+	if (m_shootSound != nullptr)
+	{
+		Mix_FreeChunk(m_shootSound);
+	}
 }
 
 TurretWeapon::TurretWeapon(Player* target, int side)
@@ -56,6 +71,13 @@ TurretWeapon::TurretWeapon(Player* target, int side)
 
 	m_texture.FromFile("assets/Weapons&Projectiles/turret_tex.png");
 	m_projectileImage.FromFile("assets/Weapons&Projectiles/turret_weapon.png");
+
+	m_shootSound = Mix_LoadWAV("assets/sound/laser.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 }
 
 void TurretWeapon::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
@@ -99,6 +121,7 @@ void TurretWeapon::Update(const float delta)
 					m_parent->GetProjectiles().emplace_back(std::make_unique<Laser>(m_position + m_shootDir * 5.f, m_shootDir));
 
 					m_currentfireRateCooldown = m_fireRateCooldown;
+					Mix_PlayChannel(1, m_shootSound, 0);
 				}
 			}
 		}

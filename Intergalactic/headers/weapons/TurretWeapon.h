@@ -20,6 +20,7 @@ private:
 	void SetShootDir();
 public:
 	TurretWeapon();
+	~TurretWeapon();
 	TurretWeapon(Player*, int);
 	void Shoot(std::vector<std::unique_ptr<Projectile>>&) override;
 	void Update(const float) override;

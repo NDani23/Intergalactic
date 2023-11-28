@@ -72,7 +72,7 @@ void LaserGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 
 		m_currentCoolDown = m_coolDownTime;
 
-		Mix_PlayChannel(-1, m_shootSound, 0);
+		Mix_PlayChannel(0, m_shootSound, 0);
 	}
 	
 }
@@ -86,7 +86,7 @@ void LaserGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles, int 
 
 		m_currentCoolDown = m_coolDownTime;
 
-		Mix_PlayChannel(-1, m_shootSound, 0);
+		Mix_PlayChannel(0, m_shootSound, 0);
 	}
 }
 

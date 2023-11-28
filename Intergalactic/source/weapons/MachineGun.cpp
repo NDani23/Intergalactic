@@ -21,6 +21,21 @@ MachineGun::MachineGun()
 
 	m_texture.FromFile("assets/Weapons&Projectiles/machine_gun_tex.png");
 	m_projectileImage.FromFile("assets/Weapons&Projectiles/machine_gun.png");
+
+	m_shootSound = Mix_LoadWAV("assets/sound/laser.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
+}
+
+MachineGun::~MachineGun()
+{
+	if (m_shootSound != nullptr)
+	{
+		Mix_FreeChunk(m_shootSound);
+	}
 }
 
 MachineGun::MachineGun(Player* target, int side)
@@ -42,6 +57,13 @@ MachineGun::MachineGun(Player* target, int side)
 
 	m_texture.FromFile("assets/Weapons&Projectiles/machine_gun_tex.png");
 	m_projectileImage.FromFile("assets/Weapons&Projectiles/machine_gun.png");
+
+	m_shootSound = Mix_LoadWAV("assets/sound/laser.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 }
 
 void MachineGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
@@ -51,6 +73,7 @@ void MachineGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 		projectiles.emplace_back(std::make_unique<Laser>(m_position + m_shootDir * 5.f, m_shootDir));
 
 		m_currentCoolDown = m_coolDownTime;
+		Mix_PlayChannel(0, m_shootSound, 0);
 	}
 }
 

@@ -165,6 +165,9 @@ void AppUI::RenderMenu()
 
 		m_app->m_GameState.play = true;
 		m_app->m_GameState.menu = false;
+
+		Mix_VolumeMusic(10);
+		Mix_PlayMusic(m_app->m_gameplayBackground, -1);
 	}
 
 	if (ImGui::Button("<", ImVec2(windowSize.x * 0.10, windowSize.y * 0.13f)))
@@ -331,6 +334,9 @@ void AppUI::RenderGameOverWindow()
 		m_app->m_GameState.play = false;
 		m_app->m_GameState.menu = true;
 		m_app->Reset();
+
+		Mix_VolumeMusic(50);
+		Mix_PlayMusic(m_app->m_menuBackground, -1);
 	}
 
 	ImGui::End();
@@ -364,6 +370,9 @@ void AppUI::RenderPauseWindow()
 		m_app->m_GameState.pause = false;
 		m_app->m_GameState.menu = true;
 		m_app->Reset();
+
+		Mix_VolumeMusic(50);
+		Mix_PlayMusic(m_app->m_menuBackground, -1);
 	}
 
 	ImGui::End();

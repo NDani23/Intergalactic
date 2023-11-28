@@ -9,6 +9,7 @@ private:
 	int m_side;
 public:
 	MachineGun();
+	~MachineGun();
 	MachineGun(Player*, int);
 	void Shoot(std::vector<std::unique_ptr<Projectile>>&) override;
 	void Update(const float) override;

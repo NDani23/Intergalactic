@@ -40,12 +40,24 @@ bool CMyApp::Init(bool* quit)
 
 	m_camera.SetProj(glm::radians(60.0f), 640.0f / 480.0f, 1.f, 8000.0f);
 
-	m_menuBackGround = Mix_LoadMUS("assets/sound/menu.mp3");
+	m_menuBackground = Mix_LoadMUS("assets/sound/menu.mp3");
 
-	if (m_menuBackGround == nullptr)
+	if (m_menuBackground == nullptr)
 	{
 		std::cout << "could not load audio file!" << std::endl;
 	}
+
+	m_gameplayBackground = Mix_LoadMUS("assets/sound/gameplay.mp3");
+
+	if (m_gameplayBackground == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
+
+	Mix_VolumeMusic(50);
+
+	Mix_Volume(0, 10);
+	Mix_Volume(1, 10);
 
 	return true;
 }
@@ -86,9 +98,14 @@ void CMyApp::Clean()
 {
 	if (Laser::getVaoID()) glDeleteVertexArrays(1, &Laser::getVaoID());
 
-	if (m_menuBackGround != nullptr)
+	if (m_menuBackground != nullptr)
 	{
-		Mix_FreeMusic(m_menuBackGround);
+		Mix_FreeMusic(m_menuBackground);
+	}
+
+	if (m_gameplayBackground != nullptr)
+	{
+		Mix_FreeMusic(m_gameplayBackground);
 	}
 }
 
@@ -97,7 +114,7 @@ void CMyApp::Update()
 
 	if (Mix_PlayingMusic() == 0)
 	{
-		Mix_PlayMusic(m_menuBackGround, -1);
+		Mix_PlayMusic(m_menuBackground, -1);
 	}
 	float delta_time = ImGui::GetIO().DeltaTime;
 
