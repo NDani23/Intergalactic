@@ -267,3 +267,11 @@ glm::vec3& Enemy::GetForwardVec()
 {
 	return m_forward_vec;
 }
+
+void Enemy::FreeAudio()
+{
+	if (m_shootSound != nullptr)
+	{
+		Mix_FreeChunk(m_shootSound);
+	}
+}

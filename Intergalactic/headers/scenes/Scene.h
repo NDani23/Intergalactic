@@ -4,6 +4,8 @@
 #include <glm/gtx/transform2.hpp>
 #include <glm/glm.hpp>
 
+#include <SDL_mixer.h>
+
 #include "includes/ObjParser_OGL3.h"
 #include "includes/ProgramObject.h"
 #include "includes/TextureObject.h"
@@ -37,6 +39,9 @@ protected:
 	ProgramObject m_LineProgram;
 	ProgramObject m_program;
 
+	Mix_Chunk* m_explosionSound = nullptr;
+	Mix_Chunk* m_hitSound = nullptr;
+
 	void UpdateProjectiles(const float&);
 	void UpdateEntities(const float&, GameState&);
 
@@ -52,6 +57,7 @@ protected:
 
 public:
 	Scene();
+	~Scene();
 	Scene(Player*);
 	std::vector<std::shared_ptr<Entity>>& GetEntities();
 	std::vector<std::unique_ptr<Projectile>>& GetProjectiles();

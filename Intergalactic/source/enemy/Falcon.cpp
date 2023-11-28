@@ -35,6 +35,13 @@ Falcon::Falcon()
 
 	m_coolDownTime = 0.25f;
 	m_currentCoolDown = 0.f;
+
+	m_shootSound = Mix_LoadWAV("assets/sound/laser.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 }
 
 Falcon::Falcon(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Scene* scene)
@@ -68,6 +75,13 @@ Falcon::Falcon(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projec
 
 	m_coolDownTime = 0.25f;
 	m_currentCoolDown = 0.f;
+
+	m_shootSound = Mix_LoadWAV("assets/sound/laser.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 }
 
 
@@ -78,6 +92,10 @@ void Falcon::Shoot()
 		m_projectiles->emplace_back(std::make_unique<Laser>(m_position + m_forward_vec * 10.f, m_shootDir, m_damage));
 
 		m_currentCoolDown = m_coolDownTime;
+
+		float soundVolume = (1 - glm::smoothstep(0.f, 350.0f, glm::distance(m_target->GetPos(), m_position))) * 10;
+		Mix_Volume(0, soundVolume);
+		Mix_PlayChannel(0, m_shootSound, 0);
 	}
 }
 

@@ -184,6 +184,7 @@ void Player::Move(float delta, const glm::vec3& cursor_diff_vec)
 
 void Player::Shoot()
 {
+	Mix_Volume(0, 10);
 	if (m_activeWeaponInd == 1)
 	{
 		m_guns[m_activeWeaponInd]->Shoot(m_projectiles, m_damage);

@@ -35,6 +35,31 @@ Scene::Scene()
 		{GL_VERTEX_SHADER, "shaders/line.vert"},
 		{GL_FRAGMENT_SHADER, "shaders/line.frag"}
 		});
+
+	m_explosionSound = Mix_LoadWAV("assets/sound/explosion.mp3");
+	if (m_explosionSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
+
+	m_hitSound = Mix_LoadWAV("assets/sound/hit.mp3");
+	if (m_hitSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
+}
+
+Scene::~Scene()
+{
+	if (m_explosionSound != nullptr)
+	{
+		Mix_FreeChunk(m_explosionSound);
+	}
+
+	if (m_hitSound != nullptr)
+	{
+		Mix_FreeChunk(m_hitSound);
+	}
 }
 
 Scene::Scene(Player* player)
@@ -68,6 +93,18 @@ Scene::Scene(Player* player)
 		{GL_VERTEX_SHADER, "shaders/line.vert"},
 		{GL_FRAGMENT_SHADER, "shaders/line.frag"}
 		});
+
+	m_explosionSound = Mix_LoadWAV("assets/sound/explosion.mp3");
+	if (m_explosionSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
+
+	m_hitSound = Mix_LoadWAV("assets/sound/hit.mp3");
+	if (m_hitSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 }
 
 std::vector<std::shared_ptr<Entity>>& Scene::GetEntities()
@@ -210,7 +247,7 @@ bool Scene::CheckForCollision()
 			else
 			{
 				Explosion(player_pos);
-
+				entity->FreeAudio();
 				Explosion(entity->GetPos());
 				auto position = std::find(m_Entities.begin(), m_Entities.end(), entity);
 				if (position != m_Entities.end())
@@ -235,8 +272,13 @@ bool Scene::DetectHits()
 
 			if (proj->CheckHit(entity.get()))
 			{
+				float soundVolume = (1 - glm::smoothstep(0.f, 500.0f, glm::distance(entity->GetPos(), m_player->GetPos()))) * 50;
+				Mix_Volume(2, soundVolume);
+				Mix_PlayChannel(2, m_hitSound, 0);
+
 				if (entity->Hit(proj->GetDamage()))
 				{
+					entity->FreeAudio();
 					if (entity.get() == m_player->GetTarget()) m_player->setTarget(nullptr);
 
 					Explosion(entity->GetPos());
@@ -262,8 +304,13 @@ bool Scene::DetectHits()
 		{
 			if (proj->CheckHit(entity.get()))
 			{
+				float soundVolume = (1 - glm::smoothstep(0.f, 500.0f, glm::distance(entity->GetPos(), m_player->GetPos()))) * 50;
+				Mix_Volume(2, soundVolume);
+				Mix_PlayChannel(2, m_hitSound, 0);
+
 				if (entity->Hit(proj->GetDamage()))
 				{
+					entity->FreeAudio();
 					auto position = std::find(m_Entities.begin(), m_Entities.end(), entity);
 					if (position != m_Entities.end())
 						m_Entities.erase(position);
@@ -280,6 +327,8 @@ bool Scene::DetectHits()
 
 		if (proj->CheckHit(m_player))
 		{
+			Mix_Volume(2, 50);
+			Mix_PlayChannel(2, m_hitSound, 0);
 			if (m_player->Hit(proj->GetDamage()))
 			{
 				Explosion(m_player->GetPos());
@@ -396,4 +445,8 @@ void Scene::Explosion(glm::vec3& Position)
 	{
 		m_particleSystem.Emit(m_explosionProp);
 	}
+
+	float soundVolume = (1 - glm::smoothstep(0.f, 500.0f, glm::distance(Position, m_player->GetPos()))) * 50;
+	Mix_Volume(1, soundVolume);
+	Mix_PlayChannel(1, m_explosionSound, 0);
 }

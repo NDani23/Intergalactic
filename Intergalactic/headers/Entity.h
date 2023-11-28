@@ -52,4 +52,6 @@ public:
 	virtual bool Hit(int);
 	virtual bool IsTargetable();
 	virtual bool IsStatic();
+
+	virtual void FreeAudio() {};
 };

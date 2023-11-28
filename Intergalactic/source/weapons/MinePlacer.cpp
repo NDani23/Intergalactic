@@ -21,6 +21,13 @@ MinePlacer::MinePlacer()
 
 	m_texture.FromFile("assets/Weapons&Projectiles/grey_tex.jpg");
 	m_projectileImage.FromFile("assets/Weapons&Projectiles/mine.png");
+
+	m_shootSound = Mix_LoadWAV("assets/sound/mineplace.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 }
 
 MinePlacer::~MinePlacer()
@@ -51,6 +58,13 @@ MinePlacer::MinePlacer(Player* target, int side)
 	m_texture.FromFile("assets/Weapons&Projectiles/grey_tex.jpg");
 	m_projectileImage.FromFile("assets/Weapons&Projectiles/mine.png");
 
+	m_shootSound = Mix_LoadWAV("assets/sound/mineplace.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
+
 }
 
 void MinePlacer::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
@@ -59,6 +73,7 @@ void MinePlacer::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 	{
 		projectiles.emplace_back(std::make_unique<Mine>(m_position));
 		m_currentCoolDown = m_coolDownTime;
+		Mix_PlayChannel(0, m_shootSound, 0);
 	}
 }
 

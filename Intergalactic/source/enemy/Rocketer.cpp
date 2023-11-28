@@ -37,6 +37,13 @@ Rocketer::Rocketer()
 
 	m_coolDownTime = 10.f;
 	m_currentCoolDown = 0.f;
+
+	m_shootSound = Mix_LoadWAV("assets/sound/missile.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 }
 
 Rocketer::Rocketer(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projectile>>* projectiles, Scene* scene)
@@ -69,6 +76,13 @@ Rocketer::Rocketer(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Pr
 	m_coolDownTime = 10.f;
 
 	m_currentCoolDown = 0.f;
+
+	m_shootSound = Mix_LoadWAV("assets/sound/missile.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 }
 
 
@@ -79,6 +93,10 @@ void Rocketer::Shoot()
 		m_projectiles->emplace_back(std::make_unique<Rocket>(m_position + m_forward_vec * 10.f, m_target));
 
 		m_currentCoolDown = m_coolDownTime;
+
+		float soundVolume = (1 - glm::smoothstep(0.f, 450.0f, glm::distance(m_target->GetPos(), m_position))) * 10;
+		Mix_Volume(0, soundVolume);
+		Mix_PlayChannel(0, m_shootSound, 0);
 	}
 }
 

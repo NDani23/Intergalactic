@@ -166,7 +166,7 @@ void AppUI::RenderMenu()
 		m_app->m_GameState.play = true;
 		m_app->m_GameState.menu = false;
 
-		Mix_VolumeMusic(10);
+		Mix_VolumeMusic(30);
 		Mix_PlayMusic(m_app->m_gameplayBackground, -1);
 	}
 

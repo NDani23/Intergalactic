@@ -21,6 +21,21 @@ RocketLauncher::RocketLauncher()
 
 	m_texture.FromFile("assets/Weapons&Projectiles/grey_tex.jpg");
 	m_projectileImage.FromFile("assets/Weapons&Projectiles/rocket.png");
+
+	m_shootSound = Mix_LoadWAV("assets/sound/missile.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
+}
+
+RocketLauncher::~RocketLauncher()
+{
+	if (m_shootSound != nullptr)
+	{
+		Mix_FreeChunk(m_shootSound);
+	}
 }
 
 RocketLauncher::RocketLauncher(Player* target, int side)
@@ -42,6 +57,13 @@ RocketLauncher::RocketLauncher(Player* target, int side)
 
 	m_texture.FromFile("assets/Weapons&Projectiles/grey_tex.jpg");
 	m_projectileImage.FromFile("assets/Weapons&Projectiles/rocket.png");
+
+	m_shootSound = Mix_LoadWAV("assets/sound/missile.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 }
 
 void RocketLauncher::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
@@ -51,6 +73,7 @@ void RocketLauncher::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles
 		projectiles.emplace_back(std::make_unique<Rocket>(m_position, m_parent->GetTarget()));
 
 		m_currentCoolDown = m_coolDownTime;
+		Mix_PlayChannel(0, m_shootSound, 0);
 	}
 }
 

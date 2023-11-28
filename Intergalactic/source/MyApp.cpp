@@ -57,7 +57,6 @@ bool CMyApp::Init(bool* quit)
 	Mix_VolumeMusic(50);
 
 	Mix_Volume(0, 10);
-	Mix_Volume(1, 10);
 
 	return true;
 }

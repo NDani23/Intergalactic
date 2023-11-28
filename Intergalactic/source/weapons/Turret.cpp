@@ -23,6 +23,14 @@ Turret::Turret()
 
 	m_reference = nullptr;
 	m_projectiles = nullptr;
+
+
+	m_shootSound = Mix_LoadWAV("assets/sound/laser.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 }
 
 Turret::Turret(glm::vec3 Pos, Player* ref, std::vector<std::unique_ptr<Projectile>>* proj)
@@ -49,6 +57,14 @@ Turret::Turret(glm::vec3 Pos, Player* ref, std::vector<std::unique_ptr<Projectil
 	m_projectiles = proj;
 
 	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_shootDir, glm::vec3(0.0f, 1.0f, 0.0f))));
+
+
+	m_shootSound = Mix_LoadWAV("assets/sound/laser.mp3");
+
+	if (m_shootSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
 }
 
 bool Turret::Update(const float& delta)
@@ -75,6 +91,10 @@ void Turret::Shoot()
 		m_projectiles->emplace_back(std::make_unique<Laser>(m_position + m_shootDir * 5.f, m_shootDir));
 
 		m_currentCoolDown = m_coolDownTime;
+
+		float soundVolume = (1 - glm::smoothstep(0.f, 350.0f, glm::distance(m_reference->GetPos(), m_position))) * 10;
+		Mix_Volume(0, soundVolume);
+		Mix_PlayChannel(0, m_shootSound, 0);
 	}
 }
 

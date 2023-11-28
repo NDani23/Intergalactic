@@ -33,6 +33,7 @@ public:
 	bool IsTargetable() override;
 	bool IsStatic() override;
 	glm::vec3& GetForwardVec();
+	void FreeAudio() override;
 
 	virtual void Shoot() {};
 

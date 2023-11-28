@@ -121,7 +121,7 @@ void TurretWeapon::Update(const float delta)
 					m_parent->GetProjectiles().emplace_back(std::make_unique<Laser>(m_position + m_shootDir * 5.f, m_shootDir));
 
 					m_currentfireRateCooldown = m_fireRateCooldown;
-					Mix_PlayChannel(1, m_shootSound, 0);
+					Mix_PlayChannel(0, m_shootSound, 0);
 				}
 			}
 		}

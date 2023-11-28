@@ -77,7 +77,7 @@ int main( int argc, char* args[] )
 	SDL_GL_SetSwapInterval(1);
 
 	//SDL_mixer for audio
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 4, 2048) < 0)
 	{
 		std::cout << "[SDL_mixer init] Error while initializing SDL_mixer: " << SDL_GetError() << std::endl;
 		return 1;
