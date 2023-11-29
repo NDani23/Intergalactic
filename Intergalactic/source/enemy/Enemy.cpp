@@ -37,6 +37,11 @@ bool Enemy::Update(const float& delta)
 	m_tailFire.SetPosition(m_position - m_forward_vec * 5.f);
 	m_tailFire.Update(delta);
 
+	float soundVolume = (1 - glm::smoothstep(0.f, 300.0f, glm::distance(m_target->GetPos(), m_position))) * 3;
+	int prevVolume = Mix_Volume(4, soundVolume);
+	if(soundVolume < prevVolume) Mix_Volume(4, prevVolume);
+	
+
 	return false;
 }
 

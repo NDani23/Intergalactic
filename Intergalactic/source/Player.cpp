@@ -69,6 +69,21 @@ Player::Player()
 	m_texture.FromFile("assets/player_tex.png");
 
 	SetTransforms(glm::inverse(glm::lookAt(GetPos(), GetPos() - GetForwardVec(), GetUpVec())));
+
+	m_thrustSound = Mix_LoadWAV("assets/sound/thrust.wav");
+
+	if (m_thrustSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
+}
+
+Player::~Player()
+{
+	if (m_thrustSound != nullptr)
+	{
+		Mix_FreeChunk(m_thrustSound);
+	}
 }
 
 void Player::Reset(Scene* scene)
@@ -128,6 +143,11 @@ void Player::Move(float delta, const glm::vec3& cursor_diff_vec)
 
 	m_position += GetForwardVec() * (float)m_current_speed * delta;
 	m_TailFire.SetPosition(m_position - m_forward_vec * 5.f);
+
+	if (Mix_Playing(3) == 0)
+	{
+		Mix_PlayChannel(3, m_thrustSound, 1);
+	}
 
 	if (!m_flyStraight)
 	{

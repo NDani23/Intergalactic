@@ -59,7 +59,7 @@ namespace OGLtest
 			return;
 		}
 
-		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 4, 2048) < 0)
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 6, 2048) < 0)
 		{
 			Logger::WriteMessage("Failed to create mixer context");
 			return;

@@ -47,6 +47,8 @@ private:
 	Scene* m_scene;
 	TailFire m_TailFire;
 
+	Mix_Chunk* m_thrustSound= nullptr;
+
 	Entity* m_target;
 
 	std::unique_ptr<Weapon> m_guns[3];
@@ -67,6 +69,7 @@ private:
 
 public:
 	Player();
+	~Player();
 	void Reset(Scene*);
 
 	void Move(float, const glm::vec3&);

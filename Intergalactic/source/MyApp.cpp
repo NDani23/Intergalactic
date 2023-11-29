@@ -54,9 +54,20 @@ bool CMyApp::Init(bool* quit)
 		std::cout << "could not load audio file!" << std::endl;
 	}
 
+
+	m_thrustSound = Mix_LoadWAV("assets/sound/thrust2.wav");
+
+	if (m_thrustSound == nullptr)
+	{
+		std::cout << "could not load audio file!" << std::endl;
+	}
+
 	Mix_VolumeMusic(50);
 
 	Mix_Volume(0, 10);
+	Mix_Volume(3, 5);
+	Mix_Volume(4, 0);
+
 
 	return true;
 }
@@ -106,6 +117,11 @@ void CMyApp::Clean()
 	{
 		Mix_FreeMusic(m_gameplayBackground);
 	}
+
+	if (m_thrustSound != nullptr)
+	{
+		Mix_FreeChunk(m_thrustSound);
+	}
 }
 
 void CMyApp::Update()
@@ -123,6 +139,13 @@ void CMyApp::Update()
 	{
 		if (!m_GameState.gameover)
 		{
+			Mix_Volume(4, 0);
+
+			if (Mix_Playing(4) == 0)
+			{
+				Mix_PlayChannel(4, m_thrustSound, 1);
+			}
+
 			m_PlayTime += delta_time;
 
 			m_player.Move(delta_time, m_cursor_diff_vec);
@@ -177,6 +200,9 @@ void CMyApp::Reset()
 
 void CMyApp::GameOver()
 {
+	Mix_HaltChannel(3);
+	Mix_HaltChannel(4);
+
 	m_player.setHealth(0);
 	m_player.setCredit(m_player.GetCredit() + m_player.GetPoints());
 	if (m_player.GetPoints() > m_player.GetRecord()) m_player.setRecord(m_player.GetPoints());
@@ -222,8 +248,12 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 		m_player.LookBack(true);
 		break;
 	case SDLK_ESCAPE:
-		if(m_GameState.play)
+		if (m_GameState.play)
+		{
+			Mix_HaltChannel(3);
+			Mix_HaltChannel(4);
 			m_GameState.pause = true;
+		}
 		break;
 	case SDLK_LSHIFT:
 		m_useUpgrade = true;
@@ -248,7 +278,6 @@ void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 		m_player.setRollDir(horizontal::none);
 		break;
 	case SDLK_SPACE:
-		//Mix_PlayChannel(-1, TestSound, 0);
 		m_shooting = false;
 		m_scene->AddEnemy(glm::vec3(0, 0, 1000));
 		break;

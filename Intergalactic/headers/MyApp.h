@@ -79,6 +79,7 @@ public:
 protected:
 	Mix_Music* m_menuBackground = nullptr;
 	Mix_Music* m_gameplayBackground = nullptr;
+	Mix_Chunk* m_thrustSound = nullptr;
 
 	gCamera				m_camera;
 

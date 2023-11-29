@@ -93,6 +93,7 @@ void StealthCoat::Update(const float delta)
 		m_parent->setStealth(false);
 		m_activeTime = 0.f;
 		m_currentCoolDown = m_coolDownTime;
+		Mix_Volume(3, 5);
 	}
 }
 
@@ -105,6 +106,7 @@ void StealthCoat::Activate()
 		m_activeTime = m_durationTime;
 		m_active = true;
 		m_currentCoolDown = m_coolDownTime;
+		Mix_Volume(3, 0);
 	}
 }
 
