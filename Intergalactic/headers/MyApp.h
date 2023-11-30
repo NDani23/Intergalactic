@@ -97,6 +97,8 @@ private:
 
 	float m_PlayTime = 0;
 
+	bool m_newGame = false;
+
 	bool m_shooting = false;
 	bool m_useUpgrade = false;
 	bool m_lookAround = false;

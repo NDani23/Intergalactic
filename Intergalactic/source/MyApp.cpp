@@ -133,6 +133,12 @@ void CMyApp::Update()
 	}
 	float delta_time = ImGui::GetIO().DeltaTime;
 
+	if (m_newGame)
+	{
+		m_newGame = false;
+		delta_time = 0.f;
+	}
+
 	m_cursor_diff_vec = glm::normalize((m_player.GetUpVec() * -1.0f * m_mouseY) + (m_player.GetCrossVec() * -1.0f * m_mouseX) + m_player.GetForwardVec());
 
 	if (m_GameState.play && !m_GameState.pause)
