@@ -1,9 +1,8 @@
 #include "headers/weapons/Mine.h"
-#include "headers/scenes/Scene.h"
 
 Mine::Mine()
 {
-	m_Scene = nullptr;
+	m_particleSystem = nullptr;
 	m_transforms = glm::mat4();
 	m_position = glm::vec3(0.f, 0.f, 0.f);
 	m_speed = 0;
@@ -26,11 +25,11 @@ Mine::Mine()
 	m_explosionProp.Position = { 0.0f, 0.0f, 0.0f };
 }
 
-Mine::Mine(glm::vec3& pos, Scene* scene)
+Mine::Mine(glm::vec3& pos, ParticleSystem* partSystem)
 {
 
 	m_position = pos;
-	m_Scene = scene;
+	m_particleSystem = partSystem;
 	m_transforms = glm::translate(m_position);
 	m_speed = 0;
 	m_direction = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -59,13 +58,15 @@ bool Mine::Update(const float& delta)
 
 bool Mine::CheckHit(Entity* entity)
 {
-	if (m_Scene == nullptr) return false;
 	if (glm::distance(m_position, entity->GetPos()) < 30.f)
 	{
-		m_explosionProp.Position = m_position;
-		for (int i = 0; i < 50; i++)
+		if (m_particleSystem != nullptr)
 		{
-			m_Scene->GetParticleSystem().Emit(m_explosionProp);
+			m_explosionProp.Position = m_position;
+			for (int i = 0; i < 50; i++)
+			{
+				m_particleSystem->Emit(m_explosionProp);
+			}
 		}
 		return true;
 	}

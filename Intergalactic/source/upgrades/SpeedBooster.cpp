@@ -92,7 +92,14 @@ void SpeedBooster::Update(const float delta)
 		m_active = false;
 		m_activeTime = 0.f;
 		m_currentCoolDown = m_coolDownTime;
-		if(m_parent->GetSpeed() > m_parent->GetMaxSpeed()) m_parent->setSpeed(m_parent->GetMaxSpeed());
+		if (m_parent->GetSpeed() > m_parent->GetMaxSpeed())
+		{
+			m_parent->setSpeed(m_parent->GetMaxSpeed());
+		}
+		else
+		{
+			m_parent->setSpeed(m_parent->GetSpeed());
+		}
 		Mix_Volume(3, 5);
 	}
 }

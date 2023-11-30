@@ -3,16 +3,14 @@
 #include "Projectile.h"
 #include "headers/scenes/ParticleSystem.h"
 
-class Scene;
-
 class Mine : public Projectile
 {
 private:
 	ParticleProps m_explosionProp;
-	Scene* m_Scene;
+	ParticleSystem* m_particleSystem;
 public:
 	Mine();
-	Mine(glm::vec3&, Scene*);
+	Mine(glm::vec3&, ParticleSystem*);
 	bool Update(const float&) override;
 	bool CheckHit(Entity*) override;
 };

@@ -143,7 +143,7 @@ void DesertFloor::DrawFloor(glm::mat4& viewproj, Player* player)
 			m_Program.SetUniform("MVP", viewproj * transform);
 			m_Program.SetUniform("world", transform);
 			m_Program.SetUniform("worldIT", glm::inverse(glm::transpose(transform)));
-			m_Program.SetUniform("playerPos", player->GetPos());
+			m_Program.SetUniform("eye_pos", player->GetPos());
 			glDrawElements(GL_TRIANGLES,
 				3 * 2 * (N) * (M),
 				GL_UNSIGNED_SHORT,

@@ -19,7 +19,7 @@ uniform vec3 Ka = vec3(0.5, 0.5, 0.5);
 uniform vec3 Kd = vec3(0.7, 0.7, 0.7);
 uniform vec3 Ks = vec3(0.8, 0.8, 0.8);
 
-uniform vec3 eye_pos = vec3(0,7,-30);
+uniform vec3 eye_pos;
 
 uniform float alpha = 0.5f;
 

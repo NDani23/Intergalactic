@@ -383,7 +383,6 @@ void Scene::DrawEntities(glm::mat4& viewProj, glm::vec3& eye_pos)
 	for (std::shared_ptr<Entity>& entity : m_Entities)
 	{
 		m_program.SetUniform("eye_pos", eye_pos);
-		m_program.SetUniform("playerPos", m_player->GetPos());
 		entity->DrawMesh(m_program, viewProj);
 	}
 

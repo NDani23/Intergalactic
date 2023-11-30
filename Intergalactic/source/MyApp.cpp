@@ -180,9 +180,9 @@ void CMyApp::Render()
 	m_scene->DrawScene(viewProj, m_GameState, m_camera.GetEye());
 
 	BaseProgram.Use();
+	BaseProgram.SetUniform("eye_pos", eye_pos);
 	if ((m_GameState.play && !m_GameState.gameover) || m_GameState.hangar)
 	{
-		BaseProgram.SetUniform("eye_pos", eye_pos);
 		m_player.DrawMesh(BaseProgram, viewProj);	
 	}
 	BaseProgram.Unuse();

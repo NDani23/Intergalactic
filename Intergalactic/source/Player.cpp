@@ -446,7 +446,7 @@ Weapon& Player::GetActiveWeapon1()
 
 void Player::Decelerate()
 {
-	if (m_speed == 80.f) return;
+	if (m_speed == 80.f || m_slowing) return;
 
 	m_speed -= 2.f;
 	if (m_current_speed >= m_speed) m_current_speed = m_speed;
@@ -454,7 +454,7 @@ void Player::Decelerate()
 
 void Player::Accelerate()
 {
-	if (m_speed == m_max_speed) return;
+	if (m_speed == m_max_speed || m_slowing) return;
 
 	m_speed += 2.f;
 	if (!m_current_speed < m_speed-1) m_current_speed = m_speed;
