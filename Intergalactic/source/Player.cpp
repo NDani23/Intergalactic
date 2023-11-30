@@ -107,7 +107,10 @@ void Player::Reset(Scene* scene)
 	m_lookBack = false;
 	m_immortal = false;
 	m_damage = 10 + 5*m_stats.damage;
+
+	m_guns[m_activeWeaponInd]->SetActive(false);
 	m_activeWeaponInd = 1;
+	m_guns[m_activeWeaponInd]->SetActive(true);
 
 	m_guns[1]->SetCooldown(0.25f - 0.01f * m_stats.fire_rate);
 
@@ -118,10 +121,10 @@ void Player::Reset(Scene* scene)
 
 	for (int i = 0; i < 3; i++)
 	{
-		if (m_guns[i] != nullptr) m_guns[i]->Update(50.f);
+		if (m_guns[i] != nullptr) m_guns[i]->Reset();
 	}
 
-	if (m_Upgrade != nullptr) m_Upgrade->Update(50.f);
+	if (m_Upgrade != nullptr) m_Upgrade->Reset();
 
 	m_points = 0;
 

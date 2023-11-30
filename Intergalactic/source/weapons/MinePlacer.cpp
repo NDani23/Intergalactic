@@ -84,3 +84,10 @@ void MinePlacer::Update(const float delta)
 
 	if (m_currentCoolDown > 0.f) m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
 }
+
+void MinePlacer::Reset()
+{
+	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.2f);
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_parent->GetForwardVec(), m_parent->GetUpVec()));
+	m_currentCoolDown = 0.f;
+}

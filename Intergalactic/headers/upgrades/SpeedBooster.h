@@ -16,4 +16,5 @@ public:
 	SpeedBooster(Player*);
 	void Update(const float) override;
 	void Activate() override;
+	void Reset() override;
 };

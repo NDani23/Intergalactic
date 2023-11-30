@@ -15,4 +15,5 @@ public:
 	void Shoot(std::vector<std::unique_ptr<Projectile>>&) override;
 	void Shoot(std::vector<std::unique_ptr<Projectile>>&, int) override;
 	void Update(const float) override;
+	void Reset() override;
 };

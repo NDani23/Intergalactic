@@ -101,3 +101,14 @@ void Shield::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 	if (m_active) m_barrier->DrawMesh(program, viewProj);
 }
 
+void Shield::Reset()
+{
+	m_position = m_parent->GetPos();
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_parent->GetForwardVec(), m_parent->GetUpVec()));
+
+	m_parent->setImmortal(false);
+	m_active = false;
+	m_activeTime = 0.f;
+	m_currentCoolDown = 0.f;
+}
+

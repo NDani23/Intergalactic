@@ -133,3 +133,15 @@ void StealthCoat::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 	m_transparentProgram.Unuse();
 	program.Use();
 }
+
+void StealthCoat::Reset()
+{
+	m_active = false;
+	m_parent->setStealth(false);
+	m_activeTime = 0.f;
+	m_currentCoolDown = 0.f;
+	Mix_Volume(3, 5);
+
+	m_position = m_parent->GetPos();
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_parent->GetForwardVec(), m_parent->GetUpVec()));
+}

@@ -39,4 +39,5 @@ public:
 	virtual Texture2D& GetProjectileImage();
 	virtual void Update(const float);
 	virtual bool requireTarget();
+	virtual void Reset() {};
 };

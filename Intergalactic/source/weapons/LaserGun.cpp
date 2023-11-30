@@ -99,3 +99,12 @@ void LaserGun::Update(const float delta)
 
 	if (m_currentCoolDown > 0.f) m_currentCoolDown = std::max(0.f, m_currentCoolDown - delta);
 }
+
+
+void LaserGun::Reset()
+{
+	m_shootDir = m_parent->GetForwardVec();
+	m_position = m_parent->GetPos();
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
+	m_currentCoolDown = 0.f;
+}

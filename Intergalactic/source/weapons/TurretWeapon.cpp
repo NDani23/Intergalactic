@@ -176,4 +176,14 @@ void TurretWeapon::SetShootDir()
 	m_shootDir = glm::normalize((m_target->GetPos() + m_target->GetForwardVec() * 10.f) - m_position);
 }
 
+void TurretWeapon::Reset()
+{
+	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
+	m_shootDir = m_parent->GetForwardVec();
+	m_shooting = false;
+	m_currentCoolDown = 0.f;
+	m_activeTime = 0.f;
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
+}
+
 

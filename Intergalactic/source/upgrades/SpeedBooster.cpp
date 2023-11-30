@@ -119,3 +119,22 @@ void SpeedBooster::Activate()
 		Mix_Volume(3, 10);
 	}
 }
+
+void SpeedBooster::Reset()
+{
+	m_position = m_parent->GetPos();
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_parent->GetForwardVec(), m_parent->GetUpVec()));
+
+	m_active = false;
+	m_activeTime = 0.f;
+	m_currentCoolDown = 0.f;
+	if (m_parent->GetSpeed() > m_parent->GetMaxSpeed())
+	{
+		m_parent->setSpeed(m_parent->GetMaxSpeed());
+	}
+	else
+	{
+		m_parent->setSpeed(m_parent->GetSpeed());
+	}
+	Mix_Volume(3, 5);
+}

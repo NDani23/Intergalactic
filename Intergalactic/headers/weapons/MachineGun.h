@@ -13,4 +13,5 @@ public:
 	MachineGun(Player*, int);
 	void Shoot(std::vector<std::unique_ptr<Projectile>>&) override;
 	void Update(const float) override;
+	void Reset() override;
 };

@@ -91,3 +91,12 @@ bool RocketLauncher::requireTarget()
 {
 	return true;
 }
+
+void RocketLauncher::Reset()
+{
+	m_shootDir = m_parent->GetForwardVec();
+	m_position = m_parent->GetPos() - (float)m_side * (m_parent->GetCrossVec() * 2.5f) - (m_parent->GetForwardVec() * 2.f) - (m_parent->GetUpVec() * 0.5f);
+	m_transforms = glm::inverse(glm::lookAt(m_position, m_position - m_shootDir, m_parent->GetUpVec()));
+
+	m_currentCoolDown = 0.f;
+}

@@ -15,4 +15,5 @@ public:
 	void Update(const float) override;
 	void Activate() override;
 	void DrawMesh(ProgramObject&, glm::mat4&) override;
+	void Reset() override;
 };
