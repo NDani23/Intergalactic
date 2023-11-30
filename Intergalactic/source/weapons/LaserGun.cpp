@@ -65,6 +65,7 @@ LaserGun::LaserGun(Player* parent)
 void LaserGun::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
 
+	
 	if (m_currentCoolDown <= 0.f)
 	{
 		projectiles.emplace_back(std::make_unique<Laser>(m_position + m_parent->GetCrossVec(), m_shootDir));

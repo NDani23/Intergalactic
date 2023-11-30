@@ -80,7 +80,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Dependencies\OGLPack\include;$(IncludePath);$(SolutionDir)Dependencies\OGLPack\include\imgui;$(SolutionDIr)Intergalactic\headers</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Dependencies\OGLPack\lib\x64;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Platform)\Test</OutDir>
+    <OutDir>$(SolutionDir)Test_build\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -89,7 +89,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Dependencies\OGLPack\include;$(IncludePath);$(SolutionDir)Dependencies\OGLPack\include\imgui;$(SolutionDIr)Intergalactic\headers</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Dependencies\OGLPack\lib\x64;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Platform)\Test</OutDir>
+    <OutDir>$(SolutionDir)Test_build\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -112,7 +112,7 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SolutionDir)Intergalactic\x64\Release;$(SolutionDir)Dependencies\OGLPack\lib\x64;$(SolutionDir)x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SolutionDir)Intergalactic\x64\Debug;$(SolutionDir)Dependencies\OGLPack\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Player.obj;Weapon.obj;Entity.obj;VertexArrayObject.obj;Upgrade.obj;ShaderObject.obj;GLDebugMessageCallback.obj;ProgramObject.obj;SDL2_image.lib;ObjParser_OGL3.obj;MeshCollider.obj;Mesh_OGL3.obj;HitBox.obj;Laser.obj;LaserGun.obj;GJK.obj;SDL2main.lib;glew32.lib;opengl32.lib;gCamera.obj;SDL2.lib;SDL2_mixer.lib;Enemy.obj;Projectile.obj;Scene.obj;SkyBox.obj;EnemySpawnPoint.obj;WeaponDataStorage.obj;UpgradeDataStorage.obj;TurretWeapon.obj;Turret.obj;StealthCoat.obj;SpeedBooster.obj;Shield.obj;SaR.obj;RocketLauncher.obj;Rocketer.obj;Rocket.obj;Raptor.obj;MinePlacer.obj;MyApp.obj;Mine.obj;MachineGun.obj;Floor.obj;Falcon.obj;Barrier.obj;PlanetEarth.obj;Persistence.obj;DeepSpace.obj;DesertFloor.obj;AppUI.obj;imgui_tables.obj;imgui.obj;imgui_widgets.obj;imgui_draw.obj;ParticleSystem.obj;TailFire.obj;Random.obj;AAB.obj;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -145,7 +145,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SolutionDir)Intergalactic\x64\Release;$(SolutionDir)Dependencies\OGLPack\lib\x64;$(SolutionDir)x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SolutionDir)Intergalactic\x64\Debug;$(SolutionDir)Dependencies\OGLPack\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Player.obj;Weapon.obj;Entity.obj;VertexArrayObject.obj;Upgrade.obj;ShaderObject.obj;GLDebugMessageCallback.obj;ProgramObject.obj;SDL2_image.lib;ObjParser_OGL3.obj;MeshCollider.obj;Mesh_OGL3.obj;HitBox.obj;Laser.obj;LaserGun.obj;GJK.obj;SDL2main.lib;glew32.lib;opengl32.lib;gCamera.obj;SDL2.lib;SDL2_mixer.lib;Enemy.obj;Projectile.obj;Scene.obj;SkyBox.obj;EnemySpawnPoint.obj;WeaponDataStorage.obj;UpgradeDataStorage.obj;TurretWeapon.obj;Turret.obj;StealthCoat.obj;SpeedBooster.obj;Shield.obj;SaR.obj;RocketLauncher.obj;Rocketer.obj;Rocket.obj;Raptor.obj;MinePlacer.obj;MyApp.obj;Mine.obj;MachineGun.obj;Floor.obj;Falcon.obj;Barrier.obj;PlanetEarth.obj;Persistence.obj;DeepSpace.obj;DesertFloor.obj;AppUI.obj;imgui_tables.obj;imgui.obj;imgui_widgets.obj;imgui_draw.obj;ParticleSystem.obj;TailFire.obj;Random.obj;AAB.obj;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

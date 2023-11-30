@@ -385,6 +385,7 @@ void AppUI::RenderHangarWindow()
 	{
 		if (ImGui::Button("BACK TO MENU"))
 		{
+			m_ItemIdentifier = std::make_pair("", -1);
 			m_app->m_GameState.hangar = false;
 			m_app->m_GameState.menu = true;
 			m_app->Reset();
@@ -480,13 +481,24 @@ void AppUI::RenderHangarWindow()
 	{
 
 		ImGui::SameLine();
-		if (ImGui::Button("+", ImVec2(20.f, 20.f)))
+		if (m_app->m_player.GetCredit() >= 200)
 		{
-			if (m_app->m_player.GetCredit() >= 200)
+
+			if (ImGui::Button("+", ImVec2(20.f, 20.f)))
 			{
+				
 				m_app->m_player.setUpgradePoints(m_app->m_player.GetUpgradePoints() + 1);
 				m_app->m_player.setCredit(m_app->m_player.GetCredit() - 200);
+				
 			}
+		}
+		else
+		{
+			ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(50, 50, 50, 255));
+			ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+			ImGui::Button("+", ImVec2(20.f, 20.f));
+			ImGui::PopItemFlag();
+			ImGui::PopStyleColor();
 		}
 		ImGui::SameLine();
 		ImGui::Text("(200$)");
@@ -689,18 +701,23 @@ void AppUI::RenderBuyWindow()
 	UpgradeItem* upgrade = nullptr;
 	WeaponItem* weapon = nullptr;
 
+	bool afford = false;
 	ImGui::PushFont(medium_font);
 	if (m_ItemIdentifier.first == "Weapon")
 	{
 		weapon = &m_app->m_weaponStorage.GetStorage().at(m_ItemIdentifier.second);
-		ImGui::Text(weapon->Text.c_str());
+		ImGui::Text(weapon->Name.c_str());
+		
+		if (m_app->m_player.GetCredit() >= weapon->Price) afford = true;
 		ImGui::SameLine();
 		ImGui::Text("(%d$)", weapon->Price);
 	}
 	else
 	{
 		upgrade = &m_app->m_upgradeStorage.GetStorage().at(m_ItemIdentifier.second);
-		ImGui::Text(upgrade->Text.c_str());
+		ImGui::Text(upgrade->Name.c_str());
+
+		if (m_app->m_player.GetCredit() >= upgrade->Price) afford = true;
 		ImGui::SameLine();
 		ImGui::Text("(%d$)", upgrade->Price);
 	}
@@ -708,13 +725,23 @@ void AppUI::RenderBuyWindow()
 
 	ImGui::Dummy(ImVec2(0.f, windowSize.y * 0.1f));
 
-
-	if (ImGui::Button("BUY", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.23)))
+	if (afford)
 	{
-		int price = upgrade == nullptr ? weapon->Price : upgrade->Price;
-		upgrade == nullptr ? weapon->Owned = true : upgrade->Owned = true;
-		m_app->m_player.setCredit(m_app->m_player.GetCredit() - price);
-		m_ItemIdentifier = std::make_pair("", -1);
+		if (ImGui::Button("BUY", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.23)))
+		{
+			int price = upgrade == nullptr ? weapon->Price : upgrade->Price;
+			upgrade == nullptr ? weapon->Owned = true : upgrade->Owned = true;
+			m_app->m_player.setCredit(m_app->m_player.GetCredit() - price);
+			m_ItemIdentifier = std::make_pair("", -1);
+		}
+	}
+	else
+	{
+		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(50, 50, 50, 255));
+		ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+		ImGui::Button("BUY", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.23));
+		ImGui::PopItemFlag();
+		ImGui::PopStyleColor();
 	}
 
 	if (ImGui::Button("CANCEL", ImVec2(windowSize.x * (3.f / 4), windowSize.y * 0.23)))

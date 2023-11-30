@@ -76,7 +76,7 @@ public:
 	friend class Persistence;
 	friend class gCamera;
 
-protected:
+private:
 	Mix_Music* m_menuBackground = nullptr;
 	Mix_Music* m_gameplayBackground = nullptr;
 	Mix_Chunk* m_thrustSound = nullptr;
