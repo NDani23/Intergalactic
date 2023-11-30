@@ -36,7 +36,9 @@ int main( int argc, char* args[] )
 	}
 			
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_WindowFlags windowFlag = SDL_WINDOW_FULLSCREEN_DESKTOP;
 #ifdef _DEBUG
+	windowFlag = SDL_WINDOW_RESIZABLE;
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 #endif
 
@@ -56,10 +58,7 @@ int main( int argc, char* args[] )
 							100,						
 							640,						
 							480,					
-							SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-
-	//SDL_WINDOW_RESIZABLE for debug
-	//SDL_WINDOW_FULLSCREEN_DESKTOP for fullscreen
+							SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | windowFlag);
 
 	if (win == 0)
 	{

@@ -71,7 +71,7 @@ void MinePlacer::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles)
 {
 	if (m_currentCoolDown <= 0.f)
 	{
-		projectiles.emplace_back(std::make_unique<Mine>(m_position));
+		projectiles.emplace_back(std::make_unique<Mine>(m_position, m_parent->GetMapPtr()));
 		m_currentCoolDown = m_coolDownTime;
 		Mix_PlayChannel(0, m_shootSound, 0);
 	}

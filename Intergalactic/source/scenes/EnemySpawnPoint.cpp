@@ -36,7 +36,7 @@ EnemySpawnPoint::EnemySpawnPoint(const glm::vec3& pos, Player* target, std::vect
 	m_Scene->GetEntitiesPtr()->emplace_back(std::make_shared<SaR>(SaR(pos, m_target, m_projectiles, m_Scene)));
 	//m_Scene->GetEntitiesPtr()->emplace_back(std::make_shared<Raptor>(Raptor(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Scene)));
 	//m_Scene->GetEntitiesPtr()->emplace_back(std::make_shared<Falcon>(Falcon(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Scene)));
-	//m_Map->GetEntitiesPtr()->emplace_back(std::make_shared<Rocketer>(Rocketer(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Map)));
+	//m_Scene->GetEntitiesPtr()->emplace_back(std::make_shared<Rocketer>(Rocketer(pos + glm::vec3(0, -10, -20), m_target, m_projectiles, m_Scene)));
 
 }
 

@@ -90,7 +90,7 @@ void Rocketer::Shoot()
 {
 	if (m_currentCoolDown <= 0.f)
 	{
-		m_projectiles->emplace_back(std::make_unique<Rocket>(m_position + m_forward_vec * 10.f, m_target));
+		m_projectiles->emplace_back(std::make_unique<Rocket>(m_position + m_forward_vec * 10.f, m_target, &m_Scene->GetParticleSystem()));
 
 		m_currentCoolDown = m_coolDownTime;
 

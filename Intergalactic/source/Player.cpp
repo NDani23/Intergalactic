@@ -341,6 +341,11 @@ bool Player::IsLookingBack()
 	return m_lookBack;
 }
 
+ParticleSystem* Player::GetParticleSystem()
+{
+	return &m_scene->GetParticleSystem();
+}
+
 int Player::GetCredit()
 {
 	return m_credit;

@@ -117,6 +117,7 @@ public:
 	Scene* GetMapPtr();
 	Stats& GetStats();
 	Entity* GetTarget();
+	ParticleSystem* GetParticleSystem();
 
 	int GetUpgradePointsSum();
 

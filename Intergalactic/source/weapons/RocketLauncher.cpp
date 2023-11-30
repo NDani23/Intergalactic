@@ -70,7 +70,7 @@ void RocketLauncher::Shoot(std::vector<std::unique_ptr<Projectile>>& projectiles
 {
 	if (m_currentCoolDown <= 0.f && m_parent->GetTarget() != nullptr)
 	{
-		projectiles.emplace_back(std::make_unique<Rocket>(m_position, m_parent->GetTarget()));
+		projectiles.emplace_back(std::make_unique<Rocket>(m_position, m_parent->GetTarget(), m_parent->GetParticleSystem()));
 
 		m_currentCoolDown = m_coolDownTime;
 		Mix_PlayChannel(0, m_shootSound, 0);
