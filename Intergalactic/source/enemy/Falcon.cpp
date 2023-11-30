@@ -26,6 +26,8 @@ Falcon::Falcon()
 	m_hitboxes.resize(1);
 	m_hitboxes[0] = { m_position, {7.0f, 2.5f, 8.0f} };
 
+	m_baseDimensions = { 7.0f, 2.5f, 8.0f };
+
 	m_health = 150;
 	m_speed = 120;
 	m_damage = 10;
@@ -63,6 +65,7 @@ Falcon::Falcon(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projec
 
 	m_hitboxes.resize(1);
 	m_hitboxes[0] = { m_position, {7.0f, 2.5f, 8.0f} };
+	m_baseDimensions = { 7.0f, 2.5f, 8.0f };
 
 	m_health = 150;
 	m_speed = 120;
@@ -107,23 +110,6 @@ void Falcon::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 	program.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
 
 	m_static_mesh->draw();
-}
-
-void Falcon::UpdateDimensions()
-{
-	HitBox newHitBox = { m_position, {7.0f, 2.5f, 8.0f} };
-	glm::vec3 cross_vec = glm::normalize(glm::cross(m_forward_vec, m_up_vec));
-
-	newHitBox.dimensions.height = 2.5f + ((abs(m_up_vec.y) - 1) * (7.0f - 2.5f)) / -1;
-	newHitBox.dimensions.height = std::max(2.5 + ((abs(m_forward_vec.y) - 0) * (8.0f - 2.5f)) / 1, (double)newHitBox.dimensions.height);
-
-	newHitBox.dimensions.width = 7.0f + ((abs(cross_vec.x) - 1) * (2.5f - 7.0f)) / -1;
-	newHitBox.dimensions.width = std::max(2.5 + ((abs(m_forward_vec.x)) * (8.0f - 2.5f)) / 1, (double)newHitBox.dimensions.width);
-
-	newHitBox.dimensions.length = 2.5f + ((abs(m_forward_vec.z)) * (8.0f - 2.5f)) / 1;
-	newHitBox.dimensions.length = std::max(2.5f + ((abs(cross_vec.z)) * (7.0f - 2.5)) / 1, (double)newHitBox.dimensions.length);
-
-	m_hitboxes[0] = std::move(newHitBox);
 }
 
 std::unique_ptr<Mesh>& Falcon::GetMesh()

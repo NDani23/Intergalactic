@@ -26,6 +26,7 @@ protected:
 	std::vector<std::unique_ptr<Projectile>>* m_projectiles;
 	Scene* m_Scene;
 
+	Dimensions m_baseDimensions;
 public:
 	Enemy();
 	bool Hit(int) override;
@@ -46,5 +47,5 @@ protected:
 	bool CalcAvoidFloorVec(glm::vec3&);
 	void RegulateTurnDegree(glm::vec3&, const float);
 	void CheckIfShoot();
-	virtual void UpdateDimensions();
+	void UpdateDimensions();
 };

@@ -366,9 +366,9 @@ void Scene::DrawScene(glm::mat4& viewproj, GameState& state, glm::vec3 eye_pos)
 		}
 	}
 
-	/*m_LineProgram.Use();
-	DrawHitBoxes(m_LineProgram, viewproj);
-	m_LineProgram.Unuse();*/
+	//m_LineProgram.Use();
+	//DrawHitBoxes(m_LineProgram, viewproj);
+	//m_LineProgram.Unuse();
 }
 
 void Scene::DrawSkyBox(glm::mat4& viewProj, glm::vec3 eye_pos)

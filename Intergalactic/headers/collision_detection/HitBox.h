@@ -9,9 +9,9 @@
 #include <glm/gtx/transform2.hpp>
 
 struct Dimensions {
-	float width;
-	float height;
-	float length;
+	float width = 0.f;
+	float height = 0.f;
+	float length = 0.f;
 };
 
 struct HitBox {

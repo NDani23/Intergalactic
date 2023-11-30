@@ -23,8 +23,9 @@ Raptor::Raptor()
 
 	SetTransforms(glm::inverse(glm::lookAt(m_position, m_position + m_forward_vec, glm::vec3(0.0f, 1.0f, 0.0f))));
 
-	HitBox hitbox = { m_position, {7.0f, 2.0f, 8.0f} };
-	m_hitboxes.emplace_back(hitbox);
+	m_hitboxes.resize(1);
+	m_hitboxes[0] = { m_position, {7.0f, 2.0f, 8.0f} };
+	m_baseDimensions = { 7.0f, 2.0f, 8.0f };
 
 	m_health = 200;
 	m_speed = 200;
@@ -75,6 +76,7 @@ Raptor::Raptor(glm::vec3 pos, Player* target, std::vector<std::unique_ptr<Projec
 
 	m_hitboxes.resize(1);
 	m_hitboxes[0] = { m_position, {7.0f, 2.0f, 8.0f} };
+	m_baseDimensions = { 7.0f, 2.0f, 8.0f };
 
 	m_health = 200;
 	m_speed = 180;
@@ -119,23 +121,6 @@ void Raptor::DrawMesh(ProgramObject& program, glm::mat4& viewProj)
 	program.SetUniform("worldIT", glm::inverse(glm::transpose(m_transforms)));
 
 	m_static_mesh->draw();
-}
-
-void Raptor::UpdateDimensions()
-{
-	HitBox newHitBox = { m_position, {7.0f, 2.0f, 8.0f} };
-	glm::vec3 cross_vec = glm::normalize(glm::cross(m_forward_vec, m_up_vec));
-
-	newHitBox.dimensions.height = 2.0f + ((abs(m_up_vec.y) - 1) * (7.0f - 2.0f)) / -1;
-	newHitBox.dimensions.height = std::max(2.5 + ((abs(m_forward_vec.y) - 0) * (8.0f - 2.0f)) / 1, (double)newHitBox.dimensions.height);
-
-	newHitBox.dimensions.width = 7.0f + ((abs(cross_vec.x) - 1) * (2.0f - 7.0f)) / -1;
-	newHitBox.dimensions.width = std::max(2.5 + ((abs(m_forward_vec.x)) * (8.0f - 2.0f)) / 1, (double)newHitBox.dimensions.width);
-
-	newHitBox.dimensions.length = 2.0f + ((abs(m_forward_vec.z)) * (8.0f - 2.0)) / 1;
-	newHitBox.dimensions.length = std::max(2.0f + ((abs(cross_vec.z)) * (7.0f - 2.0)) / 1, (double)newHitBox.dimensions.length);
-
-	m_hitboxes[0] = std::move(newHitBox);
 }
 
 std::unique_ptr<Mesh>& Raptor::GetMesh()

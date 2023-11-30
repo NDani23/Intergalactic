@@ -15,6 +15,19 @@ Enemy::Enemy()
 
 void Enemy::UpdateDimensions()
 {
+	HitBox newHitBox = { m_position, m_baseDimensions };
+	glm::vec3 cross_vec = glm::normalize(glm::cross(m_forward_vec, m_up_vec));
+
+	newHitBox.dimensions.height = m_baseDimensions.height + ((abs(m_up_vec.y) - 1) * (m_baseDimensions.width - m_baseDimensions.height)) / -1;
+	newHitBox.dimensions.height = std::max(2.5f + ((abs(m_forward_vec.y) - 0) * (m_baseDimensions.length - m_baseDimensions.height)) / 1.0f, newHitBox.dimensions.height);
+
+	newHitBox.dimensions.width = m_baseDimensions.width + ((abs(cross_vec.x) - 1) * (m_baseDimensions.height - m_baseDimensions.width)) / -1;
+	newHitBox.dimensions.width = std::max(2.5f + ((abs(m_forward_vec.x)) * (m_baseDimensions.length - m_baseDimensions.height)) / 1.f, newHitBox.dimensions.width);
+
+	newHitBox.dimensions.length = m_baseDimensions.height + ((abs(m_forward_vec.z)) * (m_baseDimensions.length - m_baseDimensions.height)) / 1;
+	newHitBox.dimensions.length = std::max(2.5f + ((abs(cross_vec.z)) * (m_baseDimensions.width - m_baseDimensions.height)) / 1, newHitBox.dimensions.length);
+
+	m_hitboxes[0] = std::move(newHitBox);
 }
 
 bool Enemy::Update(const float& delta)

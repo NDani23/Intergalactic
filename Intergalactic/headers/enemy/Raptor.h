@@ -16,6 +16,5 @@ public:
 	std::unique_ptr<Mesh>& GetMesh() override;
 
 private:
-	void UpdateDimensions() override;
 	static int FirstInit();
 };
