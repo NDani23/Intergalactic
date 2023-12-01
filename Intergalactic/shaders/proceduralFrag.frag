@@ -9,13 +9,10 @@ out vec4 fs_out_col;
 
 uniform vec3 light_dir = vec3(0.5,-1,0);
 
-
-// fénytulajdonságok: ambiens, diffúz, spekuláris
 uniform vec3 La = vec3(0.1, 0.1, 0.1);
 uniform vec3 Ld = vec3(0.9, 0.9, 0.9);
 uniform vec3 Ls = vec3(0.2, 0.2, 0.2);
 
-// anyagtulajdonságok: ambiens, diffúz, spekuláris
 uniform vec3 Ka = vec3(0.1, 0.1, 0.1);
 uniform vec3 Kd = vec3(0.8, 0.8, 0.8);
 uniform vec3 Ks = vec3(0.1, 0.1, 0.1);

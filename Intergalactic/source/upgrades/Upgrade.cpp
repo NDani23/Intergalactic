@@ -50,14 +50,6 @@ Texture2D& Upgrade::GetImage()
 	return m_Image;
 }
 
-void Upgrade::Update(const float delta)
-{
-}
-
-void Upgrade::Activate()
-{
-}
-
 int Upgrade::ID()
 {
 	return m_ID;

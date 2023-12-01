@@ -15,7 +15,8 @@ out float visibility;
 uniform mat4 MVP;
 uniform mat4 world;
 uniform mat4 worldIT;
-uniform vec3 playerPos;
+
+uniform vec3 eye_pos;
 
 const float density = 50000;
 const float gradient = 500;
@@ -26,7 +27,7 @@ void main()
 
 	vec3 pos = (world * vec4(vs_in_pos, 1)).xyz;
 
-	vec3 distance_vec = playerPos - pos;
+	vec3 distance_vec = eye_pos - pos;
 
 	float dist = length(distance_vec.xyz);
 

@@ -1,9 +1,7 @@
 #version 330 core
 
-// VBO-ból érkezõ változók
 in vec3 vs_in_pos;
 
-// a pipeline-ban tovább adandó értékek
 out vec3 vs_out_pos;
 
 uniform mat4 MVP;

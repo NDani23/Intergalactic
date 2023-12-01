@@ -20,7 +20,7 @@ uniform vec3 Ka = vec3(0.1, 0.1, 0.1);
 uniform vec3 Kd = vec3(0.8, 0.8, 0.8);
 uniform vec3 Ks = vec3(0.1, 0.1, 0.1);
 
-uniform vec3 eye_pos = vec3(0,7,-30);
+uniform vec3 eye_pos;
 
 void main()
 {

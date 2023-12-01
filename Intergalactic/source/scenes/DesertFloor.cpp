@@ -59,19 +59,17 @@ DesertFloor::DesertFloor()
 		vert.data(),
 		GL_STATIC_DRAW);
 
-	// VAO-ban jegyezzük fel, hogy a VBO-ban az elsõ 3 float sizeof(Vertex)-enként lesz az elsõ attribútum (pozíció)
-	glEnableVertexAttribArray(0); // ez lesz majd a pozíció
+	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(
-		0,				// a VB-ben található adatok közül a 0. "indexû" attribútumait állítjuk be
-		3,				// komponens szam
-		GL_FLOAT,		// adatok tipusa
-		GL_FALSE,		// normalizalt legyen-e
-		sizeof(Vertex),	// stride (0=egymás után)
-		0				// a 0. indexû attribútum hol kezdõdik a sizeof(Vertex)-nyi területen belül
+		0,			
+		3,			
+		GL_FLOAT,	
+		GL_FALSE,	
+		sizeof(Vertex),
+		0			
 	);
 
-	// a második attribútumhoz pedig a VBO-ban sizeof(Vertex) ugrás után sizeof(glm::vec3)-nyit menve újabb 3 float adatot találunk (szín)
-	glEnableVertexAttribArray(1); // ez lesz majd a normál
+	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(
 		1,
 		3,
@@ -80,7 +78,7 @@ DesertFloor::DesertFloor()
 		sizeof(Vertex),
 		(void*)(sizeof(glm::vec3)));
 
-	glEnableVertexAttribArray(2); // ez lesz majd a szín
+	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(
 		2,
 		3,
@@ -93,9 +91,9 @@ DesertFloor::DesertFloor()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IbID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
 
-	glBindVertexArray(0); // feltöltüttük a VAO-t, kapcsoljuk le
-	glBindBuffer(GL_ARRAY_BUFFER, 0); // feltöltöttük a VBO-t is, ezt is vegyük le
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // feltöltöttük a VBO-t is, ezt is vegyük le
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 glm::vec3 DesertFloor::GetUV(float u, float v)

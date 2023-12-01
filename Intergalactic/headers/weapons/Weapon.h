@@ -34,10 +34,10 @@ public:
 
 	bool IsActive();
 
-	virtual void Shoot(std::vector<std::unique_ptr<Projectile>>&);
-	virtual void Shoot(std::vector<std::unique_ptr<Projectile>>&, int);
+	virtual void Shoot(std::vector<std::unique_ptr<Projectile>>&) {};
+	virtual void Shoot(std::vector<std::unique_ptr<Projectile>>&, int) {};
 	virtual Texture2D& GetProjectileImage();
-	virtual void Update(const float);
+	virtual void Update(const float) {};
 	virtual bool requireTarget();
 	virtual void Reset() {};
 };

@@ -64,22 +64,9 @@ void Weapon::SetParent(Player* parent)
 	m_parent = parent;
 }
 
-void Weapon::Shoot(std::vector<std::unique_ptr<Projectile>>&)
-{
-}
-
-void Weapon::Shoot(std::vector<std::unique_ptr<Projectile>>&, int)
-{
-}
-
 Texture2D& Weapon::GetProjectileImage()
 {
 	return m_projectileImage;
-}
-
-void Weapon::Update(const float)
-{
-
 }
 
 bool Weapon::requireTarget()

@@ -74,8 +74,8 @@ void EnemySpawnPoint::ChangeStage(int stage)
 		m_EnemyChances[3] = 0;
 		break;
 	case 2:
-		m_EnemyChances[0] = 60;
-		m_EnemyChances[1] = 40;
+		m_EnemyChances[0] = 40;
+		m_EnemyChances[1] = 60;
 		m_EnemyChances[2] = 0;
 		m_EnemyChances[3] = 0;
 		break;
@@ -87,8 +87,8 @@ void EnemySpawnPoint::ChangeStage(int stage)
 		break;
 	case 4:
 		m_EnemyChances[0] = 5;
-		m_EnemyChances[1] = 40;
-		m_EnemyChances[2] = 30;
+		m_EnemyChances[1] = 45;
+		m_EnemyChances[2] = 25;
 		m_EnemyChances[3] = 25;
 		break;
 	default:

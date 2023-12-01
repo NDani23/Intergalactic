@@ -8,13 +8,10 @@ out vec4 fs_out_col;
 
 uniform vec3 light_dir = vec3(1,0,0);
 
-
-// fénytulajdonságok: ambiens, diffúz, spekuláris
 uniform vec3 La = vec3(0.6, 0.6, 0.6);
 uniform vec3 Ld = vec3(0.75, 0.75, 0.75);
 uniform vec3 Ls = vec3(1, 1, 1);
 
-// anyagtulajdonságok: ambiens, diffúz, spekuláris
 uniform vec3 Ka = vec3(0.5, 0.5, 0.5);
 uniform vec3 Kd = vec3(0.7, 0.7, 0.7);
 uniform vec3 Ks = vec3(0.8, 0.8, 0.8);
@@ -45,5 +42,4 @@ void main()
 
 	//out color
 	fs_out_col = vec4(ambient + diffuse + specular, 1) * texture(texImage, vs_out_tex);
-	//fs_out_col = vec4(fs_out_col.xyz, 0.1f);
 }

@@ -14,7 +14,6 @@ out vec2 vs_out_tex;
 uniform mat4 MVP;
 uniform mat4 world;
 uniform mat4 worldIT;
-uniform vec3 playerPos;
 
 void main()
 {

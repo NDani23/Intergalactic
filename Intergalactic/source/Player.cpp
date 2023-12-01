@@ -41,7 +41,7 @@ Player::Player()
 	m_fakePos = glm::vec3(0.f, 0.f, 0.f);
 	m_cursorVec = glm::vec3(0.f, 0.f, 0.f);
 
-	m_credit = 10000;
+	m_credit = 0;
 
 
 	m_guns[1] = std::make_unique<LaserGun>(this);

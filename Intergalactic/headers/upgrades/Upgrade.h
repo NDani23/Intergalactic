@@ -26,7 +26,7 @@ public:
 	Player* GetParent();
 
 	virtual Texture2D& GetImage();
-	virtual void Update(const float delta);
-	virtual void Activate();
+	virtual void Update(const float delta) {};
+	virtual void Activate() {};
 	virtual void Reset() {};
 };

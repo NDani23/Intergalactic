@@ -2,6 +2,14 @@
 
 // C++ includes
 #include <memory>
+#include <math.h>
+#include <vector>
+#include <array>
+#include <list>
+#include <tuple>
+#include <Gui/imgui.h>
+#include <Gui/imgui_internal.h>
+
 
 // GLEW
 #include <GL/glew.h>
@@ -37,16 +45,6 @@
 #include "GameState.h"
 #include "AppUI.h"
 #include "persistence/Persistence.h"
-
-#include <math.h>
-#include <vector>
-
-#include <array>
-#include <list>
-#include <tuple>
-#include <Gui/imgui.h>
-#include <Gui/imgui_internal.h>
-
 
 class CMyApp
 {
