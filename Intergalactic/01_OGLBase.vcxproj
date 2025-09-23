@@ -47,14 +47,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)Dependencies\OGLPack\include;$(IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\OGLPack\lib\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Dependencies\OGLPack\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Build</OutDir>
     <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)Dependencies\OGLPack\include;$(IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\OGLPack\lib\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Dependencies\OGLPack\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Build</OutDir>
     <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
