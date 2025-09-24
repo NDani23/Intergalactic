@@ -15,7 +15,7 @@ Persistence::Persistence(CMyApp* app)
 void Persistence::Save()
 {
 	std::ofstream myfile;
-	myfile.open("data/player_data.txt", std::fstream::out);
+	myfile.open("../data/player_data.txt", std::fstream::out);
 
 	if (!myfile)
 	{
@@ -95,7 +95,7 @@ bool Persistence::Load()
 {
 	std::ifstream myfile;
 
-	myfile.open("data/player_data.txt", std::fstream::in);
+	myfile.open("../data/player_data.txt", std::fstream::in);
 
 	if (!myfile)
 	{
